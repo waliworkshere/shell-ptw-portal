@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-paper text-ink antialiased;
+}
+
+/* Let grid children shrink so long, non-wrapping text truncates instead of widening the page. */
+.grid > * {
+  min-width: 0;
+}
+
+@layer components {
+/* ---- Signature element: status shown as a permit stamp, not a pill ---- */
+.stamp {
+  @apply inline-flex items-center gap-1.5 rounded border-2 border-dashed px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider;
+  font-family: var(--font-mono);
+}
+.stamp-draft { @apply border-slate-400 text-slate-500; }
+.stamp-submitted { @apply border-petrol-400 text-petrol-500; }
+.stamp-under_review { @apply border-sand-600 bg-sand-50 text-sand-700; }
+.stamp-changes_required { @apply border-sand-600 bg-sand-50 text-sand-700; }
+.stamp-resubmitted { @apply border-petrol-400 text-petrol-500; }
+.stamp-approved { @apply border-leaf-500 bg-leaf-50 text-leaf-700; }
+.stamp-rejected { @apply border-rust-500 bg-rust-50 text-rust-600; }
+.stamp-expired { @apply border-slate-400 text-slate-500; }
+.stamp-cancelled { @apply border-slate-400 text-slate-500; }
+
+.card {
+  @apply rounded-2xl border border-petrol-100/70 bg-white p-6 shadow-[0_1px_2px_rgba(20,32,43,0.04),0_8px_24px_-12px_rgba(20,32,43,0.08)];
+}
+.card-hover {
+  @apply transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_32px_-12px_rgba(20,32,43,0.22)];
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg bg-petrol-500 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-petrol-600 active:scale-[.98] disabled:cursor-not-allowed disabled:opacity-50;
+}
+.btn-shell {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg bg-sand-500 px-4 py-2 text-sm font-semibold text-ink shadow-sm transition hover:bg-sand-400 active:scale-[.98] disabled:cursor-not-allowed disabled:opacity-50;
+}
+.btn-secondary {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg border border-petrol-100 bg-white px-4 py-2 text-sm font-medium text-ink transition hover:border-petrol-300 hover:bg-petrol-50 active:scale-[.98] disabled:cursor-not-allowed disabled:opacity-50;
+}
+.btn-danger {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg border border-rust-500 px-4 py-2 text-sm font-medium text-rust-500 transition hover:bg-rust-50 disabled:opacity-50;
+}
+
+.input {
+  @apply block w-full rounded-lg border border-petrol-100 bg-white px-3 py-2 text-sm text-ink placeholder:text-slate-400 focus:border-petrol-400 focus:outline-none focus:ring-2 focus:ring-petrol-100;
+}
+.label {
+  @apply mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500;
+}
+
+.app-number {
+  font-family: var(--font-mono);
+  @apply tracking-tight;
+}
+
+.shell-stripe {
+  background: linear-gradient(90deg, #DD1D21 0 50%, #FBCE07 50% 100%);
+}
+
+}
+
+::selection {
+  @apply bg-sand-200;
+}
+
+/* Tour spotlight */
+.tour-hole {
+  box-shadow: 0 0 0 9999px rgba(15, 35, 56, 0.62);
+  transition: all 0.25s ease;
+}
+
+/* Passport flip */
+.flip { perspective: 1600px; }
+.flip-inner { transition: transform 0.7s cubic-bezier(.2,.7,.2,1); transform-style: preserve-3d; }
+.flip-inner.flipped { transform: rotateY(180deg); }
+.flip-face { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.flip-back { transform: rotateY(180deg); }
+
+@media print {
+  aside, header, .no-print { display: none !important; }
+}

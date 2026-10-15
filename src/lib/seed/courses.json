@@ -1,0 +1,1294 @@
+[
+  {
+    "id": "crs-lsr100",
+    "code": "SHL-LSR-100",
+    "title": "Life-Saving Rules",
+    "summary": "The nine Life-Saving Rules that apply to everyone working on a Shell site, what each one means on a retail forecourt, and why breaking one ends your work on site.",
+    "category": "HSSE fundamentals",
+    "level": "Foundation",
+    "source": "SHELL",
+    "status": "PUBLISHED",
+    "mandatory": true,
+    "pathOrder": 1,
+    "dueDays": 7,
+    "passMark": 80,
+    "validityMonths": 24,
+    "cameraRequired": true,
+    "lessons": [
+      {
+        "id": "l-lsr-1",
+        "title": "The nine Life-Saving Rules",
+        "type": "VIDEO",
+        "durationMins": 8,
+        "body": [
+          "Most serious injuries and fatalities in our industry come from a small number of activities. The Life-Saving Rules, published by IOGP and adopted by Shell and many other operators, target exactly those activities. They are short, absolute and the same on every site.",
+          "The nine rules are: Bypassing safety controls, Confined space, Driving, Energy isolation, Hot work, Line of fire, Safe mechanical lifting, Work authorisation and Working at height.",
+          "Each rule describes what you must do, for example: obtain authorisation before overriding or disabling safety-critical equipment; obtain authorisation before entering a confined space; verify isolation and zero energy before work begins; control flammables and ignition sources; keep yourself and others out of the line of fire.",
+          "The rules protect you. Everyone has the authority and the duty to stop work that looks unsafe, and nobody will be blamed for stopping a job in good faith."
+        ],
+        "keyPoints": [
+          "There are nine Life-Saving Rules and they apply to everyone on site.",
+          "Every rule targets an activity that has killed people in our industry.",
+          "You always have the right and the duty to stop unsafe work."
+        ],
+        "quiz": [
+          {
+            "id": "q-lsr-1-1",
+            "prompt": "How many Life-Saving Rules are there?",
+            "options": [
+              "5",
+              "7",
+              "9",
+              "12"
+            ],
+            "answer": 2,
+            "explanation": "The IOGP Life-Saving Rules adopted by Shell are nine rules covering the highest-risk activities."
+          },
+          {
+            "id": "q-lsr-1-2",
+            "prompt": "Which of these is one of the Life-Saving Rules?",
+            "options": [
+              "Wear a uniform at all times",
+              "Line of fire",
+              "Report sales daily",
+              "Keep the shop tidy"
+            ],
+            "answer": 1,
+            "explanation": "Line of fire is a Life-Saving Rule: keep yourself and others out of the path of moving objects, vehicles, pressure releases and dropped objects."
+          },
+          {
+            "id": "q-lsr-1-3",
+            "prompt": "You see a colleague start work on a dispenser without a permit. What should you do?",
+            "options": [
+              "Carry on with your own work",
+              "Stop the work and raise it with the supervisor",
+              "Wait until the job is finished, then report it",
+              "Take a photo for social media"
+            ],
+            "answer": 1,
+            "explanation": "Everyone has the authority and the duty to stop unsafe work. Work authorisation is a Life-Saving Rule."
+          }
+        ]
+      },
+      {
+        "id": "l-lsr-2",
+        "title": "Life-Saving Rules on the forecourt",
+        "type": "READING",
+        "durationMins": 7,
+        "activity": "HAZARD_HUNT",
+        "body": [
+          "Work authorisation: no maintenance, construction or cleaning of fuel systems starts without a valid Permit to Work signed by the Permit Issuer and displayed at the work site.",
+          "Energy isolation: dispensers, submersible pumps and canopy lighting are isolated and locked out before work. Test for zero energy before you touch anything.",
+          "Line of fire: the forecourt is a live traffic area. Barrier off your work zone with cones and keep out of the path of reversing vehicles and the fuel tanker during deliveries.",
+          "Hot work: grinding, welding or any spark-producing tool near fuel is hot work. It needs a hot-work permit, a gas test showing a safe LEL reading, a fire watch and an extinguisher at hand.",
+          "Driving: wear your seatbelt, never use a hand-held phone while driving, keep to the speed limit and follow your Journey Management Plan. Always follow Shell mobile usage guidelines at work."
+        ],
+        "keyPoints": [
+          "A valid, displayed permit comes before any work on fuel systems.",
+          "Isolate, lock, tag and test for zero energy.",
+          "Barrier off the work zone; the forecourt is a live traffic area.",
+          "Follow Shell mobile usage guidelines at all times."
+        ],
+        "quiz": [
+          {
+            "id": "q-lsr-2-1",
+            "prompt": "Before grinding near a dispenser you must have:",
+            "options": [
+              "A verbal OK from the cashier",
+              "A hot-work permit and a safe gas-test reading",
+              "Only a fire extinguisher",
+              "Nothing, if the job is under 5 minutes"
+            ],
+            "answer": 1,
+            "explanation": "Grinding is hot work. It needs a hot-work permit, a safe gas test, a fire watch and an extinguisher ready."
+          },
+          {
+            "id": "q-lsr-2-2",
+            "prompt": "What must you do after isolating a submersible pump?",
+            "options": [
+              "Start work straight away",
+              "Test for zero energy before work",
+              "Remove the lock to save time",
+              "Ask the customer to wait"
+            ],
+            "answer": 1,
+            "explanation": "Energy isolation is only complete once you have verified zero energy."
+          },
+          {
+            "id": "q-lsr-2-3",
+            "prompt": "How do you protect your work area on a live forecourt?",
+            "options": [
+              "Work quickly",
+              "Barrier it off with cones and stay out of vehicle paths",
+              "Stand in the lane to warn drivers",
+              "Work only at night"
+            ],
+            "answer": 1,
+            "explanation": "Line of fire: barrier the zone and keep yourself out of the path of moving vehicles."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "crs-hse101",
+    "code": "HSE-101",
+    "title": "Shell Retail Site Safety Induction",
+    "summary": "The baseline every person working on a forecourt needs: how fuel behaves, the site rules that keep it under control, and what to do when something goes wrong.",
+    "category": "HSE induction",
+    "level": "Foundation",
+    "source": "SHELL",
+    "status": "PUBLISHED",
+    "mandatory": true,
+    "pathOrder": 2,
+    "dueDays": 7,
+    "passMark": 80,
+    "validityMonths": 24,
+    "lessons": [
+      {
+        "id": "l-hse101-1",
+        "title": "How fuel behaves",
+        "type": "VIDEO",
+        "durationMins": 8,
+        "body": [
+          "Gasoline (petrol) gives off flammable vapour at very low temperatures. Its flash point is around -43 °C, which means that at any temperature you will ever see in Oman, an open container of petrol is producing vapour that can ignite.",
+          "Fuel vapour is heavier than air. It does not rise and disperse; it flows along the ground and collects in low points such as drains, pits, tank sumps and inspection chambers. A source of ignition several metres away from a spill can still ignite it.",
+          "Vapour only burns when it is mixed with air within its flammable range. For gasoline this is roughly 1.4 % to 7.6 % by volume. Below the Lower Explosive Limit (LEL) the mixture is too lean to burn; above the Upper Explosive Limit (UEL) it is too rich. Gas detectors read in % LEL, so 10 % LEL means the atmosphere is one tenth of the way to being able to burn.",
+          "Diesel has a much higher flash point (typically above 55 °C) and is far less volatile, but it still burns fiercely once alight and it makes surfaces dangerously slippery."
+        ],
+        "keyPoints": [
+          "Petrol vapour is present at all normal temperatures.",
+          "Vapour is heavier than air and collects in low points.",
+          "Gas detectors measure flammability as % of the Lower Explosive Limit (LEL)."
+        ],
+        "quiz": [
+          {
+            "id": "q-hse101-1-1",
+            "prompt": "Why is gasoline vapour particularly dangerous around drains and inspection pits?",
+            "options": [
+              "It is heavier than air and collects in low points",
+              "It is lighter than air and rises out of them quickly",
+              "It reacts chemically with drain water",
+              "It only becomes flammable when it is underground"
+            ],
+            "answer": 0,
+            "explanation": "Fuel vapour is denser than air, so it flows downhill and pools in drains, pits and sumps where it can travel to an ignition source."
+          },
+          {
+            "id": "q-hse101-1-2",
+            "prompt": "A gas detector near a tank lid reads 0 % LEL. What does this mean?",
+            "options": [
+              "The air contains no oxygen",
+              "The atmosphere is at the most dangerous mixture",
+              "No flammable vapour is detected at that point",
+              "The detector needs recalibrating"
+            ],
+            "answer": 2,
+            "explanation": "% LEL expresses how close the atmosphere is to the Lower Explosive Limit. 0 % LEL means no flammable gas was detected at the sampling point."
+          },
+          {
+            "id": "q-hse101-1-3",
+            "prompt": "Which statement about petrol's flash point is correct?",
+            "options": [
+              "It only matters for diesel",
+              "It is about 60 °C, so it is only dangerous in summer",
+              "It is the temperature at which petrol boils",
+              "It is about -43 °C, so it gives off ignitable vapour at all normal temperatures"
+            ],
+            "answer": 3,
+            "explanation": "Petrol's flash point is around -43 °C, far below any ambient temperature, so it constantly produces vapour that can ignite."
+          },
+          {
+            "id": "q-hse101-1-4",
+            "prompt": "Gasoline vapour can burn when its concentration in air is between roughly:",
+            "options": [
+              "0.1 % and 0.5 %",
+              "1.4 % and 7.6 %",
+              "15 % and 30 %",
+              "50 % and 100 %"
+            ],
+            "answer": 1,
+            "explanation": "The flammable range of gasoline vapour is approximately 1.4 % (LEL) to 7.6 % (UEL) by volume in air."
+          }
+        ],
+        "activity": "HAZARD_HUNT"
+      },
+      {
+        "id": "l-hse101-2",
+        "title": "Site rules and PPE",
+        "type": "READING",
+        "durationMins": 10,
+        "body": [
+          "Every station enforces a short list of absolute rules. Smoking and naked flames are prohibited anywhere on the site. Engines must be switched off while refuelling. Mobile phones must not be used on the forecourt during fuel deliveries or within the hazardous area around the tanker.",
+          "Before starting any work you report to the Station Manager, sign in, and attend a site-specific toolbox talk. You do not start work until the permit for that work has been issued and you have read it.",
+          "The work area must be barricaded to separate it from customers and moving vehicles. Use cones and barriers to create an exclusion zone, and agree with the Station Manager which pumps or lanes will be closed.",
+          "Minimum PPE on a forecourt is safety footwear and a high-visibility vest. Task-specific PPE is added on top: chemical-resistant gloves and eye protection when handling fuel, flame-resistant (FR) coveralls for work inside hazardous areas, and hearing protection for noisy equipment."
+        ],
+        "keyPoints": [
+          "No smoking, no naked flames, engines off.",
+          "Sign in, attend the toolbox talk, then start work only under a valid permit.",
+          "Minimum PPE: safety footwear + high-visibility vest."
+        ],
+        "quiz": [
+          {
+            "id": "q-hse101-2-1",
+            "prompt": "You arrive at a station to calibrate a pump. What do you do first?",
+            "options": [
+              "Start work on the pump furthest from customers",
+              "Report to the Station Manager and sign in",
+              "Barricade the area, then call the Permit Issuer",
+              "Call the office to say you have arrived"
+            ],
+            "answer": 1,
+            "explanation": "All contractors report to the Station Manager and sign in before anything else, so the site knows who is on it and what work is planned."
+          },
+          {
+            "id": "q-hse101-2-2",
+            "prompt": "What is the minimum PPE for anyone working on a forecourt?",
+            "options": [
+              "Hard hat and gloves",
+              "FR coveralls and a respirator",
+              "Safety footwear and a high-visibility vest",
+              "No PPE is required for short jobs"
+            ],
+            "answer": 2,
+            "explanation": "Safety footwear and a high-visibility vest are the forecourt minimum; task-specific PPE is added according to the JHA."
+          },
+          {
+            "id": "q-hse101-2-3",
+            "prompt": "When is mobile phone use restricted on the forecourt?",
+            "options": [
+              "During fuel deliveries and inside the hazardous area around the tanker",
+              "Only after dark",
+              "Never, phones are intrinsically safe",
+              "Only when talking to customers"
+            ],
+            "answer": 0,
+            "explanation": "Ordinary phones are not Ex-rated. They are prohibited around tanker deliveries and in hazardous zones where vapour may be present."
+          },
+          {
+            "id": "q-hse101-2-4",
+            "prompt": "Why must the work area be barricaded?",
+            "options": [
+              "To advertise the contractor's company",
+              "To stop the Station Manager entering",
+              "Because barriers are required on all permits regardless of task",
+              "To separate the work from customers and moving vehicles"
+            ],
+            "answer": 3,
+            "explanation": "Barricades create an exclusion zone that protects the public and workers from each other's hazards, especially vehicle traffic."
+          }
+        ]
+      },
+      {
+        "id": "l-hse101-3",
+        "title": "Spills, fire and evacuation",
+        "type": "READING",
+        "durationMins": 9,
+        "body": [
+          "Every forecourt has an Emergency Stop (E-stop) that cuts power to all dispensers at once. Know where it is before you start work. In any fuel emergency, the first action is to activate the E-stop.",
+          "For a fuel spill: stop the source if it is safe to do so, eliminate ignition sources, keep people and vehicles away, and contain the spill with the station spill kit. Protect drains first so fuel does not enter the drainage system. Never wash fuel into a drain with water.",
+          "For a small fuel fire, use a dry powder or foam extinguisher. Never use water on a fuel fire: it spreads burning liquid. Only fight a fire if you are trained, it is small, and you have a clear escape route behind you.",
+          "On the alarm, stop work, make your equipment safe if you can do so immediately, and go to the assembly point. Report to the Station Manager so everyone can be accounted for. Do not return until told it is safe."
+        ],
+        "keyPoints": [
+          "E-stop first in any fuel emergency.",
+          "Protect drains; never wash fuel away with water.",
+          "Dry powder or foam on fuel fires; never water."
+        ],
+        "quiz": [
+          {
+            "id": "q-hse101-3-1",
+            "prompt": "Fuel is leaking from a dispenser hose. What is the first action?",
+            "options": [
+              "Fetch a hose and wash the fuel away",
+              "Activate the forecourt Emergency Stop",
+              "Take photographs for the incident report",
+              "Ask customers to move their cars"
+            ],
+            "answer": 1,
+            "explanation": "The E-stop cuts power to all dispensers and stops the flow of fuel. It is always the first action in a forecourt fuel emergency."
+          },
+          {
+            "id": "q-hse101-3-2",
+            "prompt": "Which extinguisher should you NOT use on a burning fuel spill?",
+            "options": [
+              "Dry powder",
+              "Foam",
+              "Water",
+              "None of these are suitable"
+            ],
+            "answer": 2,
+            "explanation": "Water spreads burning fuel and can make the fire larger. Use dry powder or foam."
+          },
+          {
+            "id": "q-hse101-3-3",
+            "prompt": "When containing a spill, what should you protect first?",
+            "options": [
+              "Nearby drains",
+              "The shop entrance",
+              "The car wash",
+              "Your toolbox"
+            ],
+            "answer": 0,
+            "explanation": "Fuel entering drains spreads vapour underground and causes pollution. Drain covers or booms go down first."
+          },
+          {
+            "id": "q-hse101-3-4",
+            "prompt": "The fire alarm sounds while you are working. After making your work safe, you should:",
+            "options": [
+              "Finish the task quickly before leaving",
+              "Leave the site and go home",
+              "Go to the assembly point and report to the Station Manager",
+              "Wait at your vehicle"
+            ],
+            "answer": 2,
+            "explanation": "Going to the assembly point and reporting in lets the Station Manager account for everyone on site."
+          }
+        ]
+      }
+    ],
+    "cameraRequired": true
+  },
+  {
+    "id": "crs-ptw201",
+    "code": "PTW-201",
+    "title": "Permit to Work Fundamentals",
+    "summary": "How the Permit to Work system controls non-routine work: who does what, how risk sets the paperwork (WCF and JHA), and how isolation, gas testing and close-out work.",
+    "category": "Permit to Work",
+    "level": "Foundation",
+    "source": "SHELL",
+    "status": "PUBLISHED",
+    "mandatory": true,
+    "pathOrder": 3,
+    "dueDays": 14,
+    "passMark": 80,
+    "validityMonths": 24,
+    "lessons": [
+      {
+        "id": "l-ptw201-1",
+        "title": "Why we use permits and who signs them",
+        "type": "VIDEO",
+        "durationMins": 7,
+        "body": [
+          "A Permit to Work (PTW) is a formal written system used to control work that is non-routine or potentially hazardous. It makes sure the hazards have been thought through, the controls are in place, and everyone involved knows what is happening before work starts.",
+          "Typical work that requires a permit on a retail site includes hot work (welding, grinding, cutting), work on or near fuel tanks and lines, confined space entry, excavation, electrical work, and working at height.",
+          "Three roles matter. The Permit Holder is the competent person in charge of the work crew; they apply for the permit and make sure the crew follows it. The Permit Issuer reviews the application, verifies conditions and authorises the work. The Station Manager controls the site and must be aware of every live permit.",
+          "A permit is only valid for the work, location and time written on it. If any of those change, the permit no longer covers you."
+        ],
+        "keyPoints": [
+          "Permits control non-routine and hazardous work.",
+          "Permit Holder leads the work; Permit Issuer authorises it.",
+          "A permit covers only the stated scope, place and time."
+        ],
+        "quiz": [
+          {
+            "id": "q-ptw201-1-1",
+            "prompt": "Who is responsible for making sure the work crew follows the permit conditions?",
+            "options": [
+              "The Permit Issuer",
+              "The fuel supplier",
+              "The customer",
+              "The Permit Holder"
+            ],
+            "answer": 3,
+            "explanation": "The Permit Holder leads the crew at the worksite and is accountable for the crew working within the permit."
+          },
+          {
+            "id": "q-ptw201-1-2",
+            "prompt": "Which of these tasks would normally require a permit on a fuel station?",
+            "options": [
+              "Restocking the shop shelves",
+              "Grinding a bracket near a dispenser",
+              "Cleaning the shop windows from the ground",
+              "Serving a customer at the counter"
+            ],
+            "answer": 1,
+            "explanation": "Grinding is hot work. Hot work on a forecourt is high-risk and always requires a permit."
+          },
+          {
+            "id": "q-ptw201-1-3",
+            "prompt": "Your permit covers work on Pump 3. The Station Manager asks you to also look at Pump 4. What do you do?",
+            "options": [
+              "Do it, as it is the same type of work",
+              "Do it, but note it on the permit afterwards",
+              "Stop and get the permit amended or a new permit issued first",
+              "Ask a crew member to do it instead"
+            ],
+            "answer": 2,
+            "explanation": "A permit is valid only for the stated scope and location. A change of scope needs a new or amended permit before work starts."
+          }
+        ]
+      },
+      {
+        "id": "l-ptw201-2",
+        "title": "Risk levels, WCF and JHA",
+        "type": "READING",
+        "durationMins": 10,
+        "body": [
+          "Every permit request starts with a risk rating of Low, Medium or High. The rating decides what paperwork is needed. Low-risk work needs a Work Clearance Form (WCF) only. Medium and High-risk work needs the WCF plus a Job Hazard Analysis (JHA, also called a Risk Assessment). High-risk work additionally runs under a full Permit to Work.",
+          "A JHA breaks the job into steps, identifies the hazards in each step, and records the controls that will reduce each risk to an acceptable level. It is prepared by the Permit Holder with the crew who will actually do the work.",
+          "Controls are chosen using the hierarchy of controls, most effective first: eliminate the hazard, substitute something less hazardous, use engineering controls (isolation, guarding, ventilation), use administrative controls (procedures, permits, signage), and finally PPE. PPE is the last line of defence, not the first.",
+          "The WCF and JHA are completed on site, signed, and uploaded with the permit request so the Permit Issuer can review them."
+        ],
+        "keyPoints": [
+          "Low = WCF. Medium/High = WCF + JHA. High also needs a full PTW.",
+          "The JHA is step by step: task, hazard, control.",
+          "Hierarchy of controls: eliminate, substitute, engineer, administer, PPE."
+        ],
+        "quiz": [
+          {
+            "id": "q-ptw201-2-1",
+            "prompt": "A job has been rated Medium risk. Which documents must be uploaded?",
+            "options": [
+              "WCF and JHA",
+              "JHA only",
+              "WCF only",
+              "No documents are needed for Medium risk"
+            ],
+            "answer": 0,
+            "explanation": "Medium and High risk work need both the Work Clearance Form and the Job Hazard Analysis."
+          },
+          {
+            "id": "q-ptw201-2-2",
+            "prompt": "In the hierarchy of controls, which is the LEAST effective?",
+            "options": [
+              "Elimination",
+              "Engineering controls",
+              "Administrative controls",
+              "Personal protective equipment"
+            ],
+            "answer": 3,
+            "explanation": "PPE only protects the person wearing it and relies on correct use, so it is the last line of defence."
+          },
+          {
+            "id": "q-ptw201-2-3",
+            "prompt": "Who should prepare the JHA?",
+            "options": [
+              "The customer",
+              "The Permit Holder together with the crew doing the work",
+              "Head office, before the site is visited",
+              "Anyone, as long as it is signed"
+            ],
+            "answer": 1,
+            "explanation": "The people doing the job know the steps best, so the Permit Holder prepares the JHA with the crew."
+          },
+          {
+            "id": "q-ptw201-2-4",
+            "prompt": "Installing a temporary extraction fan to remove vapour is an example of which type of control?",
+            "options": [
+              "Engineering control",
+              "Elimination",
+              "Administrative control",
+              "PPE"
+            ],
+            "answer": 0,
+            "explanation": "Ventilation physically changes the environment to reduce the hazard, so it is an engineering control."
+          }
+        ]
+      },
+      {
+        "id": "l-ptw201-3",
+        "title": "Isolation, gas testing and close-out",
+        "type": "READING",
+        "durationMins": 9,
+        "body": [
+          "Before working on equipment, isolate all energy sources: electrical, mechanical, and the fuel itself. Isolations are locked and tagged (Lock Out, Tag Out, or LOTO) so they cannot be removed while work is in progress. Each worker applies their own personal lock.",
+          "Before hot work and before opening any fuel system, the atmosphere must be gas tested with a calibrated detector. Hot work only proceeds when no flammable atmosphere is detected (0 % LEL) in and around the work area. Testing is repeated at the intervals stated on the permit, and continuously where the permit requires it.",
+          "If conditions change, for example a tanker arrives, the alarm sounds, or the gas reading rises, stop work and suspend the permit. Work only resumes when the Permit Issuer has re-checked conditions.",
+          "When the job is finished, the Permit Holder confirms the site is clean and safe, isolations are removed in the correct order, and the permit is handed back and closed out with the Permit Issuer and Station Manager."
+        ],
+        "keyPoints": [
+          "Lock Out, Tag Out (LOTO): every worker applies their own lock.",
+          "Hot work needs 0 % LEL in and around the work area.",
+          "Changed conditions mean stop work and suspend the permit."
+        ],
+        "quiz": [
+          {
+            "id": "q-ptw201-3-1",
+            "prompt": "What is the purpose of each worker applying their own personal lock during LOTO?",
+            "options": [
+              "To keep track of who owns which tools",
+              "It is only needed for electrical work",
+              "To make sure equipment cannot be re-energised until every worker is clear",
+              "To satisfy the insurance company"
+            ],
+            "answer": 2,
+            "explanation": "Personal locks mean equipment cannot be re-energised until every individual has removed their own lock, so no one is left exposed."
+          },
+          {
+            "id": "q-ptw201-3-2",
+            "prompt": "You are about to start grinding. The gas detector reads 4 % LEL at the work point. What do you do?",
+            "options": [
+              "Proceed, as 4 % is well below 100 %",
+              "Proceed, but work quickly",
+              "Switch off the detector to stop the alarm",
+              "Do not start; hot work requires no flammable atmosphere to be detected"
+            ],
+            "answer": 3,
+            "explanation": "Hot work only proceeds when no flammable vapour is detected (0 % LEL). Any reading means the source must be found and controlled first."
+          },
+          {
+            "id": "q-ptw201-3-3",
+            "prompt": "A fuel tanker arrives to make a delivery while your hot work permit is live. What should happen?",
+            "options": [
+              "Continue, as the tanker driver is responsible for the delivery",
+              "Stop work and suspend the permit until conditions are re-checked",
+              "Move the work a few metres away and carry on",
+              "Ask the tanker to deliver faster"
+            ],
+            "answer": 1,
+            "explanation": "A delivery changes site conditions significantly. Work stops and the permit is suspended until the Permit Issuer re-assesses."
+          },
+          {
+            "id": "q-ptw201-3-4",
+            "prompt": "Who formally closes out the permit when work is complete?",
+            "options": [
+              "The Permit Holder alone, by throwing it away",
+              "Nobody, as permits expire automatically",
+              "The Permit Holder hands it back to the Permit Issuer and Station Manager",
+              "The first customer to use the pump"
+            ],
+            "answer": 2,
+            "explanation": "Close-out is a joint step: the Permit Holder confirms the site is safe and hands the permit back to the Issuer, with the Station Manager informed."
+          }
+        ]
+      }
+    ],
+    "price": 25,
+    "cameraRequired": true
+  },
+  {
+    "id": "crs-haz202",
+    "code": "HAZ-202",
+    "title": "Hazardous Areas and Ignition Control",
+    "summary": "Understand the zoned hazardous areas on a forecourt and how to control every source of ignition, including static, tools and vehicles.",
+    "category": "Process safety",
+    "level": "Intermediate",
+    "source": "ARTELIA",
+    "status": "PUBLISHED",
+    "mandatory": true,
+    "pathOrder": 5,
+    "dueDays": 21,
+    "passMark": 80,
+    "validityMonths": 24,
+    "lessons": [
+      {
+        "id": "l-haz202-1",
+        "title": "Hazardous area zones",
+        "type": "VIDEO",
+        "durationMins": 8,
+        "body": [
+          "Areas where flammable vapour may be present are classified into zones according to how often and for how long an explosive atmosphere is likely to exist.",
+          "Zone 0 is where an explosive atmosphere is present continuously or for long periods, such as inside a fuel storage tank. Zone 1 is where it is likely to occur in normal operation, for example inside dispenser housings, around tank vent outlets, and around the tanker offloading point during a delivery. Zone 2 is where it is not likely in normal operation and, if it occurs, only for a short time, such as the wider area around dispensers.",
+          "Only equipment certified for the zone, marked with the Ex symbol and the appropriate category, may be used inside a hazardous area. Ordinary tools, phones, radios and torches are not certified and are potential ignition sources.",
+          "The station's hazardous area drawing shows where each zone begins and ends. Check it before planning any work."
+        ],
+        "keyPoints": [
+          "Zone 0: continuous (inside tanks).",
+          "Zone 1: likely in normal operation (vents, dispensers, offloading point).",
+          "Zone 2: unlikely, short duration. Only Ex-certified equipment inside zones."
+        ],
+        "quiz": [
+          {
+            "id": "q-haz202-1-1",
+            "prompt": "Where would you expect to find a Zone 0 area on a fuel station?",
+            "options": [
+              "Inside an underground fuel storage tank",
+              "In the shop",
+              "In the car park",
+              "At the air and water point"
+            ],
+            "answer": 0,
+            "explanation": "Inside a storage tank an explosive atmosphere is present continuously, which defines Zone 0."
+          },
+          {
+            "id": "q-haz202-1-2",
+            "prompt": "The area around a tank vent outlet is typically classified as:",
+            "options": [
+              "Zone 0",
+              "Non-hazardous",
+              "Zone 2",
+              "Zone 1"
+            ],
+            "answer": 3,
+            "explanation": "Vents release vapour during normal operation such as deliveries, so the area around them is Zone 1."
+          },
+          {
+            "id": "q-haz202-1-3",
+            "prompt": "What marking shows that equipment is certified for use in a hazardous area?",
+            "options": [
+              "CE only",
+              "The Ex symbol with its category",
+              "A green sticker",
+              "The manufacturer's logo"
+            ],
+            "answer": 1,
+            "explanation": "Equipment certified for explosive atmospheres carries the Ex marking plus its protection category."
+          }
+        ]
+      },
+      {
+        "id": "l-haz202-2",
+        "title": "Controlling ignition sources",
+        "type": "READING",
+        "durationMins": 9,
+        "body": [
+          "An ignition source is anything that can provide enough energy to ignite vapour: flames, sparks, hot surfaces, static discharge, and electrical equipment.",
+          "Static electricity builds up when fuel flows through hoses and when people move. During a tanker delivery the tanker must be bonded and earthed to the station's earthing point before any hoses are connected, and the earth is the last connection to be removed.",
+          "Use non-sparking tools where the JHA requires it, keep vehicles and their engines out of the work area, and keep hot work at a safe distance from any hazardous zone unless the permit specifically controls it.",
+          "Housekeeping matters. Fuel-soaked rags, open containers and spill residue are all fuel for a fire. Remove them from the work area and dispose of them in the designated closed bin."
+        ],
+        "keyPoints": [
+          "Ignition sources: flames, sparks, hot surfaces, static, electrical.",
+          "Earth the tanker first, disconnect the earth last.",
+          "Keep the work area free of fuel-soaked waste."
+        ],
+        "quiz": [
+          {
+            "id": "q-haz202-2-1",
+            "prompt": "During a tanker delivery, when is the earth (static) connection made?",
+            "options": [
+              "Before any hoses are connected, and removed last",
+              "After the hoses are connected",
+              "Only if the weather is dry",
+              "It is not needed for diesel deliveries"
+            ],
+            "answer": 0,
+            "explanation": "Bonding and earthing happens first and is removed last, so static is safely discharged throughout the transfer."
+          },
+          {
+            "id": "q-haz202-2-2",
+            "prompt": "Which of these is an ignition source?",
+            "options": [
+              "A closed fuel tank",
+              "A spill kit",
+              "A static discharge from clothing",
+              "A barrier cone"
+            ],
+            "answer": 2,
+            "explanation": "Static discharge can carry enough energy to ignite fuel vapour."
+          },
+          {
+            "id": "q-haz202-2-3",
+            "prompt": "What should you do with fuel-soaked rags?",
+            "options": [
+              "Leave them by the pump to dry",
+              "Put them in the shop bin",
+              "Burn them",
+              "Place them in the designated closed waste bin"
+            ],
+            "answer": 3,
+            "explanation": "Fuel-soaked materials go into a designated closed container so they cannot release vapour or catch fire."
+          }
+        ]
+      }
+    ],
+    "cameraRequired": true
+  },
+  {
+    "id": "crs-drv150",
+    "code": "DRV-150",
+    "title": "Shell Road Safety: Defensive Driving & Journey Management",
+    "summary": "Road transport is the biggest single cause of fatalities in our industry. This course covers defensive driving, how a Journey Management Plan works, and what to do when a journey goes wrong.",
+    "category": "Road safety",
+    "level": "Foundation",
+    "source": "SHELL",
+    "status": "PUBLISHED",
+    "mandatory": true,
+    "pathOrder": 4,
+    "dueDays": 30,
+    "passMark": 80,
+    "validityMonths": 36,
+    "lessons": [
+      {
+        "id": "l-drv150-1",
+        "title": "Defensive driving basics",
+        "type": "VIDEO",
+        "durationMins": 9,
+        "body": [
+          "Defensive driving means driving to prevent collisions despite the actions of others and the conditions around you.",
+          "Keep a minimum following distance of three seconds behind the vehicle in front, and at least four seconds at night, in rain, fog or dust, or when towing. Pick a fixed point, and when the vehicle ahead passes it, count. If you reach the point before three seconds, drop back.",
+          "Every occupant wears a seatbelt on every journey, in every seat. Mobile phones are not used while driving, including hands-free. Obey posted speed limits and the company limit, whichever is lower.",
+          "Fatigue kills. Warning signs include yawning, heavy eyes, drifting in the lane, and missing road signs. The only cure is to stop in a safe place and rest. Opening the window or turning up the music does not work."
+        ],
+        "keyPoints": [
+          "Three-second gap minimum; four seconds in poor conditions.",
+          "Seatbelts for all, no phones while driving.",
+          "Fatigue: stop and rest. There is no other fix."
+        ],
+        "quiz": [
+          {
+            "id": "q-drv150-1-1",
+            "prompt": "What is the minimum following distance in good conditions?",
+            "options": [
+              "One second",
+              "Three seconds",
+              "Two seconds",
+              "Ten metres"
+            ],
+            "answer": 1,
+            "explanation": "Three seconds gives time to perceive and react. Increase to at least four seconds in poor conditions."
+          },
+          {
+            "id": "q-drv150-1-2",
+            "prompt": "You are driving in a dust storm. What following distance should you keep?",
+            "options": [
+              "Stay close to follow their lights",
+              "Two seconds",
+              "At least four seconds",
+              "It does not matter at low speed"
+            ],
+            "answer": 2,
+            "explanation": "Visibility and braking are affected in dust, fog, rain and darkness, so the gap increases to at least four seconds."
+          },
+          {
+            "id": "q-drv150-1-3",
+            "prompt": "Which is the only effective remedy for driver fatigue?",
+            "options": [
+              "Stopping in a safe place to rest",
+              "Loud music",
+              "Opening the window",
+              "Drinking an energy drink and continuing"
+            ],
+            "answer": 0,
+            "explanation": "Fresh air, music and caffeine only mask fatigue briefly. Stopping to rest is the only effective remedy."
+          },
+          {
+            "id": "q-drv150-1-4",
+            "prompt": "Who must wear a seatbelt?",
+            "options": [
+              "The driver only",
+              "Front-seat occupants only",
+              "Only on highways",
+              "Every occupant in every seat"
+            ],
+            "answer": 3,
+            "explanation": "All occupants wear seatbelts on every journey, front and rear."
+          }
+        ]
+      },
+      {
+        "id": "l-drv150-2",
+        "title": "How a Journey Management Plan works",
+        "type": "READING",
+        "durationMins": 11,
+        "body": [
+          "A Journey Management Plan (JMP) is prepared before any business journey that leaves the city or exceeds the distance set by company policy. The first question is always: is this journey necessary? Could it be combined with another trip, done remotely, or postponed to a safer time?",
+          "The JMP records who is driving, the vehicle, the route, departure and arrival times, planned rest stops, call-in points, the hazards on the route and the controls for each. It is reviewed and approved by a Journey Manager before departure.",
+          "Rest is planned, not optional: a minimum 15-minute break at least every two hours of driving, and no more than 10 hours of driving in a day. Driving between sunset and sunrise outside city limits is not permitted unless a night-driving exemption has been specifically approved.",
+          "The driver calls the Journey Manager at departure, at each planned call-in point, and on arrival. These calls are how the Journey Manager knows the journey is on track."
+        ],
+        "keyPoints": [
+          "First ask: is the journey necessary?",
+          "15-minute rest at least every 2 hours; max 10 hours driving per day.",
+          "No night driving outside cities without an approved exemption."
+        ],
+        "quiz": [
+          {
+            "id": "q-drv150-2-1",
+            "prompt": "What is the first question to ask when planning a journey?",
+            "options": [
+              "Which vehicle is fastest?",
+              "Is this journey necessary?",
+              "Can I leave after work?",
+              "Who will pay for fuel?"
+            ],
+            "answer": 1,
+            "explanation": "The safest journey is the one that is not made. Journey necessity is always assessed first."
+          },
+          {
+            "id": "q-drv150-2-2",
+            "prompt": "How often must a driver take a rest break?",
+            "options": [
+              "A 15-minute break at least every 2 hours",
+              "A 5-minute break every 4 hours",
+              "Only when tired",
+              "Once per journey"
+            ],
+            "answer": 0,
+            "explanation": "A planned 15-minute break at least every two hours of driving manages fatigue before it develops."
+          },
+          {
+            "id": "q-drv150-2-3",
+            "prompt": "Who approves a Journey Management Plan before departure?",
+            "options": [
+              "The driver",
+              "The fuel station cashier",
+              "The Journey Manager",
+              "Nobody, as it is a record only"
+            ],
+            "answer": 2,
+            "explanation": "The Journey Manager reviews the route, timing, hazards and controls and approves the plan before the vehicle leaves."
+          },
+          {
+            "id": "q-drv150-2-4",
+            "prompt": "A journey would require driving after sunset outside the city. Without an approved exemption, you should:",
+            "options": [
+              "Drive faster to arrive before dark",
+              "Drive in convoy with another car",
+              "Turn on the high beams and continue",
+              "Re-plan to arrive before sunset or stop overnight"
+            ],
+            "answer": 3,
+            "explanation": "Night driving outside city limits is prohibited unless an exemption is approved, so the journey is re-planned."
+          }
+        ]
+      },
+      {
+        "id": "l-drv150-3",
+        "title": "Pre-trip checks and overdue journeys",
+        "type": "READING",
+        "durationMins": 8,
+        "body": [
+          "Before every journey, walk round the vehicle: tyres (including the spare) for pressure, tread and damage; lights and indicators; brakes; fluid levels; mirrors and windscreen; seatbelts. Confirm the first aid kit, fire extinguisher, warning triangle and drinking water are on board, and that the In-Vehicle Monitoring System (IVMS) is working.",
+          "The driver also declares they are fit to drive: well rested with at least 7 hours' sleep, not under the influence of alcohol, drugs or drowsy medication, and holding a valid licence and defensive driving certificate.",
+          "If a driver misses a call-in, the overdue procedure starts. After 30 minutes the Journey Manager tries to contact the driver and passengers. After 60 minutes without contact, the Journey Manager escalates to the emergency response team and the last known position from the IVMS is used to start a search.",
+          "If you break down in a remote area, stay with your vehicle. It is far easier to find than a person on foot, it gives shade, and it carries your water. Place the warning triangle, call the Journey Manager, and wait."
+        ],
+        "keyPoints": [
+          "Walk-round check plus first aid kit, extinguisher, triangle, water, IVMS.",
+          "Overdue: 30 minutes, then contact attempts; 60 minutes, then escalate.",
+          "Broken down in a remote area: stay with the vehicle."
+        ],
+        "quiz": [
+          {
+            "id": "q-drv150-3-1",
+            "prompt": "A driver is 30 minutes past a planned call-in with no contact. What does the Journey Manager do?",
+            "options": [
+              "Wait until the end of the day",
+              "Start trying to contact the driver and passengers",
+              "Immediately cancel the JMP",
+              "Nothing, as delays are normal"
+            ],
+            "answer": 1,
+            "explanation": "At 30 minutes overdue the Journey Manager actively tries to contact the driver and passengers."
+          },
+          {
+            "id": "q-drv150-3-2",
+            "prompt": "After 60 minutes overdue with no contact, the Journey Manager should:",
+            "options": [
+              "Wait another hour",
+              "Send an email reminder",
+              "Escalate to the emergency response team using the last known IVMS position",
+              "Close the journey as completed"
+            ],
+            "answer": 2,
+            "explanation": "At 60 minutes without contact the situation is treated as an emergency and escalated, using IVMS data to locate the vehicle."
+          },
+          {
+            "id": "q-drv150-3-3",
+            "prompt": "Your vehicle breaks down on a remote desert road. What should you do?",
+            "options": [
+              "Stay with the vehicle, place the warning triangle and call the Journey Manager",
+              "Walk to the nearest town for help",
+              "Flag down any passing vehicle and leave with them",
+              "Try to fix the engine regardless of your experience"
+            ],
+            "answer": 0,
+            "explanation": "A vehicle is easier to find than a person, provides shade and holds your water. Stay with it and call in."
+          },
+          {
+            "id": "q-drv150-3-4",
+            "prompt": "Which item is part of the driver fitness declaration?",
+            "options": [
+              "A charged laptop",
+              "A full tank of fuel",
+              "A clean vehicle",
+              "At least 7 hours' sleep before the journey"
+            ],
+            "answer": 3,
+            "explanation": "Fitness to drive covers rest, freedom from impairment, and valid licence and training."
+          }
+        ]
+      }
+    ],
+    "cameraRequired": true
+  },
+  {
+    "id": "crs-ram210",
+    "code": "ART-RAM-210",
+    "title": "Risk Assessment and the RAM Matrix",
+    "summary": "How to rate a hazard using the Risk Assessment Matrix (RAM): consequence, likelihood and the risk level that decides what controls and approvals a job needs.",
+    "category": "Risk management",
+    "level": "Intermediate",
+    "source": "ARTELIA",
+    "status": "PUBLISHED",
+    "mandatory": false,
+    "pathOrder": 99,
+    "dueDays": 30,
+    "passMark": 80,
+    "validityMonths": 36,
+    "cameraRequired": true,
+    "lessons": [
+      {
+        "id": "l-ram-1",
+        "title": "Reading the RAM",
+        "type": "READING",
+        "durationMins": 9,
+        "body": [
+          "The Risk Assessment Matrix (RAM) rates a hazard on two axes. Consequence runs from 0 (no effect) to 5 (massive effect, such as multiple fatalities) and is judged separately for people, assets, environment and reputation. Likelihood runs from A to E.",
+          "A means never heard of in the industry. B means heard of in the industry. C means it has happened in our organisation. D means it happens several times a year in our organisation. E means it happens several times a year at this location.",
+          "Where the consequence row meets the likelihood column you get the risk level: low (green), medium (yellow) or high (red). High-risk work needs stronger controls and a higher level of approval before it can go ahead.",
+          "Always rate the realistic worst credible outcome, not the outcome you hope for. A dropped spanner from a canopy is rated by what it could do to the person below, not by the fact that it usually misses."
+        ],
+        "keyPoints": [
+          "Consequence 0–5, likelihood A–E.",
+          "Rate the worst credible outcome.",
+          "High-risk (red) work needs stronger controls and higher approval."
+        ],
+        "quiz": [
+          {
+            "id": "q-ram-1-1",
+            "prompt": "In the RAM, likelihood \"C\" means:",
+            "options": [
+              "Never heard of in the industry",
+              "Has happened in our organisation",
+              "Happens several times a year at this location",
+              "Impossible"
+            ],
+            "answer": 1,
+            "explanation": "C: the event has happened somewhere in our organisation."
+          },
+          {
+            "id": "q-ram-1-2",
+            "prompt": "Which outcome should you rate?",
+            "options": [
+              "The most likely outcome",
+              "The worst credible outcome",
+              "The best case",
+              "Whatever is quickest"
+            ],
+            "answer": 1,
+            "explanation": "Always rate the worst credible outcome."
+          },
+          {
+            "id": "q-ram-1-3",
+            "prompt": "A red cell on the RAM means:",
+            "options": [
+              "Low risk",
+              "Medium risk",
+              "High risk requiring stronger controls and higher approval",
+              "The job is finished"
+            ],
+            "answer": 2,
+            "explanation": "Red is high risk."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "crs-ptw301",
+    "code": "PTW-301",
+    "title": "Permit Issuer Certification",
+    "summary": "For experienced Permit Holders stepping up to issue permits: roles and responsibilities, site inspection, gas testing, isolation verification, handover, suspension and close-out.",
+    "category": "Permit to Work",
+    "level": "Advanced",
+    "source": "ARTELIA",
+    "status": "PUBLISHED",
+    "mandatory": false,
+    "pathOrder": 99,
+    "dueDays": 60,
+    "passMark": 80,
+    "validityMonths": 24,
+    "price": 45,
+    "cameraRequired": true,
+    "lessons": [
+      {
+        "id": "l-ptw301-1",
+        "title": "Roles in the permit system",
+        "type": "VIDEO",
+        "durationMins": 9,
+        "body": [
+          "The Permit Issuer authorises the work and is accountable for the site being safe for the job. The Permit Holder (Performing Authority) is in charge of the work party and controls the job at the work site. The Area Authority owns the location, such as the station manager.",
+          "The Issuer must visit the work site before signing, confirm the job scope matches the permit, check the hazards on the Job Hazard Analysis and make sure every listed control is in place.",
+          "An Issuer never issues a permit for work they are also performing. Separation of duties is a core principle of a safe permit system."
+        ],
+        "keyPoints": [
+          "Issuer authorises; Holder performs; Area Authority owns the area.",
+          "Always inspect the work site before signing.",
+          "Never issue a permit for your own work."
+        ],
+        "quiz": [
+          {
+            "id": "q-ptw301-1-1",
+            "prompt": "Who is in charge of the work party at the site?",
+            "options": [
+              "Permit Issuer",
+              "Permit Holder",
+              "Customer",
+              "Tanker driver"
+            ],
+            "answer": 1,
+            "explanation": "The Permit Holder controls the job and the work party."
+          },
+          {
+            "id": "q-ptw301-1-2",
+            "prompt": "Before signing a permit, the Issuer must:",
+            "options": [
+              "Sign it from the office",
+              "Visit the work site and check the controls",
+              "Ask the Holder to sign for them",
+              "Wait for the job to finish"
+            ],
+            "answer": 1,
+            "explanation": "A site inspection before signing is mandatory."
+          },
+          {
+            "id": "q-ptw301-1-3",
+            "prompt": "Can an Issuer issue a permit for work they are doing themselves?",
+            "options": [
+              "Yes, if they are qualified",
+              "No, duties must be separated",
+              "Only at night",
+              "Only for hot work"
+            ],
+            "answer": 1,
+            "explanation": "Separation of duties: never issue your own permit."
+          }
+        ]
+      },
+      {
+        "id": "l-ptw301-2",
+        "title": "Issue, suspend and close out",
+        "type": "READING",
+        "durationMins": 8,
+        "body": [
+          "Gas testing: for hot work or confined spaces, the gas test is done immediately before work starts and repeated at the intervals written on the permit. Record each reading on the permit.",
+          "Isolation verification: the Issuer confirms each isolation point is locked and tagged, and witnesses the zero-energy test.",
+          "Suspension: if conditions change (a fuel delivery arrives, an alarm sounds, the weather turns), the permit is suspended and work stops until the Issuer revalidates it.",
+          "Close-out: at the end of the job the Holder confirms the site is clean and safe, the Issuer inspects it, isolations are removed in a controlled way and both sign to close the permit."
+        ],
+        "keyPoints": [
+          "Gas test right before work, then at set intervals.",
+          "Witness the zero-energy test.",
+          "Changed conditions mean suspend first, then revalidate.",
+          "Both parties sign the close-out after inspection."
+        ],
+        "quiz": [
+          {
+            "id": "q-ptw301-2-1",
+            "prompt": "A fuel tanker arrives during hot work. You should:",
+            "options": [
+              "Carry on",
+              "Suspend the permit and stop work",
+              "Ask the tanker to hurry",
+              "Remove the barriers"
+            ],
+            "answer": 1,
+            "explanation": "Changed conditions: suspend first, then revalidate."
+          },
+          {
+            "id": "q-ptw301-2-2",
+            "prompt": "When is the first gas test done for hot work?",
+            "options": [
+              "The day before",
+              "Immediately before work starts",
+              "After lunch",
+              "Only if someone smells fuel"
+            ],
+            "answer": 1,
+            "explanation": "The gas test is done immediately before the work starts."
+          },
+          {
+            "id": "q-ptw301-2-3",
+            "prompt": "Who signs the permit close-out?",
+            "options": [
+              "Only the Holder",
+              "Only the Issuer",
+              "Both the Holder and the Issuer after inspection",
+              "Nobody"
+            ],
+            "answer": 2,
+            "explanation": "Both sign once the site has been inspected."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "crs-fir110",
+    "code": "FIR-110",
+    "title": "Fire Safety and Extinguisher Use (Oman sites)",
+    "summary": "An optional refresher on how fires start, which extinguisher to use on which class of fire, and when to fight a fire or leave.",
+    "category": "Emergency response",
+    "level": "Foundation",
+    "source": "LOCAL",
+    "status": "PUBLISHED",
+    "mandatory": false,
+    "pathOrder": 99,
+    "dueDays": 30,
+    "passMark": 70,
+    "validityMonths": 12,
+    "lessons": [
+      {
+        "id": "l-fir110-1",
+        "title": "Fire classes and extinguishers",
+        "type": "READING",
+        "durationMins": 7,
+        "body": [
+          "A fire needs three things: fuel, heat and oxygen. This is the fire triangle. Remove any one and the fire goes out. Extinguishers work by cooling (removing heat), smothering (removing oxygen) or interrupting the chemical reaction.",
+          "Fires are grouped by what is burning. Class A is ordinary solids such as paper, wood and fabric. Class B is flammable liquids such as petrol and diesel. Class C is flammable gases such as LPG. Class D is burning metals. Electrical fires involve live equipment. Class F is cooking oils and fats.",
+          "Water extinguishers are for Class A only. Foam covers Class A and B. Dry powder (ABC) covers A, B and C and is the most common extinguisher on forecourts. CO2 is used on electrical fires and small Class B fires and leaves no residue."
+        ],
+        "keyPoints": [
+          "Fire triangle: fuel, heat, oxygen.",
+          "Class B = flammable liquids (petrol, diesel).",
+          "CO2 for electrical fires; never water on live equipment."
+        ],
+        "quiz": [
+          {
+            "id": "q-fir110-1-1",
+            "prompt": "What are the three sides of the fire triangle?",
+            "options": [
+              "Fuel, water and air",
+              "Fuel, heat and oxygen",
+              "Heat, smoke and flame",
+              "Oxygen, nitrogen and carbon"
+            ],
+            "answer": 1,
+            "explanation": "A fire needs fuel, heat and oxygen. Removing any one extinguishes it."
+          },
+          {
+            "id": "q-fir110-1-2",
+            "prompt": "A fire involving diesel is which class?",
+            "options": [
+              "Class B",
+              "Class A",
+              "Class D",
+              "Class F"
+            ],
+            "answer": 0,
+            "explanation": "Class B fires involve flammable liquids such as petrol and diesel."
+          },
+          {
+            "id": "q-fir110-1-3",
+            "prompt": "Which extinguisher is most suitable for a fire in a live electrical panel?",
+            "options": [
+              "Water",
+              "Foam",
+              "CO2",
+              "Wet chemical"
+            ],
+            "answer": 2,
+            "explanation": "CO2 does not conduct electricity and leaves no residue, making it suitable for electrical fires."
+          }
+        ]
+      },
+      {
+        "id": "l-fir110-2",
+        "title": "Using an extinguisher safely",
+        "type": "VIDEO",
+        "durationMins": 6,
+        "body": [
+          "Use the PASS technique: Pull the pin, Aim at the base of the fire, Squeeze the handle, Sweep from side to side.",
+          "Before you fight a fire, ask: has the alarm been raised? Is the fire small and contained? Do I have the right extinguisher? Is my escape route behind me and clear? If the answer to any of these is no, leave and let the emergency services deal with it.",
+          "Never turn your back on a fire you have just put out; it can re-ignite. Back away while watching it."
+        ],
+        "keyPoints": [
+          "PASS: Pull, Aim, Squeeze, Sweep.",
+          "Alarm raised, fire small, right extinguisher, escape route clear, otherwise leave.",
+          "Back away from an extinguished fire."
+        ],
+        "quiz": [
+          {
+            "id": "q-fir110-2-1",
+            "prompt": "In the PASS technique, where should you aim the extinguisher?",
+            "options": [
+              "At the top of the flames",
+              "Into the air above the fire",
+              "At the smoke",
+              "At the base of the fire"
+            ],
+            "answer": 3,
+            "explanation": "Aiming at the base attacks the fuel that is burning, not just the flames."
+          },
+          {
+            "id": "q-fir110-2-2",
+            "prompt": "When should you NOT attempt to fight a fire?",
+            "options": [
+              "When it is small and you have the right extinguisher",
+              "When your escape route is blocked or the fire is spreading",
+              "When the alarm has been raised",
+              "When someone else is watching"
+            ],
+            "answer": 1,
+            "explanation": "If the fire is large or spreading, or your escape route is not clear, leave and let the emergency services handle it."
+          },
+          {
+            "id": "q-fir110-2-3",
+            "prompt": "After putting out a small fire, you should:",
+            "options": [
+              "Turn and walk away immediately",
+              "Touch it to check it is cold",
+              "Back away while continuing to watch it",
+              "Cover it with a cloth"
+            ],
+            "answer": 2,
+            "explanation": "Fires can re-ignite. Back away facing the fire so you can react."
+          }
+        ]
+      }
+    ],
+    "cameraRequired": true
+  },
+  {
+    "id": "crs-wah120",
+    "code": "WAH-120",
+    "title": "Working at Height on Retail Sites",
+    "summary": "Canopy, signage and roof work: ladders, mobile towers, and when a harness is required. Draft course, not yet published to learners.",
+    "category": "Working at height",
+    "level": "Intermediate",
+    "source": "LOCAL",
+    "status": "DRAFT",
+    "mandatory": false,
+    "pathOrder": 99,
+    "dueDays": 30,
+    "passMark": 80,
+    "validityMonths": 24,
+    "lessons": [
+      {
+        "id": "l-wah120-1",
+        "title": "Planning work at height",
+        "type": "READING",
+        "durationMins": 8,
+        "body": [
+          "Work at height is any work where a person could fall a distance liable to cause injury, including working on a canopy, a price sign or a stepladder.",
+          "Follow the hierarchy: avoid working at height where you can (for example, lower the sign to the ground), prevent falls with collective protection such as guardrails and mobile elevated work platforms, and only then minimise the consequences of a fall with personal fall-arrest equipment."
+        ],
+        "keyPoints": [
+          "Avoid, then prevent, then minimise.",
+          "Collective protection before personal protection."
+        ],
+        "quiz": [
+          {
+            "id": "q-wah120-1-1",
+            "prompt": "What is the first step in the work at height hierarchy?",
+            "options": [
+              "Avoid working at height where possible",
+              "Use a harness",
+              "Use a ladder",
+              "Work quickly"
+            ],
+            "answer": 0,
+            "explanation": "If the work can be done from the ground, the fall hazard is eliminated."
+          },
+          {
+            "id": "q-wah120-1-2",
+            "prompt": "Which is a collective fall-prevention measure?",
+            "options": [
+              "A full-body harness",
+              "Safety boots",
+              "A hard hat",
+              "A guardrail"
+            ],
+            "answer": 3,
+            "explanation": "Guardrails protect everyone in the area without relying on individual action, so they are collective protection."
+          }
+        ]
+      }
+    ],
+    "cameraRequired": true
+  }
+]
