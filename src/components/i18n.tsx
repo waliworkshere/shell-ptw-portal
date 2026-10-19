@@ -30,7 +30,7 @@ function setLang(l: Lang) {
 }
 
 const SKIP = new Set(['SCRIPT', 'STYLE', 'TEXTAREA', 'INPUT', 'CODE', 'NOSCRIPT']);
-const ATTRS = ['placeholder', 'aria-label', 'title'];
+const ATTRS = ['placeholder', 'aria-label', 'title', 'data-label'];
 
 function translateNode(node: Node) {
   if (node.nodeType === Node.TEXT_NODE) {

@@ -180,7 +180,7 @@ export default function SosReportPage() {
 
   return (
     <RoleGuard role={[...ALL]}>
-      <div className="mx-auto max-w-4xl px-4 py-8 sm:px-8">
+      <div className="mx-auto max-w-4xl px-4 py-6 sm:px-8 sm:py-8">
         {/* Header */}
         <div className="relative overflow-hidden rounded-3xl bg-petrol-600 p-6 text-white sm:p-7">
           <div className="shell-stripe absolute inset-x-0 top-0 h-1" />

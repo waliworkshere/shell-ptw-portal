@@ -66,16 +66,17 @@ export default function RegisterPage() {
     <div className="min-h-screen bg-paper">
       <PrototypeRibbon />
       <div className="mx-auto max-w-xl px-5 py-10">
-        <div className="flex items-center justify-between">
-          <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-ink">
+        <div className="flex items-center justify-between gap-3">
+          <Link href="/" className="inline-flex items-center gap-1.5 whitespace-nowrap text-sm text-slate-500 hover:text-ink">
             <ArrowLeft size={15} /> Back to sign in
           </Link>
-          <div className="flex items-center gap-3">
-            <LangToggle compact />
-            <ShellLogo size={34} />
-            <ArteliaLogo height={18} />
-            <Wordmark className="text-xl" />
-          </div>
+          <LangToggle compact />
+        </div>
+        <div className="mt-6 flex items-center gap-3">
+          <ShellLogo size={34} />
+          <ArteliaLogo height={18} />
+          <span className="h-6 w-px bg-petrol-100" />
+          <Wordmark className="text-xl" />
         </div>
 
         <div className="mt-8">

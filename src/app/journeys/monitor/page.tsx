@@ -61,7 +61,7 @@ export default function JourneyMonitorPage() {
 
   return (
     <RoleGuard role={['APPROVER', 'ADMIN']}>
-      <div className="mx-auto max-w-6xl px-8 py-10">
+      <div className="mx-auto max-w-6xl px-4 py-6 sm:px-8 sm:py-10">
         <PageHeader
           title="Journey management"
           subtitle={`Approve journey plans and watch every vehicle on the road. A missed call-in turns amber after ${JM_RULES.overdueContactMins} minutes and red after ${JM_RULES.overdueEscalateMins}.`}
@@ -80,18 +80,19 @@ export default function JourneyMonitorPage() {
             <Link
               key={j.id}
               href={`/journeys/${j.id}`}
-              className={`mt-6 flex items-center gap-4 rounded-xl p-4 ${od.level === 'ESCALATE' ? 'bg-rust-500 text-white' : 'border border-rust-400 bg-rust-50 text-rust-600'}`}
+              className={`mt-6 flex items-start gap-3 rounded-xl p-4 sm:items-center sm:gap-4 ${od.level === 'ESCALATE' ? 'bg-rust-500 text-white' : 'border border-rust-400 bg-rust-50 text-rust-600'}`}
             >
-              {od.level === 'ESCALATE' ? <Siren size={22} /> : <AlertTriangle size={22} />}
-              <div className="flex-1 text-sm">
+              {od.level === 'ESCALATE' ? <Siren size={22} className="shrink-0" /> : <AlertTriangle size={22} className="shrink-0" />}
+              <div className="min-w-0 flex-1 text-sm">
                 <p className="font-semibold">
                   {j.driverName} is {od.minutes} min overdue at {od.checkpoint?.name}
                 </p>
                 <p className="opacity-90">
                   {od.level === 'ESCALATE' ? 'Escalate to emergency response now.' : `Call ${j.driverPhone}. Escalate at ${JM_RULES.overdueEscalateMins} minutes.`}
                 </p>
+                <p className="app-number mt-1 text-xs opacity-80 sm:hidden">{j.jmpNumber}</p>
               </div>
-              <span className="app-number text-xs">{j.jmpNumber}</span>
+              <span className="app-number hidden text-xs sm:inline">{j.jmpNumber}</span>
             </Link>
           );
         })}

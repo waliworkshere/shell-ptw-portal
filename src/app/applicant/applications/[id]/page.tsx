@@ -25,7 +25,7 @@ export default function ApplicationStatusPage() {
   if (!app) {
     return (
       <RoleGuard role="APPLICANT">
-        <div className="mx-auto max-w-2xl px-8 py-10 text-sm text-slate-500">Application not found.</div>
+        <div className="mx-auto max-w-2xl px-4 py-6 sm:px-8 sm:py-10 text-sm text-slate-500">Application not found.</div>
       </RoleGuard>
     );
   }
@@ -37,13 +37,13 @@ export default function ApplicationStatusPage() {
 
   return (
     <RoleGuard role="APPLICANT">
-      <div className="mx-auto max-w-2xl px-8 py-10">
+      <div className="mx-auto max-w-2xl px-4 py-6 sm:px-8 sm:py-10">
         <Link href="/applicant/dashboard" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-ink">
           <ArrowLeft size={15} /> Back to my applications
         </Link>
 
-        <div className="mt-4 flex items-center justify-between">
-          <div>
+        <div className="mt-4 flex flex-wrap items-start justify-between gap-3">
+          <div className="min-w-0">
             <h1 className="app-number font-display text-xl font-semibold text-ink">{app.applicationNumber}</h1>
             <p className="mt-1 text-sm text-slate-500">{permitType?.name} — {station?.name}</p>
           </div>

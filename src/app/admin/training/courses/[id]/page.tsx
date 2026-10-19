@@ -38,7 +38,7 @@ export default function CourseEditorPage() {
   if (!stored || !draft) {
     return (
       <RoleGuard role="ADMIN">
-        <div className="mx-auto max-w-3xl px-8 py-10 text-sm text-slate-500">{stored ? 'Loading…' : 'Course not found.'}</div>
+        <div className="mx-auto max-w-3xl px-4 py-6 sm:px-8 sm:py-10 text-sm text-slate-500">{stored ? 'Loading…' : 'Course not found.'}</div>
       </RoleGuard>
     );
   }
@@ -80,12 +80,12 @@ export default function CourseEditorPage() {
 
   return (
     <RoleGuard role="ADMIN">
-      <div className="mx-auto max-w-5xl px-8 py-10">
+      <div className="mx-auto max-w-5xl px-4 py-6 sm:px-8 sm:py-10">
         <Link href="/admin/training" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-ink">
           <ArrowLeft size={15} /> Training and courses
         </Link>
 
-        <div className="sticky top-0 z-20 -mx-8 mt-3 flex flex-wrap items-center justify-between gap-3 border-b border-petrol-100 bg-paper/95 px-8 py-3 backdrop-blur">
+        <div className="sticky top-0 z-20 -mx-4 mt-3 sm:-mx-8 flex flex-wrap items-center justify-between gap-3 border-b border-petrol-100 bg-paper/95 px-4 py-3 sm:px-8 backdrop-blur">
           <div className="flex items-center gap-3">
             <h1 className="font-display text-xl font-semibold text-ink">{draft.title || 'Untitled course'}</h1>
             <span className={`stamp ${draft.status === 'PUBLISHED' ? 'stamp-approved' : 'stamp-draft'}`}>{draft.status === 'PUBLISHED' ? 'Published' : 'Draft'}</span>
@@ -207,13 +207,13 @@ export default function CourseEditorPage() {
             const isOpen = open === l.id;
             return (
               <div key={l.id} className="card p-0">
-                <div className="flex items-center gap-3 px-5 py-3">
-                  <button onClick={() => setOpen(isOpen ? null : l.id)} className="flex flex-1 items-center gap-3 text-left" aria-expanded={isOpen}>
-                    {isOpen ? <ChevronDown size={16} className="text-slate-400" /> : <ChevronRight size={16} className="text-slate-400" />}
-                    <span className="app-number text-sm text-slate-400">{String(li + 1).padStart(2, '0')}</span>
-                    {l.type === 'VIDEO' ? <Video size={15} className="text-petrol-400" /> : <BookOpen size={15} className="text-petrol-400" />}
-                    <span className="text-sm font-medium text-ink">{l.title || 'Untitled lesson'}</span>
-                    <span className="inline-flex items-center gap-1 text-xs text-slate-400"><FileQuestion size={12} /> {l.quiz.length}</span>
+                <div className="flex items-center gap-1 px-3 py-3 sm:gap-3 sm:px-5">
+                  <button onClick={() => setOpen(isOpen ? null : l.id)} className="flex min-w-0 flex-1 items-center gap-2 text-left sm:gap-3" aria-expanded={isOpen}>
+                    {isOpen ? <ChevronDown size={16} className="shrink-0 text-slate-400" /> : <ChevronRight size={16} className="shrink-0 text-slate-400" />}
+                    <span className="app-number hidden text-sm text-slate-400 sm:inline">{String(li + 1).padStart(2, '0')}</span>
+                    {l.type === 'VIDEO' ? <Video size={15} className="shrink-0 text-petrol-400" /> : <BookOpen size={15} className="shrink-0 text-petrol-400" />}
+                    <span className="min-w-0 flex-1 truncate text-sm font-medium text-ink sm:flex-none">{l.title || 'Untitled lesson'}</span>
+                    <span className="inline-flex shrink-0 items-center gap-1 text-xs text-slate-400"><FileQuestion size={12} /> {l.quiz.length}</span>
                   </button>
                   <button aria-label="Move lesson up" disabled={li === 0} onClick={() => moveLesson(li, -1)} className="rounded p-1.5 text-slate-500 hover:bg-petrol-50 disabled:opacity-30"><ArrowUp size={14} /></button>
                   <button aria-label="Move lesson down" disabled={li === draft.lessons.length - 1} onClick={() => moveLesson(li, 1)} className="rounded p-1.5 text-slate-500 hover:bg-petrol-50 disabled:opacity-30"><ArrowDown size={14} /></button>

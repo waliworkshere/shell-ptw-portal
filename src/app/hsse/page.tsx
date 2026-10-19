@@ -48,7 +48,7 @@ export default function HssePage() {
 
   return (
     <RoleGuard role={[...ALL]}>
-      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-8">
+      <div className="mx-auto max-w-6xl px-4 py-6 sm:px-8 sm:py-8">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-widest text-sand-600">HSSE</p>
@@ -64,7 +64,7 @@ export default function HssePage() {
             <div className="space-y-4">
               {activeSos.map((a) => (
                 <div key={a.id} className={`overflow-hidden rounded-2xl border-2 bg-white shadow-lg ${a.status === 'ACTIVE' ? 'border-rust-500' : 'border-sand-500'}`}>
-                  <div className={`flex flex-wrap items-center gap-3 px-5 py-3 text-white ${a.status === 'ACTIVE' ? 'bg-rust-500' : 'bg-sand-600'}`}>
+                  <div className={`flex flex-wrap items-center gap-x-3 gap-y-1 px-4 py-3 text-white sm:px-5 ${a.status === 'ACTIVE' ? 'bg-rust-500' : 'bg-sand-600'}`}>
                     <Siren size={20} className={a.status === 'ACTIVE' ? 'animate-pulse' : ''} />
                     <p className="font-display font-semibold">{a.status === 'ACTIVE' ? 'ACTIVE EMERGENCY ALERT' : 'Emergency acknowledged — help on the way'}</p>
                     <span className="app-number text-sm opacity-90">{a.refNo}</span>
@@ -91,8 +91,8 @@ export default function HssePage() {
               ))}
             </div>
           ) : (
-            <div className="flex items-center gap-3 rounded-2xl border border-leaf-200 bg-leaf-50 px-5 py-3 text-sm text-leaf-700">
-              <ShieldCheck size={18} /> No active emergency alerts. {sos.length > 0 && <span className="text-leaf-600">Last: {sos[0].refNo} {sos[0].kind}, {fmtDate(sos[0].createdAt)} (resolved).</span>}
+            <div className="flex items-start gap-3 rounded-2xl border border-leaf-200 bg-leaf-50 px-4 py-3 text-sm text-leaf-700 sm:items-center sm:px-5">
+              <ShieldCheck size={18} className="mt-0.5 shrink-0 sm:mt-0" /> <span><span>No active emergency alerts.</span> {sos.length > 0 && <span className="text-leaf-600">Last: {sos[0].refNo} {sos[0].kind}, {fmtDate(sos[0].createdAt)} (resolved).</span>}</span>
             </div>
           )}
         </section>
@@ -156,18 +156,22 @@ export default function HssePage() {
                 const st = state.stations.find((s) => s.id === r.stationId);
                 return (
                   <li key={r.id}>
-                    <Link href={`/hsse/${r.id}`} className="flex flex-wrap items-center gap-3 px-5 py-3.5 hover:bg-petrol-50/50">
+                    <Link href={`/hsse/${r.id}`} className="flex items-start gap-3 px-4 py-3.5 hover:bg-petrol-50/50 sm:items-center sm:px-5">
                       <span className="flex shrink-0 -space-x-2">
                         {(r.types ?? [r.type]).map((t) => (
                           <span key={t} className="flex h-9 w-9 items-center justify-center rounded-lg text-[11px] font-bold text-white ring-2 ring-white" style={{ background: TYPE_COLOR[t] }} title={HSSE_TYPE_LABEL[t]}>{HSSE_TYPE_SHORT[t]}</span>
                         ))}
                       </span>
-                      <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-medium text-ink">{r.title}</p>
-                        <p className="text-xs text-slate-400"><span className="app-number">{r.refNo}</span> · {st?.name ?? r.location} · {r.reporterName} · {fmtDate(r.createdAt)}</p>
+                      <div className="min-w-0 flex-1 sm:flex sm:items-center sm:gap-3">
+                        <div className="min-w-0 flex-1">
+                          <p className="line-clamp-2 text-sm font-medium text-ink sm:truncate">{r.title}</p>
+                          <p className="text-xs text-slate-400"><span className="app-number">{r.refNo}</span> · {st?.name ?? r.location} · {r.reporterName} · {fmtDate(r.createdAt)}</p>
+                        </div>
+                        <div className="mt-2 flex flex-wrap items-center gap-2 sm:mt-0 sm:shrink-0">
+                          <span className={`whitespace-nowrap rounded-full border px-2 py-0.5 text-[11px] font-semibold ${RAM_STYLE[lvl].chip}`}>{r.consequence}{r.likelihood} {RAM_STYLE[lvl].label}</span>
+                          <span className={`stamp ${STATUS_STAMP[r.status]}`}>{STATUS_LABEL[r.status]}</span>
+                        </div>
                       </div>
-                      <span className={`rounded-full border px-2 py-0.5 text-[11px] font-semibold ${RAM_STYLE[lvl].chip}`}>{r.consequence}{r.likelihood} {RAM_STYLE[lvl].label}</span>
-                      <span className={`stamp ${STATUS_STAMP[r.status]}`}>{STATUS_LABEL[r.status]}</span>
                     </Link>
                   </li>
                 );

@@ -29,15 +29,15 @@ export default function LearnerHome() {
 
   return (
     <RoleGuard role={['TRAINEE', 'APPLICANT']}>
-      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-8">
-        <section className="relative overflow-hidden rounded-3xl bg-petrol-600 p-7 text-white">
+      <div className="mx-auto max-w-6xl px-4 py-6 sm:px-8 sm:py-8">
+        <section className="relative overflow-hidden rounded-3xl bg-petrol-600 p-5 text-white sm:p-7">
           <div className="shell-stripe absolute inset-x-0 top-0 h-1" />
           <div className="absolute -right-20 -top-24 h-72 w-72 rounded-full bg-sand-500/10" />
-          <div className="relative flex flex-wrap items-center gap-6">
+          <div className="relative flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-6">
             <Ring pct={q.total ? (q.completed / q.total) * 100 : 0} size={104} label={`${q.completed}/${q.total}`} sub="required" dark />
             <div className="min-w-0 flex-1">
               <p className="text-xs font-semibold uppercase tracking-widest text-sand-400">{isTrainee ? 'My learning' : 'Training'}</p>
-              <h1 className="mt-1 font-display text-2xl font-semibold">{greeting()}, {currentUser?.fullName.split(' ')[0]}</h1>
+              <h1 className="mt-1 font-display text-2xl font-semibold">{`${greeting()}, ${currentUser?.fullName.split(' ')[0] ?? ''}`}</h1>
               <p className="mt-1 max-w-xl text-sm text-petrol-100">
                 {q.eligible
                   ? isTrainee ? 'Every required course is done — you can now register as a Permit Holder.' : 'Your Permit Holder qualification is current.'

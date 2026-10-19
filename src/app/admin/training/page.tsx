@@ -49,7 +49,7 @@ export default function AdminTrainingPage() {
 
   return (
     <RoleGuard role="ADMIN">
-      <div className="mx-auto max-w-6xl px-8 py-10">
+      <div className="mx-auto max-w-6xl px-4 py-6 sm:px-8 sm:py-10">
         <PageHeader
           title="Training modules"
           subtitle="Shell modules first, Artelia modules second, Local modules third. Build courses, set prices and the qualification timeline, and approve trainees as Permit Holders."
@@ -102,7 +102,7 @@ export default function AdminTrainingPage() {
                   {list.length === 0 ? (
                     <p className="px-5 py-6 text-sm text-slate-400">No {SOURCE_LABEL[src].toLowerCase()} yet.</p>
                   ) : (
-                    <table className="w-full min-w-[860px] text-sm">
+                    <table className="rtable w-full min-w-[860px] text-sm">
                       <thead>
                         <tr className="border-b border-petrol-50 text-left text-xs text-slate-400">
                           <th className="px-5 py-2.5 font-medium">Course</th>
@@ -128,20 +128,20 @@ export default function AdminTrainingPage() {
                                   {c.mandatory && <span className="ml-2 rounded bg-sand-100 px-1.5 py-0.5 text-[10px] font-medium text-sand-700">Required</span>}
                                 </p>
                               </td>
-                              <td className="px-5 py-3"><PriceTag price={c.price} /></td>
-                              <td className="app-number px-5 py-3 text-slate-500">{c.lessons.length} / {c.lessons.reduce((a, l) => a + l.quiz.length, 0)}</td>
-                              <td className="px-5 py-3 text-slate-500">~{courseMinutes(c)} min</td>
-                              <td className="app-number px-5 py-3">{enr.length}</td>
-                              <td className="px-5 py-3">
+                              <td data-label="Price" className="px-5 py-3"><PriceTag price={c.price} /></td>
+                              <td data-label="Lessons / Qs" className="app-number px-5 py-3 text-slate-500">{c.lessons.length} / {c.lessons.reduce((a, l) => a + l.quiz.length, 0)}</td>
+                              <td data-label="Length" className="px-5 py-3 text-slate-500">~{courseMinutes(c)} min</td>
+                              <td data-label="Enrolled" className="app-number px-5 py-3">{enr.length}</td>
+                              <td data-label="Completed" className="px-5 py-3">
                                 <div className="flex items-center gap-2">
                                   <div className="h-1.5 w-16 overflow-hidden rounded-full bg-petrol-50"><div className="h-full rounded-full bg-leaf-500" style={{ width: `${enr.length ? (done / enr.length) * 100 : 0}%` }} /></div>
                                   <span className="app-number text-xs">{done}</span>
                                 </div>
                               </td>
-                              <td className="px-5 py-3">
+                              <td data-label="Status" className="px-5 py-3">
                                 <span className={`stamp ${c.status === 'PUBLISHED' ? 'stamp-approved' : 'stamp-draft'}`}>{c.status === 'PUBLISHED' ? 'Published' : 'Draft'}</span>
                               </td>
-                              <td className="px-5 py-3 text-right">
+                              <td className="rt-action px-5 py-3 text-right">
                                 <Link href={`/admin/training/courses/${c.id}`} className="btn-secondary px-3 py-1.5 text-xs">
                                   <Pencil size={13} /> Edit
                                 </Link>

@@ -27,7 +27,7 @@ export default function ProfilePage() {
 
   return (
     <RoleGuard role={['APPLICANT', 'TRAINEE']}>
-      <div className="mx-auto max-w-5xl px-4 py-8 sm:px-8">
+      <div className="mx-auto max-w-5xl px-4 py-6 sm:px-8 sm:py-8">
         <div className="relative overflow-hidden rounded-3xl bg-petrol-600 p-6 text-white">
           <div className="shell-stripe absolute inset-x-0 top-0 h-1" />
           <div className="flex flex-wrap items-center gap-5">
@@ -118,15 +118,15 @@ export default function ProfilePage() {
         {payments.length > 0 && (
           <div className="card mt-6">
             <h2 className="flex items-center gap-2 font-display text-sm font-semibold text-ink"><Receipt size={16} /> Payment history</h2>
-            <table className="mt-3 w-full text-sm">
+            <table className="rtable rtable-flush mt-3 w-full text-sm">
               <tbody className="divide-y divide-petrol-50">
                 {payments.map((p) => (
                   <tr key={p.id}>
                     <td className="py-2.5 text-ink">{p.description}</td>
-                    <td className="app-number py-2.5 text-xs text-slate-400">{p.receiptNo}</td>
-                    <td className="py-2.5 text-xs text-slate-500">{p.method === 'CARD' ? `${p.cardBrand} •••• ${p.cardLast4}` : 'Apple Pay'}</td>
-                    <td className="py-2.5 text-xs text-slate-500">{fmtDateTime(p.at)}</td>
-                    <td className="app-number py-2.5 text-right font-medium">{p.total.toFixed(3)} OMR</td>
+                    <td data-label="Receipt" className="app-number py-2.5 text-xs text-slate-400">{p.receiptNo}</td>
+                    <td data-label="Paid with" className="py-2.5 text-xs text-slate-500">{p.method === 'CARD' ? `${p.cardBrand} •••• ${p.cardLast4}` : 'Apple Pay'}</td>
+                    <td data-label="Date" className="py-2.5 text-xs text-slate-500">{fmtDateTime(p.at)}</td>
+                    <td data-label="Total" className="app-number py-2.5 text-right font-medium">{p.total.toFixed(3)} OMR</td>
                   </tr>
                 ))}
               </tbody>

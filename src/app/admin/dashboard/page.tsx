@@ -32,7 +32,7 @@ export default function AdminDashboard() {
 
   return (
     <RoleGuard role="ADMIN">
-      <div className="mx-auto max-w-7xl space-y-6 px-4 py-8 sm:px-8">
+      <div className="mx-auto max-w-7xl space-y-6 px-4 py-6 sm:px-8 sm:py-8">
         <DashboardHero name={currentUser?.fullName ?? ''} subtitle="Network overview across every Shell station: permits, competence, HSSE and journeys.">
           <Link href="/admin/users" className="btn-shell"><Upload size={15} /> Import workers</Link>
           <Link href="/hsse" className="inline-flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2 text-sm font-medium ring-1 ring-white/20 hover:bg-white/20"><ShieldAlert size={15} /> HSSE control room</Link>

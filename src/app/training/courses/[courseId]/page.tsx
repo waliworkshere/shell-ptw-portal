@@ -26,7 +26,7 @@ export default function CourseOverviewPage() {
   if (!course || course.status !== 'PUBLISHED') {
     return (
       <RoleGuard role={['TRAINEE', 'APPLICANT']}>
-        <div className="mx-auto max-w-3xl px-8 py-10 text-sm text-slate-500">This course isn&apos;t available.</div>
+        <div className="mx-auto max-w-3xl px-4 py-6 sm:px-8 sm:py-10 text-sm text-slate-500">This course isn&apos;t available.</div>
       </RoleGuard>
     );
   }
@@ -50,7 +50,7 @@ export default function CourseOverviewPage() {
 
   return (
     <RoleGuard role={['TRAINEE', 'APPLICANT']}>
-      <div className="mx-auto max-w-4xl px-8 py-10">
+      <div className="mx-auto max-w-4xl px-4 py-6 sm:px-8 sm:py-10">
         <Link href="/training" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-ink">
           <ArrowLeft size={15} /> My learning
         </Link>
@@ -135,13 +135,13 @@ export default function CourseOverviewPage() {
             const unlocked = isLessonUnlocked(course, enrollment, i);
             const Icon = lesson.type === 'VIDEO' ? Video : BookOpen;
             const row = (
-              <div className="flex items-center gap-4 px-6 py-4">
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-4 sm:px-6">
                 <span className="app-number w-6 text-sm text-slate-400">{String(i + 1).padStart(2, '0')}</span>
-                <div className="min-w-0 flex-1">
+                <div className="min-w-0 flex-1 basis-[60%]">
                   <p className="text-sm font-medium text-ink">{lesson.title}</p>
-                  <p className="mt-0.5 flex items-center gap-3 text-xs text-slate-400">
-                    <span className="inline-flex items-center gap-1"><Icon size={12} /> {lesson.type === 'VIDEO' ? 'Video' : 'Reading'}, {lesson.durationMins} min</span>
-                    <span className="inline-flex items-center gap-1"><FileQuestion size={12} /> Quiz, {lesson.quiz.length} questions</span>
+                  <p className="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-slate-400">
+                    <span className="inline-flex items-center gap-1 whitespace-nowrap"><Icon size={12} /> {lesson.type === 'VIDEO' ? 'Video' : 'Reading'}, {lesson.durationMins} min</span>
+                    <span className="inline-flex items-center gap-1 whitespace-nowrap"><FileQuestion size={12} /> Quiz, {lesson.quiz.length} questions</span>
                   </p>
                 </div>
                 {lp.passed ? (

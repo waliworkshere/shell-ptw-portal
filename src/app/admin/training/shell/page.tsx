@@ -17,7 +17,7 @@ const PREVIEW = [
 export default function ShellImportPage() {
   return (
     <RoleGuard role="ADMIN">
-      <div className="mx-auto max-w-4xl px-8 py-10">
+      <div className="mx-auto max-w-4xl px-4 py-6 sm:px-8 sm:py-10">
         <Link href="/admin/training" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-ink">
           <ArrowLeft size={15} /> Training and courses
         </Link>
@@ -81,7 +81,7 @@ export default function ShellImportPage() {
             <h2 className="font-display text-sm font-semibold text-ink">Catalogue preview</h2>
             <span className="text-xs text-slate-400">Example rows to show the layout</span>
           </div>
-          <table className="mt-4 w-full text-sm">
+          <table className="rtable rtable-flush mt-4 w-full text-sm">
             <thead>
               <tr className="border-b border-petrol-100 text-left text-xs text-slate-400">
                 <th className="py-2 font-medium">Course</th>
@@ -97,9 +97,9 @@ export default function ShellImportPage() {
                     <p className="text-ink">{c.title}</p>
                     <p className="app-number text-xs text-slate-400">{c.code}</p>
                   </td>
-                  <td className="app-number py-3">{c.lessons}</td>
-                  <td className="py-3">{c.format}</td>
-                  <td className="py-3 text-right">
+                  <td data-label="Lessons" className="app-number py-3">{c.lessons}</td>
+                  <td data-label="Format" className="py-3">{c.format}</td>
+                  <td className="rt-action py-3 text-right">
                     <button disabled className="btn-secondary px-3 py-1.5 text-xs opacity-50">Import</button>
                   </td>
                 </tr>

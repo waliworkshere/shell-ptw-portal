@@ -14,7 +14,7 @@ body {
 @layer components {
 /* ---- Signature element: status shown as a permit stamp, not a pill ---- */
 .stamp {
-  @apply inline-flex items-center gap-1.5 rounded border-2 border-dashed px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider;
+  @apply inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded border-2 border-dashed px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider;
   font-family: var(--font-mono);
 }
 .stamp-draft { @apply border-slate-400 text-slate-500; }
@@ -114,3 +114,33 @@ html[dir='rtl'] input[inputmode='numeric'] {
 }
 html[dir='rtl'] .lang-en { display: none !important; }
 html:not([dir='rtl']) .lang-ar { display: none !important; }
+
+/* ---- Phones ---- */
+body {
+  overflow-wrap: break-word;
+}
+@media (max-width: 639px) {
+  /* Tables marked .rtable become stacked cards: first cell is the title, the rest are label/value rows. */
+  .rtable { min-width: 0 !important; }
+  .rtable thead { display: none; }
+  .rtable, .rtable tbody, .rtable tr, .rtable td { display: block; width: 100%; }
+  .rtable tr { padding: 14px 16px; border-top: 1px solid #EEF2F7; }
+  .rtable tr:first-child { border-top: 0; }
+  .rtable td { padding: 0 !important; text-align: start !important; }
+  .rtable td + td { margin-top: 6px; }
+  .rtable td[data-label] {
+    display: flex; align-items: center; justify-content: flex-start; gap: 4px;
+    font-size: 13px;
+  }
+  .rtable td[data-label]::before {
+    content: attr(data-label);
+    flex-shrink: 0;
+    margin-inline-end: auto;
+    padding-inline-end: 12px;
+    font-size: 11px; font-weight: 500; color: #94A3B8;
+  }
+  .rtable td.rt-hide { display: none; }
+  .rtable td.rt-action { margin-top: 10px; }
+  .rtable td.rt-action > * { width: 100%; justify-content: center; }
+  .rtable-flush tr { padding-left: 0; padding-right: 0; }
+}

@@ -102,7 +102,7 @@ export function SosButton() {
           }
           setOpen(true);
         }}
-        className={`fixed bottom-5 end-5 z-[61] flex h-16 w-16 flex-col items-center justify-center rounded-full bg-rust-500 text-white shadow-xl ring-4 ring-white transition hover:scale-105 hover:bg-rust-600 no-print ${mineActive ? 'animate-pulse-ring' : ''}`}
+        className={`fixed bottom-4 end-4 z-[61] flex h-14 w-14 sm:bottom-5 sm:end-5 sm:h-16 sm:w-16 flex-col items-center justify-center rounded-full bg-rust-500 text-white shadow-xl ring-4 ring-white transition hover:scale-105 hover:bg-rust-600 no-print ${mineActive ? 'animate-pulse-ring' : ''}`}
         aria-label="SOS — See it, Own it, Stop it"
       >
         <Siren size={22} />

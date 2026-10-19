@@ -33,7 +33,7 @@ export default function ApplicantDashboard() {
 
   return (
     <RoleGuard role="APPLICANT">
-      <div className="mx-auto max-w-7xl space-y-6 px-4 py-8 sm:px-8">
+      <div className="mx-auto max-w-7xl space-y-6 px-4 py-6 sm:px-8 sm:py-8">
         <DashboardHero name={currentUser?.fullName ?? ''} subtitle={`${currentUser?.company ?? ''}${currentUser?.imported ? ' · account imported from Shell records' : ''}`}>
           <Link href="/applicant/applications/new" className="btn-shell"><Plus size={16} /> New permit request</Link>
         </DashboardHero>
@@ -119,9 +119,9 @@ export default function ApplicantDashboard() {
           <div className="card lg:col-span-2 p-0">
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-petrol-100 px-5 py-4">
               <h2 className="font-display text-sm font-semibold text-ink">My permit requests</h2>
-              <div className="relative">
+              <div className="relative w-full sm:w-auto">
                 <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                <input className="input w-56 py-1.5 pl-8" placeholder="Search" value={q} onChange={(e) => setQ(e.target.value)} />
+                <input className="input w-full py-1.5 pl-8 sm:w-56" placeholder="Search" value={q} onChange={(e) => setQ(e.target.value)} />
               </div>
             </div>
             {shown.length === 0 ? (

@@ -32,7 +32,7 @@ export default function JourneyDetailPage() {
   if (!j) {
     return (
       <RoleGuard role={['APPLICANT', 'APPROVER', 'ADMIN', 'STATION']}>
-        <div className="mx-auto max-w-3xl px-8 py-10 text-sm text-slate-500">Journey not found.</div>
+        <div className="mx-auto max-w-3xl px-4 py-6 sm:px-8 sm:py-10 text-sm text-slate-500">Journey not found.</div>
       </RoleGuard>
     );
   }
@@ -47,7 +47,7 @@ export default function JourneyDetailPage() {
 
   return (
     <RoleGuard role={['APPLICANT', 'APPROVER', 'ADMIN', 'STATION']}>
-      <div className="mx-auto max-w-6xl px-8 py-10">
+      <div className="mx-auto max-w-6xl px-4 py-6 sm:px-8 sm:py-10">
         <Link href={backHref} className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-ink">
           <ArrowLeft size={15} /> Back
         </Link>

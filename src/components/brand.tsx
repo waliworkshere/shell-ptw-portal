@@ -44,7 +44,9 @@ export function PrototypeRibbon() {
     <div className="flex items-center justify-center gap-2 bg-ink px-4 py-1.5 text-center text-[11px] text-white/80">
       <FlaskConical size={12} className="text-sand-400" />
       <span>
-        <b className="text-white"><span data-no-translate>Gemsafety</span> prototype</b> · demo data only · no real payments, no data leaves your browser
+        <b className="text-white"><span data-no-translate>Gemsafety</span> prototype</b>
+        <span className="sm:hidden"> · demo data only</span>
+        <span className="hidden sm:inline"> · demo data only · no real payments, no data leaves your browser</span>
       </span>
     </div>
   );

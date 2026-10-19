@@ -23,7 +23,7 @@ export default function RegisterPermitHolderPage() {
 
   return (
     <RoleGuard role="TRAINEE">
-      <div className="mx-auto max-w-3xl px-8 py-10">
+      <div className="mx-auto max-w-3xl px-4 py-6 sm:px-8 sm:py-10">
         <PageHeader
           title="Become a Permit Holder"
           subtitle="Once every required course is complete, register here. An administrator checks your details and activates your Permit Holder account, which lets you request permits and plan journeys."

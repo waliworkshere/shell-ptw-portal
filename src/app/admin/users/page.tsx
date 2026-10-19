@@ -46,7 +46,7 @@ export default function AdminUsersPage() {
 
   return (
     <RoleGuard role="ADMIN">
-      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-8">
+      <div className="mx-auto max-w-6xl px-4 py-6 sm:px-8 sm:py-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h1 className="font-display text-2xl font-semibold text-ink">Users &amp; imports</h1>
@@ -98,7 +98,7 @@ export default function AdminUsersPage() {
             </div>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[820px] text-left text-sm">
+            <table className="rtable w-full min-w-[820px] text-left text-sm">
               <thead>
                 <tr className="text-xs uppercase text-slate-400">
                   <th className="px-5 py-3">Name</th>
@@ -117,8 +117,8 @@ export default function AdminUsersPage() {
                       <td className="px-5 py-3">
                         <div className="flex items-center gap-3">
                           <span className="flex h-8 w-8 items-center justify-center rounded-full bg-petrol-500 text-[11px] font-semibold text-white">{initials(u.fullName)}</span>
-                          <div>
-                            <p className="flex items-center gap-1.5 font-medium text-ink">
+                          <div className="min-w-0">
+                            <p className="flex flex-wrap items-center gap-1.5 font-medium text-ink">
                               {u.fullName}
                               {u.imported && <span className="inline-flex items-center gap-0.5 rounded bg-leaf-50 px-1.5 py-0.5 text-[10px] font-semibold text-leaf-700"><History size={10} /> Imported</span>}
                               {u.faceEnrolledAt && <ScanFace size={13} className="text-leaf-600" aria-label="Face enrolled" />}
@@ -127,11 +127,11 @@ export default function AdminUsersPage() {
                           </div>
                         </div>
                       </td>
-                      <td className="app-number px-5 py-3 text-xs text-slate-500">{u.username}</td>
-                      <td className="app-number px-5 py-3 text-xs text-slate-500">{maskCivilId(u.civilId)}</td>
-                      <td className="px-5 py-3"><span className="rounded bg-petrol-50 px-2 py-0.5 text-xs font-medium text-petrol-600">{ROLE_LABEL[u.role]}</span></td>
-                      <td className="px-5 py-3 text-slate-500">{u.stationId ? state.stations.find((s) => s.id === u.stationId)?.name : u.company ?? '—'}</td>
-                      <td className="app-number px-5 py-3">{certs || '—'}</td>
+                      <td data-label="Username" className="app-number px-5 py-3 text-xs text-slate-500">{u.username}</td>
+                      <td data-label="Civil ID" className="app-number px-5 py-3 text-xs text-slate-500">{maskCivilId(u.civilId)}</td>
+                      <td data-label="Role" className="px-5 py-3"><span className="rounded bg-petrol-50 px-2 py-0.5 text-xs font-medium text-petrol-600">{ROLE_LABEL[u.role]}</span></td>
+                      <td data-label="Company / station" className="px-5 py-3 text-slate-500">{u.stationId ? state.stations.find((s) => s.id === u.stationId)?.name : u.company ?? '—'}</td>
+                      <td data-label="Certificates" className="app-number px-5 py-3">{certs || '—'}</td>
                     </tr>
                   );
                 })}

@@ -18,7 +18,7 @@ export default function MyJourneysPage() {
 
   return (
     <RoleGuard role="APPLICANT">
-      <div className="mx-auto max-w-4xl px-8 py-10">
+      <div className="mx-auto max-w-4xl px-4 py-6 sm:px-8 sm:py-10">
         <PageHeader
           title="My journeys"
           subtitle={`Plan any business journey over ${JM_RULES.jmpRequiredOverKm} km or outside city limits. A Journey Manager approves the plan, then you call in at each stop until you arrive.`}

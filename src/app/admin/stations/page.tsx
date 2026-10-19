@@ -24,13 +24,13 @@ export default function AdminStationsPage() {
 
   return (
     <RoleGuard role="ADMIN">
-      <div className="mx-auto max-w-4xl px-8 py-10">
-        <div className="flex items-center justify-between">
-          <div>
+      <div className="mx-auto max-w-4xl px-4 py-6 sm:px-8 sm:py-10">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="min-w-0 flex-1">
             <h1 className="font-display text-xl font-semibold text-ink">Fuel stations</h1>
             <p className="mt-1 text-sm text-slate-500">Stations that can receive permit applications.</p>
           </div>
-          <button onClick={() => setShowForm((v) => !v)} className="btn-primary">
+          <button onClick={() => setShowForm((v) => !v)} className="btn-primary whitespace-nowrap">
             {showForm ? <X size={16} /> : <Plus size={16} />}
             {showForm ? 'Cancel' : 'Add station'}
           </button>

@@ -18,7 +18,7 @@ export default function CertificatesPage() {
 
   return (
     <RoleGuard role={['TRAINEE', 'APPLICANT']}>
-      <div className="mx-auto max-w-5xl px-4 py-8 sm:px-8">
+      <div className="mx-auto max-w-5xl px-4 py-6 sm:px-8 sm:py-8">
         <PageHeader title="Certificates" subtitle="Every course you complete issues a certificate with its own number and expiry date." />
 
         {rows.length === 0 ? (
@@ -29,7 +29,7 @@ export default function CertificatesPage() {
           </div>
         ) : (
           <div className="card mt-6 overflow-x-auto p-0">
-            <table className="w-full min-w-[640px] text-sm">
+            <table className="rtable w-full min-w-[640px] text-sm">
               <thead>
                 <tr className="border-b border-petrol-100 text-left text-xs text-slate-400">
                   <th className="px-5 py-3 font-medium">Course</th>
@@ -47,18 +47,18 @@ export default function CertificatesPage() {
                     <tr key={enrollment.id}>
                       <td className="px-5 py-3">
                         <p className="font-medium text-ink">{course.title}</p>
-                        <p className="mt-0.5 flex items-center gap-2 text-xs text-slate-400"><SourceBadge source={course.source} /> <span className="app-number">{course.code}</span>
+                        <p className="mt-0.5 flex flex-wrap items-center gap-2 text-xs text-slate-400"><SourceBadge source={course.source} /> <span className="app-number">{course.code}</span>
                           {enrollment.imported && <span className="inline-flex items-center gap-0.5 rounded bg-leaf-50 px-1.5 py-0.5 text-[10px] font-semibold text-leaf-700"><History size={10} /> Imported</span>}
                         </p>
                       </td>
-                      <td className="app-number px-5 py-3 text-ink">{enrollment.certificateNo}</td>
-                      <td className="app-number px-5 py-3">{enrollment.finalScore}%</td>
-                      <td className="px-5 py-3 text-slate-500">{fmtDate(enrollment.completedAt)}</td>
-                      <td className={`px-5 py-3 ${valid ? 'text-slate-500' : 'font-medium text-rust-500'}`}>
+                      <td data-label="Certificate no." className="app-number px-5 py-3 text-ink">{enrollment.certificateNo}</td>
+                      <td data-label="Score" className="app-number px-5 py-3">{enrollment.finalScore}%</td>
+                      <td data-label="Completed" className="px-5 py-3 text-slate-500">{fmtDate(enrollment.completedAt)}</td>
+                      <td data-label="Valid until" className={`px-5 py-3 ${valid ? 'text-slate-500' : 'font-medium text-rust-500'}`}>
                         {fmtDate(certificateExpiry(course, enrollment))}
                         {!valid && ' (expired)'}
                       </td>
-                      <td className="px-5 py-3 text-right">
+                      <td className="rt-action px-5 py-3 text-right">
                         <button
                           onClick={() => generateCertificatePdf({ course, enrollment, learner: currentUser ?? undefined })}
                           className="btn-secondary px-3 py-1.5 text-xs"

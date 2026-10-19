@@ -65,7 +65,7 @@ export default function RoadmapPage() {
 
   return (
     <RoleGuard role={['TRAINEE', 'APPLICANT']}>
-      <div className="mx-auto max-w-5xl px-4 py-8 sm:px-8">
+      <div className="mx-auto max-w-5xl px-4 py-6 sm:px-8 sm:py-8">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-widest text-sand-600">Training roadmap</p>

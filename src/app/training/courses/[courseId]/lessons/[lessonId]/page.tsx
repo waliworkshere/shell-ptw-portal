@@ -61,7 +61,7 @@ function SimulatedVideo({ title, minutes, onWatched, watched }: { title: string;
         >
           {playing ? <Pause size={26} /> : <Play size={26} className="ml-1" />}
         </button>
-        <p className="absolute bottom-4 right-5 text-[11px] text-white/40">Video placeholder. Playback is simulated in the prototype.</p>
+        <p className="absolute bottom-4 right-5 hidden text-[11px] text-white/40 sm:block">Video placeholder. Playback is simulated in the prototype.</p>
         <div className="absolute left-5 bottom-4 flex items-center gap-1.5 rounded bg-white/10 px-2 py-0.5 text-[10px] font-semibold tracking-wider text-white/80"><span className="h-1.5 w-1.5 rounded-full bg-sand-400" /> SHELL · ARTELIA TRAINING</div>
       </div>
       <div className="flex items-center gap-3 px-4 py-2.5">
@@ -105,7 +105,7 @@ export default function LessonPlayerPage() {
   if (!course || !lesson) {
     return (
       <RoleGuard role={['TRAINEE', 'APPLICANT']}>
-        <div className="mx-auto max-w-3xl px-8 py-10 text-sm text-slate-500">Lesson not found.</div>
+        <div className="mx-auto max-w-3xl px-4 py-6 sm:px-8 sm:py-10 text-sm text-slate-500">Lesson not found.</div>
       </RoleGuard>
     );
   }
@@ -179,7 +179,7 @@ export default function LessonPlayerPage() {
           </ol>
         </aside>
 
-        <div className="mx-auto w-full max-w-3xl px-8 py-10">
+        <div className="mx-auto w-full max-w-3xl px-4 py-6 sm:px-8 sm:py-10">
           <p className="app-number text-xs text-slate-400">
             {course.code} · Lesson {index + 1} of {course.lessons.length}
           </p>

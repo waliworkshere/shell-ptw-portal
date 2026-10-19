@@ -53,11 +53,11 @@ export function JourneyStamp({ status, overdue }: { status: JourneyStatus; overd
 export function PageHeader({ title, subtitle, children }: { title: string; subtitle?: string; children?: React.ReactNode }) {
   return (
     <div className="flex flex-wrap items-start justify-between gap-4">
-      <div>
+      <div className="min-w-0">
         <h1 className="font-display text-xl font-semibold text-ink">{title}</h1>
         {subtitle && <p className="mt-1 max-w-2xl text-sm text-slate-500">{subtitle}</p>}
       </div>
-      {children && <div className="flex flex-wrap items-center gap-2">{children}</div>}
+      {children && <div className="flex flex-wrap items-center gap-2 [&>*]:whitespace-nowrap">{children}</div>}
     </div>
   );
 }

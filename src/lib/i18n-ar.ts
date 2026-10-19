@@ -6,8 +6,17 @@
 export const AR: Record<string, string> = {
   // ---------- Brand / shell ----------
   Prototype: 'نموذج أولي',
+  '· demo data only': '· بيانات تجريبية فقط',
   '· demo data only · no real payments, no data leaves your browser': '· بيانات تجريبية فقط · لا مدفوعات حقيقية، ولا تغادر أي بيانات متصفحك',
   'Permit to Work & Competence': 'تصاريح العمل والكفاءة',
+  Actor: 'المنفّذ',
+  Timestamp: 'الوقت',
+  Receipt: 'الإيصال',
+  'Paid with': 'طريقة الدفع',
+  'Lessons / Qs': 'الدروس / الأسئلة',
+  Length: 'المدة',
+  Format: 'الصيغة',
+  Lessons: 'الدروس',
   prototype: 'نموذج أولي',
   'A Gemsafety account is already registered to Civil ID': 'يوجد حساب Gemsafety مسجّل مسبقًا بالبطاقة المدنية',
   'Everyone with access to Gemsafety. Existing workers can be imported with their certificates.': 'كل من لديه صلاحية الدخول إلى Gemsafety. يمكن استيراد العاملين الحاليين مع شهاداتهم.',

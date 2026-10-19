@@ -26,7 +26,7 @@ export default function ApproverDashboard() {
 
   return (
     <RoleGuard role="APPROVER">
-      <div className="mx-auto max-w-7xl space-y-6 px-4 py-8 sm:px-8">
+      <div className="mx-auto max-w-7xl space-y-6 px-4 py-6 sm:px-8 sm:py-8">
         <DashboardHero name={currentUser?.fullName ?? ''} subtitle={`${queue.length} permit request${queue.length === 1 ? '' : 's'} waiting for you across ${state.stations.length} Shell stations.`} />
 
         {sos.length > 0 && (
@@ -48,11 +48,11 @@ export default function ApproverDashboard() {
           <div className="card p-0 lg:col-span-2">
             <div className="flex flex-wrap items-center gap-2 border-b border-petrol-100 px-5 py-4">
               <h2 className="mr-auto font-display text-sm font-semibold text-ink">Awaiting your review</h2>
-              <div className="relative">
+              <div className="relative w-full sm:w-auto">
                 <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                <input className="input w-48 py-1.5 pl-8" placeholder="Search" value={q} onChange={(e) => setQ(e.target.value)} />
+                <input className="input w-full py-1.5 pl-8 sm:w-48" placeholder="Search" value={q} onChange={(e) => setQ(e.target.value)} />
               </div>
-              <select className="input w-auto py-1.5" value={station} onChange={(e) => setStation(e.target.value)} aria-label="Station">
+              <select className="input w-full py-1.5 sm:w-auto" value={station} onChange={(e) => setStation(e.target.value)} aria-label="Station">
                 <option value="ALL">All stations</option>
                 {state.stations.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
               </select>
@@ -66,8 +66,8 @@ export default function ApproverDashboard() {
                   const pt = state.permitTypes.find((p) => p.id === app.permitTypeId);
                   return (
                     <li key={app.id}>
-                      <Link href={`/approver/applications/${app.id}`} className="flex flex-wrap items-center gap-3 px-5 py-3.5 hover:bg-petrol-50/50">
-                        <div className="min-w-0 flex-1">
+                      <Link href={`/approver/applications/${app.id}`} className="flex flex-wrap items-center gap-x-3 gap-y-2 px-4 py-3.5 sm:px-5 hover:bg-petrol-50/50">
+                        <div className="w-full min-w-0 sm:w-auto sm:flex-1">
                           <p className="text-sm font-medium text-ink">{app.applicantName} <span className="app-number ml-1 text-xs text-slate-400">{app.applicationNumber}</span></p>
                           <p className="truncate text-xs text-slate-400">{pt?.name} · {st?.name} · {fmtDate(app.updatedAt)}</p>
                         </div>

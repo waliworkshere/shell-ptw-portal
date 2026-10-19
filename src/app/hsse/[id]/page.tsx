@@ -40,7 +40,7 @@ export default function HsseDetailPage() {
 
   return (
     <RoleGuard role={[...ALL]}>
-      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-8">
+      <div className="mx-auto max-w-6xl px-4 py-6 sm:px-8 sm:py-8">
         <Link href="/hsse" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-ink"><ArrowLeft size={15} /> SOS reports</Link>
         <div className="mt-4 flex flex-wrap items-start justify-between gap-4">
           <div>
@@ -120,7 +120,7 @@ export default function HsseDetailPage() {
                   className="mt-3 flex flex-wrap gap-2"
                 >
                   <input className="input min-w-[200px] flex-1" placeholder="New action" value={action} onChange={(e) => setAction(e.target.value)} />
-                  <input className="input w-40" placeholder="Owner" value={owner} onChange={(e) => setOwner(e.target.value)} />
+                  <input className="input w-full sm:w-40" placeholder="Owner" value={owner} onChange={(e) => setOwner(e.target.value)} />
                   <button className="btn-secondary"><Plus size={15} /> Add</button>
                 </form>
               )}

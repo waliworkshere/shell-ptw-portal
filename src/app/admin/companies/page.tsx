@@ -53,7 +53,7 @@ export default function CompaniesPage() {
 
   return (
     <RoleGuard role="ADMIN">
-      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-8">
+      <div className="mx-auto max-w-6xl px-4 py-6 sm:px-8 sm:py-8">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <h1 className="font-display text-2xl font-semibold text-ink">Companies &amp; contractor ranking</h1>
@@ -65,7 +65,7 @@ export default function CompaniesPage() {
         <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
           <Kpi icon={Building2} label="Approved companies" value={approved} tone="green" hint={`${state.companies.length - approved} suspended`} />
           <Kpi icon={Users} label="Contractor workers" value={totalPeople} tone="navy" />
-          <Kpi icon={Trophy} label="Largest contractor" value={<span className="text-lg">{[...rows].sort((a, b) => b.people - a.people)[0]?.company.name ?? '—'}</span>} tone="yellow" />
+          <Kpi icon={Trophy} label="Largest contractor" value={<span className="block text-base leading-snug sm:text-lg">{[...rows].sort((a, b) => b.people - a.people)[0]?.company.name ?? '—'}</span>} tone="yellow" />
           <Kpi icon={Award} label="Certificates held" value={rows.reduce((a, r) => a + r.certs, 0)} tone="green" />
         </div>
 
@@ -109,7 +109,7 @@ export default function CompaniesPage() {
             </div>
 
             <div className="card overflow-x-auto p-0">
-              <table className="w-full min-w-[860px] text-sm">
+              <table className="rtable w-full min-w-[860px] text-sm">
                 <thead>
                   <tr className="border-b border-petrol-100 text-left text-xs text-slate-400">
                     <th className="px-5 py-3 font-medium">Rank</th>
@@ -126,14 +126,14 @@ export default function CompaniesPage() {
                 <tbody className="divide-y divide-petrol-50">
                   {ranked.map((r, i) => (
                     <tr key={r.company.id} className="hover:bg-petrol-50/40">
-                      <td className="px-5 py-3">
+                      <td className="rt-hide px-5 py-3">
                         <span className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold ${i < 3 ? 'bg-sand-500 text-ink' : 'bg-petrol-50 text-slate-500'}`}>{i + 1}</span>
                       </td>
                       <td className="px-5 py-3">
-                        <p className="font-medium text-ink">{r.company.name}</p>
+                        <p className="font-medium text-ink"><span className="app-number me-1.5 text-slate-400 sm:hidden">#{i + 1}</span>{r.company.name}</p>
                         <p className="text-xs text-slate-400">CR {r.company.crNumber} · {r.company.category}</p>
                       </td>
-                      <td className="px-5 py-3">
+                      <td className="px-5 py-3 pb-1">
                         <div className="flex items-center gap-2">
                           <div className="h-2 flex-1 overflow-hidden rounded-full bg-petrol-50">
                             <div className="h-full rounded-full bg-[#2F6DB5] transition-all" style={{ width: `${(r[sort] / max) * 100}%` }} />
@@ -141,12 +141,12 @@ export default function CompaniesPage() {
                           <span className="app-number w-6 text-right text-xs font-semibold">{r[sort]}</span>
                         </div>
                       </td>
-                      <td className="app-number px-5 py-3">{r.people}</td>
-                      <td className="app-number px-5 py-3 text-slate-500">{r.holders} / {r.trainees}</td>
-                      <td className="app-number px-5 py-3">{r.certs}</td>
-                      <td className="app-number px-5 py-3">{r.passports}{r.people ? <span className="ml-1 text-xs text-slate-400">({Math.round((r.passports / r.people) * 100)}%)</span> : null}</td>
-                      <td className="app-number px-5 py-3">{r.permits}</td>
-                      <td className="app-number px-5 py-3">{r.reports}</td>
+                      <td data-label="People" className="app-number px-5 py-3">{r.people}</td>
+                      <td data-label="Holders / Trainees" className="app-number px-5 py-3 text-slate-500">{r.holders} / {r.trainees}</td>
+                      <td data-label="Certificates" className="app-number px-5 py-3">{r.certs}</td>
+                      <td data-label="Valid passports" className="app-number px-5 py-3">{r.passports}{r.people ? <span className="ml-1 text-xs text-slate-400">({Math.round((r.passports / r.people) * 100)}%)</span> : null}</td>
+                      <td data-label="Permits" className="app-number px-5 py-3">{r.permits}</td>
+                      <td data-label="SOS reports" className="app-number px-5 py-3">{r.reports}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -190,7 +190,7 @@ export default function CompaniesPage() {
                 {rows
                   .filter((r) => !q || r.company.name.toLowerCase().includes(q.toLowerCase()))
                   .map((r) => (
-                    <li key={r.company.id} className="flex flex-wrap items-center gap-3 px-5 py-3.5">
+                    <li key={r.company.id} className="flex flex-wrap items-center gap-3 px-4 py-3.5 sm:px-5">
                       <span className={`flex h-9 w-9 items-center justify-center rounded-xl ${r.company.status === 'APPROVED' ? 'bg-leaf-50 text-leaf-600' : 'bg-rust-50 text-rust-500'}`}><Building2 size={17} /></span>
                       <div className="min-w-0 flex-1">
                         <p className="font-medium text-ink">{r.company.name}</p>

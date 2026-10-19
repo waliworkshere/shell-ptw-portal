@@ -111,7 +111,7 @@ export function Donut({ data, size = 168, centerLabel, centerSub }: { data: { la
 export function BarChart({ data, height = 160, color = CHART.blue, unit = '' }: { data: { label: string; value: number; sub?: string }[]; height?: number; color?: string; unit?: string }) {
   const [hover, setHover] = useState<number | null>(null);
   const max = Math.max(1, ...data.map((d) => d.value));
-  const ticks = [0, Math.ceil(max / 2), max];
+  const ticks = max === 1 ? [0, 1] : [0, Math.ceil(max / 2), max];
   return (
     <div className="relative">
       <div className="flex gap-2" style={{ height }}>
@@ -173,18 +173,18 @@ export function Kpi({
   }[tone];
   const body = (
     <>
-      <div className="flex items-start justify-between">
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{label}</p>
-        <span className={`flex h-9 w-9 items-center justify-center rounded-xl ${t}`}><Icon size={18} /></span>
+      <div className="flex items-start justify-between gap-2">
+        <p className="min-w-0 text-[11px] font-semibold uppercase tracking-normal text-slate-400 [overflow-wrap:normal] sm:text-xs sm:tracking-wide">{label}</p>
+        <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl sm:h-9 sm:w-9 ${t}`}><Icon size={17} /></span>
       </div>
-      <p className="mt-1 font-display text-3xl font-semibold text-ink">{value}</p>
+      <p className="mt-1 font-display text-2xl font-semibold text-ink sm:text-3xl">{value}</p>
       {hint && <p className="mt-1 text-xs text-slate-500">{hint}</p>}
     </>
   );
   return href ? (
-    <Link href={href} className="card card-hover block p-5">{body}</Link>
+    <Link href={href} className="card card-hover block p-4 sm:p-5">{body}</Link>
   ) : (
-    <div className="card p-5">{body}</div>
+    <div className="card p-4 sm:p-5">{body}</div>
   );
 }
 

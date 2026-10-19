@@ -149,7 +149,7 @@ export default function NewJourneyPage() {
 
   return (
     <RoleGuard role="APPLICANT">
-      <div className="mx-auto max-w-3xl px-8 py-10">
+      <div className="mx-auto max-w-3xl px-4 py-6 sm:px-8 sm:py-10">
         <Link href="/journeys" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-ink">
           <ArrowLeft size={15} /> My journeys
         </Link>

@@ -8,7 +8,7 @@ import { StatusStamp } from '@/components/status-stamp';
 import { generatePermitPdf } from '@/lib/permit-pdf';
 import { RISK_LABEL } from '@/lib/types';
 import Link from 'next/link';
-import { qualification } from '@/lib/training';
+import { fmtDate, qualification } from '@/lib/training';
 import { ArrowLeft, FileImage, Check, X, MessageSquareWarning, Video, Camera, PhoneOff, Download } from 'lucide-react';
 
 export default function ApplicationReviewPage() {
@@ -30,7 +30,7 @@ export default function ApplicationReviewPage() {
   if (!app) {
     return (
       <RoleGuard role="APPROVER">
-        <div className="mx-auto max-w-3xl px-8 py-10 text-sm text-slate-500">Application not found.</div>
+        <div className="mx-auto max-w-3xl px-4 py-6 sm:px-8 sm:py-10 text-sm text-slate-500">Application not found.</div>
       </RoleGuard>
     );
   }
@@ -100,18 +100,18 @@ export default function ApplicationReviewPage() {
 
   return (
     <RoleGuard role="APPROVER">
-      <div className="mx-auto max-w-4xl px-8 py-10">
+      <div className="mx-auto max-w-4xl px-4 py-6 sm:px-8 sm:py-10">
         <Link href="/approver/dashboard" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-ink">
           <ArrowLeft size={15} /> Back to queue
         </Link>
 
-        <div className="mt-4 flex items-center justify-between">
-          <div>
+        <div className="mt-4 flex flex-wrap items-start justify-between gap-3">
+          <div className="min-w-0">
             <h1 className="app-number font-display text-xl font-semibold text-ink">{app.applicationNumber}</h1>
             <p className="mt-1 text-sm text-slate-500">{permitType?.name} — {station?.name}</p>
           </div>
           <div className="flex items-center gap-2">
-            <span className="rounded-full border border-petrol-100 px-2.5 py-1 text-xs font-medium text-petrol-600">{RISK_LABEL[app.riskLevel]}</span>
+            <span className="whitespace-nowrap rounded-full border border-petrol-100 px-2.5 py-1 text-xs font-medium text-petrol-600">{RISK_LABEL[app.riskLevel]}</span>
             <StatusStamp status={app.status} />
           </div>
         </div>
@@ -153,7 +153,7 @@ export default function ApplicationReviewPage() {
                 {permitType?.fields.map((f) => (
                   <div key={f.key}>
                     <dt className="text-xs text-slate-400">{f.label}</dt>
-                    <dd className="text-ink">{app.fieldValues[f.key] || '—'}</dd>
+                    <dd className="text-ink">{/^\d{4}-\d{2}-\d{2}T/.test(app.fieldValues[f.key] ?? '') ? fmtDate(app.fieldValues[f.key]) : app.fieldValues[f.key] || '—'}</dd>
                   </div>
                 ))}
               </dl>

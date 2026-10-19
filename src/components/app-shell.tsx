@@ -309,7 +309,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </div>
           </header>
 
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 pb-24 lg:pb-0">{children}</main>
         </div>
       </div>
       <SosButton />
