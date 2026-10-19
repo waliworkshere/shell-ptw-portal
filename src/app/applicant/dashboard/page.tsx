@@ -110,7 +110,7 @@ export default function ApplicantDashboard() {
 
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <QuickAction href="/applicant/applications/new" icon={FilePlus2} label="Request a permit" sub="6 quick steps" />
-          <QuickAction href="/hsse/report" icon={Megaphone} label="Report NM / PI" sub={`${myReports} report${myReports === 1 ? '' : 's'} so far`} tone="red" />
+          <QuickAction href="/hsse/report" icon={Megaphone} label="SOS report" sub="See it · Own it · Stop it" tone="red" />
           <QuickAction href="/training/roadmap" icon={Map} label="Training roadmap" sub="Shell → Artelia → Local" tone="yellow" />
           <QuickAction href="/profile" icon={ScanFace} label="Face recognition" sub={currentUser?.faceEnrolledAt ? 'Enrolled' : 'Enrol now'} tone="green" />
         </div>

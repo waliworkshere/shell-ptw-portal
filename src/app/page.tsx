@@ -7,6 +7,7 @@ import { useStore } from '@/lib/store';
 import { ROLE_LABEL, Role, User } from '@/lib/types';
 import { ROLE_HOME, initials } from '@/lib/roles';
 import { ArteliaLogo, PrototypeRibbon, ShellLogo } from '@/components/brand';
+import { LangToggle } from '@/components/i18n';
 import {
   ArrowRight,
   BadgeCheck,
@@ -121,7 +122,7 @@ export default function LoginPage() {
                   [ClipboardCheck, 'Digital Permit to Work'],
                   [GraduationCap, 'Training roadmap & courses'],
                   [Contact, 'Safety Passport with QR'],
-                  [Siren, 'SOS and NM / PI reporting'],
+                  [Siren, 'SOS: See it · Own it · Stop it'],
                 ].map(([Icon, label]) => {
                   const I = Icon as React.ElementType;
                   return (
@@ -148,7 +149,10 @@ export default function LoginPage() {
               <ArteliaLogo height={22} />
             </div>
 
-            <h2 className="font-display text-2xl font-semibold text-ink">Sign in</h2>
+            <div className="flex items-center justify-between gap-3">
+              <h2 className="font-display text-2xl font-semibold text-ink">Sign in</h2>
+              <LangToggle />
+            </div>
             <p className="mt-1 text-sm text-slate-500">Use your portal username, or your Civil ID card.</p>
 
             <div className="mt-6 grid grid-cols-2 rounded-xl bg-petrol-50 p-1 text-sm font-medium" role="tablist">

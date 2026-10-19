@@ -1,14 +1,14 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
-import { AppState, Application, ApplicationStatus, User, FuelStation, PermitType, UploadedDocument, RiskLevel, CallStatus, CallScreenshot, Course, Lesson, Enrollment, PermitHolderRegistration, JourneyPlan, Payment, PaymentMethod, HsseReport, HsseStatus, SosAlert, HSSE_TYPE_SHORT } from './types';
+import { AppState, Application, ApplicationStatus, User, FuelStation, PermitType, UploadedDocument, RiskLevel, CallStatus, CallScreenshot, Course, Lesson, Enrollment, PermitHolderRegistration, JourneyPlan, Payment, PaymentMethod, HsseReport, HsseStatus, SosAlert, HSSE_TYPE_SHORT, Company } from './types';
 import { nextCertificateNumber } from './training';
 import { ROLE_LABEL } from './types';
 import { nextJmpNumber } from './journey';
 import { seedState, IMPORT_SAMPLE } from './mock-data';
 import { preloadBrand } from './brand-assets';
 
-const STORAGE_KEY = 'shell-ptw-prototype-state-v3';
+const STORAGE_KEY = 'shell-ptw-prototype-state-v4';
 
 interface StoreContextValue {
   state: AppState;
@@ -24,7 +24,9 @@ interface StoreContextValue {
   purchaseCourse: (courseId: string, method: PaymentMethod, card?: { last4: string; brand: string }) => Payment;
   enrolFace: (photo: string) => void;
   recordFaceCheck: (context: string, score: number, passed: boolean) => void;
-  createHsseReport: (input: Omit<HsseReport, 'id' | 'refNo' | 'status' | 'actions' | 'createdAt' | 'timeline' | 'reporterId' | 'reporterName'>) => HsseReport;
+  createHsseReport: (input: Omit<HsseReport, 'id' | 'refNo' | 'status' | 'actions' | 'createdAt' | 'timeline' | 'reporterId' | 'reporterName' | 'type'>) => HsseReport;
+  addCompany: (c: Pick<Company, 'name' | 'crNumber' | 'category'>) => void;
+  setCompanyStatus: (id: string, status: Company['status']) => void;
   setHsseStatus: (id: string, status: HsseStatus, note: string) => void;
   addHsseAction: (id: string, text: string, owner: string) => void;
   toggleHsseAction: (id: string, actionId: string) => void;
@@ -783,12 +785,14 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const createHsseReport: StoreContextValue['createHsseReport'] = useCallback((input) => {
     const s0 = stateRef.current;
     const user = s0.users.find((u) => u.id === s0.currentUserId);
-    const prefix = HSSE_TYPE_SHORT[input.type];
+    const primary = input.types[0] ?? 'NEAR_MISS';
+    const prefix = input.types.length > 1 ? 'SOS' : HSSE_TYPE_SHORT[primary];
     const max = s0.hsseReports.filter((r) => r.refNo.startsWith(prefix)).reduce((a, r) => Math.max(a, parseInt(r.refNo.split('-').pop() ?? '0', 10)), 0);
     const nowIso = new Date().toISOString();
     const reporterName = input.anonymous ? 'Anonymous' : user?.fullName ?? 'Unknown';
     const report: HsseReport = {
       ...input,
+      type: primary,
       id: `hs-${Date.now()}`,
       refNo: `${prefix}-2026-${String(max + 1).padStart(4, '0')}`,
       reporterId: input.anonymous ? undefined : user?.id,
@@ -828,6 +832,18 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const toggleHsseAction = useCallback((id: string, actionId: string) => {
     updateHsse(id, (r) => ({ ...r, actions: r.actions.map((a) => (a.id === actionId ? { ...a, done: !a.done } : a)) }));
   }, [updateHsse]);
+
+  /* ======================= COMPANIES ======================= */
+
+  const addCompany = useCallback((c: Pick<Company, 'name' | 'crNumber' | 'category'>) => {
+    setState((s) => ({ ...s, companies: [...s.companies, { ...c, id: `co-${Date.now()}`, status: 'APPROVED', addedAt: new Date().toISOString() }] }));
+    addAuditLog('COMPANY_APPROVED', `${c.name} added to the approved company list`);
+  }, [addAuditLog]);
+
+  const setCompanyStatus = useCallback((id: string, status: Company['status']) => {
+    setState((s) => ({ ...s, companies: s.companies.map((c) => (c.id === id ? { ...c, status } : c)) }));
+    addAuditLog(status === 'APPROVED' ? 'COMPANY_APPROVED' : 'COMPANY_SUSPENDED', `Company ${id} ${status.toLowerCase()}`);
+  }, [addAuditLog]);
 
   /* ======================= SOS ======================= */
 
@@ -902,6 +918,8 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         setHsseStatus,
         addHsseAction,
         toggleHsseAction,
+        addCompany,
+        setCompanyStatus,
         raiseSos,
         acknowledgeSos,
         resolveSos,

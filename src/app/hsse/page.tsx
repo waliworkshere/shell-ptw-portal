@@ -42,7 +42,7 @@ export default function HssePage() {
   const sos = state.sosAlerts.filter((a) => control || role === 'STATION' || a.userId === currentUser?.id);
   const activeSos = sos.filter((a) => a.status !== 'RESOLVED');
   const list = scoped
-    .filter((r) => (type === 'ALL' || r.type === type) && (status === 'ALL' || r.status === status))
+    .filter((r) => (type === 'ALL' || (r.types ?? [r.type]).includes(type)) && (status === 'ALL' || r.status === status))
     .filter((r) => !q || `${r.refNo} ${r.title} ${r.description}`.toLowerCase().includes(q.toLowerCase()))
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
@@ -52,10 +52,10 @@ export default function HssePage() {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-widest text-sand-600">HSSE</p>
-            <h1 className="mt-1 font-display text-2xl font-semibold text-ink">{control ? 'HSSE reports & SOS control room' : role === 'STATION' ? 'Station HSSE reports' : 'My HSSE reports'}</h1>
-            <p className="mt-1 text-sm text-slate-500">Near Miss (NM), Potential Incident (PI), Unsafe Act and Unsafe Condition reports, and SOS alerts.</p>
+            <h1 className="mt-1 font-display text-2xl font-semibold text-ink">{control ? 'SOS reports & control room' : role === 'STATION' ? 'Station SOS reports' : 'My SOS reports'}</h1>
+            <p className="mt-1 text-sm text-slate-500">See it · Own it · Stop it — Near Miss, Potential Incident, Unsafe Act and Unsafe Condition reports, and emergency alerts.</p>
           </div>
-          <Link href="/hsse/report" className="btn-primary"><Plus size={16} /> Report NM / PI</Link>
+          <Link href="/hsse/report" className="btn-primary"><Plus size={16} /> New SOS report</Link>
         </div>
 
         {/* SOS board */}
@@ -66,7 +66,7 @@ export default function HssePage() {
                 <div key={a.id} className={`overflow-hidden rounded-2xl border-2 bg-white shadow-lg ${a.status === 'ACTIVE' ? 'border-rust-500' : 'border-sand-500'}`}>
                   <div className={`flex flex-wrap items-center gap-3 px-5 py-3 text-white ${a.status === 'ACTIVE' ? 'bg-rust-500' : 'bg-sand-600'}`}>
                     <Siren size={20} className={a.status === 'ACTIVE' ? 'animate-pulse' : ''} />
-                    <p className="font-display font-semibold">{a.status === 'ACTIVE' ? 'ACTIVE SOS' : 'SOS acknowledged — help on the way'}</p>
+                    <p className="font-display font-semibold">{a.status === 'ACTIVE' ? 'ACTIVE EMERGENCY ALERT' : 'Emergency acknowledged — help on the way'}</p>
                     <span className="app-number text-sm opacity-90">{a.refNo}</span>
                     <span className="ml-auto text-sm opacity-90">{ago(a.createdAt)}</span>
                   </div>
@@ -92,7 +92,7 @@ export default function HssePage() {
             </div>
           ) : (
             <div className="flex items-center gap-3 rounded-2xl border border-leaf-200 bg-leaf-50 px-5 py-3 text-sm text-leaf-700">
-              <ShieldCheck size={18} /> No active SOS alerts. {sos.length > 0 && <span className="text-leaf-600">Last: {sos[0].refNo} {sos[0].kind}, {fmtDate(sos[0].createdAt)} (resolved).</span>}
+              <ShieldCheck size={18} /> No active emergency alerts. {sos.length > 0 && <span className="text-leaf-600">Last: {sos[0].refNo} {sos[0].kind}, {fmtDate(sos[0].createdAt)} (resolved).</span>}
             </div>
           )}
         </section>
@@ -111,8 +111,8 @@ export default function HssePage() {
               <h2 className="font-display text-sm font-semibold text-ink">Reports by type</h2>
               <div className="mt-4">
                 <Donut
-                  data={(Object.keys(HSSE_TYPE_LABEL) as HsseType[]).map((t) => ({ label: HSSE_TYPE_LABEL[t], value: scoped.filter((r) => r.type === t).length, color: TYPE_COLOR[t] }))}
-                  centerSub="reports"
+                  data={(Object.keys(HSSE_TYPE_LABEL) as HsseType[]).map((t) => ({ label: HSSE_TYPE_LABEL[t], value: scoped.filter((r) => (r.types ?? [r.type]).includes(t)).length, color: TYPE_COLOR[t] }))}
+                  centerSub="type tags"
                 />
               </div>
             </div>
@@ -157,7 +157,11 @@ export default function HssePage() {
                 return (
                   <li key={r.id}>
                     <Link href={`/hsse/${r.id}`} className="flex flex-wrap items-center gap-3 px-5 py-3.5 hover:bg-petrol-50/50">
-                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-[11px] font-bold text-white" style={{ background: TYPE_COLOR[r.type] }}>{HSSE_TYPE_SHORT[r.type]}</span>
+                      <span className="flex shrink-0 -space-x-2">
+                        {(r.types ?? [r.type]).map((t) => (
+                          <span key={t} className="flex h-9 w-9 items-center justify-center rounded-lg text-[11px] font-bold text-white ring-2 ring-white" style={{ background: TYPE_COLOR[t] }} title={HSSE_TYPE_LABEL[t]}>{HSSE_TYPE_SHORT[t]}</span>
+                        ))}
+                      </span>
                       <div className="min-w-0 flex-1">
                         <p className="truncate text-sm font-medium text-ink">{r.title}</p>
                         <p className="text-xs text-slate-400"><span className="app-number">{r.refNo}</span> · {st?.name ?? r.location} · {r.reporterName} · {fmtDate(r.createdAt)}</p>

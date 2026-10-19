@@ -68,6 +68,25 @@ certificates already on his record, and signs him in with his Civil ID.
 
 ---
 
+## New in v4
+
+- **SOS = See it · Own it · Stop it** (based on the TNT principles). The red SOS
+  button opens a choice: *Report something unsafe* or *Emergency alert*. The
+  report form has three steps — See it, Own it, Stop it — and you can tick
+  **one or more** of Near Miss, Potential Incident, Unsafe Act, Unsafe
+  Condition. **Location is captured automatically** (GPS + map) and can also
+  be chosen manually: a Shell station and spot on site, or "Not at a station"
+  with a free-text description.
+- **English / العربية** — language switch on the sign-in page and in the top
+  bar. Arabic flips the whole layout right-to-left and uses an Arabic font.
+  Interface text is translated; user-entered data and course lesson content
+  stay as written.
+- **Approved companies** — Admin → *Companies & ranking* manages the approved
+  company list. Profiles, registration and Add user now use a dropdown of
+  approved companies only (no free typing).
+- **Contractor ranking** — rank vendors by most people, Permit Holders,
+  certificates, valid passports, permits requested or SOS reports raised.
+
 ## What's in the prototype
 
 **Branding** — Shell and Artelia logos on the login page, sidebar, top bar,

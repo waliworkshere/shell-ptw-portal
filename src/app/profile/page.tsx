@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { RoleGuard } from '@/components/role-guard';
 import { Modal } from '@/components/modal';
 import { FaceVerify } from '@/components/face-verify';
+import { CompanySelect } from '@/components/company-select';
 import { useStore } from '@/lib/store';
 import { ROLE_LABEL } from '@/lib/types';
 import { initials, maskCivilId } from '@/lib/roles';
@@ -73,7 +74,8 @@ export default function ProfilePage() {
             </div>
             <div>
               <label className="label" htmlFor="company">Company</label>
-              <input id="company" className="input" value={f.company} onChange={(e) => setF({ ...f, company: e.target.value })} />
+              <CompanySelect id="company" value={f.company} onChange={(v) => setF({ ...f, company: v })} />
+              <p className="mt-1 text-[11px] text-slate-400">Approved companies only. Not listed? Ask your administrator.</p>
             </div>
             <div>
               <label className="label" htmlFor="job">Position</label>

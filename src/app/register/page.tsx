@@ -8,6 +8,8 @@ import { ROLE_LABEL, User } from '@/lib/types';
 import { ROLE_HOME, initials, maskCivilId } from '@/lib/roles';
 import { fmtDate, isCertificateValid } from '@/lib/training';
 import { ArteliaLogo, PrototypeRibbon, ShellLogo } from '@/components/brand';
+import { CompanySelect } from '@/components/company-select';
+import { LangToggle } from '@/components/i18n';
 import { ArrowLeft, ArrowRight, Award, CheckCircle2, History, Contact, LogIn, ShieldAlert, UserPlus } from 'lucide-react';
 
 type Step = 'civil' | 'exists' | 'details';
@@ -69,6 +71,7 @@ export default function RegisterPage() {
             <ArrowLeft size={15} /> Back to sign in
           </Link>
           <div className="flex items-center gap-3">
+            <LangToggle compact />
             <ShellLogo size={34} />
             <ArteliaLogo height={18} />
           </div>
@@ -197,7 +200,6 @@ export default function RegisterPage() {
                 ['fullName', 'Full name (as on Civil ID)', 'text', 'sm:col-span-2'],
                 ['email', 'Email', 'email', ''],
                 ['phone', 'Mobile', 'tel', ''],
-                ['company', 'Employer / contractor company', 'text', 'sm:col-span-2'],
                 ['username', 'Choose a username', 'text', ''],
                 ['password', 'Password (8+ characters)', 'password', ''],
                 ['confirm', 'Confirm password', 'password', 'sm:col-start-2'],
@@ -208,6 +210,10 @@ export default function RegisterPage() {
                 <input id={k} type={t} required className="input" value={f[k]} onChange={(e) => setF((x) => ({ ...x, [k]: e.target.value }))} />
               </div>
             ))}
+            <div className="sm:col-span-2">
+              <label className="label" htmlFor="company">Employer / contractor company</label>
+              <CompanySelect id="company" required value={f.company} onChange={(v) => setF((x) => ({ ...x, company: v }))} />
+            </div>
             <label className="flex items-start gap-2 text-sm text-ink sm:col-span-2">
               <input type="checkbox" className="mt-1 accent-petrol-500" checked={agree} onChange={(e) => setAgree(e.target.checked)} />
               I agree to follow the Life-Saving Rules and Shell mobile usage guidelines, and understand that training courses are recorded on camera.

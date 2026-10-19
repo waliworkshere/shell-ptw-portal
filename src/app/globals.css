@@ -85,3 +85,32 @@ body {
 @media print {
   aside, header, .no-print { display: none !important; }
 }
+
+/* ---- Arabic / right-to-left ---- */
+html[dir='rtl'] body,
+html[dir='rtl'] .font-display,
+html[dir='rtl'] .font-sans {
+  font-family: var(--font-arabic), 'Segoe UI', Tahoma, sans-serif;
+}
+/* Letter-spacing breaks Arabic letter joining */
+html[dir='rtl'] * {
+  letter-spacing: 0 !important;
+}
+html[dir='rtl'] .lucide-arrow-right,
+html[dir='rtl'] .lucide-arrow-left,
+html[dir='rtl'] .lucide-chevron-right,
+html[dir='rtl'] .lucide-chevron-left {
+  transform: scaleX(-1);
+}
+html[dir='rtl'] aside.border-r {
+  border-right-width: 0;
+  border-left-width: 1px;
+}
+html[dir='rtl'] .app-number,
+html[dir='rtl'] input[type='date'],
+html[dir='rtl'] input[inputmode='numeric'] {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+html[dir='rtl'] .lang-en { display: none !important; }
+html:not([dir='rtl']) .lang-ar { display: none !important; }

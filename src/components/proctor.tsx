@@ -61,7 +61,7 @@ export function ProctorPip() {
 
   if (!stream) return null;
   return (
-    <div className={`fixed bottom-24 right-5 z-[60] overflow-hidden rounded-2xl bg-ink shadow-2xl ring-2 ring-leaf-400 transition-all no-print ${small ? 'w-36' : 'w-56'}`}>
+    <div className={`fixed bottom-24 end-5 z-[60] overflow-hidden rounded-2xl bg-ink shadow-2xl ring-2 ring-leaf-400 transition-all no-print ${small ? 'w-36' : 'w-56'}`}>
       <video ref={ref} autoPlay playsInline muted className="aspect-[4/3] w-full -scale-x-100 object-cover" />
       <div className="absolute left-2 top-2 flex items-center gap-1 rounded-full bg-rust-500 px-2 py-0.5 text-[10px] font-semibold text-white">
         <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" /> REC

@@ -5,7 +5,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useStore } from '@/lib/store';
 import { SosAlert } from '@/lib/types';
 import { Modal } from './modal';
-import { Ambulance, CarFront, CheckCircle2, Flame, Loader2, MapPin, Phone, ShieldAlert, Siren, TriangleAlert } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Ambulance, ArrowRight, CarFront, CheckCircle2, Eye, Flame, Hand, Loader2, MapPin, OctagonX, Phone, ShieldAlert, Siren, TriangleAlert } from 'lucide-react';
 
 const KINDS = [
   { key: 'Medical emergency', icon: Ambulance },
@@ -31,13 +32,15 @@ export function SosButton() {
   const [locating, setLocating] = useState(false);
   const [hold, setHold] = useState(0);
   const [sentId, setSentId] = useState<string | null>(null);
+  const [mode, setMode] = useState<'menu' | 'emergency'>('menu');
+  const router = useRouter();
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const sent: SosAlert | undefined = state.sosAlerts.find((a) => a.id === sentId);
   const mineActive = state.sosAlerts.find((a) => a.userId === currentUser?.id && a.status !== 'RESOLVED');
 
   useEffect(() => {
-    if (!open || loc) return;
+    if (!open || mode !== 'emergency' || loc) return;
     setLocating(true);
     if (!('geolocation' in navigator)) {
       setLoc(DEMO_LOC);
@@ -55,7 +58,7 @@ export function SosButton() {
       },
       { timeout: 5000, enableHighAccuracy: true },
     );
-  }, [open, loc]);
+  }, [open, loc, mode]);
 
   function startHold() {
     if (timer.current) return;
@@ -83,6 +86,7 @@ export function SosButton() {
   function close() {
     stopHold();
     setOpen(false);
+    setMode('menu');
     setHold(0);
     if (sent?.status === 'RESOLVED') setSentId(null);
   }
@@ -92,18 +96,84 @@ export function SosButton() {
       <button
         data-tour="sos"
         onClick={() => {
-          if (mineActive) setSentId(mineActive.id);
+          if (mineActive) {
+            setSentId(mineActive.id);
+            setMode('emergency');
+          }
           setOpen(true);
         }}
-        className={`fixed bottom-5 right-5 z-[61] flex h-16 w-16 flex-col items-center justify-center rounded-full bg-rust-500 text-white shadow-xl ring-4 ring-white transition hover:scale-105 hover:bg-rust-600 no-print ${mineActive ? 'animate-pulse-ring' : ''}`}
-        aria-label="SOS emergency"
+        className={`fixed bottom-5 end-5 z-[61] flex h-16 w-16 flex-col items-center justify-center rounded-full bg-rust-500 text-white shadow-xl ring-4 ring-white transition hover:scale-105 hover:bg-rust-600 no-print ${mineActive ? 'animate-pulse-ring' : ''}`}
+        aria-label="SOS — See it, Own it, Stop it"
       >
         <Siren size={22} />
         <span className="text-[10px] font-bold tracking-wider">SOS</span>
       </button>
 
-      <Modal open={open} onClose={close} tone="danger" title={<span className="flex items-center gap-2 text-rust-600"><Siren size={20} /> Emergency SOS</span>}>
-        {sent ? (
+      <Modal
+        open={open}
+        onClose={close}
+        tone="danger"
+        title={
+          mode === 'menu' ? (
+            <span className="flex flex-col">
+              <span className="text-xs font-semibold uppercase tracking-widest text-sand-600">SOS · TNT principles</span>
+              <span className="lang-ar">شاهِد · تحمَّل المسؤولية · أوقِف</span>
+              <span className="lang-en flex flex-wrap items-baseline gap-x-2">
+                <span><span className="text-rust-500">S</span>ee it</span><span className="text-slate-300">·</span>
+                <span><span className="text-sand-600">O</span>wn it</span><span className="text-slate-300">·</span>
+                <span><span className="text-rust-500">S</span>top it</span>
+              </span>
+            </span>
+          ) : (
+            <span className="flex items-center gap-2 text-rust-600"><Siren size={20} /> Emergency alert</span>
+          )
+        }
+      >
+        {mode === 'menu' ? (
+          <div className="space-y-3">
+            <div className="grid grid-cols-3 gap-2 text-center text-xs">
+              {[
+                [Eye, 'See it', 'Spot the hazard'],
+                [Hand, 'Own it', 'Report it now'],
+                [OctagonX, 'Stop it', 'Stop unsafe work'],
+              ].map(([I, a, b]) => {
+                const Icon = I as React.ElementType;
+                return (
+                  <div key={a as string} className="rounded-xl bg-petrol-50 px-2 py-3">
+                    <Icon size={20} className="mx-auto text-petrol-500" />
+                    <p className="mt-1 font-semibold text-ink">{a as string}</p>
+                    <p className="text-slate-500">{b as string}</p>
+                  </div>
+                );
+              })}
+            </div>
+            <button
+              onClick={() => {
+                close();
+                router.push('/hsse/report');
+              }}
+              className="flex w-full items-center gap-3 rounded-2xl bg-petrol-500 px-5 py-4 text-left text-white shadow hover:bg-petrol-600"
+            >
+              <Eye size={22} className="text-sand-400" />
+              <span className="flex-1">
+                <span className="block font-semibold">Report something unsafe</span>
+                <span className="block text-xs text-petrol-100">Near Miss · Potential Incident · Unsafe Act · Unsafe Condition</span>
+              </span>
+              <ArrowRight size={18} />
+            </button>
+            <button onClick={() => setMode('emergency')} className="flex w-full items-center gap-3 rounded-2xl border-2 border-rust-500 px-5 py-4 text-left text-rust-600 hover:bg-rust-50">
+              <Siren size={22} />
+              <span className="flex-1">
+                <span className="block font-semibold">Emergency — alert the control room</span>
+                <span className="block text-xs text-rust-500">Sends your live location to Shell Retail control room</span>
+              </span>
+              <ArrowRight size={18} />
+            </button>
+            <a href="tel:9999" className="flex items-center justify-center gap-1.5 pt-1 text-sm font-medium text-rust-600 hover:underline">
+              <Phone size={14} /> Life-threatening? Call 9999
+            </a>
+          </div>
+        ) : sent ? (
           <div className="space-y-4">
             <div className={`rounded-xl p-4 ${sent.status === 'ACTIVE' ? 'bg-rust-50' : 'bg-leaf-50'}`}>
               <p className="flex items-center gap-2 font-display text-base font-semibold text-ink">
@@ -159,7 +229,7 @@ export function SosButton() {
               <Phone size={14} /> Or call 9999 directly
             </a>
             <p className="text-center text-xs text-slate-400">
-              Not an emergency? <Link href="/hsse/report" onClick={close} className="font-medium text-petrol-500 hover:underline">Report a Near Miss / Potential Incident</Link>
+              Not an emergency? <Link href="/hsse/report" onClick={close} className="font-medium text-petrol-500 hover:underline">Report it with See it · Own it · Stop it</Link>
             </p>
           </div>
         )}

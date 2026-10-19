@@ -271,6 +271,15 @@ export const seedState: AppState = {
   ],
   faceChecks: [],
   tourDone: [],
+  companies: [
+    { id: 'co-1', name: 'Gulf Mechanical LLC', crNumber: '1098234', category: 'Mechanical maintenance', status: 'APPROVED', addedAt: daysAgo(400) },
+    { id: 'co-2', name: 'Al Noor Electrical Contracting', crNumber: '1124577', category: 'Electrical', status: 'APPROVED', addedAt: daysAgo(380) },
+    { id: 'co-3', name: 'Oman Fuel Services LLC', crNumber: '1067120', category: 'Tanks & pipework', status: 'APPROVED', addedAt: daysAgo(500) },
+    { id: 'co-4', name: 'Al Amri Electrical Services LLC', crNumber: '1203398', category: 'Electrical', status: 'APPROVED', addedAt: daysAgo(120) },
+    { id: 'co-5', name: 'Muscat Civil Works LLC', crNumber: '1150043', category: 'Civil & construction', status: 'APPROVED', addedAt: daysAgo(90) },
+    { id: 'co-6', name: 'Batinah Signage & Canopy Co.', crNumber: '1188921', category: 'Signage & canopy', status: 'APPROVED', addedAt: daysAgo(60) },
+    { id: 'co-7', name: 'Desert Clean Services', crNumber: '1172210', category: 'Cleaning', status: 'SUSPENDED', addedAt: daysAgo(300) },
+  ],
 };
 
 /** Workers in the legacy register that have not been imported yet (Admin → Users → Import). */
@@ -293,13 +302,16 @@ function buildHsse(): HsseReport[] {
     stationId: 'stn-alpha', location: 'Forecourt', occurredAt: daysAgo(ago), reporterName: 'Ahmed Al Rashdi', reporterId: 'u-applicant-1', anonymous: false,
     immediateAction: '', photos: [], actions: [], createdAt: daysAgo(ago),
     timeline: [{ id: `${p.id}-t1`, label: 'Reported', actor: p.anonymous ? 'Anonymous' : (p.reporterName ?? 'Ahmed Al Rashdi'), at: daysAgo(ago) }],
+    types: [p.type],
+    gps: { lat: 23.5957, lng: 58.4246, accuracy: 15 },
+    stoppedWork: true,
     ...p,
   });
   return [
-    r({ id: 'hs-1', refNo: 'NM-2026-0041', type: 'NEAR_MISS', title: 'Customer using mobile phone while refuelling', description: 'Customer at dispenser 3 was on a phone call with the nozzle in the tank. Attendant asked them to stop; no ignition or spill.', location: 'Dispenser 3', consequence: 3, likelihood: 'C', lifeSavingRule: 'Bypassing safety controls', immediateAction: 'Customer asked to end the call. Reminder signage checked.', status: 'CLOSED', actions: [{ id: 'a1', text: 'Replace faded "No mobile phones" sticker on dispenser 3', owner: 'Fahad Al Balushi', done: true }] }, 12),
-    r({ id: 'hs-2', refNo: 'PI-2026-0017', type: 'POTENTIAL_INCIDENT', title: 'Tanker reversed with pedestrian behind it', description: 'During fuel delivery the tanker reversed towards the offload point while a contractor walked behind it. Banksman was not in position.', location: 'Tanker offload point', stationId: 'stn-beta', reporterName: 'Sara Al Kindi', reporterId: 'u-applicant-2', consequence: 4, likelihood: 'B', lifeSavingRule: 'Line of fire', immediateAction: 'Delivery stopped, banksman briefed, contractor moved to the safe zone.', status: 'INVESTIGATING', actions: [{ id: 'a1', text: 'Mark a pedestrian exclusion zone at the offload point', owner: 'Layla Al Hinai', done: false }, { id: 'a2', text: 'Toolbox talk with tanker contractor on banksman rules', owner: 'Khalid Al Habsi', done: true }] }, 4),
+    r({ id: 'hs-1', refNo: 'NM-2026-0041', type: 'NEAR_MISS', types: ['NEAR_MISS', 'UNSAFE_ACT'], title: 'Customer using mobile phone while refuelling', description: 'Customer at dispenser 3 was on a phone call with the nozzle in the tank. Attendant asked them to stop; no ignition or spill.', location: 'Dispenser 3', consequence: 3, likelihood: 'C', lifeSavingRule: 'Bypassing safety controls', immediateAction: 'Customer asked to end the call. Reminder signage checked.', status: 'CLOSED', actions: [{ id: 'a1', text: 'Replace faded "No mobile phones" sticker on dispenser 3', owner: 'Fahad Al Balushi', done: true }] }, 12),
+    r({ id: 'hs-2', refNo: 'PI-2026-0017', type: 'POTENTIAL_INCIDENT', types: ['POTENTIAL_INCIDENT', 'UNSAFE_ACT'], gps: { lat: 24.3461, lng: 56.7375, accuracy: 12 }, title: 'Tanker reversed with pedestrian behind it', description: 'During fuel delivery the tanker reversed towards the offload point while a contractor walked behind it. Banksman was not in position.', location: 'Tanker offload point', stationId: 'stn-beta', reporterName: 'Sara Al Kindi', reporterId: 'u-applicant-2', consequence: 4, likelihood: 'B', lifeSavingRule: 'Line of fire', immediateAction: 'Delivery stopped, banksman briefed, contractor moved to the safe zone.', status: 'INVESTIGATING', actions: [{ id: 'a1', text: 'Mark a pedestrian exclusion zone at the offload point', owner: 'Layla Al Hinai', done: false }, { id: 'a2', text: 'Toolbox talk with tanker contractor on banksman rules', owner: 'Khalid Al Habsi', done: true }] }, 4),
     r({ id: 'hs-3', refNo: 'UC-2026-0062', type: 'UNSAFE_CONDITION', title: 'Cracked hose on dispenser 4', description: 'Visible crack on the diesel hose near the breakaway coupling.', location: 'Dispenser 4', consequence: 2, likelihood: 'C', immediateAction: 'Dispenser 4 taken out of service and tagged.', status: 'OPEN' }, 1),
-    r({ id: 'hs-4', refNo: 'UA-2026-0029', type: 'UNSAFE_ACT', title: 'Grinding without a hot-work permit', description: 'Sub-contractor started grinding a bracket on the canopy column without a hot-work permit or gas test.', location: 'Canopy column C2', stationId: 'stn-gamma', reporterName: 'Anonymous', reporterId: undefined, anonymous: true, consequence: 4, likelihood: 'C', lifeSavingRule: 'Hot work', immediateAction: 'Work stopped, area made safe, supervisor informed.', status: 'CLOSED', actions: [{ id: 'a1', text: 'Sub-contractor removed from site pending re-induction', owner: 'Mariam Al Farsi', done: true }] }, 20),
+    r({ id: 'hs-4', refNo: 'UA-2026-0029', type: 'UNSAFE_ACT', types: ['UNSAFE_ACT', 'POTENTIAL_INCIDENT'], gps: { lat: 17.0151, lng: 54.0924, accuracy: 20 }, title: 'Grinding without a hot-work permit', description: 'Sub-contractor started grinding a bracket on the canopy column without a hot-work permit or gas test.', location: 'Canopy column C2', stationId: 'stn-gamma', reporterName: 'Anonymous', reporterId: undefined, anonymous: true, consequence: 4, likelihood: 'C', lifeSavingRule: 'Hot work', immediateAction: 'Work stopped, area made safe, supervisor informed.', status: 'CLOSED', actions: [{ id: 'a1', text: 'Sub-contractor removed from site pending re-induction', owner: 'Mariam Al Farsi', done: true }] }, 20),
   ];
 }
 

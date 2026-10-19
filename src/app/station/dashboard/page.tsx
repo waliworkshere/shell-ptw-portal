@@ -33,7 +33,7 @@ export default function StationDashboard() {
     <RoleGuard role="STATION">
       <div className="mx-auto max-w-7xl space-y-6 px-4 py-8 sm:px-8">
         <DashboardHero name={currentUser?.fullName ?? ''} subtitle={`${station?.name ?? ''} · ${station?.code ?? ''} · ${station?.location ?? ''}`}>
-          <Link href="/hsse/report" className="btn-shell"><Megaphone size={15} /> Report NM / PI</Link>
+          <Link href="/hsse/report" className="btn-shell"><Megaphone size={15} /> SOS report</Link>
         </DashboardHero>
 
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-5">

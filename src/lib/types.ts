@@ -209,6 +209,16 @@ export interface AppState {
   sosAlerts: SosAlert[];
   faceChecks: FaceCheck[];
   tourDone: string[]; // user ids that finished / dismissed the welcome tour
+  companies: Company[]; // approved contractor / vendor list, managed by Admin
+}
+
+export interface Company {
+  id: string;
+  name: string;
+  crNumber: string; // Commercial Registration no.
+  category: string;
+  status: 'APPROVED' | 'SUSPENDED';
+  addedAt: string;
 }
 
 /* ============================================================
@@ -332,10 +342,19 @@ export interface HsseAction {
   done: boolean;
 }
 
+export interface GeoPoint {
+  lat: number;
+  lng: number;
+  accuracy?: number;
+}
+
 export interface HsseReport {
   id: string;
   refNo: string;
-  type: HsseType;
+  type: HsseType; // primary type (first selected) — drives the reference prefix
+  types: HsseType[]; // everything the reporter ticked
+  gps?: GeoPoint; // captured automatically on submit
+  stoppedWork?: boolean; // "Stop it": did the reporter stop the job / make it safe?
   title: string;
   description: string;
   stationId?: string;

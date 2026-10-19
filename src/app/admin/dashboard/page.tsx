@@ -10,7 +10,7 @@ import { SourceBadge } from '@/components/ui';
 import { SOURCE_LABEL, SOURCE_ORDER } from '@/lib/types';
 import { fmtDateTime } from '@/lib/training';
 import { ramLevel } from '@/lib/hsse';
-import { Award, ClipboardCheck, FileStack, GraduationCap, Megaphone, Radar, ScrollText, ShieldAlert, Siren, Truck, Upload, Users, Wallet } from 'lucide-react';
+import { Trophy, Award, ClipboardCheck, FileStack, GraduationCap, Megaphone, Radar, ScrollText, ShieldAlert, Siren, Truck, Upload, Users, Wallet } from 'lucide-react';
 
 export default function AdminDashboard() {
   const { state, currentUser } = useStore();
@@ -41,14 +41,14 @@ export default function AdminDashboard() {
         {activeSos.length > 0 && (
           <Link href="/hsse#sos" className="flex items-center gap-3 rounded-2xl bg-rust-500 px-5 py-4 text-white shadow-lg animate-pulse-ring">
             <Siren size={22} />
-            <span className="font-semibold">{activeSos.length} SOS alert{activeSos.length === 1 ? ' needs' : 's need'} attention</span>
+            <span className="font-semibold">{activeSos.length} emergency alert{activeSos.length === 1 ? ' needs' : 's need'} attention</span>
             <span className="ml-auto text-sm underline">Respond now →</span>
           </Link>
         )}
 
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-6">
           <Kpi icon={ClipboardCheck} label="Permits pending" value={pending} tone="yellow" href="/approver/dashboard" hint="awaiting an Issuer" />
-          <Kpi icon={Siren} label="Active SOS" value={activeSos.length} tone="red" href="/hsse#sos" />
+          <Kpi icon={Siren} label="Emergencies" value={activeSos.length} tone="red" href="/hsse#sos" />
           <Kpi icon={Megaphone} label="Open HSSE" value={openHsse.length} tone="yellow" href="/hsse" hint={`${openHsse.filter((r) => ramLevel(r.consequence, r.likelihood) === 'HIGH').length} high potential`} />
           <Kpi icon={Award} label="Certificates" value={certs} tone="green" href="/admin/training" hint={`${learners.length} learners`} />
           <Kpi icon={Truck} label="On the road" value={activeJourneys.length} tone="navy" href="/journeys/monitor" hint={overdue ? `${overdue} overdue call-in` : 'all on schedule'} />
@@ -131,8 +131,8 @@ export default function AdminDashboard() {
           <QuickAction href="/admin/permit-types" icon={FileStack} label="Permit types" sub="Fields, documents, validity" />
           <QuickAction href="/journeys/monitor" icon={Radar} label="Journey management" sub="Live call-ins" tone="green" />
           <QuickAction href="/admin/training#registrations" icon={Award} label="Registrations" sub={`${state.registrations.filter((r) => r.status === 'PENDING').length} waiting`} tone="yellow" />
-          <QuickAction href="/hsse" icon={Megaphone} label="NM / PI reports" sub={`${openHsse.length} open`} tone="red" />
-          <QuickAction href="/admin/stations" icon={ClipboardCheck} label="Shell stations" sub={`${state.stations.length} sites`} />
+          <QuickAction href="/hsse" icon={Megaphone} label="SOS reports" sub={`${openHsse.length} open`} tone="red" />
+          <QuickAction href="/admin/companies" icon={Trophy} label="Contractor ranking" sub={`${state.companies.filter((c) => c.status === 'APPROVED').length} approved companies`} tone="yellow" />
           <QuickAction href="/admin/audit-logs" icon={ScrollText} label="Audit logs" sub="Every action recorded" />
         </div>
       </div>

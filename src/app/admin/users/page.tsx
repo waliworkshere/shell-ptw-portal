@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import { RoleGuard } from '@/components/role-guard';
 import { Modal } from '@/components/modal';
+import { CompanySelect } from '@/components/company-select';
 import { useStore } from '@/lib/store';
 import { IMPORT_SAMPLE } from '@/lib/mock-data';
 import { Role, ROLE_LABEL } from '@/lib/types';
@@ -61,7 +62,7 @@ export default function AdminUsersPage() {
           <form onSubmit={handleSubmit} className="card mt-6 grid gap-4 animate-fade-up sm:grid-cols-3">
             <div><label className="label">Full name</label><input className="input" value={f.fullName} onChange={(e) => setF({ ...f, fullName: e.target.value })} required /></div>
             <div><label className="label">Email</label><input type="email" className="input" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} required /></div>
-            <div><label className="label">Company</label><input className="input" value={f.company} onChange={(e) => setF({ ...f, company: e.target.value })} /></div>
+            <div><label className="label">Company</label><CompanySelect value={f.company} onChange={(v) => setF({ ...f, company: v })} /></div>
             <div><label className="label">Civil ID</label><input className="input app-number" value={f.civilId} onChange={(e) => setF({ ...f, civilId: e.target.value.replace(/\D/g, '') })} /></div>
             <div><label className="label">Civil ID expiry</label><input type="date" className="input" value={f.civilIdExpiry} onChange={(e) => setF({ ...f, civilIdExpiry: e.target.value })} /></div>
             <div>

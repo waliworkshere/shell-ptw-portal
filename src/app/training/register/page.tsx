@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { RoleGuard } from '@/components/role-guard';
 import { PageHeader } from '@/components/ui';
+import { CompanySelect } from '@/components/company-select';
 import { useStore } from '@/lib/store';
 import { fmtDate, fmtDateTime, qualification } from '@/lib/training';
 import { BadgeCheck, CheckCircle2, Circle, Clock, XCircle } from 'lucide-react';
@@ -12,9 +13,9 @@ export default function RegisterPermitHolderPage() {
   const { state, currentUser, submitRegistration } = useStore();
   const q = qualification(state, currentUser?.id ?? '');
   const registration = state.registrations.find((r) => r.userId === currentUser?.id);
-  const [company, setCompany] = useState('');
-  const [civilId, setCivilId] = useState('');
-  const [phone, setPhone] = useState('');
+  const [company, setCompany] = useState(currentUser?.company ?? '');
+  const [civilId, setCivilId] = useState(currentUser?.civilId ?? '');
+  const [phone, setPhone] = useState(currentUser?.phone ?? '');
   const [declared, setDeclared] = useState(false);
 
   const canSubmit = q.eligible && company.trim() && civilId.trim() && phone.trim() && declared;
@@ -105,7 +106,7 @@ export default function RegisterPermitHolderPage() {
               </div>
               <div>
                 <label className="label" htmlFor="company">Company</label>
-                <input id="company" className="input" value={company} onChange={(e) => setCompany(e.target.value)} placeholder="e.g. Gulf Mechanical LLC" />
+                <CompanySelect id="company" value={company} onChange={setCompany} />
               </div>
               <div>
                 <label className="label" htmlFor="civil">Civil ID number</label>

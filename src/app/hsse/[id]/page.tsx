@@ -6,11 +6,12 @@ import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { RoleGuard } from '@/components/role-guard';
 import { RamMatrix } from '@/components/ram-matrix';
+import { osmEmbed } from '@/components/sos';
 import { useStore } from '@/lib/store';
 import { HSSE_TYPE_LABEL, HsseStatus } from '@/lib/types';
 import { RAM_STYLE, ramLevel } from '@/lib/hsse';
 import { fmtDateTime } from '@/lib/training';
-import { ArrowLeft, CheckCircle2, Circle, ClipboardList, MapPin, Plus, ShieldAlert, UserRound } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Circle, ClipboardList, LocateFixed, MapPin, OctagonX, Plus, ShieldAlert, UserRound } from 'lucide-react';
 
 const ALL = ['ADMIN', 'APPROVER', 'STATION', 'APPLICANT', 'TRAINEE'] as const;
 
@@ -40,10 +41,14 @@ export default function HsseDetailPage() {
   return (
     <RoleGuard role={[...ALL]}>
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-8">
-        <Link href="/hsse" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-ink"><ArrowLeft size={15} /> HSSE reports</Link>
+        <Link href="/hsse" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-ink"><ArrowLeft size={15} /> SOS reports</Link>
         <div className="mt-4 flex flex-wrap items-start justify-between gap-4">
           <div>
-            <p className="app-number text-xs text-slate-400">{r.refNo} · {HSSE_TYPE_LABEL[r.type]}</p>
+            <p className="app-number text-xs text-slate-400">{r.refNo} · SOS — See it · Own it · Stop it</p>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {(r.types ?? [r.type]).map((t) => <span key={t} className="rounded-full bg-petrol-50 px-2.5 py-0.5 text-xs font-semibold text-petrol-600">{HSSE_TYPE_LABEL[t]}</span>)}
+              {r.stoppedWork && <span className="inline-flex items-center gap-1 rounded-full bg-leaf-50 px-2.5 py-0.5 text-xs font-semibold text-leaf-700"><OctagonX size={12} /> Work stopped</span>}
+            </div>
             <h1 className="mt-1 font-display text-2xl font-semibold text-ink">{r.title}</h1>
             <p className="mt-1 flex flex-wrap items-center gap-3 text-sm text-slate-500">
               <span className="inline-flex items-center gap-1"><MapPin size={14} /> {station?.name ?? 'Off-site'} · {r.location}</span>
@@ -75,6 +80,14 @@ export default function HsseDetailPage() {
                 </div>
               )}
             </div>
+
+            {r.gps && (
+              <div className="card">
+                <h2 className="flex items-center gap-2 font-display text-sm font-semibold text-ink"><LocateFixed size={16} className="text-rust-500" /> Captured location</h2>
+                <p className="app-number mt-1 text-xs text-slate-500">{r.gps.lat.toFixed(5)}, {r.gps.lng.toFixed(5)}{r.gps.accuracy ? ` · ±${r.gps.accuracy} m` : ''}</p>
+                <iframe title="Report location" src={osmEmbed(r.gps.lat, r.gps.lng)} className="mt-3 h-56 w-full rounded-xl border border-petrol-100" loading="lazy" />
+              </div>
+            )}
 
             <div className="card">
               <h2 className="font-display text-sm font-semibold text-ink">Risk assessment</h2>

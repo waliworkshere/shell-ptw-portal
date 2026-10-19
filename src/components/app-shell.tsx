@@ -10,6 +10,7 @@ import { BrandLockup, PrototypeRibbon } from './brand';
 import { SosButton } from './sos';
 import { Tour, TIPS } from './tour';
 import { ProctorPip } from './proctor';
+import { LangToggle } from './i18n';
 import {
   LayoutDashboard,
   Users,
@@ -38,6 +39,7 @@ import {
   PlayCircle,
   Lightbulb,
   Siren,
+  Trophy,
 } from 'lucide-react';
 
 type NavItem = { href: string; label: string; icon: React.ElementType };
@@ -46,8 +48,8 @@ type NavGroup = { title?: string; items: NavItem[] };
 const HSSE: NavGroup = {
   title: 'HSSE',
   items: [
-    { href: '/hsse/report', label: 'Report NM / PI', icon: Megaphone },
-    { href: '/hsse', label: 'HSSE reports & SOS', icon: ShieldAlert },
+    { href: '/hsse/report', label: 'SOS report', icon: Megaphone },
+    { href: '/hsse', label: 'SOS & HSSE reports', icon: ShieldAlert },
   ],
 };
 
@@ -57,12 +59,13 @@ const NAV: Record<Role, NavGroup[]> = {
       items: [
         { href: '/admin/dashboard', label: 'Overview', icon: LayoutDashboard },
         { href: '/admin/users', label: 'Users & imports', icon: Users },
+        { href: '/admin/companies', label: 'Companies & ranking', icon: Trophy },
         { href: '/admin/stations', label: 'Shell stations', icon: Fuel },
         { href: '/admin/permit-types', label: 'Permit types', icon: FileStack },
       ],
     },
     { title: 'Competence', items: [{ href: '/admin/training', label: 'Training modules', icon: GraduationCap }] },
-    { title: 'Operations', items: [{ href: '/hsse', label: 'HSSE reports & SOS', icon: ShieldAlert }, { href: '/journeys/monitor', label: 'Journey management', icon: Radar }, { href: '/admin/audit-logs', label: 'Audit logs', icon: ScrollText }] },
+    { title: 'Operations', items: [{ href: '/hsse', label: 'SOS & HSSE reports', icon: ShieldAlert }, { href: '/journeys/monitor', label: 'Journey management', icon: Radar }, { href: '/admin/audit-logs', label: 'Audit logs', icon: ScrollText }] },
   ],
   APPROVER: [
     { items: [{ href: '/approver/dashboard', label: 'Permit Issuer queue', icon: ClipboardCheck }, { href: '/journeys/monitor', label: 'Journey management', icon: Radar }] },
@@ -242,16 +245,17 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <div className="lg:hidden"><BrandLockup compact /></div>
             {activeSos.length > 0 && ['ADMIN', 'APPROVER'].includes(currentUser.role) && (
               <Link href="/hsse#sos" className="hidden items-center gap-2 rounded-full bg-rust-500 px-3 py-1 text-xs font-semibold text-white animate-pulse-ring sm:flex">
-                <Siren size={14} /> {activeSos.length} active SOS — respond now
+                <Siren size={14} /> {activeSos.length} active emergency — respond now
               </Link>
             )}
-            <div className="ml-auto flex items-center gap-1" ref={popRef}>
+            <div className="ms-auto flex items-center gap-1" ref={popRef}>
+              <LangToggle compact />
               <div className="relative">
                 <button data-tour="help" onClick={() => { setHelpOpen((v) => !v); setBellOpen(false); }} className="rounded-lg p-2 text-slate-500 hover:bg-petrol-50 hover:text-ink" aria-label="Help and tips">
                   <HelpCircle size={19} />
                 </button>
                 {helpOpen && (
-                  <div className="absolute right-0 top-11 w-80 rounded-2xl border border-petrol-100 bg-white p-4 shadow-xl animate-pop">
+                  <div className="absolute end-0 top-11 w-80 rounded-2xl border border-petrol-100 bg-white p-4 shadow-xl animate-pop">
                     <p className="flex items-center gap-1.5 text-sm font-semibold text-ink"><Lightbulb size={15} className="text-sand-600" /> Tips for {ROLE_LABEL[currentUser.role]}s</p>
                     <ul className="mt-3 space-y-2">
                       {TIPS[currentUser.role].map((t) => (
@@ -270,7 +274,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                   {notes.length > 0 && <span className="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-rust-500 px-1 text-[9px] font-bold text-white">{notes.length}</span>}
                 </button>
                 {bellOpen && (
-                  <div className="absolute right-0 top-11 w-80 rounded-2xl border border-petrol-100 bg-white p-2 shadow-xl animate-pop">
+                  <div className="absolute end-0 top-11 w-80 rounded-2xl border border-petrol-100 bg-white p-2 shadow-xl animate-pop">
                     <p className="px-2 py-1.5 text-xs font-semibold uppercase tracking-wide text-slate-400">Notifications</p>
                     {notes.length === 0 ? (
                       <p className="px-2 py-4 text-center text-sm text-slate-400">You&apos;re all caught up.</p>
@@ -289,14 +293,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                   </div>
                 )}
               </div>
-              <Link href={['APPLICANT', 'TRAINEE'].includes(currentUser.role) ? '/profile' : '#'} className="ml-2 flex items-center gap-2.5 rounded-xl py-1 pl-1 pr-2 hover:bg-petrol-50">
+              <Link href={['APPLICANT', 'TRAINEE'].includes(currentUser.role) ? '/profile' : '#'} className="ms-2 flex items-center gap-2.5 rounded-xl py-1 ps-1 pe-2 hover:bg-petrol-50">
                 {currentUser.facePhoto ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={currentUser.facePhoto} alt="" className="h-8 w-8 rounded-full object-cover ring-2 ring-leaf-400" />
                 ) : (
                   <span className="flex h-8 w-8 items-center justify-center rounded-full bg-petrol-500 text-[11px] font-semibold text-white">{initials(currentUser.fullName)}</span>
                 )}
-                <span className="hidden text-left sm:block">
+                <span className="hidden text-start sm:block">
                   <span className="block text-[13px] font-medium leading-tight text-ink">{currentUser.fullName}</span>
                   <span className="block text-[11px] leading-tight text-slate-400">{station ? station.name : ROLE_LABEL[currentUser.role]}</span>
                 </span>
