@@ -1,4 +1,4 @@
-# Shell PTW & Competence Portal — Prototype (v3)
+# Gemsafety — Permit to Work & Competence Prototype
 
 A clickable, no-backend prototype of the Permit to Work, training, Safety
 Passport and HSSE reporting system for Shell retail stations in Oman,
@@ -16,7 +16,7 @@ are taken and no emergency services are contacted.
 # 1. In this folder
 git init
 git add .
-git commit -m "Shell PTW & Competence Portal prototype v3"
+git commit -m "Gemsafety prototype"
 
 # 2. Create an empty repo on github.com (no README), then:
 git remote add origin https://github.com/<you>/<repo>.git
@@ -63,7 +63,7 @@ is a **Demo accounts** list — click any person and their username/password
 
 **"Your account already exists":** go to *Create an account* and enter Civil
 ID `87654321`, expiry `2029-08-15`. Rashid was imported from the legacy
-register, so the portal tells him his account already exists, lists the
+register, so Gemsafety tells him his account already exists, lists the
 certificates already on his record, and signs him in with his Civil ID.
 
 ---

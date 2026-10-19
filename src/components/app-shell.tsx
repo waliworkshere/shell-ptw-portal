@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useStore } from '@/lib/store';
 import { Role, ROLE_LABEL } from '@/lib/types';
 import { initials } from '@/lib/roles';
-import { BrandLockup, PrototypeRibbon } from './brand';
+import { BrandLockup, PrototypeRibbon, Wordmark } from './brand';
 import { SosButton } from './sos';
 import { Tour, TIPS } from './tour';
 import { ProctorPip } from './proctor';
@@ -165,7 +165,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <div className="relative border-b border-petrol-100 px-5 pb-4 pt-5">
         <div className="shell-stripe absolute inset-x-0 top-0 h-1" />
         <BrandLockup compact />
-        <p className="mt-3 font-display text-[13px] font-semibold leading-tight text-ink">Permit to Work &amp; Competence</p>
+        <Wordmark className="mt-3 block text-xl leading-none" />
+        <p className="mt-1 font-display text-[12px] font-semibold leading-tight text-ink">Permit to Work &amp; Competence</p>
         <p className="text-[10px] uppercase tracking-wider text-slate-400">Retail HSSE · Oman · Prototype</p>
       </div>
       <nav className="flex-1 space-y-4 overflow-y-auto px-3 py-4">

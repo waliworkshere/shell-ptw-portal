@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useStore } from '@/lib/store';
 import { ROLE_LABEL, Role, User } from '@/lib/types';
 import { ROLE_HOME, initials } from '@/lib/roles';
-import { ArteliaLogo, PrototypeRibbon, ShellLogo } from '@/components/brand';
+import { ArteliaLogo, PrototypeRibbon, ShellLogo, Wordmark } from '@/components/brand';
 import { LangToggle } from '@/components/i18n';
 import {
   ArrowRight,
@@ -111,8 +111,9 @@ export default function LoginPage() {
 
             <div className="max-w-lg">
               <p className="text-xs font-semibold uppercase tracking-[0.25em] text-sand-400">Retail HSSE · Oman</p>
-              <h1 className="mt-4 font-display text-4xl font-semibold leading-tight text-white">
-                Permit to Work &amp; Competence Portal
+              <h1 className="mt-4 font-display leading-tight text-white">
+                <Wordmark white className="text-6xl" />
+                <span className="mt-3 block text-3xl font-semibold">Permit to Work &amp; Competence Portal</span>
               </h1>
               <p className="mt-4 text-[15px] leading-relaxed text-petrol-100">
                 Request and issue work permits at Shell stations, verify people by video and face recognition, keep training and the Safety Passport current, and report Near Misses in seconds.
@@ -146,6 +147,7 @@ export default function LoginPage() {
           <div className="w-full max-w-md">
             <div className="mb-8 flex items-center justify-between lg:hidden">
               <ShellLogo size={44} />
+              <Wordmark className="text-3xl" />
               <ArteliaLogo height={22} />
             </div>
 
@@ -153,7 +155,7 @@ export default function LoginPage() {
               <h2 className="font-display text-2xl font-semibold text-ink">Sign in</h2>
               <LangToggle />
             </div>
-            <p className="mt-1 text-sm text-slate-500">Use your portal username, or your Civil ID card.</p>
+            <p className="mt-1 text-sm text-slate-500">Use your Gemsafety username, or your Civil ID card.</p>
 
             <div className="mt-6 grid grid-cols-2 rounded-xl bg-petrol-50 p-1 text-sm font-medium" role="tablist">
               {(
@@ -220,7 +222,7 @@ export default function LoginPage() {
                 {busy ? 'Signing in…' : (<><LogIn size={16} /> Sign in</>)}
               </button>
               <p className="text-center text-sm text-slate-500">
-                New to the portal?{' '}
+                New to Gemsafety?{' '}
                 <Link href="/register" className="font-medium text-petrol-500 hover:underline">
                   Create an account
                 </Link>

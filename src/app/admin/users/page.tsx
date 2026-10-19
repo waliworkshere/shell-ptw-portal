@@ -50,7 +50,7 @@ export default function AdminUsersPage() {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h1 className="font-display text-2xl font-semibold text-ink">Users &amp; imports</h1>
-            <p className="mt-1 text-sm text-slate-500">Everyone with access to the portal. Existing workers can be imported with their certificates.</p>
+            <p className="mt-1 text-sm text-slate-500">Everyone with access to Gemsafety. Existing workers can be imported with their certificates.</p>
           </div>
           <div className="flex gap-2">
             <button onClick={() => { setImportOpen(true); setStage('pick'); }} className="btn-secondary"><Upload size={16} /> Import existing workers</button>

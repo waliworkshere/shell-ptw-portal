@@ -8,6 +8,10 @@ export const AR: Record<string, string> = {
   Prototype: 'نموذج أولي',
   '· demo data only · no real payments, no data leaves your browser': '· بيانات تجريبية فقط · لا مدفوعات حقيقية، ولا تغادر أي بيانات متصفحك',
   'Permit to Work & Competence': 'تصاريح العمل والكفاءة',
+  prototype: 'نموذج أولي',
+  'A Gemsafety account is already registered to Civil ID': 'يوجد حساب Gemsafety مسجّل مسبقًا بالبطاقة المدنية',
+  'Everyone with access to Gemsafety. Existing workers can be imported with their certificates.': 'كل من لديه صلاحية الدخول إلى Gemsafety. يمكن استيراد العاملين الحاليين مع شهاداتهم.',
+  'Gemsafety sign-in': 'تسجيل الدخول إلى Gemsafety',
   'Permit to Work & Competence Portal': 'بوابة تصاريح العمل والكفاءة',
   'Retail HSSE · Oman · Prototype': 'الصحة والسلامة والأمن والبيئة للتجزئة · عُمان · نموذج أولي',
   'Retail HSSE · Oman': 'الصحة والسلامة والأمن والبيئة للتجزئة · عُمان',
@@ -61,7 +65,7 @@ export const AR: Record<string, string> = {
 
   // ---------- Login / register ----------
   'Sign in': 'تسجيل الدخول',
-  'Use your portal username, or your Civil ID card.': 'استخدم اسم المستخدم في البوابة أو بطاقتك المدنية.',
+  'Use your Gemsafety username, or your Civil ID card.': 'استخدم اسم المستخدم في Gemsafety أو بطاقتك المدنية.',
   Username: 'اسم المستخدم',
   'Civil ID': 'البطاقة المدنية',
   'Username or email': 'اسم المستخدم أو البريد الإلكتروني',
@@ -71,7 +75,7 @@ export const AR: Record<string, string> = {
   'Civil ID expiry': 'انتهاء البطاقة المدنية',
   '8-digit number on your card': 'الرقم المكوّن من 8 خانات على بطاقتك',
   'Signing in…': 'جارٍ تسجيل الدخول…',
-  'New to the portal?': 'جديد على البوابة؟',
+  'New to Gemsafety?': 'جديد على Gemsafety؟',
   'Create an account': 'إنشاء حساب',
   'Demo accounts': 'حسابات تجريبية',
   'Click to fill · password': 'انقر للتعبئة · كلمة المرور',
@@ -113,7 +117,8 @@ export const AR: Record<string, string> = {
 
   // ---------- Tour ----------
   Welcome: 'مرحباً',
-  'Show me around': 'أرني البوابة',
+  'Show me around': 'جولة تعريفية',
+  'Welcome to Gemsafety': 'مرحبًا بك في Gemsafety',
   'Skip tour': 'تخطي الجولة',
   Next: 'التالي',
   Finish: 'إنهاء',
@@ -595,7 +600,7 @@ export const AR_PATTERNS: [RegExp, (m: RegExpMatchArray) => string][] = [
   [/^(\d+) stamps? · until (.+)$/, (m) => `${m[1]} أختام · حتى ${m[2]}`],
   [/^Tips for (.+)s$/, () => 'نصائح'],
   [/^(\d+) required module\(s\) outstanding\.$/, (m) => `${m[1]} وحدات مطلوبة متبقية.`],
-  [/^You're signed in as (.+)\. Let us show you around — it takes 30 seconds\.$/, () => 'لقد سجّلت الدخول. دعنا نعرّفك بالبوابة — يستغرق ذلك 30 ثانية.'],
+  [/^You're signed in as (.+)\. Let us show you around — it takes 30 seconds\.$/, () => 'لقد سجّلت الدخول. دعنا نعرّفك على Gemsafety — يستغرق ذلك 30 ثانية.'],
   [/^Reporting as (.+)\.$/, (m) => `الإبلاغ باسم ${m[1]}.`],
   [/^Pay ([\d.]+) OMR$/, (m) => `ادفع ${m[1]} ر.ع`],
   [/^([\d.]+) OMR$/, (m) => `${m[1]} ر.ع`],

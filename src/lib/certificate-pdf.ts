@@ -26,7 +26,7 @@ export function generateCertificatePdf(params: { course: Course; enrollment: Enr
   doc.setTextColor(255, 255, 255);
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(12);
-  doc.text('SHELL OMAN RETAIL  |  TRAINING & COMPETENCE', W / 2, 76, { align: 'center' });
+  doc.text('GEMSAFETY  |  SHELL OMAN RETAIL  |  TRAINING & COMPETENCE', W / 2, 76, { align: 'center' });
   drawLogo(doc, 'shell', 52, 44, 52);
   drawLogo(doc, 'artelia-white', W - 52, 56, 26, 'right');
   doc.setFillColor(221, 29, 33);
@@ -91,7 +91,7 @@ export function generateCertificatePdf(params: { course: Course; enrollment: Enr
 
   doc.setFontSize(8);
   doc.setTextColor(138, 152, 153);
-  doc.text('Prototype certificate, not valid for real site access. Verify at the training portal using the certificate number.', W / 2, H - 50, {
+  doc.text('Prototype certificate, not valid for real site access. Verify in Gemsafety using the certificate number.', W / 2, H - 50, {
     align: 'center',
   });
 

@@ -7,7 +7,7 @@ import { useStore } from '@/lib/store';
 import { passportData, passportNo } from '@/lib/passport';
 import { fmtDate } from '@/lib/training';
 import { initials, maskCivilId } from '@/lib/roles';
-import { ArteliaLogo, PrototypeRibbon, ShellLogo } from '@/components/brand';
+import { ArteliaLogo, PrototypeRibbon, ShellLogo, Wordmark } from '@/components/brand';
 import { CheckCircle2, ShieldCheck, TriangleAlert, XCircle } from 'lucide-react';
 
 /** What a station attendant sees after scanning a Safety Passport QR code. */
@@ -24,6 +24,7 @@ export default function VerifyPassportPage() {
         <div className="flex items-center justify-between">
           <ShellLogo size={40} />
           <ArteliaLogo height={20} />
+          <Wordmark className="text-xl" />
         </div>
         <h1 className="mt-6 font-display text-xl font-semibold text-ink">Safety Passport check</h1>
         {!ready ? (
@@ -64,7 +65,7 @@ export default function VerifyPassportPage() {
           </div>
         )}
         <p className="mt-6 text-center text-xs text-slate-400">
-          Prototype: verification reads this browser&apos;s demo data. <Link href="/" className="underline">Portal sign-in</Link>
+          Prototype: verification reads this browser&apos;s demo data. <Link href="/" className="underline">Gemsafety sign-in</Link>
         </p>
       </div>
     </div>

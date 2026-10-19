@@ -125,9 +125,9 @@ export function Tour() {
               <span className="rounded-xl bg-white p-1.5"><ShellLogo size={34} /></span>
               <span className="rounded-lg bg-white px-2 py-1.5"><ArteliaLogo height={16} /></span>
             </div>
-            <p className="mt-5 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-sand-400"><Sparkles size={13} /> Welcome</p>
-            <h2 className="mt-1 font-display text-2xl font-semibold">{greeting()}, {currentUser.fullName.split(' ')[0]}</h2>
-            <p className="mt-1 text-sm text-petrol-100">You&apos;re signed in as {ROLE_LABEL[currentUser.role]}. Let us show you around — it takes 30 seconds.</p>
+            <p className="mt-5 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-sand-400"><Sparkles size={13} /> <span>Welcome to Gemsafety</span></p>
+            <h2 className="mt-1 font-display text-2xl font-semibold">{`${greeting()}, ${currentUser.fullName.split(' ')[0]}`}</h2>
+            <p className="mt-1 text-sm text-petrol-100">{`You're signed in as ${ROLE_LABEL[currentUser.role]}. Let us show you around — it takes 30 seconds.`}</p>
           </div>
           <div className="space-y-3 px-6 py-5">
             {currentUser.imported && (

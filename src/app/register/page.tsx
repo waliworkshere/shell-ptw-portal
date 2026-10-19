@@ -7,7 +7,7 @@ import { useStore } from '@/lib/store';
 import { ROLE_LABEL, User } from '@/lib/types';
 import { ROLE_HOME, initials, maskCivilId } from '@/lib/roles';
 import { fmtDate, isCertificateValid } from '@/lib/training';
-import { ArteliaLogo, PrototypeRibbon, ShellLogo } from '@/components/brand';
+import { ArteliaLogo, PrototypeRibbon, ShellLogo, Wordmark } from '@/components/brand';
 import { CompanySelect } from '@/components/company-select';
 import { LangToggle } from '@/components/i18n';
 import { ArrowLeft, ArrowRight, Award, CheckCircle2, History, Contact, LogIn, ShieldAlert, UserPlus } from 'lucide-react';
@@ -74,6 +74,7 @@ export default function RegisterPage() {
             <LangToggle compact />
             <ShellLogo size={34} />
             <ArteliaLogo height={18} />
+            <Wordmark className="text-xl" />
           </div>
         </div>
 
@@ -140,7 +141,7 @@ export default function RegisterPage() {
                 <div>
                   <p className="font-display text-base font-semibold text-ink">Your account already exists</p>
                   <p className="mt-1 text-sm text-slate-600">
-                    A portal account is already registered to Civil ID <span className="app-number">{maskCivilId(existing.civilId)}</span>
+                    A Gemsafety account is already registered to Civil ID <span className="app-number">{maskCivilId(existing.civilId)}</span>
                     {existing.imported ? ', imported from Shell’s existing competence records. ' : '. '}
                     You don&apos;t need to register again — sign in with your Civil ID instead.
                   </p>

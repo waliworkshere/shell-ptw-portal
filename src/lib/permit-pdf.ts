@@ -38,7 +38,7 @@ export function generatePermitPdf(params: {
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
   doc.setTextColor(110);
-  doc.text('Shell Oman Retail  ·  Permit to Work administered with Artelia', pageW / 2, y + 20, { align: 'center' });
+  doc.text('Gemsafety  ·  Shell Oman Retail  ·  Permit to Work administered with Artelia', pageW / 2, y + 20, { align: 'center' });
   y += 44;
 
   // Header
@@ -164,7 +164,7 @@ export function generatePermitPdf(params: {
 
   doc.setFontSize(7.5);
   doc.setTextColor(120);
-  doc.text('Generated automatically by the Fuel Station Permit Management and Approval System.', margin, y);
+  doc.text('Generated automatically by Gemsafety, the Permit to Work & Competence system.', margin, y);
 
   const fileName = `Permit_${permitNo}.pdf`;
   doc.save(fileName);

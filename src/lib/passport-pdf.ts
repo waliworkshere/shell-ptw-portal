@@ -28,7 +28,7 @@ export function generatePassportPdf(user: User, d: Data, qrDataUrl?: string) {
   doc.text('SAFETY PASSPORT', M + 16, y + 92);
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(10);
-  doc.text('Shell Oman Retail · Contractor competence record', M + 16, y + 106);
+  doc.text('Gemsafety · Shell Oman Retail · Contractor competence record', M + 16, y + 106);
   doc.setFont('courier', 'bold');
   doc.setFontSize(13);
   doc.text(d.number, W - M - 16, y + 92, { align: 'right' });
@@ -108,6 +108,6 @@ export function generatePassportPdf(user: User, d: Data, qrDataUrl?: string) {
   doc.setTextColor(120);
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
-  doc.text('* Imported from Shell’s previous competence records.  Scan the QR code to verify this passport online.  Prototype document.', M, y);
+  doc.text('* Imported from Shell’s previous competence records.  Scan the QR code to verify this passport in Gemsafety.  Prototype document.', M, y);
   doc.save(`${d.number}_Safety_Passport.pdf`);
 }
