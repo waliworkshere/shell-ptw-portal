@@ -28,6 +28,8 @@ function evidence(state: ReturnType<typeof useStore>['state'], u: User | undefin
   const today = new Date().toISOString().slice(0, 10);
   const cert = (u.member?.certs ?? []).find((x) => ev.certs.includes(x.code) && (!x.expires || x.expires >= today));
   if (cert) return `${cert.code} certificate`;
+  const up = state.certUploads.find((x) => x.userId === u.id && x.status === 'VERIFIED' && ev.certs.includes(x.code) && (!x.expires || x.expires >= today));
+  if (up) return `${up.code} certificate (uploaded)`;
   const done = ev.courses.find((cid) => state.enrollments.some((e) => e.userId === u.id && e.courseId === cid && e.completedAt));
   if (done) return `${state.courses.find((x) => x.id === done)?.code ?? 'Course'} completed`;
   return '';

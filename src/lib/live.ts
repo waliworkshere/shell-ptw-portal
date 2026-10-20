@@ -99,6 +99,7 @@ export interface WireRecord {
 export const SYNCED = [
   'users', 'stations', 'permitTypes', 'applications', 'auditLogs', 'screenshotGallery', 'courses', 'enrollments',
   'registrations', 'journeys', 'payments', 'hsseReports', 'sosAlerts', 'faceChecks', 'companies', 'ptwCards',
+  'certUploads', 'redemptions',
 ] as const;
 export type SyncedKey = (typeof SYNCED)[number];
 
@@ -113,6 +114,8 @@ export const NEWEST_FIRST: Partial<Record<SyncedKey, string>> = {
   faceChecks: 'at',
   registrations: 'submittedAt',
   ptwCards: 'issuedAt',
+  certUploads: 'submittedAt',
+  redemptions: 'requestedAt',
 };
 
 export const AUTH_ERRORS: Record<string, string> = {

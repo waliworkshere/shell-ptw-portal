@@ -1,5 +1,8 @@
 'use client';
 
+import { Star } from 'lucide-react';
+import { PointsReview } from '@/components/points-review';
+
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
 import { useState } from 'react';
@@ -128,6 +131,12 @@ export default function HsseDetailPage() {
           </div>
 
           <div className="space-y-6">
+            {(currentUser?.role === 'ADMIN' || (r.reporterId && r.reporterId === currentUser?.id)) && (
+              <div className="card">
+                <h2 className="flex items-center gap-1.5 font-display text-sm font-semibold text-ink"><Star size={15} className="text-sand-600" /> Reward points</h2>
+                <div className="mt-3"><PointsReview report={r} /></div>
+              </div>
+            )}
             {canManage && (
               <div className="card">
                 <h2 className="font-display text-sm font-semibold text-ink">Investigation</h2>

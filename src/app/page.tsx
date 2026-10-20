@@ -8,6 +8,8 @@ import { ROLE_LABEL, Role, User } from '@/lib/types';
 import { ROLE_HOME, initials } from '@/lib/roles';
 import { ArteliaLogo, PrototypeRibbon, ShellLogo, Wordmark } from '@/components/brand';
 import { LangToggle } from '@/components/i18n';
+import { OcrUploadButton } from '@/components/ocr-upload';
+import { parseCivilId } from '@/lib/ocr';
 import {
   ArrowRight,
   BadgeCheck,
@@ -236,6 +238,17 @@ export default function LoginPage() {
                   <p className="rounded-xl bg-petrol-50 p-3 text-sm text-petrol-600">
                     Already on the Shell / Artelia member register? Confirm who you are with your Civil ID and date of birth, then choose a password. From then on you sign in with your Civil ID number.
                   </p>
+                  <OcrUploadButton
+                    label="Scan my Civil ID to fill these in"
+                    accept="image/*"
+                    className="btn-secondary w-full text-sm"
+                    onRead={({ text }) => {
+                      const g = parseCivilId(text);
+                      if (g.civilId) setCivilId(g.civilId.slice(0, 12));
+                      if (g.dob) setDob(g.dob);
+                      setError(g.civilId || g.dob ? '' : 'We could not read the card clearly — please type the details.');
+                    }}
+                  />
                   <div>
                     <label className="label" htmlFor="acivil">Civil ID number</label>
                     <input id="acivil" inputMode="numeric" className="input py-2.5 app-number" value={civilId} onChange={(e) => setCivilId(e.target.value.replace(/\D/g, '').slice(0, 12))} />

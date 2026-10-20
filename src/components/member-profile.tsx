@@ -9,6 +9,7 @@ import { PTW_KIND_LABEL, ptwCardStatus } from '@/lib/ptw-cards';
 import { fmtDate } from '@/lib/training';
 import { maskCivilId } from '@/lib/roles';
 import { CheckCircle2, CircleDashed, Copy, CreditCard, KeyRound, XCircle } from 'lucide-react';
+import { CertUploadRow } from './cert-upload';
 
 export const CERT_LABEL: Record<string, string> = {
   FA: 'Basic First Aid', FR: 'Fire Respondent / Warden', WAH: 'Work at Height', EXC: 'Excavation Safety', CSE: 'Confined Space Entry',
@@ -78,7 +79,9 @@ export function UserDetail({ user }: { user: User }) {
   const [err, setErr] = useState('');
   const [busy, setBusy] = useState(false);
   const cards = state.ptwCards.filter((c) => c.userId === user.id);
+  const uploads = state.certUploads.filter((c) => c.userId === user.id);
   const m = user.member;
+  const pf = user.passportForm;
 
   async function resetPassword() {
     setErr('');
@@ -136,6 +139,25 @@ export function UserDetail({ user }: { user: User }) {
         <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-400">Register certificates</p>
         <MemberCerts user={user} />
       </section>
+
+      {pf && (
+        <section>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-400">Safety Passport details (filled in by the person)</p>
+          <p className="text-slate-600">
+            DOB {pf.dob ? fmtDate(pf.dob) : '—'} · Resident card {pf.residentCardNo || '—'} · {pf.nationality || '—'} · Blood {pf.bloodGroup || '—'} · First Aider {pf.firstAider ? 'yes' : 'no'} · Fire Respondent {pf.fireRespondent ? 'yes' : 'no'}
+          </p>
+        </section>
+      )}
+
+      {uploads.length > 0 && (
+        <section>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-400">Uploaded certificates</p>
+          <ul className="divide-y divide-petrol-50">
+            {uploads.map((c) => <CertUploadRow key={c.id} c={c} />)}
+          </ul>
+          <Link href="/admin/certificates" className="text-xs text-petrol-500 hover:underline">Open certificate checks →</Link>
+        </section>
+      )}
 
       <section>
         <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">PTW cards</p>

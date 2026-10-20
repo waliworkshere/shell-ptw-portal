@@ -79,6 +79,7 @@ export interface User {
   competencyRole?: CompetencyRole;
   // Profile carried over from the member register import
   member?: MemberProfile;
+  passportForm?: PassportForm;
 }
 
 export type CompetencyRole = 'SUPERVISOR_MANAGER' | 'MEP_CEI' | 'DRIVER_OPERATOR' | 'SKILLED_TRADES' | 'HELPER';
@@ -164,6 +165,7 @@ export interface UploadedDocument {
   label: string;
   fileName: string;
   dataUrl?: string; // for on-site camera captures, so it can be previewed/embedded in the PDF
+  ocrText?: string; // text read from the document automatically (OCR.space)
 }
 
 // A screenshot the Permit Issuer takes during the live video verification call.
@@ -259,6 +261,8 @@ export interface AppState {
   tourDone: string[]; // user ids that finished / dismissed the welcome tour
   companies: Company[]; // approved contractor / vendor list, managed by Admin
   ptwCards: PtwCard[]; // Permit Holder / Issuer authorisation cards
+  certUploads: CertUpload[]; // certificates people uploaded for checking
+  redemptions: Redemption[]; // reward points spent
 }
 
 export interface Company {
@@ -424,6 +428,62 @@ export interface HsseReport {
   actions: HsseAction[];
   createdAt: string;
   timeline: TimelineEntry[];
+  // Reward points — set by an Administrator after reviewing the report.
+  points?: number;
+  pointsStatus?: 'APPROVED' | 'REJECTED';
+  pointsDecidedAt?: string;
+  pointsDecidedBy?: string;
+  pointsNote?: string;
+}
+
+export interface Redemption {
+  id: string;
+  userId: string;
+  userName: string;
+  rewardId: string;
+  rewardLabel: string;
+  cost: number;
+  status: 'PENDING' | 'FULFILLED' | 'REJECTED' | 'CANCELLED';
+  requestedAt: string;
+  decidedAt?: string;
+  decidedBy?: string;
+  note?: string;
+}
+
+/** A certificate someone uploaded themselves; details are read with OCR, then checked by an Administrator. */
+export interface CertUpload {
+  id: string;
+  userId: string;
+  userName: string;
+  code: string; // FA, FR, WAH, ... or OTHER
+  title: string; // what the certificate is for
+  number: string;
+  issued: string; // YYYY-MM-DD
+  expires: string;
+  issuer?: string;
+  holderName?: string;
+  fileName: string;
+  image?: string; // compressed preview (images only)
+  ocrText?: string;
+  status: 'PENDING' | 'VERIFIED' | 'REJECTED';
+  submittedAt: string;
+  decidedAt?: string;
+  decidedBy?: string;
+  note?: string;
+}
+
+/** Answers to the Safety Passport "Add your details" form, kept on the person's account. */
+export interface PassportForm {
+  dob?: string;
+  residentCardNo?: string;
+  designation?: string;
+  nationality?: string;
+  bloodGroup?: string;
+  photo?: string;
+  firstAider?: boolean;
+  fireRespondent?: boolean;
+  otherCerts?: boolean;
+  submittedAt?: string;
 }
 
 export type SosStatus = 'ACTIVE' | 'ACKNOWLEDGED' | 'RESOLVED';

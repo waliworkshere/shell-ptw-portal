@@ -1,5 +1,7 @@
 'use client';
 
+import { suggestedPoints } from '@/lib/points';
+
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
@@ -156,6 +158,11 @@ export default function SosReportPage() {
               ))}
               <span className={`rounded-full border px-3 py-1 text-xs font-semibold ${RAM_STYLE[level].chip}`}>RAM {done.consequence}{done.likelihood} · {RAM_STYLE[level].label}</span>
             </div>
+            {!done.anonymous && (
+              <p className="mt-4 text-sm text-sand-700">
+                ★ You&apos;ll earn {suggestedPoints(done)} reward point{suggestedPoints(done) === 1 ? '' : 's'} once an Administrator approves this report. <Link href="/rewards" className="underline">My points</Link>
+              </p>
+            )}
             <div className="mt-6 flex justify-center gap-2">
               <Link href={`/hsse/${done.id}`} className="btn-secondary">View report</Link>
               <button

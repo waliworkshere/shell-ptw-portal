@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
-import { AppState, Application, ApplicationStatus, User, FuelStation, PermitType, UploadedDocument, RiskLevel, CallStatus, CallScreenshot, Course, Lesson, Enrollment, PermitHolderRegistration, JourneyPlan, Payment, PaymentMethod, HsseReport, HsseStatus, SosAlert, HSSE_TYPE_SHORT, Company, PtwCard } from './types';
+import { AppState, Application, ApplicationStatus, User, FuelStation, PermitType, UploadedDocument, RiskLevel, CallStatus, CallScreenshot, Course, Lesson, Enrollment, PermitHolderRegistration, JourneyPlan, Payment, PaymentMethod, HsseReport, HsseStatus, SosAlert, HSSE_TYPE_SHORT, Company, PtwCard, CertUpload, Redemption, PassportForm } from './types';
 import { nextCertificateNumber } from './training';
 import { ROLE_LABEL } from './types';
 import { nextJmpNumber } from './journey';
@@ -28,6 +28,15 @@ interface StoreContextValue {
   reloadLive: () => Promise<boolean>;
   savePtwCard: (card: Omit<PtwCard, 'id' | 'cardNo' | 'issuedAt'> & Partial<Pick<PtwCard, 'id' | 'cardNo' | 'issuedAt'>>) => PtwCard;
   updateUser: (userId: string, patch: Partial<User>) => void;
+  // Points & rewards
+  decideReportPoints: (reportId: string, approve: boolean, points: number, note: string) => void;
+  requestRedemption: (reward: { id: string; label: string; cost: number }) => { ok: true } | { ok: false; error: string };
+  decideRedemption: (id: string, fulfil: boolean, note: string) => void;
+  cancelRedemption: (id: string) => void;
+  // Certificates & Safety Passport details
+  submitCertUpload: (c: Omit<CertUpload, 'id' | 'userId' | 'userName' | 'status' | 'submittedAt'> & { id?: string }) => void;
+  decideCertUpload: (id: string, verify: boolean, note: string) => void;
+  savePassportForm: (form: PassportForm, patch?: Partial<Pick<User, 'fullName' | 'email' | 'company' | 'jobTitle' | 'phone' | 'facePhoto'>>) => void;
   currentUser: User | null;
   signInAs: (userId: string) => void;
   signIn: (username: string, password: string) => { ok: true; user: User } | { ok: false; error: string };
@@ -128,7 +137,7 @@ const EMPTY_LIVE: AppState = {
   currentUserId: null,
   users: [], stations: [], permitTypes: [], applications: [], auditLogs: [], screenshotGallery: [],
   courses: [], enrollments: [], registrations: [], journeys: [], payments: [], hsseReports: [], sosAlerts: [],
-  faceChecks: [], tourDone: [], companies: [], ptwCards: [],
+  faceChecks: [], tourDone: [], companies: [], ptwCards: [], certUploads: [], redemptions: [],
 };
 
 /** Bump when new catalogue items (courses, permit types, stations) ship in code. */
@@ -552,6 +561,97 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const updateUser = useCallback((userId: string, patch: Partial<User>) => {
     setState((s) => ({ ...s, users: s.users.map((u) => (u.id === userId ? { ...u, ...patch } : u)) }));
   }, []);
+
+  /* ======================= POINTS & REWARDS ======================= */
+
+  const decideReportPoints = useCallback((reportId: string, approve: boolean, points: number, note: string) => {
+    const s0 = stateRef.current;
+    const admin = s0.users.find((u) => u.id === s0.currentUserId)?.fullName ?? 'Administrator';
+    const rep = s0.hsseReports.find((r) => r.id === reportId);
+    const nowIso = new Date().toISOString();
+    const pts = approve ? Math.max(0, Math.round(points)) : 0;
+    setState((s) => ({
+      ...s,
+      hsseReports: s.hsseReports.map((r) =>
+        r.id === reportId
+          ? {
+              ...r,
+              points: pts,
+              pointsStatus: approve ? 'APPROVED' : 'REJECTED',
+              pointsDecidedAt: nowIso,
+              pointsDecidedBy: admin,
+              pointsNote: note || undefined,
+              timeline: [...r.timeline, { id: `ht-${rid()}`, label: approve ? `Approved: ${pts} reward point${pts === 1 ? '' : 's'}` : `No reward points${note ? `: ${note}` : ''}`, actor: admin, at: nowIso }],
+            }
+          : r,
+      ),
+    }));
+    addAuditLog(approve ? 'POINTS_AWARDED' : 'POINTS_DECLINED', `${rep?.refNo ?? reportId} — ${approve ? `${pts} point(s) to ${rep?.reporterName}` : 'no points'}`);
+  }, [addAuditLog]);
+
+  const requestRedemption = useCallback((reward: { id: string; label: string; cost: number }) => {
+    const s0 = stateRef.current;
+    const me = s0.users.find((u) => u.id === s0.currentUserId);
+    if (!me) return { ok: false as const, error: 'Please sign in again.' };
+    const earned = s0.hsseReports.filter((r) => r.reporterId === me.id && r.pointsStatus === 'APPROVED').reduce((a, r) => a + (r.points ?? 0), 0);
+    const spent = s0.redemptions.filter((x) => x.userId === me.id && (x.status === 'PENDING' || x.status === 'FULFILLED')).reduce((a, x) => a + x.cost, 0);
+    if (earned - spent < reward.cost) return { ok: false as const, error: `You need ${reward.cost} points — you have ${earned - spent}.` };
+    const red: Redemption = {
+      id: `rd-${rid()}`, userId: me.id, userName: me.fullName, rewardId: reward.id, rewardLabel: reward.label, cost: reward.cost,
+      status: 'PENDING', requestedAt: new Date().toISOString(),
+    };
+    setState((s) => ({ ...s, redemptions: [red, ...s.redemptions] }));
+    addAuditLog('POINTS_REDEEM_REQUESTED', `${me.fullName}: ${reward.label} (${reward.cost} points)`);
+    return { ok: true as const };
+  }, [addAuditLog]);
+
+  const decideRedemption = useCallback((id: string, fulfil: boolean, note: string) => {
+    const s0 = stateRef.current;
+    const admin = s0.users.find((u) => u.id === s0.currentUserId)?.fullName ?? 'Administrator';
+    const red = s0.redemptions.find((x) => x.id === id);
+    setState((s) => ({
+      ...s,
+      redemptions: s.redemptions.map((x) => (x.id === id ? { ...x, status: fulfil ? 'FULFILLED' : 'REJECTED', decidedAt: new Date().toISOString(), decidedBy: admin, note: note || undefined } : x)),
+    }));
+    addAuditLog(fulfil ? 'POINTS_REDEEMED' : 'POINTS_REDEEM_REJECTED', `${red?.userName}: ${red?.rewardLabel}`);
+  }, [addAuditLog]);
+
+  const cancelRedemption = useCallback((id: string) => {
+    setState((s) => ({ ...s, redemptions: s.redemptions.map((x) => (x.id === id && x.status === 'PENDING' ? { ...x, status: 'CANCELLED' } : x)) }));
+  }, []);
+
+  /* ======================= CERTIFICATE UPLOADS ======================= */
+
+  const submitCertUpload: StoreContextValue['submitCertUpload'] = useCallback((c) => {
+    const s0 = stateRef.current;
+    const me = s0.users.find((u) => u.id === s0.currentUserId);
+    if (!me) return;
+    const rec: CertUpload = { ...c, id: c.id ?? `cu-${rid()}`, userId: me.id, userName: me.fullName, status: 'PENDING', submittedAt: new Date().toISOString() };
+    setState((s) => ({
+      ...s,
+      certUploads: s.certUploads.some((x) => x.id === rec.id) ? s.certUploads.map((x) => (x.id === rec.id ? rec : x)) : [rec, ...s.certUploads],
+    }));
+    addAuditLog('CERTIFICATE_UPLOADED', `${me.fullName}: ${rec.title || rec.code} ${rec.number} submitted for checking`);
+  }, [addAuditLog]);
+
+  const decideCertUpload = useCallback((id: string, verify: boolean, note: string) => {
+    const s0 = stateRef.current;
+    const admin = s0.users.find((u) => u.id === s0.currentUserId)?.fullName ?? 'Administrator';
+    const c = s0.certUploads.find((x) => x.id === id);
+    setState((s) => ({
+      ...s,
+      certUploads: s.certUploads.map((x) => (x.id === id ? { ...x, status: verify ? 'VERIFIED' : 'REJECTED', decidedAt: new Date().toISOString(), decidedBy: admin, note: note || undefined } : x)),
+    }));
+    addAuditLog(verify ? 'CERTIFICATE_VERIFIED' : 'CERTIFICATE_REJECTED', `${c?.userName}: ${c?.title || c?.code} ${c?.number}`);
+  }, [addAuditLog]);
+
+  const savePassportForm: StoreContextValue['savePassportForm'] = useCallback((form, patch) => {
+    setState((s) => ({
+      ...s,
+      users: s.users.map((u) => (u.id === s.currentUserId ? { ...u, ...patch, passportForm: { ...u.passportForm, ...form, submittedAt: new Date().toISOString() } } : u)),
+    }));
+    addAuditLog('PASSPORT_DETAILS_SAVED', 'Safety Passport details updated');
+  }, [addAuditLog]);
 
   const addUser: StoreContextValue['addUser'] = useCallback((user) => {
     const username = user.username || user.fullName.toLowerCase().trim().replace(/^al\s+/, '').replace(/\s+/g, '.');
@@ -1320,6 +1420,13 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         reloadLive: loadLive,
         savePtwCard,
         updateUser,
+        decideReportPoints,
+        requestRedemption,
+        decideRedemption,
+        cancelRedemption,
+        submitCertUpload,
+        decideCertUpload,
+        savePassportForm,
         currentUser,
         signInAs,
         signIn,

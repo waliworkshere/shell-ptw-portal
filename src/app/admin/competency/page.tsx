@@ -42,14 +42,14 @@ export default function CompetencyMatrixPage() {
       const k = u.company || '—';
       const r = m.get(k) ?? { workers: 0, fa: 0, fw: 0 };
       r.workers += 1;
-      if (holdsCert(u, 'FA') || state.enrollments.some((e) => e.userId === u.id && e.courseId === 'crs-fa' && e.completedAt)) r.fa += 1;
-      if (holdsCert(u, 'FR') || state.enrollments.some((e) => e.userId === u.id && e.courseId === 'crs-fir110' && e.completedAt)) r.fw += 1;
+      if (holdsCert(u, 'FA', state.certUploads) || state.enrollments.some((e) => e.userId === u.id && e.courseId === 'crs-fa' && e.completedAt)) r.fa += 1;
+      if (holdsCert(u, 'FR', state.certUploads) || state.enrollments.some((e) => e.userId === u.id && e.courseId === 'crs-fir110' && e.completedAt)) r.fw += 1;
       m.set(k, r);
     });
     return Array.from(m.entries())
       .map(([company, r]) => ({ company, ...r, need: Math.max(1, Math.ceil(r.workers / 25)) }))
       .sort((a, b) => b.workers - a.workers);
-  }, [people, state.enrollments]);
+  }, [people, state.enrollments, state.certUploads]);
   const emergencyOk = emergency.filter((e) => e.fa >= e.need && e.fw >= e.need).length;
 
   function assign(userId: string, role: string) {

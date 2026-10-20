@@ -44,6 +44,8 @@ import {
   Trophy,
   CreditCard,
   LayoutGrid,
+  FileBadge,
+  Gift,
 } from 'lucide-react';
 
 type NavItem = { href: string; label: string; icon: React.ElementType };
@@ -54,6 +56,7 @@ const HSSE: NavGroup = {
   items: [
     { href: '/hsse/report', label: 'SOS report', icon: Megaphone },
     { href: '/hsse', label: 'SOS & HSSE reports', icon: ShieldAlert },
+    { href: '/rewards', label: 'My points & rewards', icon: Gift },
   ],
 };
 
@@ -74,9 +77,10 @@ const NAV: Record<Role, NavGroup[]> = {
         { href: '/admin/training', label: 'Training modules', icon: GraduationCap },
         { href: '/admin/competency', label: 'Competency matrix', icon: LayoutGrid },
         { href: '/admin/ptw-cards', label: 'PTW cards', icon: CreditCard },
+        { href: '/admin/certificates', label: 'Certificate checks', icon: FileBadge },
       ],
     },
-    { title: 'Operations', items: [{ href: '/hsse', label: 'SOS & HSSE reports', icon: ShieldAlert }, { href: '/journeys/monitor', label: 'Journey management', icon: Radar }, { href: '/admin/audit-logs', label: 'Audit logs', icon: ScrollText }] },
+    { title: 'Operations', items: [{ href: '/hsse', label: 'SOS & HSSE reports', icon: ShieldAlert }, { href: '/admin/rewards', label: 'Points & rewards', icon: Gift }, { href: '/journeys/monitor', label: 'Journey management', icon: Radar }, { href: '/admin/audit-logs', label: 'Audit logs', icon: ScrollText }] },
     { items: [{ href: '/profile', label: 'My profile', icon: UserCircle }] },
   ],
   APPROVER: [
@@ -99,6 +103,7 @@ const NAV: Record<Role, NavGroup[]> = {
         { href: '/training', label: 'Training', icon: GraduationCap },
         { href: '/training/roadmap', label: 'Roadmap', icon: Map },
         { href: '/training/passport', label: 'Safety Passport', icon: Contact },
+        { href: '/my-details', label: 'My details & certificates', icon: FileBadge },
         { href: '/ptw-card', label: 'My PTW card', icon: CreditCard },
         { href: '/training/certificates', label: 'Certificates', icon: Award },
       ],
@@ -112,6 +117,7 @@ const NAV: Record<Role, NavGroup[]> = {
         { href: '/training', label: 'My learning', icon: GraduationCap },
         { href: '/training/roadmap', label: 'Roadmap', icon: Map },
         { href: '/training/passport', label: 'Safety Passport', icon: Contact },
+        { href: '/my-details', label: 'My details & certificates', icon: FileBadge },
         { href: '/training/certificates', label: 'Certificates', icon: Award },
         { href: '/training/register', label: 'Become a Permit Holder', icon: BadgeCheck },
       ],

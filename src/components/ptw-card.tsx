@@ -72,8 +72,8 @@ export function PtwCardView({ card, user, flippable = true }: { card: PtwCard; u
                   ))}
                 </dl>
                 <div className="flex w-[30%] shrink-0 flex-col items-center gap-1.5">
-                  {user?.facePhoto ? (
-                    <img src={user.facePhoto} alt="" className="aspect-[3/4] w-full rounded-md object-cover ring-1 ring-petrol-100" />
+                  {user?.facePhoto || user?.passportForm?.photo ? (
+                    <img src={user.facePhoto || user.passportForm?.photo} alt="" className="aspect-[3/4] w-full rounded-md object-cover ring-1 ring-petrol-100" />
                   ) : (
                     <span className="flex aspect-[3/4] w-full items-center justify-center rounded-md bg-petrol-500 text-lg font-semibold text-white">{initials(name)}</span>
                   )}

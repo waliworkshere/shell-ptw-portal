@@ -5,7 +5,9 @@ import { useRouter } from 'next/navigation';
 import { RoleGuard } from '@/components/role-guard';
 import { useStore } from '@/lib/store';
 import { RISK_DESCRIPTION, RISK_LABEL, RiskLevel, UploadedDocument, jhaRequired } from '@/lib/types';
-import { ArrowLeft, ArrowRight, Camera, CheckCircle2, Lightbulb, Upload, Video } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Camera, CheckCircle2, Lightbulb, Loader2, ScanText, Upload, Video } from 'lucide-react';
+import { matchFields, readDocument } from '@/lib/ocr';
+import { OcrUploadButton } from '@/components/ocr-upload';
 
 const STEPS = ['Station', 'Permit type', 'Risk level', 'Details', 'Documents', 'Review'];
 
@@ -15,7 +17,9 @@ function OnSiteDocPicker({
   doc,
   onFile,
   onCapture,
+  reading = false,
 }: {
+  reading?: boolean;
   label: string;
   required: boolean;
   doc?: UploadedDocument;
@@ -82,6 +86,11 @@ function OnSiteDocPicker({
         <div className="mt-2 flex items-center gap-2 rounded-md bg-white px-3 py-2 text-xs">
           <CheckCircle2 size={16} className="shrink-0 text-petrol-500" />
           <span className="truncate">{doc.fileName}</span>
+          {reading ? (
+            <span className="ml-auto inline-flex shrink-0 items-center gap-1 text-slate-400"><Loader2 size={12} className="animate-spin" /> reading</span>
+          ) : doc.ocrText ? (
+            <span className="ml-auto inline-flex shrink-0 items-center gap-1 text-leaf-700" title="Text read automatically for the Permit Issuer"><ScanText size={12} /> text read</span>
+          ) : null}
         </div>
       ) : (
         <div className="mt-2 flex gap-2">
@@ -133,12 +142,46 @@ export default function NewApplicationPage() {
     return true;
   }
 
+  const [reading, setReading] = useState<Record<string, boolean>>({});
+  const [autoFilled, setAutoFilled] = useState('');
+
+  /** Fills empty detail fields with anything that matches on a scanned document. */
+  function autofill(text: string) {
+    const found = matchFields(text, (permitType?.fields ?? []).map((f) => ({ key: f.key, label: f.label, date: f.fieldType === 'DATE' })));
+    let n = 0;
+    setFieldValues((v) => {
+      const next = { ...v };
+      for (const [k, val] of Object.entries(found)) if (!next[k]?.trim()) { next[k] = val; n++; }
+      return next;
+    });
+    return Object.keys(found).length || n;
+  }
+
+  /** Reads an uploaded / photographed document with OCR so the Permit Issuer can search its text. */
+  async function readInto(key: string, source: File | string, fileName: string) {
+    setReading((r) => ({ ...r, [key]: true }));
+    try {
+      const file = typeof source === 'string' ? new File([await (await fetch(source)).blob()], fileName, { type: 'image/png' }) : source;
+      const r = await readDocument(file);
+      const patch = (d?: UploadedDocument) => (d && d.fileName === fileName ? { ...d, ocrText: r.text.slice(0, 3000), dataUrl: d.dataUrl ?? r.preview } : d);
+      if (key === 'wcf') setWcfDocument(patch);
+      else if (key === 'jha') setJhaDocument(patch);
+      else setDocuments((docs) => docs.map((d) => (d.key === key ? patch(d)! : d)));
+      if (r.text) autofill(r.text);
+    } catch {
+      // OCR is a convenience — the upload itself still counts.
+    } finally {
+      setReading((r) => ({ ...r, [key]: false }));
+    }
+  }
+
   function handleFileSelect(key: string, label: string, file: File | null) {
     if (!file) {
       setDocuments((docs) => docs.filter((d) => d.key !== key));
       return;
     }
     setDocuments((docs) => [...docs.filter((d) => d.key !== key), { key, label, fileName: file.name }]);
+    void readInto(key, file, file.name);
   }
 
   function handleSubmit() {
@@ -240,6 +283,18 @@ export default function NewApplicationPage() {
 
           {step === 3 && permitType && (
             <div className="space-y-4">
+              <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg bg-petrol-50 p-3 text-xs text-petrol-600">
+                <span className="flex items-center gap-2"><ScanText size={16} /> Have the WCF or method statement already? Scan it and we&apos;ll fill in what we can read.</span>
+                <OcrUploadButton
+                  label="Fill from a document"
+                  className="btn-secondary px-3 py-1.5 text-xs"
+                  onRead={({ text }) => {
+                    const n = text ? autofill(text) : 0;
+                    setAutoFilled(n ? `Filled ${n} field${n === 1 ? '' : 's'} from the document — please check them.` : 'Nothing matched the form fields. Please type the details.');
+                  }}
+                />
+              </div>
+              {autoFilled && <p className="rounded-lg bg-sand-50 px-3 py-2 text-xs text-sand-700">{autoFilled}</p>}
               {permitType.fields.map((f) => (
                 <div key={f.key}>
                   <label className="label">
@@ -283,16 +338,30 @@ export default function NewApplicationPage() {
                   label="Work Clearance Form (WCF)"
                   required
                   doc={wcfDocument}
-                  onFile={(file) => setWcfDocument(file ? { key: 'wcf', label: 'Work Clearance Form (WCF)', fileName: file.name } : undefined)}
-                  onCapture={(dataUrl, fileName) => setWcfDocument({ key: 'wcf', label: 'Work Clearance Form (WCF)', fileName, dataUrl })}
+                  reading={reading.wcf}
+                  onFile={(file) => {
+                    setWcfDocument(file ? { key: 'wcf', label: 'Work Clearance Form (WCF)', fileName: file.name } : undefined);
+                    if (file) void readInto('wcf', file, file.name);
+                  }}
+                  onCapture={(dataUrl, fileName) => {
+                    setWcfDocument({ key: 'wcf', label: 'Work Clearance Form (WCF)', fileName, dataUrl });
+                    void readInto('wcf', dataUrl, fileName);
+                  }}
                 />
                 {needsJha && (
                   <OnSiteDocPicker
                     label="Job Hazard Analysis (JHA/RA)"
                     required
                     doc={jhaDocument}
-                    onFile={(file) => setJhaDocument(file ? { key: 'jha', label: 'Job Hazard Analysis (JHA/RA)', fileName: file.name } : undefined)}
-                    onCapture={(dataUrl, fileName) => setJhaDocument({ key: 'jha', label: 'Job Hazard Analysis (JHA/RA)', fileName, dataUrl })}
+                    reading={reading.jha}
+                    onFile={(file) => {
+                      setJhaDocument(file ? { key: 'jha', label: 'Job Hazard Analysis (JHA/RA)', fileName: file.name } : undefined);
+                      if (file) void readInto('jha', file, file.name);
+                    }}
+                    onCapture={(dataUrl, fileName) => {
+                      setJhaDocument({ key: 'jha', label: 'Job Hazard Analysis (JHA/RA)', fileName, dataUrl });
+                      void readInto('jha', dataUrl, fileName);
+                    }}
                   />
                 )}
                 {permitType.documents.map((d) => {
@@ -303,8 +372,12 @@ export default function NewApplicationPage() {
                       label={d.label}
                       required={d.required}
                       doc={uploaded}
+                      reading={reading[d.key]}
                       onFile={(file) => handleFileSelect(d.key, d.label, file)}
-                      onCapture={(dataUrl, fileName) => setDocuments((docs) => [...docs.filter((doc) => doc.key !== d.key), { key: d.key, label: d.label, fileName, dataUrl }])}
+                      onCapture={(dataUrl, fileName) => {
+                        setDocuments((docs) => [...docs.filter((doc) => doc.key !== d.key), { key: d.key, label: d.label, fileName, dataUrl }]);
+                        void readInto(d.key, dataUrl, fileName);
+                      }}
                     />
                   );
                 })}

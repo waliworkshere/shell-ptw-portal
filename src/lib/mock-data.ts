@@ -256,7 +256,11 @@ export const seedState: AppState = {
     payment('u-trainee-3', 12, 'RCT-2026-001133', 'CARD', '4242'),
   ],
 
-  hsseReports: buildHsse(),
+  hsseReports: buildHsse().map((r) =>
+    r.status === 'CLOSED' && r.reporterId
+      ? { ...r, points: r.types.every((t) => t === 'POTENTIAL_INCIDENT') ? 1 : 2, pointsStatus: 'APPROVED' as const, pointsDecidedAt: r.createdAt, pointsDecidedBy: 'Yusuf Al Balushi' }
+      : r,
+  ),
   sosAlerts: [
     {
       id: 'sos-1', refNo: 'SOS-2026-0007', userId: 'u-applicant-2', userName: 'Sara Al Kindi', role: 'APPLICANT', phone: '+968 9822 7315',
@@ -281,6 +285,8 @@ export const seedState: AppState = {
     { id: 'co-6', name: 'Batinah Signage & Canopy Co.', crNumber: '1188921', category: 'Signage & canopy', status: 'APPROVED', addedAt: daysAgo(60) },
     { id: 'co-7', name: 'Desert Clean Services', crNumber: '1172210', category: 'Cleaning', status: 'SUSPENDED', addedAt: daysAgo(300) },
   ],
+  certUploads: [],
+  redemptions: [],
   ptwCards: [
     {
       id: 'ptw-1', userId: 'u-applicant-1', kind: 'PH', cardNo: 'AO-PTW-26-014/PH', position: 'Site Supervisor', company: 'Gulf Mechanical LLC',

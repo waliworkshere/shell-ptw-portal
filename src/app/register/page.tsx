@@ -10,6 +10,8 @@ import { fmtDate, isCertificateValid } from '@/lib/training';
 import { ArteliaLogo, PrototypeRibbon, ShellLogo, Wordmark } from '@/components/brand';
 import { CompanySelect } from '@/components/company-select';
 import { LangToggle } from '@/components/i18n';
+import { OcrUploadButton } from '@/components/ocr-upload';
+import { parseCivilId } from '@/lib/ocr';
 import { ArrowLeft, ArrowRight, Award, CheckCircle2, History, Contact, LogIn, ShieldAlert, UserPlus } from 'lucide-react';
 
 type Step = 'civil' | 'exists' | 'details' | 'liveExists';
@@ -133,8 +135,20 @@ export default function RegisterPage() {
 
         {step === 'civil' && (
           <form onSubmit={check} className="card mt-6 space-y-4 animate-fade-up">
-            <div className="flex items-center gap-3 rounded-xl bg-petrol-50 p-3 text-sm text-petrol-600">
-              <Contact size={20} /> Enter the details exactly as printed on your Oman Civil ID card.
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-petrol-50 p-3 text-sm text-petrol-600">
+              <span className="flex items-center gap-3"><Contact size={20} /> Enter the details exactly as printed on your Oman Civil ID card — or scan it.</span>
+              <OcrUploadButton
+                label="Scan Civil ID"
+                accept="image/*"
+                className="btn-secondary px-3 py-1.5 text-xs"
+                onRead={({ text }) => {
+                  const g = parseCivilId(text);
+                  if (g.civilId) setCivilId(g.civilId.slice(0, 10));
+                  if (g.expiry) setExpiry(g.expiry);
+                  if (g.name) setF((x) => ({ ...x, fullName: x.fullName || g.name }));
+                  setError(g.civilId || g.expiry ? '' : 'We could not read the card clearly — please type the details.');
+                }}
+              />
             </div>
             <div>
               <label className="label" htmlFor="cid">Civil ID number</label>

@@ -115,7 +115,7 @@ function today() {
 }
 
 /** Does this person hold the competency? Checks imported certificates first, then Gemsafety course completions. */
-export function evidenceFor(state: Pick<AppState, 'enrollments' | 'courses'>, user: User, code: CompetencyItemCode): Evidence {
+export function evidenceFor(state: Pick<AppState, 'enrollments' | 'courses'> & Partial<Pick<AppState, 'certUploads'>>, user: User, code: CompetencyItemCode): Evidence {
   if (code === 'SP') {
     const r = (user.member?.examResult ?? '').toLowerCase();
     if (r === 'pass') return { held: true, source: `Passport exam passed${user.member?.examScore ? ` (${user.member.examScore}%)` : ''}` };
@@ -131,6 +131,11 @@ export function evidenceFor(state: Pick<AppState, 'enrollments' | 'courses'>, us
     if (!expires || expires >= today()) return { held: true, source: `${c} ${number}${expires ? ` · expires ${expires}` : ''}` };
     expired = { held: false, expired: true, source: `${c} ${number} · expired ${expires}` };
   }
+  for (const u of state.certUploads ?? []) {
+    if (u.userId !== user.id || u.status !== 'VERIFIED' || !item.certs.includes(u.code)) continue;
+    if (!u.expires || u.expires >= today()) return { held: true, source: `${u.code} ${u.number}${u.expires ? ` · expires ${u.expires}` : ''} (uploaded, verified)` };
+    expired = expired ?? { held: false, expired: true, source: `${u.code} ${u.number} · expired ${u.expires}` };
+  }
   for (const cid of item.courses) {
     const e = state.enrollments.find((x) => x.userId === user.id && x.courseId === cid && x.completedAt);
     if (e) {
@@ -141,7 +146,7 @@ export function evidenceFor(state: Pick<AppState, 'enrollments' | 'courses'>, us
   return expired ?? { held: false };
 }
 
-export function competencySummary(state: Pick<AppState, 'enrollments' | 'courses'>, user: User) {
+export function competencySummary(state: Pick<AppState, 'enrollments' | 'courses'> & Partial<Pick<AppState, 'certUploads'>>, user: User) {
   const g = groupFor(user.competencyRole);
   if (!g) return null;
   const required = g.required.map((code) => ({ code, item: COMPETENCY_ITEMS[code], ev: evidenceFor(state, user, code) }));
@@ -151,6 +156,9 @@ export function competencySummary(state: Pick<AppState, 'enrollments' | 'courses
 }
 
 /** Holds a valid cert of this type (FA / FR) — used for the emergency-preparedness check per company. */
-export function holdsCert(user: User, code: string) {
-  return (user.member?.certs ?? []).some((c) => c.code === code && (!c.expires || c.expires >= today()));
+export function holdsCert(user: User, code: string, uploads: AppState['certUploads'] = []) {
+  return (
+    (user.member?.certs ?? []).some((c) => c.code === code && (!c.expires || c.expires >= today())) ||
+    uploads.some((c) => c.userId === user.id && c.code === code && c.status === 'VERIFIED' && (!c.expires || c.expires >= today()))
+  );
 }

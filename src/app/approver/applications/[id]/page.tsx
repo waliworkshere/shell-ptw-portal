@@ -198,7 +198,7 @@ export default function ApplicationReviewPage() {
               <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
                 {app.documents.map((doc) => (
                   <div key={doc.key} className="flex flex-col items-center justify-center rounded-lg border border-dashed border-petrol-100 bg-petrol-50/40 p-4 text-center">
-                    <FileImage size={22} className="text-petrol-400" />
+                    {doc.dataUrl ? <img src={doc.dataUrl} alt={doc.label} className="h-16 w-16 rounded object-cover" /> : <FileImage size={22} className="text-petrol-400" />}
                     <p className="mt-2 text-xs font-medium text-ink">{doc.label}</p>
                     <p className="mt-0.5 text-[11px] text-slate-400">{doc.fileName}</p>
                   </div>
@@ -206,6 +206,21 @@ export default function ApplicationReviewPage() {
                 {app.documents.length === 0 && <p className="text-sm text-slate-400">No other documents uploaded.</p>}
               </div>
             </div>
+
+            {[app.wcfDocument, app.jhaDocument, ...app.documents].some((d) => d?.ocrText) && (
+              <div className="card">
+                <h2 className="font-display text-sm font-semibold text-ink">Text read from the documents</h2>
+                <p className="mt-0.5 text-xs text-slate-500">Read automatically (OCR) — always check against the original.</p>
+                <div className="mt-3 space-y-2">
+                  {[app.wcfDocument, app.jhaDocument, ...app.documents].filter((d) => d?.ocrText).map((d) => (
+                    <details key={d!.key} className="rounded-lg border border-petrol-100 p-3 text-sm">
+                      <summary className="cursor-pointer font-medium text-ink">{d!.label}</summary>
+                      <pre className="mt-2 max-h-60 overflow-auto whitespace-pre-wrap text-[11px] text-slate-600">{d!.ocrText}</pre>
+                    </details>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {callRequired && (
               <div className="card">
