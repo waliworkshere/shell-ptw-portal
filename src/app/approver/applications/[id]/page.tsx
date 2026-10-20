@@ -1,5 +1,7 @@
 'use client';
 
+import { LiveCall, LiveCallHandle, callFunction } from '@/components/daily-call';
+
 import { PTW_CATEGORY_LABEL, ptwCardStatus } from '@/lib/ptw-cards';
 
 import { useEffect, useRef, useState } from 'react';
@@ -16,7 +18,10 @@ import { ArrowLeft, FileImage, Check, X, MessageSquareWarning, Video, Camera, Ph
 export default function ApplicationReviewPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
-  const { state, decide, addComment, setCallStatus, addCallScreenshot } = useStore();
+  const { state, decide, addComment, setCallStatus, addCallScreenshot, mode } = useStore();
+  const live = mode === 'live';
+  const liveCall = useRef<LiveCallHandle>(null);
+  const [shotMsg, setShotMsg] = useState('');
 
   const app = state.applications.find((a) => a.id === id);
   const [note, setNote] = useState('');
@@ -45,6 +50,10 @@ export default function ApplicationReviewPage() {
   const callSatisfied = !callRequired || app.callStatus === 'ENDED';
 
   async function startCall() {
+    if (live) {
+      setCallStatus(app!.id, 'IN_PROGRESS');
+      return;
+    }
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
       streamRef.current = stream;
@@ -56,6 +65,14 @@ export default function ApplicationReviewPage() {
   }
 
   function captureScreenshot() {
+    if (live) {
+      const shot = liveCall.current?.snapshot();
+      if (!shot) return setShotMsg('No video to capture yet.');
+      addCallScreenshot(app!.id, shot);
+      setShotMsg('Screenshot saved to the gallery.');
+      setTimeout(() => setShotMsg(''), 2500);
+      return;
+    }
     const video = videoRef.current;
     if (!video) return;
     const canvas = document.createElement('canvas');
@@ -66,6 +83,7 @@ export default function ApplicationReviewPage() {
   }
 
   function endCall() {
+    if (live) callFunction(app!.id, 'end').catch(() => undefined);
     streamRef.current?.getTracks().forEach((t) => t.stop());
     streamRef.current = null;
     setCallStatus(app!.id, 'ENDED');
@@ -235,7 +253,14 @@ export default function ApplicationReviewPage() {
 
                 {app.callStatus === 'IN_PROGRESS' ? (
                   <div className="mt-3">
-                    <video ref={videoRef} autoPlay playsInline muted className="aspect-video w-full rounded-lg bg-ink object-cover" />
+                    {live ? (
+                      <>
+                        <LiveCall ref={liveCall} applicationId={app.id} otherLabel={applicant?.fullName ?? 'Permit Holder'} />
+                        <p className="mt-2 text-xs text-slate-500">The Permit Holder sees a “Join video call” button on their application. {shotMsg && <b className="text-leaf-700">{shotMsg}</b>}</p>
+                      </>
+                    ) : (
+                      <video ref={videoRef} autoPlay playsInline muted className="aspect-video w-full rounded-lg bg-ink object-cover" />
+                    )}
                     <div className="mt-2 flex gap-2">
                       <button onClick={captureScreenshot} className="btn-secondary flex-1 text-xs">
                         <Camera size={14} /> Capture screenshot

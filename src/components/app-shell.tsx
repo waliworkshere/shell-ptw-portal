@@ -139,6 +139,8 @@ function useNotifications() {
   if (currentUser.role === 'ADMIN')
     state.registrations.filter((r) => r.status === 'PENDING').forEach((r) => out.push({ id: r.id, text: `${r.fullName} wants to become a Permit Holder`, href: '/admin/training#registrations', tone: 'amber' }));
   if (currentUser.role === 'APPLICANT')
+    state.applications.filter((a) => a.applicantId === currentUser.id && a.callStatus === 'IN_PROGRESS').forEach((a) => out.push({ id: `call-${a.id}`, text: `${a.applicationNumber}: the Permit Issuer is calling you — join now`, href: `/applicant/applications/${a.id}`, tone: 'red' }));
+  if (currentUser.role === 'APPLICANT')
     state.applications.filter((a) => a.applicantId === currentUser.id && a.status === 'CHANGES_REQUIRED').forEach((a) => out.push({ id: a.id, text: `${a.applicationNumber}: changes requested`, href: `/applicant/applications/${a.id}`, tone: 'amber' }));
   if (['ADMIN', 'APPROVER', 'STATION'].includes(currentUser.role))
     state.hsseReports

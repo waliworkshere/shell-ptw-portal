@@ -1,6 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { Video as VideoIcon } from 'lucide-react';
+import { LiveCall } from '@/components/daily-call';
+
+import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { RoleGuard } from '@/components/role-guard';
@@ -17,7 +20,15 @@ const FLOW_STEPS: { status: string; label: string }[] = [
 
 export default function ApplicationStatusPage() {
   const { id } = useParams<{ id: string }>();
-  const { state, resubmit } = useStore();
+  const { state, resubmit, mode, reloadLive } = useStore();
+  const [inCall, setInCall] = useState(false);
+  const waitingForCall = useStore().state.applications.some((a) => a.id === id && a.callStatus !== 'ENDED' && !['APPROVED', 'REJECTED', 'CANCELLED', 'EXPIRED'].includes(a.status));
+  // While a call may be coming, check more often than the normal 15-second refresh.
+  useEffect(() => {
+    if (mode !== 'live' || !waitingForCall || inCall) return;
+    const iv = setInterval(() => !document.hidden && void reloadLive(), 6000);
+    return () => clearInterval(iv);
+  }, [mode, waitingForCall, inCall, reloadLive]);
   const currentUser = state.users.find((u) => u.id === state.currentUserId);
   const app = state.applications.find((a) => a.id === id);
   const [newDoc, setNewDoc] = useState<string | null>(null);
@@ -49,6 +60,30 @@ export default function ApplicationStatusPage() {
           </div>
           <StatusStamp status={app.status} />
         </div>
+
+        {mode === 'live' && app.callStatus === 'IN_PROGRESS' && (
+          <div className="card mt-6 border-leaf-500 ring-2 ring-leaf-500/30">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p className="flex items-center gap-2 font-display font-semibold text-ink"><span className="h-2.5 w-2.5 animate-pulse rounded-full bg-leaf-500" /> Video verification call</p>
+                <p className="mt-0.5 text-sm text-slate-500">The Permit Issuer is waiting. Go outside the dispenser and tanker offload areas before you join.</p>
+              </div>
+              {!inCall && <button onClick={() => setInCall(true)} className="btn-primary"><VideoIcon size={16} /> Join video call</button>}
+            </div>
+            {inCall && (
+              <div className="mt-4">
+                <LiveCall applicationId={app.id} otherLabel="Permit Issuer" onLeft={() => setInCall(false)} />
+                <button onClick={() => setInCall(false)} className="btn-secondary mt-2 text-xs">Leave call</button>
+              </div>
+            )}
+          </div>
+        )}
+        {mode === 'live' && app.callStatus === 'NOT_STARTED' && ['SUBMITTED', 'RESUBMITTED', 'UNDER_REVIEW'].includes(app.status) && permitType?.videoRequired && (
+          <p className="mt-4 rounded-lg bg-petrol-50 px-3 py-2 text-xs text-petrol-600">
+            A Permit Issuer will start a video call to verify you on site. Keep this page open — a “Join video call” button appears here.{' '}
+            <button onClick={() => void reloadLive()} className="underline">Check now</button>
+          </p>
+        )}
 
         {!isRejectedOrCancelled && app.status !== 'CHANGES_REQUIRED' && (
           <div className="card mt-6">
