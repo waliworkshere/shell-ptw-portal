@@ -414,8 +414,8 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       }
     };
     const me = stateRef.current.users.find((u) => u.id === stateRef.current.currentUserId);
-    // Permit Issuers and Admins check every 4 s so incoming calls ring promptly.
-    const iv = setInterval(tick, me && (me.role === 'APPROVER' || me.role === 'ADMIN') ? 4000 : 15000);
+    // Check often enough that incoming calls ring promptly (only changed records are fetched).
+    const iv = setInterval(tick, me && (me.role === 'APPROVER' || me.role === 'ADMIN' || me.role === 'APPLICANT') ? 4000 : 15000);
     const onVis = () => !document.hidden && void tick();
     document.addEventListener('visibilitychange', onVis);
     return () => {
@@ -835,17 +835,20 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
                   ...app,
                   callStatus: status,
                   callRequestedAt: status === 'RINGING' ? nowIso : app.callRequestedAt,
+                  callRequestedBy: status === 'RINGING' ? user?.fullName : app.callRequestedBy,
+                  callRequestedById: status === 'RINGING' ? user?.id : app.callRequestedById,
+                  callDirection: status === 'RINGING' ? (user?.role === 'APPLICANT' ? 'TO_ISSUER' : 'TO_HOLDER') : app.callDirection,
                   callAnsweredBy: status === 'IN_PROGRESS' ? user?.fullName : app.callAnsweredBy,
                   videoRecorded: status === 'ENDED' ? true : app.videoRecorded,
                   timeline:
                     status === 'RINGING'
-                      ? [...app.timeline, { id: `t-${rid()}`, label: 'Permit Holder called the Permit Issuer', actor: user?.fullName ?? 'Permit Holder', at: nowIso }]
+                      ? [...app.timeline, { id: `t-${rid()}`, label: user?.role === 'APPLICANT' ? 'Called the Permit Issuer' : 'Called the Permit Holder', actor: user?.fullName ?? 'Caller', at: nowIso }]
                       : status === 'IN_PROGRESS'
                         ? [...app.timeline, { id: `t-${rid()}`, label: app.callStatus === 'RINGING' ? 'Video call answered' : 'Video verification call started', actor: user?.fullName ?? 'Permit Issuer', at: nowIso }]
                         : status === 'ENDED'
                           ? [...app.timeline, { id: `t-${rid()}`, label: 'Video verification call ended', actor: user?.fullName ?? 'Permit Issuer', at: nowIso }]
                           : app.callStatus === 'RINGING'
-                            ? [...app.timeline, { id: `t-${rid()}`, label: user?.role === 'APPLICANT' ? 'Call cancelled / not answered' : 'Call declined', actor: user?.fullName ?? 'System', at: nowIso }]
+                            ? [...app.timeline, { id: `t-${rid()}`, label: user?.id === app.callRequestedById ? 'Call cancelled / not answered' : 'Call declined', actor: user?.fullName ?? 'System', at: nowIso }]
                             : app.timeline,
                 }
               : app,

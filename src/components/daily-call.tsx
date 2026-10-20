@@ -72,7 +72,19 @@ export const LiveCall = forwardRef<LiveCallHandle, { applicationId: string; onLe
     let cancelled = false;
     (async () => {
       try {
-        const { url, token } = await callFunction(applicationId);
+        // The Permit Issuer's side opens the room; the holder may arrive a moment earlier, so retry briefly.
+        let joinInfo: Awaited<ReturnType<typeof callFunction>> | null = null;
+        for (let i = 0; i < 20 && !cancelled; i++) {
+          try {
+            joinInfo = await callFunction(applicationId);
+            break;
+          } catch (e) {
+            if (!(e instanceof Error) || !e.message.startsWith('The Permit Issuer has not started') || i === 19) throw e;
+            await new Promise((r) => setTimeout(r, 3000));
+          }
+        }
+        if (!joinInfo || cancelled) return;
+        const { url, token } = joinInfo;
         const Daily = (await import('@daily-co/daily-js')).default;
         if (cancelled) return;
         const existing = Daily.getCallInstance();

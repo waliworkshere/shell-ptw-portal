@@ -1,6 +1,8 @@
 'use client';
 
 import { LiveCall, LiveCallHandle, callFunction } from '@/components/daily-call';
+import { isRinging } from '@/lib/calls';
+import { useCallOutcome } from '@/components/call-outcome';
 
 import { PTW_CATEGORY_LABEL, ptwCardStatus } from '@/lib/ptw-cards';
 
@@ -13,7 +15,7 @@ import { generatePermitPdf } from '@/lib/permit-pdf';
 import { RISK_LABEL } from '@/lib/types';
 import Link from 'next/link';
 import { fmtDate, qualification } from '@/lib/training';
-import { ArrowLeft, FileImage, Check, X, MessageSquareWarning, Video, Camera, PhoneOff, Download } from 'lucide-react';
+import { ArrowLeft, FileImage, Check, X, MessageSquareWarning, Video, Camera, Phone, PhoneOff, Download } from 'lucide-react';
 
 export default function ApplicationReviewPage() {
   const { id } = useParams<{ id: string }>();
@@ -22,6 +24,7 @@ export default function ApplicationReviewPage() {
   const live = mode === 'live';
   const liveCall = useRef<LiveCallHandle>(null);
   const [shotMsg, setShotMsg] = useState('');
+  const callNote = useCallOutcome(state.applications.find((a) => a.id === id), state.currentUserId, setCallStatus);
 
   const app = state.applications.find((a) => a.id === id);
   const [note, setNote] = useState('');
@@ -36,7 +39,7 @@ export default function ApplicationReviewPage() {
 
   if (!app) {
     return (
-      <RoleGuard role="APPROVER">
+      <RoleGuard role={["APPROVER", "ADMIN"]}>
         <div className="mx-auto max-w-3xl px-4 py-6 sm:px-8 sm:py-10 text-sm text-slate-500">Application not found.</div>
       </RoleGuard>
     );
@@ -119,7 +122,7 @@ export default function ApplicationReviewPage() {
   }
 
   return (
-    <RoleGuard role="APPROVER">
+    <RoleGuard role={["APPROVER", "ADMIN"]}>
       <div className="mx-auto max-w-4xl px-4 py-6 sm:px-8 sm:py-10">
         <Link href="/approver/dashboard" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-ink">
           <ArrowLeft size={15} /> Back to queue
@@ -246,6 +249,7 @@ export default function ApplicationReviewPage() {
                   <h2 className="font-display text-sm font-semibold text-ink">Video verification call</h2>
                   <span className="text-xs text-slate-400">
                     {app.callStatus === 'NOT_STARTED' && 'Not started'}
+                    {app.callStatus === 'RINGING' && (isRinging(app) ? 'Ringing' : 'Missed')}
                     {app.callStatus === 'IN_PROGRESS' && 'Live'}
                     {app.callStatus === 'ENDED' && 'Ended'}
                   </span>
@@ -277,11 +281,28 @@ export default function ApplicationReviewPage() {
                         <Video size={28} className="mx-auto text-sand-400" />
                         <p className="mt-2 text-xs">Call completed — {app.callScreenshots.length} screenshot(s) saved to the gallery</p>
                       </div>
+                    ) : live && app.callStatus === 'RINGING' && isRinging(app) && app.callDirection === 'TO_ISSUER' ? (
+                      <div className="text-center text-white">
+                        <p className="text-sm font-semibold">{app.callRequestedBy ?? applicant?.fullName} is calling</p>
+                        <div className="mt-3 flex justify-center gap-3">
+                          <button onClick={() => setCallStatus(app.id, 'NOT_STARTED')} className="flex items-center gap-1.5 rounded-full bg-rust-500 px-4 py-2 text-xs font-semibold hover:bg-rust-600"><PhoneOff size={14} /> Decline</button>
+                          <button onClick={() => setCallStatus(app.id, 'IN_PROGRESS')} className="flex items-center gap-1.5 rounded-full bg-leaf-500 px-4 py-2 text-xs font-semibold hover:bg-leaf-600"><Phone size={14} /> Accept</button>
+                        </div>
+                      </div>
+                    ) : live && app.callStatus === 'RINGING' && isRinging(app) ? (
+                      <div className="text-center text-white/80">
+                        <Phone size={26} className="mx-auto animate-pulse text-leaf-500" />
+                        <p className="mt-2 text-xs">Calling {applicant?.fullName ?? 'the Permit Holder'}… they get a pop-up on their phone</p>
+                        <button onClick={() => setCallStatus(app.id, 'NOT_STARTED')} className="mt-3 rounded-full bg-rust-500 px-4 py-1.5 text-xs font-semibold text-white hover:bg-rust-600">Cancel</button>
+                      </div>
                     ) : (
-                      <button onClick={startCall} disabled={isDecided} className="flex flex-col items-center gap-2 text-white/80 hover:text-white disabled:opacity-40">
-                        <Video size={28} />
-                        <span className="text-xs">Start video call with Permit Holder</span>
-                      </button>
+                      <div className="flex flex-col items-center gap-2">
+                        <button onClick={live ? () => setCallStatus(app.id, 'RINGING') : startCall} disabled={isDecided} className="flex flex-col items-center gap-2 text-white/80 hover:text-white disabled:opacity-40">
+                          <Video size={28} />
+                          <span className="text-xs">{live ? 'Call the Permit Holder' : 'Start video call with Permit Holder'}</span>
+                        </button>
+                        {live && callNote && <span className="text-[11px] text-sand-400">{callNote}</span>}
+                      </div>
                     )}
                   </div>
                 )}

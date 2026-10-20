@@ -211,8 +211,11 @@ export interface Application {
   jhaDocument?: UploadedDocument; // Job Hazard Analysis / Risk Assessment — required for Medium & High risk
   videoRecorded: boolean;
   callStatus: CallStatus;
-  callRequestedAt?: string; // when the Permit Holder pressed "Call Permit Issuer"
-  callAnsweredBy?: string; // Permit Issuer who accepted / started the call
+  callDirection?: 'TO_ISSUER' | 'TO_HOLDER'; // who is being rung while callStatus is RINGING
+  callRequestedAt?: string; // when the ringing started
+  callRequestedBy?: string; // caller's name
+  callRequestedById?: string;
+  callAnsweredBy?: string; // who accepted the call
   callScreenshots: CallScreenshot[];
   permitNumber?: string; // assigned when the generated Permit to Work PDF is issued
   permitPdfGeneratedAt?: string;

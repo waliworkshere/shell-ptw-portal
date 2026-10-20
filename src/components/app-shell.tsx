@@ -1,6 +1,7 @@
 'use client';
 
 import { MustChangePassword } from './password-form';
+import { IncomingCall } from './incoming-call';
 
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
@@ -342,6 +343,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </div>
       <SosButton />
+      <IncomingCall />
       <ProctorPip />
       <Tour />
     </div>
