@@ -1,5 +1,7 @@
 'use client';
 
+import { MustChangePassword } from './password-form';
+
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
@@ -40,6 +42,8 @@ import {
   Lightbulb,
   Siren,
   Trophy,
+  CreditCard,
+  LayoutGrid,
 } from 'lucide-react';
 
 type NavItem = { href: string; label: string; icon: React.ElementType };
@@ -64,14 +68,23 @@ const NAV: Record<Role, NavGroup[]> = {
         { href: '/admin/permit-types', label: 'Permit types', icon: FileStack },
       ],
     },
-    { title: 'Competence', items: [{ href: '/admin/training', label: 'Training modules', icon: GraduationCap }] },
+    {
+      title: 'Competence',
+      items: [
+        { href: '/admin/training', label: 'Training modules', icon: GraduationCap },
+        { href: '/admin/competency', label: 'Competency matrix', icon: LayoutGrid },
+        { href: '/admin/ptw-cards', label: 'PTW cards', icon: CreditCard },
+      ],
+    },
     { title: 'Operations', items: [{ href: '/hsse', label: 'SOS & HSSE reports', icon: ShieldAlert }, { href: '/journeys/monitor', label: 'Journey management', icon: Radar }, { href: '/admin/audit-logs', label: 'Audit logs', icon: ScrollText }] },
+    { items: [{ href: '/profile', label: 'My profile', icon: UserCircle }] },
   ],
   APPROVER: [
-    { items: [{ href: '/approver/dashboard', label: 'Permit Issuer queue', icon: ClipboardCheck }, { href: '/journeys/monitor', label: 'Journey management', icon: Radar }] },
+    { items: [{ href: '/approver/dashboard', label: 'Permit Issuer queue', icon: ClipboardCheck }, { href: '/journeys/monitor', label: 'Journey management', icon: Radar }, { href: '/ptw-card', label: 'My PTW card', icon: CreditCard }] },
     HSSE,
+    { items: [{ href: '/profile', label: 'My profile', icon: UserCircle }] },
   ],
-  STATION: [{ items: [{ href: '/station/dashboard', label: 'Station overview', icon: Building2 }] }, HSSE],
+  STATION: [{ items: [{ href: '/station/dashboard', label: 'Station overview', icon: Building2 }] }, HSSE, { items: [{ href: '/profile', label: 'My profile', icon: UserCircle }] }],
   APPLICANT: [
     {
       items: [
@@ -86,6 +99,7 @@ const NAV: Record<Role, NavGroup[]> = {
         { href: '/training', label: 'Training', icon: GraduationCap },
         { href: '/training/roadmap', label: 'Roadmap', icon: Map },
         { href: '/training/passport', label: 'Safety Passport', icon: Contact },
+        { href: '/ptw-card', label: 'My PTW card', icon: CreditCard },
         { href: '/training/certificates', label: 'Certificates', icon: Award },
       ],
     },
@@ -129,7 +143,7 @@ function useNotifications() {
 }
 
 export function AppShell({ children }: { children: React.ReactNode }) {
-  const { currentUser, signOut, resetDemoData, restartTour, state } = useStore();
+  const { currentUser, signOut, resetDemoData, restartTour, state, mode, mustChange, sync } = useStore();
   const pathname = usePathname();
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -151,6 +165,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }, []);
 
   if (!currentUser) return null;
+  if (mode === 'live' && mustChange) return <MustChangePassword />;
 
   const groups = NAV[currentUser.role];
   const all = groups.flatMap((g) => g.items);
@@ -167,7 +182,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <BrandLockup compact />
         <Wordmark className="mt-3 block text-xl leading-none" />
         <p className="mt-1 font-display text-[12px] font-semibold leading-tight text-ink">Permit to Work &amp; Competence</p>
-        <p className="text-[10px] uppercase tracking-wider text-slate-400">Retail HSSE · Oman · Prototype</p>
+        <p className="text-[10px] uppercase tracking-wider text-slate-400">Retail HSSE · Oman{mode === 'demo' ? ' · Demo' : ''}</p>
       </div>
       <nav className="flex-1 space-y-4 overflow-y-auto px-3 py-4">
         {groups.map((g, gi) => (
@@ -209,7 +224,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         >
           <LogOut size={16} /> Sign out
         </button>
-        <button
+        {mode === 'live' && (
+          <p className="flex items-center gap-1.5 px-3 pb-1 text-[11px] text-slate-400">
+            <span className={`h-1.5 w-1.5 rounded-full ${sync.offline ? 'bg-rust-500' : sync.saving ? 'bg-sand-500' : 'bg-leaf-500'}`} />
+            {sync.offline ? 'Offline — changes will retry' : sync.saving ? 'Saving…' : 'All changes saved'}
+          </p>
+        )}
+        {mode === 'demo' && <button
           onClick={() => {
             if (confirm('Reset all prototype data back to the seeded demo state?')) {
               resetDemoData();
@@ -219,7 +240,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           className="flex w-full items-center gap-2.5 rounded-lg px-3 py-1.5 text-xs font-medium text-slate-400 hover:bg-petrol-50 hover:text-ink"
         >
           <RefreshCw size={13} /> Reset demo data
-        </button>
+        </button>}
       </div>
     </div>
   );

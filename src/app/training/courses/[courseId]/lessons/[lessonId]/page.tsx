@@ -226,7 +226,20 @@ export default function LessonPlayerPage() {
                 <div className="mt-6">
                   {lesson.type === 'VIDEO' && (
                     <div className="mb-6">
-                      <SimulatedVideo title={lesson.title} minutes={lesson.durationMins} watched={lp.contentDone} onWatched={() => setVideoWatched(true)} />
+                      {lesson.videoUrl ? (
+                        <>
+                          <div className="aspect-video w-full overflow-hidden rounded-2xl bg-ink">
+                            <iframe src={lesson.videoUrl} title={lesson.title} className="h-full w-full" allow="autoplay; fullscreen" allowFullScreen />
+                          </div>
+                          {!lp.contentDone && (
+                            <button onClick={() => setVideoWatched(true)} className="btn-secondary mt-3 text-sm">
+                              <CheckCircle2 size={15} /> I have watched the video
+                            </button>
+                          )}
+                        </>
+                      ) : (
+                        <SimulatedVideo title={lesson.title} minutes={lesson.durationMins} watched={lp.contentDone} onWatched={() => setVideoWatched(true)} />
+                      )}
                       <p className="mt-6 text-xs font-semibold uppercase tracking-wide text-slate-400">Transcript</p>
                     </div>
                   )}
@@ -235,6 +248,29 @@ export default function LessonPlayerPage() {
                       <p key={i}>{para}</p>
                     ))}
                   </div>
+                  {lesson.images && lesson.images.length > 0 && (
+                    <div className="mt-6 space-y-4">
+                      {lesson.images.map((img) => (
+                        <figure key={img.src} className="overflow-hidden rounded-2xl border border-petrol-100 bg-white">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={img.src} alt={img.caption ?? ''} className="w-full" loading="lazy" />
+                          {img.caption && <figcaption className="px-4 py-2 text-xs text-slate-500">{img.caption}</figcaption>}
+                        </figure>
+                      ))}
+                    </div>
+                  )}
+                  {lesson.resources && lesson.resources.length > 0 && (
+                    <div className="mt-6 rounded-2xl bg-petrol-50 p-4">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Reference documents</p>
+                      <ul className="mt-2 space-y-1.5 text-sm">
+                        {lesson.resources.map((r) => (
+                          <li key={r.url}>
+                            <a href={r.url} target="_blank" rel="noreferrer" className="font-medium text-petrol-600 hover:underline">{r.label} ↗</a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                   {lesson.keyPoints.length > 0 && (
                     <div className="mt-8">
                       <FlipCards points={lesson.keyPoints} />

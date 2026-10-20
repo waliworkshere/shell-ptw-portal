@@ -75,6 +75,54 @@ export interface User {
   facePhoto?: string;
   faceEnrolledAt?: string;
   passportNo?: string;
+  // Competency matrix group (see lib/competency.ts)
+  competencyRole?: CompetencyRole;
+  // Profile carried over from the member register import
+  member?: MemberProfile;
+}
+
+export type CompetencyRole = 'SUPERVISOR_MANAGER' | 'MEP_CEI' | 'DRIVER_OPERATOR' | 'SKILLED_TRADES' | 'HELPER';
+
+/** One certificate from the imported member register. */
+export interface MemberCert {
+  code: string; // FA, FR, WAH, EXC, CSE, DDC, SCE, SCI, ESR, AGT, RB, WDS
+  number?: string;
+  issued?: string;
+  expires?: string;
+}
+
+export interface MemberProfile {
+  memberId: string;
+  dob?: string;
+  nationality?: string;
+  bloodGroup?: string;
+  examResult?: string;
+  examScore?: number | string;
+  certificateUrl?: string;
+  qrUrl?: string;
+  submittedAt?: string;
+  certs?: MemberCert[];
+}
+
+/** PTW categories a Permit Holder / Issuer card can authorise. */
+export type PtwCategory =
+  | 'HOT_WORK' | 'CONFINED_SPACE' | 'EXCAVATION' | 'LIFTING' | 'FLAMMABLE_GAS'
+  | 'LIVE_ELECTRICAL' | 'DRILLING' | 'WORK_AT_HEIGHT' | 'DEMOLITION' | 'FUEL_LINE' | 'CEI';
+
+export interface PtwCard {
+  id: string;
+  userId: string;
+  kind: 'PH' | 'PI'; // Permit Holder / Permit Issuer
+  cardNo: string; // e.g. AO-PTW-26-001/PH
+  position: string;
+  company: string;
+  categories: PtwCategory[];
+  validUntil: string; // YYYY-MM-DD
+  certifiedBy: string;
+  siteInducted: boolean;
+  issuedAt: string;
+  status: 'ACTIVE' | 'SUSPENDED' | 'REVOKED';
+  note?: string;
 }
 
 export interface FuelStation {
@@ -210,6 +258,7 @@ export interface AppState {
   faceChecks: FaceCheck[];
   tourDone: string[]; // user ids that finished / dismissed the welcome tour
   companies: Company[]; // approved contractor / vendor list, managed by Admin
+  ptwCards: PtwCard[]; // Permit Holder / Issuer authorisation cards
 }
 
 export interface Company {
@@ -252,6 +301,9 @@ export interface Lesson {
   body: string[]; // paragraphs
   keyPoints: string[];
   activity?: 'HAZARD_HUNT'; // optional interactive exercise before the quiz
+  images?: { src: string; caption?: string }[]; // shown under the reading text
+  videoUrl?: string; // embeddable video (e.g. Google Drive /preview link)
+  resources?: { label: string; url: string }[]; // reference documents
   quiz: QuizQuestion[];
 }
 

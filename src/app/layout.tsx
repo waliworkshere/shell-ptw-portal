@@ -11,8 +11,8 @@ const arabic = IBM_Plex_Sans_Arabic({ subsets: ['arabic'], variable: '--font-ara
 const mono = IBM_Plex_Mono({ subsets: ['latin'], variable: '--font-mono', weight: ['400', '500', '600'] });
 
 export const metadata: Metadata = {
-  title: 'Gemsafety — Permit to Work & Competence (Prototype)',
-  description: 'Prototype: Permit to Work, training, Safety Passport and HSSE reporting for Shell retail stations in Oman (Artelia).',
+  title: 'Gemsafety — Permit to Work & Competence',
+  description: 'Permit to Work, training, Safety Passport and HSSE reporting for Shell retail stations in Oman (Artelia).',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

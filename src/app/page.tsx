@@ -27,7 +27,7 @@ import {
   History,
 } from 'lucide-react';
 
-type Tab = 'password' | 'civil';
+type Tab = 'password' | 'civil' | 'activate';
 
 const ROLE_ICON: Record<Role, React.ElementType> = {
   ADMIN: ShieldCheck,
@@ -40,7 +40,8 @@ const ROLE_ICON: Record<Role, React.ElementType> = {
 const ROLE_ORDER: Role[] = ['APPLICANT', 'TRAINEE', 'APPROVER', 'STATION', 'ADMIN'];
 
 export default function LoginPage() {
-  const { state, ready, currentUser, signIn, signInWithCivilId } = useStore();
+  const { state, ready, currentUser, signIn, signInWithCivilId, mode, liveSignIn, liveActivate, switchMode } = useStore();
+  const live = mode === 'live';
   const router = useRouter();
   const [tab, setTab] = useState<Tab>('password');
   const [username, setUsername] = useState('');
@@ -51,6 +52,14 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [flash, setFlash] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [dob, setDob] = useState('');
+  const [newPw, setNewPw] = useState('');
+  const [newPw2, setNewPw2] = useState('');
+
+  useEffect(() => {
+    const t = new URLSearchParams(window.location.search).get('tab');
+    if (t === 'activate') setTab('activate');
+  }, []);
 
   useEffect(() => {
     if (ready && currentUser) router.replace(ROLE_HOME[currentUser.role]);
@@ -69,10 +78,22 @@ export default function LoginPage() {
     setTimeout(() => setFlash(false), 600);
   }
 
-  function submit(e: React.FormEvent) {
+  async function submit(e: React.FormEvent) {
     e.preventDefault();
-    setBusy(true);
     setError('');
+    if (live) {
+      if (tab === 'activate') {
+        if (newPw.length < 8) return setError('Password must be at least 8 characters.');
+        if (newPw !== newPw2) return setError('Passwords do not match.');
+      }
+      setBusy(true);
+      const res = tab === 'activate' ? await liveActivate(civilId, dob, newPw) : await liveSignIn(username, password);
+      setBusy(false);
+      if (!res.ok) return setError(res.error);
+      if (res.role) router.push(ROLE_HOME[res.role]);
+      return;
+    }
+    setBusy(true);
     setTimeout(() => {
       const res = tab === 'password' ? signIn(username, password) : signInWithCivilId(civilId, expiry);
       setBusy(false);
@@ -155,14 +176,21 @@ export default function LoginPage() {
               <h2 className="font-display text-2xl font-semibold text-ink">Sign in</h2>
               <LangToggle />
             </div>
-            <p className="mt-1 text-sm text-slate-500">Use your Gemsafety username, or your Civil ID card.</p>
+            <p className="mt-1 text-sm text-slate-500">
+              {live ? 'Use your username or Civil ID number and your password.' : 'Use your Gemsafety username, or your Civil ID card.'}
+            </p>
 
             <div className="mt-6 grid grid-cols-2 rounded-xl bg-petrol-50 p-1 text-sm font-medium" role="tablist">
               {(
-                [
-                  ['password', 'Username', KeyRound],
-                  ['civil', 'Civil ID', Contact],
-                ] as const
+                live
+                  ? ([
+                      ['password', 'Sign in', KeyRound],
+                      ['activate', 'First time here?', Contact],
+                    ] as const)
+                  : ([
+                      ['password', 'Username', KeyRound],
+                      ['civil', 'Civil ID', Contact],
+                    ] as const)
               ).map(([key, label, Icon]) => (
                 <button
                   key={key}
@@ -183,8 +211,8 @@ export default function LoginPage() {
               {tab === 'password' ? (
                 <>
                   <div>
-                    <label className="label" htmlFor="username">Username or email</label>
-                    <input id="username" autoComplete="username" className="input py-2.5" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="e.g. ahmed.holder" />
+                    <label className="label" htmlFor="username">{live ? 'Username or Civil ID' : 'Username or email'}</label>
+                    <input id="username" autoComplete="username" className="input py-2.5" value={username} onChange={(e) => setUsername(e.target.value)} placeholder={live ? 'e.g. 12345678' : 'e.g. ahmed.holder'} />
                   </div>
                   <div>
                     <label className="label" htmlFor="password">Password</label>
@@ -203,6 +231,30 @@ export default function LoginPage() {
                     </div>
                   </div>
                 </>
+              ) : tab === 'activate' ? (
+                <>
+                  <p className="rounded-xl bg-petrol-50 p-3 text-sm text-petrol-600">
+                    Already on the Shell / Artelia member register? Confirm who you are with your Civil ID and date of birth, then choose a password. From then on you sign in with your Civil ID number.
+                  </p>
+                  <div>
+                    <label className="label" htmlFor="acivil">Civil ID number</label>
+                    <input id="acivil" inputMode="numeric" className="input py-2.5 app-number" value={civilId} onChange={(e) => setCivilId(e.target.value.replace(/\D/g, '').slice(0, 12))} />
+                  </div>
+                  <div>
+                    <label className="label" htmlFor="dob">Date of birth</label>
+                    <input id="dob" type="date" className="input py-2.5" value={dob} onChange={(e) => setDob(e.target.value)} />
+                  </div>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div>
+                      <label className="label" htmlFor="npw">New password</label>
+                      <input id="npw" type="password" autoComplete="new-password" className="input py-2.5" value={newPw} onChange={(e) => setNewPw(e.target.value)} />
+                    </div>
+                    <div>
+                      <label className="label" htmlFor="npw2">Confirm</label>
+                      <input id="npw2" type="password" autoComplete="new-password" className="input py-2.5" value={newPw2} onChange={(e) => setNewPw2(e.target.value)} />
+                    </div>
+                  </div>
+                </>
               ) : (
                 <>
                   <div>
@@ -218,8 +270,8 @@ export default function LoginPage() {
 
               {error && <p className="rounded-lg bg-rust-50 px-3 py-2 text-sm text-rust-600">{error}</p>}
 
-              <button type="submit" disabled={busy || (tab === 'password' ? !username || !password : !civilId || !expiry)} className="btn-primary w-full py-2.5">
-                {busy ? 'Signing in…' : (<><LogIn size={16} /> Sign in</>)}
+              <button type="submit" disabled={busy || (tab === 'password' ? !username || !password : tab === 'activate' ? !civilId || !dob || !newPw : !civilId || !expiry)} className="btn-primary w-full py-2.5">
+                {busy ? 'Signing in…' : tab === 'activate' ? (<><KeyRound size={16} /> Activate my account</>) : (<><LogIn size={16} /> Sign in</>)}
               </button>
               <p className="text-center text-sm text-slate-500">
                 New to Gemsafety?{' '}
@@ -229,8 +281,18 @@ export default function LoginPage() {
               </p>
             </form>
 
+            {live && (
+              <p className="mt-8 text-center text-xs text-slate-400">
+                Forgot your password? Ask your HSSE administrator to set a temporary one.
+                <br />
+                <button type="button" onClick={() => switchMode('demo')} className="mt-2 font-medium text-petrol-500 hover:underline">
+                  Explore the demo with sample data
+                </button>
+              </p>
+            )}
+
             {/* ---------- Demo accounts ---------- */}
-            <div className="mt-8 rounded-2xl border border-dashed border-sand-500/70 bg-sand-50/60 p-4">
+            {!live && <div className="mt-8 rounded-2xl border border-dashed border-sand-500/70 bg-sand-50/60 p-4">
               <div className="flex items-center justify-between gap-2">
                 <p className="flex items-center gap-2 text-sm font-semibold text-ink">
                   <MousePointerClick size={15} className="text-sand-600" /> Demo accounts
@@ -273,11 +335,13 @@ export default function LoginPage() {
                 <BadgeCheck size={13} className="mt-px shrink-0 text-leaf-600" />
                 <span>Try <b>Create an account</b> with Civil ID <span className="app-number">87654321</span> to see the &quot;account already exists&quot; flow for imported workers.</span>
               </p>
-            </div>
+            </div>}
 
-            <p className="mt-6 flex items-center justify-center gap-1.5 text-center text-[11px] text-slate-400">
-              <Lock size={11} /> Prototype prepared by FullCircleWali for Shell Oman &amp; Artelia review
-            </p>
+            {!live && (
+              <p className="mt-6 flex items-center justify-center gap-1.5 text-center text-[11px] text-slate-400">
+                <Lock size={11} /> Demo prepared by FullCircleWali for Shell Oman &amp; Artelia review
+              </p>
+            )}
           </div>
         </section>
       </div>

@@ -12,10 +12,13 @@ import { CompanySelect } from '@/components/company-select';
 import { LangToggle } from '@/components/i18n';
 import { ArrowLeft, ArrowRight, Award, CheckCircle2, History, Contact, LogIn, ShieldAlert, UserPlus } from 'lucide-react';
 
-type Step = 'civil' | 'exists' | 'details';
+type Step = 'civil' | 'exists' | 'details' | 'liveExists';
 
 export default function RegisterPage() {
-  const { state, findByCivilId, signInWithCivilId, registerAccount } = useStore();
+  const { state, findByCivilId, signInWithCivilId, registerAccount, mode, checkCivilId, liveRegister } = useStore();
+  const live = mode === 'live';
+  const [liveStatus, setLiveStatus] = useState<'ACTIVE' | 'NEEDS_ACTIVATION' | null>(null);
+  const [busy, setBusy] = useState(false);
   const router = useRouter();
   const [step, setStep] = useState<Step>('civil');
   const [civilId, setCivilId] = useState('');
@@ -25,12 +28,28 @@ export default function RegisterPage() {
   const [f, setF] = useState({ fullName: '', email: '', phone: '+968 ', company: '', username: '', password: '', confirm: '' });
   const [agree, setAgree] = useState(false);
 
-  function check(e: React.FormEvent) {
+  async function check(e: React.FormEvent) {
     e.preventDefault();
     setError('');
     if (civilId.length < 6) return setError('Enter the full Civil ID number.');
     if (!expiry) return setError('Enter the expiry date shown on the card.');
     if (new Date(expiry).getTime() < Date.now()) return setError('This Civil ID has expired. Renew it before registering.');
+    if (live) {
+      setBusy(true);
+      try {
+        const st = await checkCivilId(civilId);
+        if (st === 'NOT_FOUND') setStep('details');
+        else {
+          setLiveStatus(st);
+          setStep('liveExists');
+        }
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Could not check the Civil ID.');
+      } finally {
+        setBusy(false);
+      }
+      return;
+    }
     const u = findByCivilId(civilId);
     if (u) {
       setExisting(u);
@@ -45,11 +64,19 @@ export default function RegisterPage() {
     router.push(ROLE_HOME[res.user.role]);
   }
 
-  function create(e: React.FormEvent) {
+  async function create(e: React.FormEvent) {
     e.preventDefault();
     setError('');
     if (f.password.length < 8) return setError('Password must be at least 8 characters.');
     if (f.password !== f.confirm) return setError('Passwords do not match.');
+    if (live) {
+      setBusy(true);
+      const r = await liveRegister({ fullName: f.fullName.trim(), email: f.email.trim(), phone: f.phone.trim(), company: f.company.trim(), civilId, civilIdExpiry: expiry, username: f.username.trim().toLowerCase(), password: f.password });
+      setBusy(false);
+      if (!r.ok) return setError(r.error);
+      router.push('/training');
+      return;
+    }
     if (state.users.some((u) => u.username.toLowerCase() === f.username.toLowerCase())) return setError('That username is taken.');
     registerAccount({ fullName: f.fullName.trim(), email: f.email.trim(), phone: f.phone.trim(), company: f.company.trim(), civilId, civilIdExpiry: expiry, username: f.username.trim(), password: f.password });
     router.push('/training');
@@ -90,7 +117,7 @@ export default function RegisterPage() {
             ['civil', 'Civil ID'],
             ['details', 'Your details'],
           ].map(([k, l], i) => {
-            const active = step === k || (k === 'civil' && step === 'exists');
+            const active = step === k || (k === 'civil' && (step === 'exists' || step === 'liveExists'));
             const done = k === 'civil' && step !== 'civil';
             return (
               <li key={k} className="flex items-center gap-2">
@@ -118,10 +145,10 @@ export default function RegisterPage() {
               <input id="exp" type="date" className="input py-2.5" value={expiry} onChange={(e) => setExpiry(e.target.value)} />
             </div>
             {error && <p className="rounded-lg bg-rust-50 px-3 py-2 text-sm text-rust-600">{error}</p>}
-            <button className="btn-primary w-full py-2.5">
-              Continue <ArrowRight size={15} />
+            <button disabled={busy} className="btn-primary w-full py-2.5">
+              {busy ? 'Checking…' : (<>Continue <ArrowRight size={15} /></>)}
             </button>
-            <button
+            {!live && <button
               type="button"
               onClick={() => {
                 setCivilId('87654321');
@@ -130,8 +157,30 @@ export default function RegisterPage() {
               className="w-full text-center text-xs text-slate-400 underline-offset-2 hover:text-ink hover:underline"
             >
               Demo: fill an imported worker&apos;s Civil ID
-            </button>
+            </button>}
           </form>
+        )}
+
+        {step === 'liveExists' && (
+          <div className="card mt-6 border-sand-500 bg-sand-50/70 animate-fade-up">
+            <div className="flex items-start gap-3">
+              <ShieldAlert size={22} className="mt-0.5 shrink-0 text-sand-700" />
+              <div>
+                <p className="font-display text-base font-semibold text-ink">Your account already exists</p>
+                <p className="mt-1 text-sm text-slate-600">
+                  {liveStatus === 'NEEDS_ACTIVATION'
+                    ? 'You are already on the member register with your certificates. Activate your account with your Civil ID and date of birth — no need to register again.'
+                    : 'An account is already active for this Civil ID. Sign in with your Civil ID number and password.'}
+                </p>
+              </div>
+            </div>
+            <div className="mt-5 flex flex-wrap gap-2">
+              <Link href={liveStatus === 'NEEDS_ACTIVATION' ? '/?tab=activate' : '/'} className="btn-primary flex-1">
+                <LogIn size={16} /> {liveStatus === 'NEEDS_ACTIVATION' ? 'Activate my account' : 'Go to sign in'}
+              </Link>
+              <button onClick={() => setStep('civil')} className="btn-secondary">Not me</button>
+            </div>
+          </div>
         )}
 
         {step === 'exists' && existing && (
@@ -223,7 +272,7 @@ export default function RegisterPage() {
             {error && <p className="rounded-lg bg-rust-50 px-3 py-2 text-sm text-rust-600 sm:col-span-2">{error}</p>}
             <div className="flex gap-2 sm:col-span-2">
               <button type="button" onClick={() => setStep('civil')} className="btn-secondary">Back</button>
-              <button disabled={!agree} className="btn-primary flex-1">
+              <button disabled={!agree || busy} className="btn-primary flex-1">
                 <UserPlus size={16} /> Create account &amp; start training
               </button>
             </div>

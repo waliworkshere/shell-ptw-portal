@@ -1,8 +1,9 @@
 import { AppState, Course, Enrollment, HsseReport, JourneyPlan, LessonProgress, Payment } from './types';
 import coursesJson from './seed/courses.json';
+import coursesExtraJson from './seed/courses-extra.json';
 import { buildSchedule, computeRisk, VEHICLE_CHECKS, FITNESS_CHECKS } from './journey';
 
-const seedCourses = coursesJson as Course[];
+const seedCourses = [...coursesJson, ...coursesExtraJson] as Course[];
 
 const now = new Date();
 const daysAgo = (n: number) => new Date(now.getTime() - n * 86400000).toISOString();
@@ -16,12 +17,12 @@ export const seedState: AppState = {
     { id: 'u-approver-2', fullName: 'Khalid Al Habsi', email: 'khalid.habsi@artelia.test', role: 'APPROVER', username: 'khalid.issuer', password: 'Shell@2026', civilId: '10988230', civilIdExpiry: '2029-01-20', phone: '+968 9234 0019', company: 'Artelia (PTW contractor)', jobTitle: 'Permit Issuer, Batinah region' },
     { id: 'u-station-alpha', fullName: 'Fahad Al Balushi', email: 'alkhuwair.manager@shell-retail.test', role: 'STATION', stationId: 'stn-alpha', username: 'alkhuwair.station', password: 'Shell@2026', civilId: '11203344', civilIdExpiry: '2027-06-30', phone: '+968 9555 1014', company: 'Shell Al Khuwair', jobTitle: 'Station Manager' },
     { id: 'u-station-beta', fullName: 'Layla Al Hinai', email: 'sohar.manager@shell-retail.test', role: 'STATION', stationId: 'stn-beta', username: 'sohar.station', password: 'Shell@2026', civilId: '11407788', civilIdExpiry: '2028-09-12', phone: '+968 9555 3031', company: 'Shell Sohar Falaj Al Qabail', jobTitle: 'Station Manager' },
-    { id: 'u-applicant-1', fullName: 'Ahmed Al Rashdi', email: 'ahmed.rashdi@gulfmech.test', role: 'APPLICANT', username: 'ahmed.holder', password: 'Shell@2026', civilId: '12345678', civilIdExpiry: '2028-05-31', phone: '+968 9911 2040', company: 'Gulf Mechanical LLC', jobTitle: 'Maintenance Technician', passportNo: 'SP-OM-104217' },
-    { id: 'u-applicant-2', fullName: 'Sara Al Kindi', email: 'sara.kindi@alnoorelectric.test', role: 'APPLICANT', username: 'sara.holder', password: 'Shell@2026', civilId: '12876540', civilIdExpiry: '2027-02-28', phone: '+968 9822 7315', company: 'Al Noor Electrical Contracting', jobTitle: 'Electrical Supervisor', passportNo: 'SP-OM-103388' },
-    { id: 'u-imported-1', fullName: 'Rashid Al Maskari', email: 'rashid.maskari@omanfuelservices.test', role: 'APPLICANT', username: 'rashid.maskari', password: 'Shell@2026', civilId: '87654321', civilIdExpiry: '2029-08-15', phone: '+968 9677 4302', company: 'Oman Fuel Services LLC', jobTitle: 'Tank & Pipework Technician', imported: true, importedAt: daysAgo(6), importSource: 'Legacy PTW competence register', passportNo: 'SP-OM-099412' },
-    { id: 'u-trainee-1', fullName: 'Hamed Al Siyabi', email: 'hamed.siyabi@gulfmech.test', role: 'TRAINEE', username: 'hamed.trainee', password: 'Shell@2026', civilId: '13300912', civilIdExpiry: '2030-04-01', phone: '+968 9781 6620', company: 'Gulf Mechanical LLC', jobTitle: 'Apprentice Technician' },
-    { id: 'u-trainee-2', fullName: 'Noor Al Lawati', email: 'noor.lawati@alnoorelectric.test', role: 'TRAINEE', username: 'noor.trainee', password: 'Shell@2026', civilId: '13455120', civilIdExpiry: '2028-12-19', phone: '+968 9781 2201', company: 'Al Noor Electrical Contracting', jobTitle: 'Electrician' },
-    { id: 'u-trainee-3', fullName: 'Salim Al Amri', email: 'salim.amri@alamrielectrical.test', role: 'TRAINEE', username: 'salim.trainee', password: 'Shell@2026', civilId: '11873402', civilIdExpiry: '2027-10-05', phone: '+968 9234 5521', company: 'Al Amri Electrical Services LLC', jobTitle: 'Electrician' },
+    { id: 'u-applicant-1', fullName: 'Ahmed Al Rashdi', email: 'ahmed.rashdi@gulfmech.test', role: 'APPLICANT', username: 'ahmed.holder', password: 'Shell@2026', civilId: '12345678', civilIdExpiry: '2028-05-31', phone: '+968 9911 2040', company: 'Gulf Mechanical LLC', jobTitle: 'Maintenance Technician', passportNo: 'SP-OM-104217', competencyRole: 'SUPERVISOR_MANAGER' },
+    { id: 'u-applicant-2', fullName: 'Sara Al Kindi', email: 'sara.kindi@alnoorelectric.test', role: 'APPLICANT', username: 'sara.holder', password: 'Shell@2026', civilId: '12876540', civilIdExpiry: '2027-02-28', phone: '+968 9822 7315', company: 'Al Noor Electrical Contracting', jobTitle: 'Electrical Supervisor', passportNo: 'SP-OM-103388', competencyRole: 'MEP_CEI' },
+    { id: 'u-imported-1', fullName: 'Rashid Al Maskari', email: 'rashid.maskari@omanfuelservices.test', role: 'APPLICANT', username: 'rashid.maskari', password: 'Shell@2026', civilId: '87654321', civilIdExpiry: '2029-08-15', phone: '+968 9677 4302', company: 'Oman Fuel Services LLC', jobTitle: 'Tank & Pipework Technician', imported: true, importedAt: daysAgo(6), importSource: 'Legacy PTW competence register', passportNo: 'SP-OM-099412', competencyRole: 'MEP_CEI' },
+    { id: 'u-trainee-1', fullName: 'Hamed Al Siyabi', email: 'hamed.siyabi@gulfmech.test', role: 'TRAINEE', username: 'hamed.trainee', password: 'Shell@2026', civilId: '13300912', civilIdExpiry: '2030-04-01', phone: '+968 9781 6620', company: 'Gulf Mechanical LLC', jobTitle: 'Apprentice Technician', competencyRole: 'HELPER' },
+    { id: 'u-trainee-2', fullName: 'Noor Al Lawati', email: 'noor.lawati@alnoorelectric.test', role: 'TRAINEE', username: 'noor.trainee', password: 'Shell@2026', civilId: '13455120', civilIdExpiry: '2028-12-19', phone: '+968 9781 2201', company: 'Al Noor Electrical Contracting', jobTitle: 'Electrician', competencyRole: 'MEP_CEI' },
+    { id: 'u-trainee-3', fullName: 'Salim Al Amri', email: 'salim.amri@alamrielectrical.test', role: 'TRAINEE', username: 'salim.trainee', password: 'Shell@2026', civilId: '11873402', civilIdExpiry: '2027-10-05', phone: '+968 9234 5521', company: 'Al Amri Electrical Services LLC', jobTitle: 'Electrician', competencyRole: 'SKILLED_TRADES' },
   ],
 
   stations: [
@@ -280,7 +281,28 @@ export const seedState: AppState = {
     { id: 'co-6', name: 'Batinah Signage & Canopy Co.', crNumber: '1188921', category: 'Signage & canopy', status: 'APPROVED', addedAt: daysAgo(60) },
     { id: 'co-7', name: 'Desert Clean Services', crNumber: '1172210', category: 'Cleaning', status: 'SUSPENDED', addedAt: daysAgo(300) },
   ],
+  ptwCards: [
+    {
+      id: 'ptw-1', userId: 'u-applicant-1', kind: 'PH', cardNo: 'AO-PTW-26-014/PH', position: 'Site Supervisor', company: 'Gulf Mechanical LLC',
+      categories: ['HOT_WORK', 'CONFINED_SPACE', 'EXCAVATION'], validUntil: dateOnly(300), certifiedBy: 'VINOTH.K', siteInducted: true,
+      issuedAt: daysAgo(65), status: 'ACTIVE',
+    },
+    {
+      id: 'ptw-2', userId: 'u-applicant-2', kind: 'PH', cardNo: 'AO-PTW-26-021/PH', position: 'Electrical Supervisor', company: 'Al Noor Electrical Contracting',
+      categories: ['LIVE_ELECTRICAL', 'WORK_AT_HEIGHT', 'CEI'], validUntil: dateOnly(12), certifiedBy: 'VINOTH.K', siteInducted: true,
+      issuedAt: daysAgo(353), status: 'ACTIVE',
+    },
+    {
+      id: 'ptw-3', userId: 'u-approver-2', kind: 'PI', cardNo: 'AO-PTW-26-002/PI', position: 'Permit Issuer', company: 'Artelia (PTW contractor)',
+      categories: ['HOT_WORK', 'CONFINED_SPACE', 'EXCAVATION', 'LIFTING', 'FLAMMABLE_GAS', 'LIVE_ELECTRICAL', 'DRILLING', 'WORK_AT_HEIGHT', 'DEMOLITION', 'FUEL_LINE', 'CEI'],
+      validUntil: dateOnly(500), certifiedBy: 'VINOTH.K', siteInducted: true, issuedAt: daysAgo(200), status: 'ACTIVE',
+    },
+  ],
 };
+
+function dateOnly(daysAhead: number) {
+  return new Date(Date.now() + daysAhead * 86400000).toISOString().slice(0, 10);
+}
 
 /** Workers in the legacy register that have not been imported yet (Admin → Users → Import). */
 export const IMPORT_SAMPLE = [

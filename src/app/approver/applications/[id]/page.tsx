@@ -1,5 +1,7 @@
 'use client';
 
+import { PTW_CATEGORY_LABEL, ptwCardStatus } from '@/lib/ptw-cards';
+
 import { useEffect, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { RoleGuard } from '@/components/role-guard';
@@ -144,6 +146,20 @@ export default function ApplicationReviewPage() {
                     </div>
                   </div>
                 );
+              })()}
+              {(() => {
+                const cards = state.ptwCards.filter((c) => c.userId === app.applicantId && c.kind === 'PH');
+                if (!cards.length)
+                  return <p className="mt-3 rounded-lg bg-rust-50 px-3 py-2.5 text-xs text-rust-600">No Permit Holder card on record for this person.</p>;
+                return cards.map((c) => {
+                  const st = ptwCardStatus(c);
+                  return (
+                    <div key={c.id} className={`mt-3 rounded-lg px-3 py-2.5 text-xs ${st.ok ? 'bg-leaf-50 text-leaf-700' : 'bg-rust-50 text-rust-600'}`}>
+                      <p className="font-medium">PTW card <span className="app-number">{c.cardNo}</span> · {st.label} · until {fmtDate(c.validUntil)}</p>
+                      <p className="mt-1 text-ink/80">Authorised for: {c.categories.map((k) => PTW_CATEGORY_LABEL[k]).join(', ')}</p>
+                    </div>
+                  );
+                });
               })()}
             </div>
 

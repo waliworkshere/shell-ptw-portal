@@ -7,6 +7,8 @@ import { RoleGuard } from '@/components/role-guard';
 import { Modal } from '@/components/modal';
 import { FaceVerify } from '@/components/face-verify';
 import { CompanySelect } from '@/components/company-select';
+import { CompetencyCard, MemberCerts } from '@/components/member-profile';
+import { ChangePasswordForm } from '@/components/password-form';
 import { useStore } from '@/lib/store';
 import { ROLE_LABEL } from '@/lib/types';
 import { initials, maskCivilId } from '@/lib/roles';
@@ -15,18 +17,18 @@ import { fmtDate, fmtDateTime } from '@/lib/training';
 import { Camera, CheckCircle2, Contact, History, Receipt, Save, ScanFace, TriangleAlert } from 'lucide-react';
 
 export default function ProfilePage() {
-  const { currentUser, state, updateProfile } = useStore();
+  const { currentUser, state, updateProfile, mode } = useStore();
   const [faceOpen, setFaceOpen] = useState(false);
   const [saved, setSaved] = useState(false);
   const [f, setF] = useState({ phone: currentUser?.phone ?? '', company: currentUser?.company ?? '', jobTitle: currentUser?.jobTitle ?? '', email: currentUser?.email ?? '' });
   const u = currentUser;
-  if (!u) return <RoleGuard role={['APPLICANT', 'TRAINEE']}>{null}</RoleGuard>;
+  if (!u) return <RoleGuard role={['APPLICANT', 'TRAINEE', 'ADMIN', 'APPROVER', 'STATION']}>{null}</RoleGuard>;
   const daysLeft = u.civilIdExpiry ? Math.round((new Date(u.civilIdExpiry).getTime() - Date.now()) / 86400000) : null;
   const checks = state.faceChecks.filter((c) => c.userId === u.id).slice(0, 5);
   const payments = state.payments.filter((p) => p.userId === u.id);
 
   return (
-    <RoleGuard role={['APPLICANT', 'TRAINEE']}>
+    <RoleGuard role={['APPLICANT', 'TRAINEE', 'ADMIN', 'APPROVER', 'STATION']}>
       <div className="mx-auto max-w-5xl px-4 py-6 sm:px-8 sm:py-8">
         <div className="relative overflow-hidden rounded-3xl bg-petrol-600 p-6 text-white">
           <div className="shell-stripe absolute inset-x-0 top-0 h-1" />
@@ -114,6 +116,26 @@ export default function ProfilePage() {
             )}
           </div>
         </div>
+
+        <div className="mt-6 grid gap-6 lg:grid-cols-2">
+          <div className="card">
+            <h2 className="font-display text-sm font-semibold text-ink">My competency (matrix)</h2>
+            <div className="mt-3"><CompetencyCard user={u} /></div>
+          </div>
+          <div className="card">
+            <h2 className="font-display text-sm font-semibold text-ink">Certificates on the member register</h2>
+            {u.member?.memberId && <p className="app-number mt-0.5 text-xs text-slate-400">Member ID {u.member.memberId}</p>}
+            <div className="mt-2"><MemberCerts user={u} /></div>
+          </div>
+        </div>
+
+        {mode === 'live' && (
+          <div className="card mt-6">
+            <h2 className="font-display text-sm font-semibold text-ink">Password</h2>
+            <p className="mt-0.5 text-xs text-slate-500">You sign in as <span className="app-number">{u.username || u.civilId}</span>.</p>
+            <div className="mt-3"><ChangePasswordForm compact /></div>
+          </div>
+        )}
 
         {payments.length > 0 && (
           <div className="card mt-6">
