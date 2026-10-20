@@ -53,7 +53,8 @@ export async function parseMemberRegister(file: File, companies: Company[]): Pro
   const missingColumns = need.filter((n) => ix(n) < 0);
   if (missingColumns.length) return { rows: [], skipped: 0, newCompanies: [], missingColumns };
 
-  const known = new Map(companies.map((c) => [companyKey(c.name), c.name]));
+  const known = new Map<string, string>();
+  companies.forEach((c) => [c.name, ...(c.aliases ?? [])].forEach((n) => known.set(companyKey(n), c.name)));
   const fresh = new Map<string, string>();
   const get = (r: unknown[], name: string) => (ix(name) >= 0 ? r[ix(name)] : undefined);
   const rows: MemberRow[] = [];
@@ -92,4 +93,27 @@ export async function parseMemberRegister(file: File, companies: Company[]): Pro
     ]);
   }
   return { rows, skipped, newCompanies: Array.from(fresh.values()), missingColumns: [] };
+}
+
+function lev(a: string, b: string) {
+  const d = Array.from({ length: a.length + 1 }, (_, i) => [i, ...Array(b.length).fill(0)]);
+  for (let j = 1; j <= b.length; j++) d[0][j] = j;
+  for (let i = 1; i <= a.length; i++)
+    for (let j = 1; j <= b.length; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return d[a.length][b.length];
+}
+
+/** Do two company names probably mean the same company? */
+function close(x: string, y: string) {
+  if (!x || !y) return false;
+  if (x === y) return true;
+  const [s, l] = x.length <= y.length ? [x, y] : [y, x];
+  if (s.length >= 5 && l.startsWith(s)) return true;
+  return s.length >= 6 && 1 - lev(x, y) / l.length >= 0.82;
+}
+
+const raw = (n: string) => n.toLowerCase().replace(/l\.?\s*l\.?\s*c\.?|\b(co|company|spc|est|saog|wll)\b\.?/g, '').replace(/[^a-z0-9]/g, '');
+
+export function similarCompanies(a: string, b: string) {
+  return close(companyKey(a), companyKey(b)) || close(raw(a), raw(b));
 }

@@ -277,6 +277,7 @@ export interface Company {
   category: string;
   status: 'APPROVED' | 'SUSPENDED';
   addedAt: string;
+  aliases?: string[]; // other spellings merged into this company
 }
 
 /* ============================================================

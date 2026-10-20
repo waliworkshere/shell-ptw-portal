@@ -6,7 +6,10 @@ import { Kpi } from '@/components/charts';
 import { useStore } from '@/lib/store';
 import { passportData } from '@/lib/passport';
 import { fmtDate } from '@/lib/training';
-import { Award, Ban, Building2, CheckCircle2, Medal, Plus, Search, Trophy, Users, X } from 'lucide-react';
+import { Modal } from '@/components/modal';
+import { similarCompanies } from '@/lib/member-import';
+import { Company } from '@/lib/types';
+import { Award, Ban, Combine, Building2, CheckCircle2, Medal, Plus, Search, Trophy, Users, X } from 'lucide-react';
 
 type Tab = 'ranking' | 'list';
 type SortKey = 'people' | 'holders' | 'certs' | 'passports' | 'permits' | 'reports';
@@ -21,12 +24,36 @@ const SORTS: { key: SortKey; label: string }[] = [
 ];
 
 export default function CompaniesPage() {
-  const { state, addCompany, setCompanyStatus } = useStore();
+  const { state, addCompany, setCompanyStatus, mergeCompanies } = useStore();
+  const [mergeFrom, setMergeFrom] = useState<string | null>(null);
+  const [mergeInto, setMergeInto] = useState('');
+  const [mergeQ, setMergeQ] = useState('');
+  const [merged, setMerged] = useState('');
+  const [dupOpen, setDupOpen] = useState(false);
+  const peopleAt = (name: string) => state.users.filter((u) => u.company === name).length;
+  const dupes = useMemo(() => {
+    const out: { a: Company; b: Company }[] = [];
+    const list = state.companies;
+    for (let i = 0; i < list.length; i++)
+      for (let j = i + 1; j < list.length; j++) if (similarCompanies(list[i].name, list[j].name)) out.push({ a: list[i], b: list[j] });
+    return out;
+  }, [state.companies]);
+  function doMerge(fromId: string, intoId: string) {
+    const from = state.companies.find((c) => c.id === fromId);
+    const into = state.companies.find((c) => c.id === intoId);
+    if (!from || !into) return;
+    if (!confirm(`Merge “${from.name}” into “${into.name}”? Everyone listed under “${from.name}” moves to “${into.name}”, and “${from.name}” is removed from the list.`)) return;
+    const n = mergeCompanies(fromId, intoId);
+    setMerged(`Merged “${from.name}” into “${into.name}” — ${n} people moved.`);
+    setMergeFrom(null);
+    setMergeInto('');
+  }
   const [tab, setTab] = useState<Tab>('ranking');
   const [sort, setSort] = useState<SortKey>('people');
   const [showForm, setShowForm] = useState(false);
   const [f, setF] = useState({ name: '', crNumber: '', category: '' });
   const [q, setQ] = useState('');
+  const similarToNew = f.name.trim().length > 2 ? state.companies.filter((c) => similarCompanies(c.name, f.name) || (c.aliases ?? []).some((a) => similarCompanies(a, f.name))) : [];
 
   const rows = useMemo(
     () =>
@@ -163,13 +190,18 @@ export default function CompaniesPage() {
                 onSubmit={(e) => {
                   e.preventDefault();
                   if (!f.name.trim()) return;
+                  if (similarToNew.length && !confirm(`This looks like ${similarToNew.map((c) => `“${c.name}”`).join(', ')}, which is already on the list. Add it anyway?`)) return;
                   addCompany({ name: f.name.trim(), crNumber: f.crNumber.trim() || '—', category: f.category.trim() || 'General' });
                   setF({ name: '', crNumber: '', category: '' });
                   setShowForm(false);
                 }}
                 className="card grid gap-4 animate-fade-up sm:grid-cols-4"
               >
-                <div className="sm:col-span-2"><label className="label">Company name</label><input className="input" value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} required /></div>
+                <div className="sm:col-span-2">
+                  <label className="label">Company name</label>
+                  <input className="input" value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} required />
+                  {similarToNew.length > 0 && <p className="mt-1 text-xs text-sand-700">Already on the list: {similarToNew.map((c) => c.name).join(', ')}</p>}
+                </div>
                 <div><label className="label">CR number</label><input className="input app-number" value={f.crNumber} onChange={(e) => setF({ ...f, crNumber: e.target.value })} /></div>
                 <div><label className="label">Category</label><input className="input" value={f.category} onChange={(e) => setF({ ...f, category: e.target.value })} placeholder="e.g. Electrical" /></div>
                 <div className="flex gap-2 sm:col-span-4">
@@ -177,6 +209,32 @@ export default function CompaniesPage() {
                   <button type="button" onClick={() => setShowForm(false)} className="btn-secondary"><X size={15} /> Cancel</button>
                 </div>
               </form>
+            )}
+            {merged && <p className="rounded-lg bg-leaf-50 px-3 py-2 text-sm text-leaf-700">{merged}</p>}
+            {dupes.length > 0 && (
+              <div className="card border-sand-500 bg-sand-50/60">
+                <button onClick={() => setDupOpen((v) => !v)} className="flex w-full items-center justify-between gap-2 text-left">
+                  <span className="flex items-center gap-2 font-medium text-ink"><Combine size={16} className="text-sand-700" /> {dupes.length} possible duplicate{dupes.length === 1 ? '' : 's'} to check</span>
+                  <span className="text-xs text-petrol-500">{dupOpen ? 'Hide' : 'Review'}</span>
+                </button>
+                {dupOpen && (
+                  <ul className="mt-3 divide-y divide-sand-200 text-sm">
+                    {dupes.map(({ a, b }) => {
+                      const [small, big] = peopleAt(a.name) <= peopleAt(b.name) ? [a, b] : [b, a];
+                      return (
+                        <li key={a.id + b.id} className="flex flex-wrap items-center justify-between gap-2 py-2.5">
+                          <span className="text-ink">“{small.name}” <span className="text-slate-400">({peopleAt(small.name)})</span> ↔ “{big.name}” <span className="text-slate-400">({peopleAt(big.name)})</span></span>
+                          <span className="flex gap-2">
+                            <button onClick={() => doMerge(small.id, big.id)} className="btn-primary px-3 py-1.5 text-xs">Merge into “{big.name.length > 28 ? big.name.slice(0, 28) + '…' : big.name}”</button>
+                            <button onClick={() => doMerge(big.id, small.id)} className="btn-secondary px-3 py-1.5 text-xs">Other way</button>
+                          </span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+                {dupOpen && <p className="mt-2 text-xs text-slate-500">These are only similar spellings — if two really are different companies, leave them.</p>}
+              </div>
             )}
             <div className="card p-0">
               <div className="flex flex-wrap items-center gap-2 border-b border-petrol-100 p-4">
@@ -194,9 +252,11 @@ export default function CompaniesPage() {
                       <span className={`flex h-9 w-9 items-center justify-center rounded-xl ${r.company.status === 'APPROVED' ? 'bg-leaf-50 text-leaf-600' : 'bg-rust-50 text-rust-500'}`}><Building2 size={17} /></span>
                       <div className="min-w-0 flex-1">
                         <p className="font-medium text-ink">{r.company.name}</p>
-                        <p className="text-xs text-slate-400">CR {r.company.crNumber} · {r.company.category} · added {fmtDate(r.company.addedAt)} · {r.people} people</p>
+                        <p className="text-xs text-slate-400">CR {r.company.crNumber} · {r.company.category} · added {fmtDate(r.company.addedAt)} · {peopleAt(r.company.name)} people</p>
+                        {r.company.aliases?.length ? <p className="text-[11px] text-slate-400">Also written as: {r.company.aliases.join(', ')}</p> : null}
                       </div>
                       <span className={`stamp ${r.company.status === 'APPROVED' ? 'stamp-approved' : 'stamp-rejected'}`}>{r.company.status === 'APPROVED' ? 'Approved' : 'Suspended'}</span>
+                      <button onClick={() => { setMergeFrom(r.company.id); setMergeInto(''); setMergeQ(''); }} className="btn-secondary px-3 py-1.5 text-xs"><Combine size={13} /> Merge</button>
                       {r.company.status === 'APPROVED' ? (
                         <button onClick={() => setCompanyStatus(r.company.id, 'SUSPENDED')} className="btn-secondary px-3 py-1.5 text-xs"><Ban size={13} /> Suspend</button>
                       ) : (
@@ -207,6 +267,32 @@ export default function CompaniesPage() {
               </ul>
             </div>
             <p className="text-xs text-slate-400">Only approved companies appear in the company dropdown on profiles, registration and Add user.</p>
+            <Modal open={!!mergeFrom} onClose={() => setMergeFrom(null)} title="Merge company">
+              {mergeFrom && (
+                <div className="space-y-3 p-5 text-sm">
+                  <p className="text-slate-600">Move everyone from <b>{state.companies.find((c) => c.id === mergeFrom)?.name}</b> into:</p>
+                  <input className="input" placeholder="Search the correct company" value={mergeQ} onChange={(e) => setMergeQ(e.target.value)} />
+                  <ul className="max-h-64 divide-y divide-petrol-50 overflow-y-auto rounded-xl border border-petrol-100">
+                    {state.companies
+                      .filter((c) => c.id !== mergeFrom && (!mergeQ || c.name.toLowerCase().includes(mergeQ.toLowerCase())))
+                      .sort((x, y) => x.name.localeCompare(y.name))
+                      .map((c) => (
+                        <li key={c.id}>
+                          <label className="flex cursor-pointer items-center gap-2 px-3 py-2 hover:bg-petrol-50">
+                            <input type="radio" name="merge-into" className="accent-petrol-500" checked={mergeInto === c.id} onChange={() => setMergeInto(c.id)} />
+                            <span className="flex-1">{c.name}</span>
+                            <span className="text-xs text-slate-400">{peopleAt(c.name)}</span>
+                          </label>
+                        </li>
+                      ))}
+                  </ul>
+                  <div className="flex gap-2">
+                    <button onClick={() => setMergeFrom(null)} className="btn-secondary">Cancel</button>
+                    <button disabled={!mergeInto} onClick={() => doMerge(mergeFrom, mergeInto)} className="btn-primary flex-1"><Combine size={15} /> Merge</button>
+                  </div>
+                </div>
+              )}
+            </Modal>
           </div>
         )}
       </div>

@@ -28,6 +28,7 @@ interface StoreContextValue {
   reloadLive: () => Promise<boolean>;
   savePtwCard: (card: Omit<PtwCard, 'id' | 'cardNo' | 'issuedAt'> & Partial<Pick<PtwCard, 'id' | 'cardNo' | 'issuedAt'>>) => PtwCard;
   updateUser: (userId: string, patch: Partial<User>) => void;
+  mergeCompanies: (fromId: string, intoId: string) => number;
   // Points & rewards
   decideReportPoints: (reportId: string, approve: boolean, points: number, note: string) => void;
   requestRedemption: (reward: { id: string; label: string; cost: number }) => { ok: true } | { ok: false; error: string };
@@ -563,6 +564,26 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const updateUser = useCallback((userId: string, patch: Partial<User>) => {
     setState((s) => ({ ...s, users: s.users.map((u) => (u.id === userId ? { ...u, ...patch } : u)) }));
   }, []);
+
+  /** Moves everyone from one company to another and keeps the old name as an alias. */
+  const mergeCompanies = useCallback((fromId: string, intoId: string) => {
+    const s0 = stateRef.current;
+    const from = s0.companies.find((c) => c.id === fromId);
+    const into = s0.companies.find((c) => c.id === intoId);
+    if (!from || !into || from.id === into.id) return 0;
+    const moved = s0.users.filter((u) => u.company === from.name).length;
+    setState((s) => ({
+      ...s,
+      users: s.users.map((u) => (u.company === from.name ? { ...u, company: into.name } : u)),
+      ptwCards: s.ptwCards.map((c) => (c.company === from.name ? { ...c, company: into.name } : c)),
+      registrations: s.registrations.map((r) => (r.company === from.name ? { ...r, company: into.name } : r)),
+      companies: s.companies
+        .filter((c) => c.id !== from.id)
+        .map((c) => (c.id === into.id ? { ...c, aliases: Array.from(new Set([...(c.aliases ?? []), from.name, ...(from.aliases ?? [])])) } : c)),
+    }));
+    addAuditLog('COMPANY_MERGED', `${from.name} merged into ${into.name} (${moved} people moved)`);
+    return moved;
+  }, [addAuditLog]);
 
   /* ======================= POINTS & REWARDS ======================= */
 
@@ -1431,6 +1452,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         reloadLive: loadLive,
         savePtwCard,
         updateUser,
+        mergeCompanies,
         decideReportPoints,
         requestRedemption,
         decideRedemption,
