@@ -179,7 +179,7 @@ export interface CallScreenshot {
   at: string;
 }
 
-export type CallStatus = 'NOT_STARTED' | 'IN_PROGRESS' | 'ENDED';
+export type CallStatus = 'NOT_STARTED' | 'RINGING' | 'IN_PROGRESS' | 'ENDED';
 
 export interface TimelineEntry {
   id: string;
@@ -211,6 +211,8 @@ export interface Application {
   jhaDocument?: UploadedDocument; // Job Hazard Analysis / Risk Assessment — required for Medium & High risk
   videoRecorded: boolean;
   callStatus: CallStatus;
+  callRequestedAt?: string; // when the Permit Holder pressed "Call Permit Issuer"
+  callAnsweredBy?: string; // Permit Issuer who accepted / started the call
   callScreenshots: CallScreenshot[];
   permitNumber?: string; // assigned when the generated Permit to Work PDF is issued
   permitPdfGeneratedAt?: string;

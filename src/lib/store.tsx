@@ -413,14 +413,16 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         setSync((v) => ({ ...v, offline: true }));
       }
     };
-    const iv = setInterval(tick, 15000);
+    const me = stateRef.current.users.find((u) => u.id === stateRef.current.currentUserId);
+    // Permit Issuers and Admins check every 4 s so incoming calls ring promptly.
+    const iv = setInterval(tick, me && (me.role === 'APPROVER' || me.role === 'ADMIN') ? 4000 : 15000);
     const onVis = () => !document.hidden && void tick();
     document.addEventListener('visibilitychange', onVis);
     return () => {
       clearInterval(iv);
       document.removeEventListener('visibilitychange', onVis);
     };
-  }, [ready, mode, mergeRecords]);
+  }, [ready, mode, mergeRecords, state.currentUserId]);
 
   // Admin bootstrap: make sure the course pack, permit types and stations exist on the server.
   useEffect(() => {
@@ -832,13 +834,19 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
               ? {
                   ...app,
                   callStatus: status,
+                  callRequestedAt: status === 'RINGING' ? nowIso : app.callRequestedAt,
+                  callAnsweredBy: status === 'IN_PROGRESS' ? user?.fullName : app.callAnsweredBy,
                   videoRecorded: status === 'ENDED' ? true : app.videoRecorded,
                   timeline:
-                    status === 'IN_PROGRESS'
-                      ? [...app.timeline, { id: `t-${rid()}`, label: 'Video verification call started', actor: user?.fullName ?? 'Permit Issuer', at: nowIso }]
-                      : status === 'ENDED'
-                        ? [...app.timeline, { id: `t-${rid()}`, label: 'Video verification call ended', actor: user?.fullName ?? 'Permit Issuer', at: nowIso }]
-                        : app.timeline,
+                    status === 'RINGING'
+                      ? [...app.timeline, { id: `t-${rid()}`, label: 'Permit Holder called the Permit Issuer', actor: user?.fullName ?? 'Permit Holder', at: nowIso }]
+                      : status === 'IN_PROGRESS'
+                        ? [...app.timeline, { id: `t-${rid()}`, label: app.callStatus === 'RINGING' ? 'Video call answered' : 'Video verification call started', actor: user?.fullName ?? 'Permit Issuer', at: nowIso }]
+                        : status === 'ENDED'
+                          ? [...app.timeline, { id: `t-${rid()}`, label: 'Video verification call ended', actor: user?.fullName ?? 'Permit Issuer', at: nowIso }]
+                          : app.callStatus === 'RINGING'
+                            ? [...app.timeline, { id: `t-${rid()}`, label: user?.role === 'APPLICANT' ? 'Call cancelled / not answered' : 'Call declined', actor: user?.fullName ?? 'System', at: nowIso }]
+                            : app.timeline,
                 }
               : app,
           ),
