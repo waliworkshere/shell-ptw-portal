@@ -1,677 +1,877 @@
 [
- {
-  "id": "crs-vsr100",
-  "code": "VSR-100",
-  "title": "Vendor Safety Requirements",
-  "summary": "Free induction for vendors, suppliers and delivery drivers visiting Shell Mobility Oman sites: site rules, work at height and access, documents to carry, lifting and offloading, and PPE.",
-  "category": "Vendor induction",
-  "level": "Foundation",
-  "source": "ARTELIA",
-  "status": "PUBLISHED",
-  "mandatory": false,
-  "pathOrder": 99,
-  "dueDays": 14,
-  "passMark": 80,
-  "validityMonths": 12,
-  "price": 0,
-  "lessons": [
-   {
-    "id": "l-vsr-1",
-    "title": "Basics: arriving and moving on site",
-    "type": "READING",
-    "durationMins": 6,
-    "body": [
-     "Every vendor visit to a Shell Mobility site in Oman starts the same way. Arrive during working hours, report to the Site Supervisor or Station Manager first, and get your site safety induction before you do anything else. From then on, the site or station manager's instructions apply to you.",
-     "Drive slowly and predictably. Follow the posted site speed limit (10 km/h on retail forecourts), never drive against the traffic flow, and never reverse a vehicle without a signalman guiding you. Park only in the designated areas so emergency routes and fuel delivery bays stay clear.",
-     "Know the site Emergency Response Plan (ERP): where the emergency stops, extinguishers and assembly point are. Smoking is only allowed in designated areas on construction sites and is never allowed on a retail station."
+  {
+    "id": "crs-vsr100",
+    "code": "VSR-100",
+    "title": "Vendor Safety Requirements",
+    "summary": "Free induction for vendors, suppliers and delivery drivers visiting Shell Mobility Oman sites: site rules, work at height and access, documents to carry, lifting and offloading, and PPE.",
+    "category": "Vendor induction",
+    "level": "Foundation",
+    "source": "ARTELIA",
+    "status": "PUBLISHED",
+    "mandatory": false,
+    "pathOrder": 99,
+    "dueDays": 14,
+    "passMark": 80,
+    "validityMonths": 12,
+    "price": 0,
+    "lessons": [
+      {
+        "id": "l-vsr-1",
+        "title": "Basics: arriving and moving on site",
+        "type": "READING",
+        "durationMins": 6,
+        "body": [
+          "Every vendor visit to a Shell Mobility site in Oman starts the same way. Arrive during working hours, report to the Site Supervisor or Station Manager first, and get your site safety induction before you do anything else. From then on, the site or station manager's instructions apply to you.",
+          "Drive slowly and predictably. Follow the posted site speed limit (10 km/h on retail forecourts), never drive against the traffic flow, and never reverse a vehicle without a signalman guiding you. Park only in the designated areas so emergency routes and fuel delivery bays stay clear.",
+          "Know the site Emergency Response Plan (ERP): where the emergency stops, extinguishers and assembly point are. Smoking is only allowed in designated areas on construction sites and is never allowed on a retail station."
+        ],
+        "keyPoints": [
+          "Report to the Site Supervisor or Station Manager and get inducted FIRST.",
+          "Follow the 10 km/h speed limit and never reverse without a signalman.",
+          "Know the site ERP and assembly point.",
+          "No smoking anywhere on a retail station."
+        ],
+        "images": [
+          {
+            "src": "/courses/vsr/slide-2.jpg",
+            "caption": "HSSE Guidance for Vendors — Basics, Work at Height & Access"
+          }
+        ],
+        "quiz": [
+          {
+            "id": "q-vsr-1-1",
+            "prompt": "What must you do before starting any activity on site?",
+            "options": [
+              "Unload your vehicle",
+              "Get your site safety induction",
+              "Call your office",
+              "Park near the shop"
+            ],
+            "answer": 1,
+            "explanation": "The site safety induction always comes first, after reporting to the Site Supervisor or Station Manager."
+          },
+          {
+            "id": "q-vsr-1-2",
+            "prompt": "When may you reverse a vehicle on site?",
+            "options": [
+              "Whenever the area looks clear",
+              "Only with a signalman guiding you",
+              "Only at night",
+              "Never"
+            ],
+            "answer": 1,
+            "explanation": "No reversing without a signalman."
+          },
+          {
+            "id": "q-vsr-1-3",
+            "prompt": "Where may you smoke at a retail fuel station?",
+            "options": [
+              "Behind the shop",
+              "Next to your vehicle",
+              "In a designated area away from pumps",
+              "Nowhere — no smoking on retail stations"
+            ],
+            "answer": 3,
+            "explanation": "Smoking is not allowed on retail stations; only in designated areas on construction sites."
+          }
+        ]
+      },
+      {
+        "id": "l-vsr-2",
+        "title": "Work at height and access",
+        "type": "READING",
+        "durationMins": 6,
+        "body": [
+          "Falls from vehicles and platforms are one of the most common ways vendors get hurt. Do not climb onto any platform or vehicle bed higher than 4 ft (120 cm) without safe access, and never jump down from one.",
+          "Any access above 1.8 metres needs a permit. To fix lifting gear at height, use a ladder that someone else is holding at the base. Inspect the ladder before use, keep three points of contact, always face the ladder while climbing up or down, and never over-reach.",
+          "Be aware of overhead power lines and moving traffic, and barricade your work area so customers and vehicles stay out."
+        ],
+        "keyPoints": [
+          "No climbing above 120 cm without safe access — and no jumping down.",
+          "Above 1.8 m you need a permit.",
+          "Ladders: inspected, footed by a second person, 3-point contact, face the ladder.",
+          "Barricade your work area."
+        ],
+        "quiz": [
+          {
+            "id": "q-vsr-2-1",
+            "prompt": "Above what height does access require a permit?",
+            "options": [
+              "1.2 m",
+              "1.8 m",
+              "2.5 m",
+              "3 m"
+            ],
+            "answer": 1,
+            "explanation": "Access to more than 1.8 metres requires a permit."
+          },
+          {
+            "id": "q-vsr-2-2",
+            "prompt": "How should you climb a ladder?",
+            "options": [
+              "Facing away, carrying tools in both hands",
+              "Facing the ladder with 3-point contact",
+              "Quickly, two rungs at a time",
+              "Leaning out to reach the work"
+            ],
+            "answer": 1,
+            "explanation": "Always face the ladder and keep three points of contact."
+          },
+          {
+            "id": "q-vsr-2-3",
+            "prompt": "You need to fix a lifting gear at height. What is correct?",
+            "options": [
+              "Stand on the vehicle's side rail",
+              "Use a ladder secured by another person at the base",
+              "Climb the load",
+              "Jump onto the platform"
+            ],
+            "answer": 1,
+            "explanation": "Use a ladder that is footed by another person."
+          }
+        ]
+      },
+      {
+        "id": "l-vsr-3",
+        "title": "Documents you must carry",
+        "type": "READING",
+        "durationMins": 5,
+        "body": [
+          "Before work or a delivery can start, the site needs to see the right paperwork. For deliveries: the delivery challan and the Safety Data Sheets for any chemicals. On arrival, make the daily site log entry, show your Safety Passport / site induction record, and be ready for a breathalyser test.",
+          "For work activities you also need the method statement (methodology) and a Work Clearance Form.",
+          "For lifting: third-party certificates for all lifting and hoisting components, the operator's licence and/or third-party competency certificate, a physical fitness certificate for the operator on critical lifts, a lifting plan that matches the lift category, and a Job Hazard Analysis plus a permit for critical lifts."
+        ],
+        "keyPoints": [
+          "Delivery challan and Safety Data Sheets.",
+          "Daily site log, Safety Passport, breathalyser test.",
+          "Method statement and Work Clearance Form.",
+          "Lifting: 3rd-party certificates, operator licence, lift plan, JHA and permit for critical lifts."
+        ],
+        "images": [
+          {
+            "src": "/courses/vsr/slide-3.jpg",
+            "caption": "HSSE Guidance for Vendors — Documentation, Lifting / Offloading"
+          }
+        ],
+        "quiz": [
+          {
+            "id": "q-vsr-3-1",
+            "prompt": "Which document tells the site what hazardous chemicals you are bringing?",
+            "options": [
+              "Delivery challan",
+              "Safety Data Sheet",
+              "Daily site log",
+              "Work Clearance Form"
+            ],
+            "answer": 1,
+            "explanation": "Safety Data Sheets describe the hazards of each chemical."
+          },
+          {
+            "id": "q-vsr-3-2",
+            "prompt": "What is needed for every lifting and hoisting component?",
+            "options": [
+              "A photo",
+              "A third-party certificate",
+              "The supplier's invoice",
+              "Nothing if it looks fine"
+            ],
+            "answer": 1,
+            "explanation": "All lifting and hoisting components need valid third-party certificates."
+          },
+          {
+            "id": "q-vsr-3-3",
+            "prompt": "Which test may you be asked to take on arrival?",
+            "options": [
+              "Eyesight test",
+              "Breathalyser test",
+              "Hearing test",
+              "Driving test"
+            ],
+            "answer": 1,
+            "explanation": "Breathalyser tests are done at site."
+          }
+        ]
+      },
+      {
+        "id": "l-vsr-4",
+        "title": "Lifting, offloading and PPE",
+        "type": "READING",
+        "durationMins": 6,
+        "body": [
+          "Your vehicle must be fit for use, and anyone operating a crane must hold valid training and a licence for it. Critical lifts need a permit; minor lifts need at least a JHA or Work Clearance Form. Stay out of the line of fire of any load, and use safe manual handling techniques when lifting by hand.",
+          "Wear the right PPE at all times on site: hard hat, high-visibility vest, safety shoes, protective clothing (coverall), gloves and goggles. Work safe, home safe."
+        ],
+        "keyPoints": [
+          "Critical lifts: permit. Minor lifts: JHA or WCF.",
+          "Crane operators need valid training and licence.",
+          "Stay out of the line of fire.",
+          "PPE: hard hat, hi-viz, safety shoes, coverall, gloves, goggles."
+        ],
+        "images": [
+          {
+            "src": "/courses/vsr/slide-4.jpg",
+            "caption": "Personal Protective Equipment"
+          }
+        ],
+        "quiz": [
+          {
+            "id": "q-vsr-4-1",
+            "prompt": "What is needed for a minor lift?",
+            "options": [
+              "Nothing",
+              "A JHA or Work Clearance Form",
+              "A full permit and lift plan approved by Shell Engineering",
+              "Only verbal approval"
+            ],
+            "answer": 1,
+            "explanation": "Use a permit for critical lifts and a JHA or WCF for minor lifts."
+          },
+          {
+            "id": "q-vsr-4-2",
+            "prompt": "Which is NOT part of the required PPE list?",
+            "options": [
+              "Hard hat",
+              "Hi-viz vest",
+              "Sandals",
+              "Goggles"
+            ],
+            "answer": 2,
+            "explanation": "Safety shoes are required — never sandals."
+          },
+          {
+            "id": "q-vsr-4-3",
+            "prompt": "Where should you stand during offloading by crane?",
+            "options": [
+              "Under the load to guide it",
+              "Away from the line of fire",
+              "On the truck bed",
+              "Anywhere close"
+            ],
+            "answer": 1,
+            "explanation": "Position yourself away from the line of fire."
+          }
+        ]
+      }
     ],
-    "keyPoints": [
-     "Report to the Site Supervisor or Station Manager and get inducted FIRST.",
-     "Follow the 10 km/h speed limit and never reverse without a signalman.",
-     "Know the site ERP and assembly point.",
-     "No smoking anywhere on a retail station."
+    "tier": "FREE"
+  },
+  {
+    "id": "crs-lft310",
+    "code": "LFT-310",
+    "title": "Riggers and Banksmen",
+    "summary": "For supervisors who plan and control lifting and rigging at Shell Mobility sites: roles, rigging fundamentals, load weight, crane capacity, sling angles, exclusion zones and the IOGP 376 lift categories, with the Start-Work Checks.",
+    "category": "Lifting & rigging",
+    "level": "Advanced",
+    "source": "ARTELIA",
+    "status": "PUBLISHED",
+    "mandatory": false,
+    "pathOrder": 99,
+    "dueDays": 30,
+    "passMark": 80,
+    "validityMonths": 24,
+    "lessons": [
+      {
+        "id": "l-lft-1",
+        "title": "The Lifting Supervisor's role and precautions",
+        "type": "READING",
+        "durationMins": 8,
+        "body": [
+          "Most lifting accidents trace back to a short list of failures: no risk assessment, controls from the risk assessment not implemented, no proper lifting plan, no permit to work to manage the lift, wrong rigging methods, poorly maintained lifting equipment, and poor site control — no exclusion zone, so people not involved in the lift walk into it.",
+          "The Lifting Supervisor coordinates and supervises every lift in line with the Lifting Plan. Before work starts they brief the whole lifting team — crane operator, riggers and signalmen — on the plan, the risk controls and the safe lifting procedure; make sure only registered crane operators and appointed riggers and signalmen take part; check the ground is safe for mobile cranes; and stay present for the whole lift, putting right any unsafe condition reported to them.",
+          "General precautions on our sites: hold a toolbox talk, have the risk assessment and method statement on hand, keep phones away during the lift, check third-party inspection certificates, and agree the communication method. Terminate work above 45 °C, at wind speeds of 20 knots or more, or above 80% humidity, and never lift when visibility is poor. Provide one First Aider and one Fire Warden per 25 workers.",
+          "PPE for every member of the lifting team: safety helmet, high-visibility vest, coverall, safety boots, gloves, and eye and hearing protection."
+        ],
+        "keyPoints": [
+          "The Lifting Supervisor briefs the team and is present for the whole lift.",
+          "Only registered operators and appointed riggers/signalmen.",
+          "Stop work above 45 °C, at 20 knots wind, above 80% humidity or in poor visibility.",
+          "1 First Aider + 1 Fire Warden per 25 workers."
+        ],
+        "resources": [
+          {
+            "label": "Lifting Supervisor training deck (Drive)",
+            "url": "https://drive.google.com/file/d/1d_LuyRnJ-uPbkw1soib7Rx6olVuShq_f/view"
+          },
+          {
+            "label": "SWR — Lifting & Hoisting (Drive)",
+            "url": "https://drive.google.com/file/d/1FB5kmQhxyzmXI9oDZNJSeh54Wn7U_0gL/view"
+          }
+        ],
+        "quiz": [
+          {
+            "id": "q-lft-1-1",
+            "prompt": "Which wind speed should stop lifting work on our sites?",
+            "options": [
+              "10 knots",
+              "15 knots",
+              "20 knots",
+              "35 knots"
+            ],
+            "answer": 2,
+            "explanation": "Work is terminated at 20 knots."
+          },
+          {
+            "id": "q-lft-1-2",
+            "prompt": "Who must be present for the entire lifting operation?",
+            "options": [
+              "The station manager",
+              "The Lifting Supervisor",
+              "The client",
+              "The safety officer only"
+            ],
+            "answer": 1,
+            "explanation": "The Lifting Supervisor must be present during all lifting operations."
+          },
+          {
+            "id": "q-lft-1-3",
+            "prompt": "What is a common root cause of lifting accidents?",
+            "options": [
+              "Using tag lines",
+              "No proper Lifting Plan",
+              "Barricading the area",
+              "Briefing the team"
+            ],
+            "answer": 1,
+            "explanation": "Absence or lack of a proper Lifting Plan is a frequent cause."
+          },
+          {
+            "id": "q-lft-1-4",
+            "prompt": "How many First Aiders and Fire Wardens are needed for 25 workers?",
+            "options": [
+              "None",
+              "One of each",
+              "Two First Aiders only",
+              "One Fire Warden only"
+            ],
+            "answer": 1,
+            "explanation": "One First Aider and one Fire Warden per 25 employees."
+          }
+        ]
+      },
+      {
+        "id": "l-lft-2",
+        "title": "Rigging fundamentals: WLL, design factor and hitches",
+        "type": "READING",
+        "durationMins": 10,
+        "body": [
+          "Overhead lifting is any lift that raises a freely suspended load to a position where dropping it could injure someone or damage property.",
+          "The Working Load Limit (WLL) is the maximum load that may be applied in direct tension to an undamaged, straight length of sling or hoisting equipment. It is always less than the breaking strength. The design factor is the ratio of breaking strength to WLL: a chain sling with a breaking strength of 100 and a WLL of 25 has a design factor of 4:1.",
+          "Minimum design factors: alloy steel chain sling 4:1; wire rope, nylon rope, polypropylene rope, metal mesh, synthetic web and synthetic round slings 5:1; polyester rope sling 7:1.",
+          "Reach is measured from the top of the master link to the bowl of the load hook. Use a single master link for single and two-legged chain slings, and a master link with sub-links for three- or four-legged slings. The three basic hitches are vertical, choker and basket — each changes the sling's capacity, so always read the sling tag for the hitch you are using.",
+          "Sling choice: alloy chain is durable, repairable and tolerant of heat but heavy; wire rope is cheaper and lighter but hard to inspect, kinks easily and cannot be repaired; metal mesh resists cuts and abrasion but any broken wire removes it from service; synthetic slings are light and protect the load but are damaged by heat (about 90 °C / 194 °F), cuts, chemicals and UV and cannot be repaired."
+        ],
+        "keyPoints": [
+          "WLL is always less than the breaking strength.",
+          "Design factor = breaking strength ÷ WLL (chain 4:1, most slings 5:1, polyester rope 7:1).",
+          "Basic hitches: vertical, choker, basket.",
+          "Synthetic slings cannot be repaired and fail with heat, cuts and chemicals."
+        ],
+        "quiz": [
+          {
+            "id": "q-lft-2-1",
+            "prompt": "The WLL of rigging equipment is …",
+            "options": [
+              "Less than the breaking strength",
+              "Equal to the breaking strength",
+              "Greater than the breaking strength",
+              "Unrelated to breaking strength"
+            ],
+            "answer": 0,
+            "explanation": "WLL is a fraction of the breaking strength."
+          },
+          {
+            "id": "q-lft-2-2",
+            "prompt": "What is the minimum design factor of an alloy steel chain sling?",
+            "options": [
+              "3:1",
+              "4:1",
+              "5:1",
+              "7:1"
+            ],
+            "answer": 1,
+            "explanation": "Alloy steel chain slings are 4:1."
+          },
+          {
+            "id": "q-lft-2-3",
+            "prompt": "A sling has a breaking strength of 10 t and a design factor of 5:1. What is its WLL?",
+            "options": [
+              "1 t",
+              "2 t",
+              "5 t",
+              "50 t"
+            ],
+            "answer": 1,
+            "explanation": "10 ÷ 5 = 2 t."
+          },
+          {
+            "id": "q-lft-2-4",
+            "prompt": "Which sling type cannot be repaired and is damaged by heat and UV?",
+            "options": [
+              "Alloy chain",
+              "Synthetic web",
+              "Metal mesh",
+              "None"
+            ],
+            "answer": 1,
+            "explanation": "Synthetic slings have low heat resistance, suffer from UV and chemicals, and cannot be repaired."
+          }
+        ]
+      },
+      {
+        "id": "l-lft-3",
+        "title": "Load weight, crane capacity and sling angles",
+        "type": "VIDEO",
+        "durationMins": 12,
+        "videoUrl": "https://drive.google.com/file/d/1GGepdSBHhYm3S7oB3MWf-KDGyaGPi_zj/preview",
+        "body": [
+          "Know how heavy the load is. Take the actual weight from engineering data, shipping papers or catalogues, or calculate it from the volume of the object and the weight of the material (reduced for any voids). Always add the weight of the rigging and hardware.",
+          "Crane capacity comes from the manufacturer's load chart. It depends on the load radius (horizontal distance from the centre of rotation to the centre of the load), the boom length including jib or extensions, the boom angle, and the weight of attachments and handling devices such as the hook block and rigging. Mistakes here tip cranes over — overloads, side loading and loads swinging outside the radius in wind have all overturned cranes.",
+          "Sling angle changes the load in each leg. The Sling Angle Factor (SAF) for the angle from horizontal is: 90° = 1.000, 60° = 1.155, 45° = 1.415, 30° = 2.000. Multiply the share of the load on each leg by the SAF. Avoid shallow angles by using longer slings or a spreader beam, and protect slings from sharp edges.",
+          "Capture the centre of gravity: a suspended load always settles with its CoG under the hook, so place the lift point above the CoG, not the middle of the object, and do a test lift to confirm stability."
+        ],
+        "keyPoints": [
+          "Load weight includes rigging and hardware.",
+          "Capacity depends on radius, boom length, boom angle and attachments.",
+          "SAF: 60° = 1.155, 45° = 1.415, 30° = 2.000.",
+          "Lift above the centre of gravity and do a test lift."
+        ],
+        "resources": [
+          {
+            "label": "Video: How to calculate the weight of a load (Drive)",
+            "url": "https://drive.google.com/file/d/1GGepdSBHhYm3S7oB3MWf-KDGyaGPi_zj/view"
+          }
+        ],
+        "quiz": [
+          {
+            "id": "q-lft-3-1",
+            "prompt": "What must be included in the load weight?",
+            "options": [
+              "Only the object",
+              "The object plus rigging and hardware",
+              "Only the rigging",
+              "The crane's counterweight"
+            ],
+            "answer": 1,
+            "explanation": "Include the weight of rigging equipment and hardware."
+          },
+          {
+            "id": "q-lft-3-2",
+            "prompt": "What is the sling angle factor at 30° from horizontal?",
+            "options": [
+              "1.000",
+              "1.155",
+              "1.415",
+              "2.000"
+            ],
+            "answer": 3,
+            "explanation": "At 30° the tension in each leg doubles: SAF 2.000."
+          },
+          {
+            "id": "q-lft-3-3",
+            "prompt": "A 2 t load hangs on two legs at 60°. What is the tension in each leg?",
+            "options": [
+              "1 t",
+              "1.155 t",
+              "2 t",
+              "2.31 t"
+            ],
+            "answer": 1,
+            "explanation": "Each leg takes 1 t × 1.155 = 1.155 t."
+          },
+          {
+            "id": "q-lft-3-4",
+            "prompt": "Where should the lift point be?",
+            "options": [
+              "At the physical centre",
+              "Directly above the centre of gravity",
+              "At one end",
+              "Anywhere if slings are strong"
+            ],
+            "answer": 1,
+            "explanation": "Centre the lift above the centre of gravity."
+          }
+        ]
+      },
+      {
+        "id": "l-lft-4",
+        "title": "Exclusion zones, power lines, weather and landing",
+        "type": "READING",
+        "durationMins": 8,
+        "body": [
+          "Barricade the full swing radius of the crane and keep everyone not involved out of the lift area. Nobody walks or stands under a suspended load — that is a Life-Saving Rule. Make sure the operator can see clearly (no broken or obstructed windows) and keep loads as close to the ground as possible.",
+          "Overhead power lines: know their location and voltage and agree precautions with the owner. Minimum exclusion zones: low-voltage lines 1 m; 11 kV and 33 kV 3 m; 132 kV 6 m; 275 kV and 400 kV 7 m. Increase the distance in wet conditions.",
+          "Weather: wind makes loads swing — use tag lines unless they create a greater hazard. Heat reduces sling WLL: synthetic slings are affected above about 90 °C, wire rope above 150 °C and chain above 200 °C. Consider rain, visibility and ground: level, dry and stable, with outriggers fully extended on mats.",
+          "Flying and landing: have a clear path from pick-up to landing, never fly the load over people, move smoothly and avoid sudden starts and stops. Plan the landing before you lift, land on a firm flat surface on blocks or cribbing — never on the slings — chock round loads, and slowly release tension.",
+          "Before work starts, the Start-Work Checks for lifting and rigging must all be confirmed: written lift plan (if required) agreed by everyone; operator and rigger qualified; load within the equipment's safe working limit; lifting and rigging gear certified, inspected and rated; safety devices in place and working; communication plan agreed; controls for load shift, dropped objects, obstructions, power lines and suspended loads; and lifting equipment stable per the manufacturer. If any is missing — stop and seek help."
+        ],
+        "keyPoints": [
+          "Barricade the swing radius; never stand under a suspended load.",
+          "Power line clearance: LV 1 m, 11/33 kV 3 m, 132 kV 6 m, 275/400 kV 7 m.",
+          "Land on blocks or cribbing — never on the slings.",
+          "All 8 Start-Work Checks must be confirmed before lifting."
+        ],
+        "resources": [
+          {
+            "label": "Start-Work Checks — Lifting & Rigging (Drive)",
+            "url": "https://drive.google.com/file/d/1PggTu0nfIV0UK3sFYPhJB0azEVj5paIv/view"
+          }
+        ],
+        "quiz": [
+          {
+            "id": "q-lft-4-1",
+            "prompt": "Minimum exclusion distance from a 132 kV overhead line?",
+            "options": [
+              "1 m",
+              "3 m",
+              "6 m",
+              "7 m"
+            ],
+            "answer": 2,
+            "explanation": "132 kV lines need 6 m."
+          },
+          {
+            "id": "q-lft-4-2",
+            "prompt": "How should a load be landed?",
+            "options": [
+              "Directly on the slings",
+              "On blocks or cribbing so slings can be removed",
+              "Dropped the last few centimetres",
+              "On the truck tyres"
+            ],
+            "answer": 1,
+            "explanation": "Never land a load directly on the slings."
+          },
+          {
+            "id": "q-lft-4-3",
+            "prompt": "One Start-Work Check cannot be confirmed. What do you do?",
+            "options": [
+              "Start and fix it later",
+              "Stop and seek help",
+              "Ask the operator to be careful",
+              "Skip it if the lift is short"
+            ],
+            "answer": 1,
+            "explanation": "Stop and seek help if any safeguard is not in place."
+          },
+          {
+            "id": "q-lft-4-4",
+            "prompt": "When should tag lines be used?",
+            "options": [
+              "Never",
+              "Always, unless their use creates an unsafe condition",
+              "Only at night",
+              "Only for loads over 10 t"
+            ],
+            "answer": 1,
+            "explanation": "Tag lines shall be used unless their use creates an unsafe condition."
+          }
+        ]
+      },
+      {
+        "id": "l-lft-5",
+        "title": "Lift categories and key controls (IOGP 376)",
+        "type": "READING",
+        "durationMins": 8,
+        "body": [
+          "Shell Mobility's Lifting & Hoisting guideline (04.100) follows IOGP Report 376. A Person in Charge is appointed for every lift and categorises it; a Lift Plan is required for every lift regardless of category; everyone involved must be trained and competent; lifting equipment is visually inspected before and after each use and thoroughly examined by an independent competent inspector; and a banksman / signaller assists the crane operator.",
+          "Work through the categories from the top. Category 3 (non-routine complex) if any apply: load over 90% of the crane's rated capacity at that radius; lifting people; tandem lifts; proximity hazards such as power lines or confined spaces; lifting over live plant; more than one shift; needs expert calculations; transfer between appliances; blind lifts; rotating or up-ending the load. Category 3 should be avoided and needs Shell Engineering deviation approval with a qualified-person review of the Lift Plan.",
+          "Category 2 (non-routine simple) if any apply: load over 80% of the rated capacity; outside normal operating conditions; uneven or shifting weight; restrictive weather; unusual shape; estimated weight; sharp edges; no designed lifting points; excessive dimensions; SIMOPS. Category 1 (routine) only when none of the above apply, the people are trained, competent and authorised, and the load and equipment are simple.",
+          "Typical retail work: underground tank installation, canopy erection, monolith and HRS installation and site cabins are usually Category 2; steel structures, charger and dispenser installation, substations and deliveries are usually Category 1. Critical lifts by crane and lifts over 5,000 kg are high-risk work that needs a permit."
+        ],
+        "keyPoints": [
+          "A Lift Plan is required for every lift.",
+          "Category 3 (>90% capacity, people, tandem, power lines, blind lifts…) should be avoided.",
+          "Category 2 starts above 80% capacity or with estimated weight, uneven load, unusual shape.",
+          "Critical crane lifts and lifts over 5,000 kg need a permit."
+        ],
+        "resources": [
+          {
+            "label": "04.100 Lifting & Hoisting guideline (Drive)",
+            "url": "https://drive.google.com/file/d/11oUN2vOARsbCwQufX9S4T4KLGZD37uhW/view"
+          }
+        ],
+        "quiz": [
+          {
+            "id": "q-lft-5-1",
+            "prompt": "A crane will lift a load at 85% of its rated capacity at that radius. Which category, at minimum?",
+            "options": [
+              "Category 1",
+              "Category 2",
+              "Category 3",
+              "Not categorised"
+            ],
+            "answer": 1,
+            "explanation": "Over 80% (but not over 90%) is Category 2."
+          },
+          {
+            "id": "q-lft-5-2",
+            "prompt": "Which lift is Category 3?",
+            "options": [
+              "A routine dispenser delivery by forklift",
+              "Lifting a person in a basket",
+              "A load of known weight at 50% capacity",
+              "A lift with designed lifting points"
+            ],
+            "answer": 1,
+            "explanation": "Lifting or lowering personnel is always Category 3."
+          },
+          {
+            "id": "q-lft-5-3",
+            "prompt": "When is a Lift Plan required?",
+            "options": [
+              "Only for Category 3",
+              "Only above 5 t",
+              "For every lift, regardless of category",
+              "Never for Category 1"
+            ],
+            "answer": 2,
+            "explanation": "A Lift Plan is required for every lift."
+          },
+          {
+            "id": "q-lft-5-4",
+            "prompt": "Underground storage tank installation is usually …",
+            "options": [
+              "Category 1",
+              "Category 2",
+              "Category 3",
+              "Not a lift"
+            ],
+            "answer": 1,
+            "explanation": "UST installation is listed as Category 2 in 04.100."
+          }
+        ]
+      }
     ],
-    "images": [
-     {
-      "src": "/courses/vsr/slide-2.jpg",
-      "caption": "HSSE Guidance for Vendors — Basics, Work at Height & Access"
-     }
-    ],
-    "quiz": [
-     {
-      "id": "q-vsr-1-1",
-      "prompt": "What must you do before starting any activity on site?",
-      "options": [
-       "Unload your vehicle",
-       "Get your site safety induction",
-       "Call your office",
-       "Park near the shop"
-      ],
-      "answer": 1,
-      "explanation": "The site safety induction always comes first, after reporting to the Site Supervisor or Station Manager."
-     },
-     {
-      "id": "q-vsr-1-2",
-      "prompt": "When may you reverse a vehicle on site?",
-      "options": [
-       "Whenever the area looks clear",
-       "Only with a signalman guiding you",
-       "Only at night",
-       "Never"
-      ],
-      "answer": 1,
-      "explanation": "No reversing without a signalman."
-     },
-     {
-      "id": "q-vsr-1-3",
-      "prompt": "Where may you smoke at a retail fuel station?",
-      "options": [
-       "Behind the shop",
-       "Next to your vehicle",
-       "In a designated area away from pumps",
-       "Nowhere — no smoking on retail stations"
-      ],
-      "answer": 3,
-      "explanation": "Smoking is not allowed on retail stations; only in designated areas on construction sites."
-     }
+    "tier": "CAT2"
+  },
+  {
+    "id": "crs-cei300",
+    "code": "CEI-300",
+    "title": "Critical Equipment Inspection (CEI)",
+    "summary": "Internal course for MEP, fuel system and CEI technicians on inspecting safety-critical equipment at retail sites. Content to be completed by the Artelia HSSE team.",
+    "category": "Critical Equipment Inspection",
+    "level": "Intermediate",
+    "source": "ARTELIA",
+    "status": "DRAFT",
+    "mandatory": false,
+    "pathOrder": 99,
+    "dueDays": 30,
+    "passMark": 80,
+    "validityMonths": 24,
+    "lessons": [
+      {
+        "id": "l-cei-1",
+        "title": "What counts as critical equipment",
+        "type": "READING",
+        "durationMins": 10,
+        "body": [
+          "Draft outline — replace with the approved CEI content.",
+          "Safety-critical equipment at a retail site includes the emergency stop system, fuel dispenser shear valves and breakaways, tank and line leak detection, overfill protection, vapour recovery, fire detection and extinguishers, and electrical isolation and earthing.",
+          "A CEI inspector checks that each item is present, undamaged, tested at the right interval and recorded — and takes it out of service when it is not."
+        ],
+        "keyPoints": [
+          "Draft — awaiting approved content."
+        ],
+        "quiz": []
+      }
     ]
-   },
-   {
-    "id": "l-vsr-2",
-    "title": "Work at height and access",
-    "type": "READING",
-    "durationMins": 6,
-    "body": [
-     "Falls from vehicles and platforms are one of the most common ways vendors get hurt. Do not climb onto any platform or vehicle bed higher than 4 ft (120 cm) without safe access, and never jump down from one.",
-     "Any access above 1.8 metres needs a permit. To fix lifting gear at height, use a ladder that someone else is holding at the base. Inspect the ladder before use, keep three points of contact, always face the ladder while climbing up or down, and never over-reach.",
-     "Be aware of overhead power lines and moving traffic, and barricade your work area so customers and vehicles stay out."
-    ],
-    "keyPoints": [
-     "No climbing above 120 cm without safe access — and no jumping down.",
-     "Above 1.8 m you need a permit.",
-     "Ladders: inspected, footed by a second person, 3-point contact, face the ladder.",
-     "Barricade your work area."
-    ],
-    "quiz": [
-     {
-      "id": "q-vsr-2-1",
-      "prompt": "Above what height does access require a permit?",
-      "options": [
-       "1.2 m",
-       "1.8 m",
-       "2.5 m",
-       "3 m"
-      ],
-      "answer": 1,
-      "explanation": "Access to more than 1.8 metres requires a permit."
-     },
-     {
-      "id": "q-vsr-2-2",
-      "prompt": "How should you climb a ladder?",
-      "options": [
-       "Facing away, carrying tools in both hands",
-       "Facing the ladder with 3-point contact",
-       "Quickly, two rungs at a time",
-       "Leaning out to reach the work"
-      ],
-      "answer": 1,
-      "explanation": "Always face the ladder and keep three points of contact."
-     },
-     {
-      "id": "q-vsr-2-3",
-      "prompt": "You need to fix a lifting gear at height. What is correct?",
-      "options": [
-       "Stand on the vehicle's side rail",
-       "Use a ladder secured by another person at the base",
-       "Climb the load",
-       "Jump onto the platform"
-      ],
-      "answer": 1,
-      "explanation": "Use a ladder that is footed by another person."
-     }
-    ]
-   },
-   {
-    "id": "l-vsr-3",
-    "title": "Documents you must carry",
-    "type": "READING",
-    "durationMins": 5,
-    "body": [
-     "Before work or a delivery can start, the site needs to see the right paperwork. For deliveries: the delivery challan and the Safety Data Sheets for any chemicals. On arrival, make the daily site log entry, show your Safety Passport / site induction record, and be ready for a breathalyser test.",
-     "For work activities you also need the method statement (methodology) and a Work Clearance Form.",
-     "For lifting: third-party certificates for all lifting and hoisting components, the operator's licence and/or third-party competency certificate, a physical fitness certificate for the operator on critical lifts, a lifting plan that matches the lift category, and a Job Hazard Analysis plus a permit for critical lifts."
-    ],
-    "keyPoints": [
-     "Delivery challan and Safety Data Sheets.",
-     "Daily site log, Safety Passport, breathalyser test.",
-     "Method statement and Work Clearance Form.",
-     "Lifting: 3rd-party certificates, operator licence, lift plan, JHA and permit for critical lifts."
-    ],
-    "images": [
-     {
-      "src": "/courses/vsr/slide-3.jpg",
-      "caption": "HSSE Guidance for Vendors — Documentation, Lifting / Offloading"
-     }
-    ],
-    "quiz": [
-     {
-      "id": "q-vsr-3-1",
-      "prompt": "Which document tells the site what hazardous chemicals you are bringing?",
-      "options": [
-       "Delivery challan",
-       "Safety Data Sheet",
-       "Daily site log",
-       "Work Clearance Form"
-      ],
-      "answer": 1,
-      "explanation": "Safety Data Sheets describe the hazards of each chemical."
-     },
-     {
-      "id": "q-vsr-3-2",
-      "prompt": "What is needed for every lifting and hoisting component?",
-      "options": [
-       "A photo",
-       "A third-party certificate",
-       "The supplier's invoice",
-       "Nothing if it looks fine"
-      ],
-      "answer": 1,
-      "explanation": "All lifting and hoisting components need valid third-party certificates."
-     },
-     {
-      "id": "q-vsr-3-3",
-      "prompt": "Which test may you be asked to take on arrival?",
-      "options": [
-       "Eyesight test",
-       "Breathalyser test",
-       "Hearing test",
-       "Driving test"
-      ],
-      "answer": 1,
-      "explanation": "Breathalyser tests are done at site."
-     }
-    ]
-   },
-   {
-    "id": "l-vsr-4",
-    "title": "Lifting, offloading and PPE",
-    "type": "READING",
-    "durationMins": 6,
-    "body": [
-     "Your vehicle must be fit for use, and anyone operating a crane must hold valid training and a licence for it. Critical lifts need a permit; minor lifts need at least a JHA or Work Clearance Form. Stay out of the line of fire of any load, and use safe manual handling techniques when lifting by hand.",
-     "Wear the right PPE at all times on site: hard hat, high-visibility vest, safety shoes, protective clothing (coverall), gloves and goggles. Work safe, home safe."
-    ],
-    "keyPoints": [
-     "Critical lifts: permit. Minor lifts: JHA or WCF.",
-     "Crane operators need valid training and licence.",
-     "Stay out of the line of fire.",
-     "PPE: hard hat, hi-viz, safety shoes, coverall, gloves, goggles."
-    ],
-    "images": [
-     {
-      "src": "/courses/vsr/slide-4.jpg",
-      "caption": "Personal Protective Equipment"
-     }
-    ],
-    "quiz": [
-     {
-      "id": "q-vsr-4-1",
-      "prompt": "What is needed for a minor lift?",
-      "options": [
-       "Nothing",
-       "A JHA or Work Clearance Form",
-       "A full permit and lift plan approved by Shell Engineering",
-       "Only verbal approval"
-      ],
-      "answer": 1,
-      "explanation": "Use a permit for critical lifts and a JHA or WCF for minor lifts."
-     },
-     {
-      "id": "q-vsr-4-2",
-      "prompt": "Which is NOT part of the required PPE list?",
-      "options": [
-       "Hard hat",
-       "Hi-viz vest",
-       "Sandals",
-       "Goggles"
-      ],
-      "answer": 2,
-      "explanation": "Safety shoes are required — never sandals."
-     },
-     {
-      "id": "q-vsr-4-3",
-      "prompt": "Where should you stand during offloading by crane?",
-      "options": [
-       "Under the load to guide it",
-       "Away from the line of fire",
-       "On the truck bed",
-       "Anywhere close"
-      ],
-      "answer": 1,
-      "explanation": "Position yourself away from the line of fire."
-     }
-    ]
-   }
-  ]
- },
- {
-  "id": "crs-lft310",
-  "code": "LFT-310",
-  "title": "Lifting Supervisor",
-  "summary": "For supervisors who plan and control lifting and rigging at Shell Mobility sites: roles, rigging fundamentals, load weight, crane capacity, sling angles, exclusion zones and the IOGP 376 lift categories, with the Start-Work Checks.",
-  "category": "Lifting & rigging",
-  "level": "Advanced",
-  "source": "ARTELIA",
-  "status": "PUBLISHED",
-  "mandatory": false,
-  "pathOrder": 99,
-  "dueDays": 30,
-  "passMark": 80,
-  "validityMonths": 24,
-  "lessons": [
-   {
-    "id": "l-lft-1",
-    "title": "The Lifting Supervisor's role and precautions",
-    "type": "READING",
-    "durationMins": 8,
-    "body": [
-     "Most lifting accidents trace back to a short list of failures: no risk assessment, controls from the risk assessment not implemented, no proper lifting plan, no permit to work to manage the lift, wrong rigging methods, poorly maintained lifting equipment, and poor site control — no exclusion zone, so people not involved in the lift walk into it.",
-     "The Lifting Supervisor coordinates and supervises every lift in line with the Lifting Plan. Before work starts they brief the whole lifting team — crane operator, riggers and signalmen — on the plan, the risk controls and the safe lifting procedure; make sure only registered crane operators and appointed riggers and signalmen take part; check the ground is safe for mobile cranes; and stay present for the whole lift, putting right any unsafe condition reported to them.",
-     "General precautions on our sites: hold a toolbox talk, have the risk assessment and method statement on hand, keep phones away during the lift, check third-party inspection certificates, and agree the communication method. Terminate work above 45 °C, at wind speeds of 20 knots or more, or above 80% humidity, and never lift when visibility is poor. Provide one First Aider and one Fire Warden per 25 workers.",
-     "PPE for every member of the lifting team: safety helmet, high-visibility vest, coverall, safety boots, gloves, and eye and hearing protection."
-    ],
-    "keyPoints": [
-     "The Lifting Supervisor briefs the team and is present for the whole lift.",
-     "Only registered operators and appointed riggers/signalmen.",
-     "Stop work above 45 °C, at 20 knots wind, above 80% humidity or in poor visibility.",
-     "1 First Aider + 1 Fire Warden per 25 workers."
-    ],
-    "resources": [
-     {
-      "label": "Lifting Supervisor training deck (Drive)",
-      "url": "https://drive.google.com/file/d/1d_LuyRnJ-uPbkw1soib7Rx6olVuShq_f/view"
-     },
-     {
-      "label": "SWR — Lifting & Hoisting (Drive)",
-      "url": "https://drive.google.com/file/d/1FB5kmQhxyzmXI9oDZNJSeh54Wn7U_0gL/view"
-     }
-    ],
-    "quiz": [
-     {
-      "id": "q-lft-1-1",
-      "prompt": "Which wind speed should stop lifting work on our sites?",
-      "options": [
-       "10 knots",
-       "15 knots",
-       "20 knots",
-       "35 knots"
-      ],
-      "answer": 2,
-      "explanation": "Work is terminated at 20 knots."
-     },
-     {
-      "id": "q-lft-1-2",
-      "prompt": "Who must be present for the entire lifting operation?",
-      "options": [
-       "The station manager",
-       "The Lifting Supervisor",
-       "The client",
-       "The safety officer only"
-      ],
-      "answer": 1,
-      "explanation": "The Lifting Supervisor must be present during all lifting operations."
-     },
-     {
-      "id": "q-lft-1-3",
-      "prompt": "What is a common root cause of lifting accidents?",
-      "options": [
-       "Using tag lines",
-       "No proper Lifting Plan",
-       "Barricading the area",
-       "Briefing the team"
-      ],
-      "answer": 1,
-      "explanation": "Absence or lack of a proper Lifting Plan is a frequent cause."
-     },
-     {
-      "id": "q-lft-1-4",
-      "prompt": "How many First Aiders and Fire Wardens are needed for 25 workers?",
-      "options": [
-       "None",
-       "One of each",
-       "Two First Aiders only",
-       "One Fire Warden only"
-      ],
-      "answer": 1,
-      "explanation": "One First Aider and one Fire Warden per 25 employees."
-     }
-    ]
-   },
-   {
-    "id": "l-lft-2",
-    "title": "Rigging fundamentals: WLL, design factor and hitches",
-    "type": "READING",
-    "durationMins": 10,
-    "body": [
-     "Overhead lifting is any lift that raises a freely suspended load to a position where dropping it could injure someone or damage property.",
-     "The Working Load Limit (WLL) is the maximum load that may be applied in direct tension to an undamaged, straight length of sling or hoisting equipment. It is always less than the breaking strength. The design factor is the ratio of breaking strength to WLL: a chain sling with a breaking strength of 100 and a WLL of 25 has a design factor of 4:1.",
-     "Minimum design factors: alloy steel chain sling 4:1; wire rope, nylon rope, polypropylene rope, metal mesh, synthetic web and synthetic round slings 5:1; polyester rope sling 7:1.",
-     "Reach is measured from the top of the master link to the bowl of the load hook. Use a single master link for single and two-legged chain slings, and a master link with sub-links for three- or four-legged slings. The three basic hitches are vertical, choker and basket — each changes the sling's capacity, so always read the sling tag for the hitch you are using.",
-     "Sling choice: alloy chain is durable, repairable and tolerant of heat but heavy; wire rope is cheaper and lighter but hard to inspect, kinks easily and cannot be repaired; metal mesh resists cuts and abrasion but any broken wire removes it from service; synthetic slings are light and protect the load but are damaged by heat (about 90 °C / 194 °F), cuts, chemicals and UV and cannot be repaired."
-    ],
-    "keyPoints": [
-     "WLL is always less than the breaking strength.",
-     "Design factor = breaking strength ÷ WLL (chain 4:1, most slings 5:1, polyester rope 7:1).",
-     "Basic hitches: vertical, choker, basket.",
-     "Synthetic slings cannot be repaired and fail with heat, cuts and chemicals."
-    ],
-    "quiz": [
-     {
-      "id": "q-lft-2-1",
-      "prompt": "The WLL of rigging equipment is …",
-      "options": [
-       "Less than the breaking strength",
-       "Equal to the breaking strength",
-       "Greater than the breaking strength",
-       "Unrelated to breaking strength"
-      ],
-      "answer": 0,
-      "explanation": "WLL is a fraction of the breaking strength."
-     },
-     {
-      "id": "q-lft-2-2",
-      "prompt": "What is the minimum design factor of an alloy steel chain sling?",
-      "options": [
-       "3:1",
-       "4:1",
-       "5:1",
-       "7:1"
-      ],
-      "answer": 1,
-      "explanation": "Alloy steel chain slings are 4:1."
-     },
-     {
-      "id": "q-lft-2-3",
-      "prompt": "A sling has a breaking strength of 10 t and a design factor of 5:1. What is its WLL?",
-      "options": [
-       "1 t",
-       "2 t",
-       "5 t",
-       "50 t"
-      ],
-      "answer": 1,
-      "explanation": "10 ÷ 5 = 2 t."
-     },
-     {
-      "id": "q-lft-2-4",
-      "prompt": "Which sling type cannot be repaired and is damaged by heat and UV?",
-      "options": [
-       "Alloy chain",
-       "Synthetic web",
-       "Metal mesh",
-       "None"
-      ],
-      "answer": 1,
-      "explanation": "Synthetic slings have low heat resistance, suffer from UV and chemicals, and cannot be repaired."
-     }
-    ]
-   },
-   {
-    "id": "l-lft-3",
-    "title": "Load weight, crane capacity and sling angles",
-    "type": "VIDEO",
-    "durationMins": 12,
-    "videoUrl": "https://drive.google.com/file/d/1GGepdSBHhYm3S7oB3MWf-KDGyaGPi_zj/preview",
-    "body": [
-     "Know how heavy the load is. Take the actual weight from engineering data, shipping papers or catalogues, or calculate it from the volume of the object and the weight of the material (reduced for any voids). Always add the weight of the rigging and hardware.",
-     "Crane capacity comes from the manufacturer's load chart. It depends on the load radius (horizontal distance from the centre of rotation to the centre of the load), the boom length including jib or extensions, the boom angle, and the weight of attachments and handling devices such as the hook block and rigging. Mistakes here tip cranes over — overloads, side loading and loads swinging outside the radius in wind have all overturned cranes.",
-     "Sling angle changes the load in each leg. The Sling Angle Factor (SAF) for the angle from horizontal is: 90° = 1.000, 60° = 1.155, 45° = 1.415, 30° = 2.000. Multiply the share of the load on each leg by the SAF. Avoid shallow angles by using longer slings or a spreader beam, and protect slings from sharp edges.",
-     "Capture the centre of gravity: a suspended load always settles with its CoG under the hook, so place the lift point above the CoG, not the middle of the object, and do a test lift to confirm stability."
-    ],
-    "keyPoints": [
-     "Load weight includes rigging and hardware.",
-     "Capacity depends on radius, boom length, boom angle and attachments.",
-     "SAF: 60° = 1.155, 45° = 1.415, 30° = 2.000.",
-     "Lift above the centre of gravity and do a test lift."
-    ],
-    "resources": [
-     {
-      "label": "Video: How to calculate the weight of a load (Drive)",
-      "url": "https://drive.google.com/file/d/1GGepdSBHhYm3S7oB3MWf-KDGyaGPi_zj/view"
-     }
-    ],
-    "quiz": [
-     {
-      "id": "q-lft-3-1",
-      "prompt": "What must be included in the load weight?",
-      "options": [
-       "Only the object",
-       "The object plus rigging and hardware",
-       "Only the rigging",
-       "The crane's counterweight"
-      ],
-      "answer": 1,
-      "explanation": "Include the weight of rigging equipment and hardware."
-     },
-     {
-      "id": "q-lft-3-2",
-      "prompt": "What is the sling angle factor at 30° from horizontal?",
-      "options": [
-       "1.000",
-       "1.155",
-       "1.415",
-       "2.000"
-      ],
-      "answer": 3,
-      "explanation": "At 30° the tension in each leg doubles: SAF 2.000."
-     },
-     {
-      "id": "q-lft-3-3",
-      "prompt": "A 2 t load hangs on two legs at 60°. What is the tension in each leg?",
-      "options": [
-       "1 t",
-       "1.155 t",
-       "2 t",
-       "2.31 t"
-      ],
-      "answer": 1,
-      "explanation": "Each leg takes 1 t × 1.155 = 1.155 t."
-     },
-     {
-      "id": "q-lft-3-4",
-      "prompt": "Where should the lift point be?",
-      "options": [
-       "At the physical centre",
-       "Directly above the centre of gravity",
-       "At one end",
-       "Anywhere if slings are strong"
-      ],
-      "answer": 1,
-      "explanation": "Centre the lift above the centre of gravity."
-     }
-    ]
-   },
-   {
-    "id": "l-lft-4",
-    "title": "Exclusion zones, power lines, weather and landing",
-    "type": "READING",
-    "durationMins": 8,
-    "body": [
-     "Barricade the full swing radius of the crane and keep everyone not involved out of the lift area. Nobody walks or stands under a suspended load — that is a Life-Saving Rule. Make sure the operator can see clearly (no broken or obstructed windows) and keep loads as close to the ground as possible.",
-     "Overhead power lines: know their location and voltage and agree precautions with the owner. Minimum exclusion zones: low-voltage lines 1 m; 11 kV and 33 kV 3 m; 132 kV 6 m; 275 kV and 400 kV 7 m. Increase the distance in wet conditions.",
-     "Weather: wind makes loads swing — use tag lines unless they create a greater hazard. Heat reduces sling WLL: synthetic slings are affected above about 90 °C, wire rope above 150 °C and chain above 200 °C. Consider rain, visibility and ground: level, dry and stable, with outriggers fully extended on mats.",
-     "Flying and landing: have a clear path from pick-up to landing, never fly the load over people, move smoothly and avoid sudden starts and stops. Plan the landing before you lift, land on a firm flat surface on blocks or cribbing — never on the slings — chock round loads, and slowly release tension.",
-     "Before work starts, the Start-Work Checks for lifting and rigging must all be confirmed: written lift plan (if required) agreed by everyone; operator and rigger qualified; load within the equipment's safe working limit; lifting and rigging gear certified, inspected and rated; safety devices in place and working; communication plan agreed; controls for load shift, dropped objects, obstructions, power lines and suspended loads; and lifting equipment stable per the manufacturer. If any is missing — stop and seek help."
-    ],
-    "keyPoints": [
-     "Barricade the swing radius; never stand under a suspended load.",
-     "Power line clearance: LV 1 m, 11/33 kV 3 m, 132 kV 6 m, 275/400 kV 7 m.",
-     "Land on blocks or cribbing — never on the slings.",
-     "All 8 Start-Work Checks must be confirmed before lifting."
-    ],
-    "resources": [
-     {
-      "label": "Start-Work Checks — Lifting & Rigging (Drive)",
-      "url": "https://drive.google.com/file/d/1PggTu0nfIV0UK3sFYPhJB0azEVj5paIv/view"
-     }
-    ],
-    "quiz": [
-     {
-      "id": "q-lft-4-1",
-      "prompt": "Minimum exclusion distance from a 132 kV overhead line?",
-      "options": [
-       "1 m",
-       "3 m",
-       "6 m",
-       "7 m"
-      ],
-      "answer": 2,
-      "explanation": "132 kV lines need 6 m."
-     },
-     {
-      "id": "q-lft-4-2",
-      "prompt": "How should a load be landed?",
-      "options": [
-       "Directly on the slings",
-       "On blocks or cribbing so slings can be removed",
-       "Dropped the last few centimetres",
-       "On the truck tyres"
-      ],
-      "answer": 1,
-      "explanation": "Never land a load directly on the slings."
-     },
-     {
-      "id": "q-lft-4-3",
-      "prompt": "One Start-Work Check cannot be confirmed. What do you do?",
-      "options": [
-       "Start and fix it later",
-       "Stop and seek help",
-       "Ask the operator to be careful",
-       "Skip it if the lift is short"
-      ],
-      "answer": 1,
-      "explanation": "Stop and seek help if any safeguard is not in place."
-     },
-     {
-      "id": "q-lft-4-4",
-      "prompt": "When should tag lines be used?",
-      "options": [
-       "Never",
-       "Always, unless their use creates an unsafe condition",
-       "Only at night",
-       "Only for loads over 10 t"
-      ],
-      "answer": 1,
-      "explanation": "Tag lines shall be used unless their use creates an unsafe condition."
-     }
-    ]
-   },
-   {
-    "id": "l-lft-5",
-    "title": "Lift categories and key controls (IOGP 376)",
-    "type": "READING",
-    "durationMins": 8,
-    "body": [
-     "Shell Mobility's Lifting & Hoisting guideline (04.100) follows IOGP Report 376. A Person in Charge is appointed for every lift and categorises it; a Lift Plan is required for every lift regardless of category; everyone involved must be trained and competent; lifting equipment is visually inspected before and after each use and thoroughly examined by an independent competent inspector; and a banksman / signaller assists the crane operator.",
-     "Work through the categories from the top. Category 3 (non-routine complex) if any apply: load over 90% of the crane's rated capacity at that radius; lifting people; tandem lifts; proximity hazards such as power lines or confined spaces; lifting over live plant; more than one shift; needs expert calculations; transfer between appliances; blind lifts; rotating or up-ending the load. Category 3 should be avoided and needs Shell Engineering deviation approval with a qualified-person review of the Lift Plan.",
-     "Category 2 (non-routine simple) if any apply: load over 80% of the rated capacity; outside normal operating conditions; uneven or shifting weight; restrictive weather; unusual shape; estimated weight; sharp edges; no designed lifting points; excessive dimensions; SIMOPS. Category 1 (routine) only when none of the above apply, the people are trained, competent and authorised, and the load and equipment are simple.",
-     "Typical retail work: underground tank installation, canopy erection, monolith and HRS installation and site cabins are usually Category 2; steel structures, charger and dispenser installation, substations and deliveries are usually Category 1. Critical lifts by crane and lifts over 5,000 kg are high-risk work that needs a permit."
-    ],
-    "keyPoints": [
-     "A Lift Plan is required for every lift.",
-     "Category 3 (>90% capacity, people, tandem, power lines, blind lifts…) should be avoided.",
-     "Category 2 starts above 80% capacity or with estimated weight, uneven load, unusual shape.",
-     "Critical crane lifts and lifts over 5,000 kg need a permit."
-    ],
-    "resources": [
-     {
-      "label": "04.100 Lifting & Hoisting guideline (Drive)",
-      "url": "https://drive.google.com/file/d/11oUN2vOARsbCwQufX9S4T4KLGZD37uhW/view"
-     }
-    ],
-    "quiz": [
-     {
-      "id": "q-lft-5-1",
-      "prompt": "A crane will lift a load at 85% of its rated capacity at that radius. Which category, at minimum?",
-      "options": [
-       "Category 1",
-       "Category 2",
-       "Category 3",
-       "Not categorised"
-      ],
-      "answer": 1,
-      "explanation": "Over 80% (but not over 90%) is Category 2."
-     },
-     {
-      "id": "q-lft-5-2",
-      "prompt": "Which lift is Category 3?",
-      "options": [
-       "A routine dispenser delivery by forklift",
-       "Lifting a person in a basket",
-       "A load of known weight at 50% capacity",
-       "A lift with designed lifting points"
-      ],
-      "answer": 1,
-      "explanation": "Lifting or lowering personnel is always Category 3."
-     },
-     {
-      "id": "q-lft-5-3",
-      "prompt": "When is a Lift Plan required?",
-      "options": [
-       "Only for Category 3",
-       "Only above 5 t",
-       "For every lift, regardless of category",
-       "Never for Category 1"
-      ],
-      "answer": 2,
-      "explanation": "A Lift Plan is required for every lift."
-     },
-     {
-      "id": "q-lft-5-4",
-      "prompt": "Underground storage tank installation is usually …",
-      "options": [
-       "Category 1",
-       "Category 2",
-       "Category 3",
-       "Not a lift"
-      ],
-      "answer": 1,
-      "explanation": "UST installation is listed as Category 2 in 04.100."
-     }
-    ]
-   }
-  ]
- },
- {
-  "id": "crs-cei300",
-  "code": "CEI-300",
-  "title": "Critical Equipment Inspection (CEI)",
-  "summary": "Internal course for MEP, fuel system and CEI technicians on inspecting safety-critical equipment at retail sites. Content to be completed by the Artelia HSSE team.",
-  "category": "Critical Equipment Inspection",
-  "level": "Intermediate",
-  "source": "ARTELIA",
-  "status": "DRAFT",
-  "mandatory": false,
-  "pathOrder": 99,
-  "dueDays": 30,
-  "passMark": 80,
-  "validityMonths": 24,
-  "lessons": [
-   {
-    "id": "l-cei-1",
-    "title": "What counts as critical equipment",
-    "type": "READING",
-    "durationMins": 10,
-    "body": [
-     "Draft outline — replace with the approved CEI content.",
-     "Safety-critical equipment at a retail site includes the emergency stop system, fuel dispenser shear valves and breakaways, tank and line leak detection, overfill protection, vapour recovery, fire detection and extinguishers, and electrical isolation and earthing.",
-     "A CEI inspector checks that each item is present, undamaged, tested at the right interval and recorded — and takes it out of service when it is not."
-    ],
-    "keyPoints": [
-     "Draft — awaiting approved content."
-    ],
-    "quiz": []
-   }
-  ]
- }
+  },
+  {
+    "id": "crs-emr100",
+    "code": "EMR-100",
+    "title": "Emergency Response",
+    "summary": "What to do when something goes wrong on site: raising the alarm, emergency stops, evacuation and muster points, spill and fire first response, and working with the emergency services.",
+    "category": "Emergency response",
+    "level": "Foundation",
+    "source": "ARTELIA",
+    "status": "PUBLISHED",
+    "mandatory": false,
+    "pathOrder": 99,
+    "dueDays": 30,
+    "passMark": 80,
+    "validityMonths": 24,
+    "cameraRequired": true,
+    "tier": "FREE",
+    "lessons": []
+  },
+  {
+    "id": "crs-exc110",
+    "code": "EXC-110",
+    "title": "Excavation Safety",
+    "summary": "Planning and controlling excavation work on retail sites: underground services and fuel lines, cable avoidance (CAT & Genny), shoring and battering, spoil, edge protection and safe access.",
+    "category": "Excavation",
+    "level": "Foundation",
+    "source": "ARTELIA",
+    "status": "PUBLISHED",
+    "mandatory": false,
+    "pathOrder": 99,
+    "dueDays": 30,
+    "passMark": 80,
+    "validityMonths": 24,
+    "cameraRequired": true,
+    "tier": "CAT1",
+    "lessons": []
+  },
+  {
+    "id": "crs-hot120",
+    "code": "HOT-120",
+    "title": "Hot Works",
+    "summary": "Controlling hot work on and around a forecourt: the hot work permit, gas testing, fire watch, removing and shielding ignition sources, and close-out checks.",
+    "category": "Hot work",
+    "level": "Foundation",
+    "source": "ARTELIA",
+    "status": "PUBLISHED",
+    "mandatory": false,
+    "pathOrder": 99,
+    "dueDays": 30,
+    "passMark": 80,
+    "validityMonths": 24,
+    "cameraRequired": true,
+    "tier": "CAT1",
+    "lessons": []
+  },
+  {
+    "id": "crs-agt130",
+    "code": "AGT-130",
+    "title": "Authorized Gas Tester",
+    "summary": "For people who carry out gas tests under the Permit to Work: gas detector types, bump testing and calibration, sampling technique, reading and recording results, and acceptance limits.",
+    "category": "Gas testing",
+    "level": "Foundation",
+    "source": "ARTELIA",
+    "status": "PUBLISHED",
+    "mandatory": false,
+    "pathOrder": 99,
+    "dueDays": 30,
+    "passMark": 80,
+    "validityMonths": 24,
+    "cameraRequired": true,
+    "tier": "CAT1",
+    "lessons": []
+  },
+  {
+    "id": "crs-fab140",
+    "code": "FAB-140",
+    "title": "First Aid Basics",
+    "summary": "Basic first aid for site workers: scene safety, calling for help, the recovery position, bleeding, burns, fuel exposure and heat illness, until professional help arrives.",
+    "category": "First aid",
+    "level": "Foundation",
+    "source": "ARTELIA",
+    "status": "PUBLISHED",
+    "mandatory": false,
+    "pathOrder": 99,
+    "dueDays": 30,
+    "passMark": 80,
+    "validityMonths": 24,
+    "cameraRequired": true,
+    "tier": "CAT1",
+    "lessons": []
+  },
+  {
+    "id": "crs-dem150",
+    "code": "DEM-150",
+    "title": "Demolition Safety",
+    "summary": "Safe demolition and dismantling on retail sites: surveys, isolations, hazardous materials, sequence of work, exclusion zones and debris handling.",
+    "category": "Demolition",
+    "level": "Foundation",
+    "source": "ARTELIA",
+    "status": "PUBLISHED",
+    "mandatory": false,
+    "pathOrder": 99,
+    "dueDays": 30,
+    "passMark": 80,
+    "validityMonths": 24,
+    "cameraRequired": true,
+    "tier": "CAT1",
+    "lessons": []
+  },
+  {
+    "id": "crs-sup210",
+    "code": "SUP-210",
+    "title": "Site Supervisor",
+    "summary": "For contractor supervisors: leading the job safely, toolbox talks, checking the permit and controls, managing change, stopping unsafe work and reporting.",
+    "category": "Supervision",
+    "level": "Intermediate",
+    "source": "ARTELIA",
+    "status": "PUBLISHED",
+    "mandatory": false,
+    "pathOrder": 99,
+    "dueDays": 30,
+    "passMark": 80,
+    "validityMonths": 24,
+    "cameraRequired": true,
+    "tier": "CAT2",
+    "lessons": []
+  },
+  {
+    "id": "crs-psp220",
+    "code": "PSP-220",
+    "title": "Safety Passport",
+    "summary": "The Safety Passport course covering the core HSSE knowledge every contractor needs to work on Shell Mobility Oman sites, leading to the Safety Passport card.",
+    "category": "Safety passport",
+    "level": "Intermediate",
+    "source": "ARTELIA",
+    "status": "PUBLISHED",
+    "mandatory": false,
+    "pathOrder": 99,
+    "dueDays": 30,
+    "passMark": 80,
+    "validityMonths": 24,
+    "cameraRequired": true,
+    "tier": "CAT2",
+    "lessons": []
+  },
+  {
+    "id": "crs-esr230",
+    "code": "ESR-230",
+    "title": "Electrical Safety Rules",
+    "summary": "Electrical Safety Rules for retail sites: roles (CEP / AP), isolation and lock-out, proving dead, hazardous-area equipment and safe working distances.",
+    "category": "Electrical safety",
+    "level": "Intermediate",
+    "source": "ARTELIA",
+    "status": "PUBLISHED",
+    "mandatory": false,
+    "pathOrder": 99,
+    "dueDays": 30,
+    "passMark": 80,
+    "validityMonths": 24,
+    "cameraRequired": true,
+    "tier": "CAT2",
+    "lessons": []
+  },
+  {
+    "id": "crs-cse240",
+    "code": "CSE-240",
+    "title": "Confined Space Entry",
+    "summary": "Entering tanks, chambers and interceptors safely: identifying confined spaces, the entry permit, continuous gas monitoring, attendants, and rescue planning.",
+    "category": "Confined space",
+    "level": "Intermediate",
+    "source": "ARTELIA",
+    "status": "PUBLISHED",
+    "mandatory": false,
+    "pathOrder": 99,
+    "dueDays": 30,
+    "passMark": 80,
+    "validityMonths": 24,
+    "cameraRequired": true,
+    "tier": "CAT2",
+    "lessons": []
+  },
+  {
+    "id": "crs-scf260",
+    "code": "SCF-260",
+    "title": "Scaffold Inspection and Rescue",
+    "summary": "Inspecting scaffolds and mobile towers before use (tags, base, ties, guardrails, access) and planning and practising rescue from height.",
+    "category": "Scaffolding",
+    "level": "Intermediate",
+    "source": "ARTELIA",
+    "status": "PUBLISHED",
+    "mandatory": false,
+    "pathOrder": 99,
+    "dueDays": 30,
+    "passMark": 80,
+    "validityMonths": 24,
+    "cameraRequired": true,
+    "tier": "CAT2",
+    "lessons": []
+  }
 ]

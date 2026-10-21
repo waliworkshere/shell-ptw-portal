@@ -10,7 +10,7 @@ import { CourseGate } from '@/components/course-gate';
 import { useProctor } from '@/components/proctor';
 import { useStore } from '@/lib/store';
 import { generateCertificatePdf } from '@/lib/certificate-pdf';
-import { certificateExpiry, courseMinutes, courseProgress, fmtDate, isLessonUnlocked, lessonProgress, nextLesson } from '@/lib/training';
+import { certificateExpiry, courseMinutes, courseProgress, fmtDate, isLessonUnlocked, lessonProgress, nextLesson, needsPaymentFor, isComingSoon, SHOW_COURSE_PRICES, TIER_LABEL } from '@/lib/training';
 import { ArrowLeft, Award, BookOpen, Camera, CheckCircle2, Clock, CreditCard, Download, FileQuestion, History, Lock, PlayCircle, Receipt, Video } from 'lucide-react';
 
 export default function CourseOverviewPage() {
@@ -35,7 +35,7 @@ export default function CourseOverviewPage() {
   const resume = nextLesson(course, enrollment);
 
   const payment = enrollment?.paymentId ? state.payments.find((p) => p.id === enrollment.paymentId) : undefined;
-  const needsPayment = !!course.price && !enrollment?.paymentId && !enrollment?.imported && !enrollment?.completedAt;
+  const needsPayment = needsPaymentFor(course) && !enrollment?.paymentId && !enrollment?.imported && !enrollment?.completedAt;
 
   function go() {
     if (!enrollment) enroll(course!.id);
@@ -65,12 +65,13 @@ export default function CourseOverviewPage() {
             <SourceBadge source={course.source} size="md" />
             <span className="rounded-full bg-white/10 px-2.5 py-1 text-xs">{course.level}</span>
             {course.mandatory && <span className="rounded-full bg-sand-500 px-2.5 py-1 text-xs font-semibold text-ink">Required</span>}
-            {course.price ? <span className="app-number rounded-full bg-ink px-2.5 py-1 text-xs font-semibold text-sand-400">{course.price.toFixed(3)} OMR + VAT</span> : null}
+            {SHOW_COURSE_PRICES && course.price ? <span className="app-number rounded-full bg-ink px-2.5 py-1 text-xs font-semibold text-sand-400">{course.price.toFixed(3)} OMR + VAT</span> : null}
+            {!SHOW_COURSE_PRICES && course.tier && <span className="rounded-full bg-white/10 px-2.5 py-1 text-xs">{TIER_LABEL[course.tier]}</span>}
           </div>
           <p className="app-number mt-4 text-xs text-petrol-100">{course.code} · {course.category}</p>
           <h1 className="mt-2 font-display text-2xl font-semibold">{course.title}</h1>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed text-petrol-100">{course.summary}</p>
-          <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-xs text-petrol-100">
+          <div className={`mt-5 flex-wrap gap-x-6 gap-y-2 text-xs text-petrol-100 ${isComingSoon(course) ? 'hidden' : 'flex'}`}>
             <span className="inline-flex items-center gap-1.5"><BookOpen size={13} /> {course.lessons.length} lessons</span>
             <span className="inline-flex items-center gap-1.5"><Clock size={13} /> ~{courseMinutes(course)} min, self-paced</span>
             <span className="inline-flex items-center gap-1.5"><FileQuestion size={13} /> Quiz after every lesson, pass mark {course.passMark}%</span>
@@ -78,7 +79,9 @@ export default function CourseOverviewPage() {
             {course.cameraRequired && <span className="inline-flex items-center gap-1.5"><Camera size={13} /> On camera, face verified</span>}
           </div>
           <div className="mt-6 flex flex-wrap items-center gap-4">
-            {enrollment?.completedAt ? (
+            {isComingSoon(course) ? (
+              <span className="inline-flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2 text-sm font-medium ring-1 ring-white/20"><Clock size={16} /> Course content coming soon</span>
+            ) : enrollment?.completedAt ? (
               <button onClick={() => router.push(`/training/courses/${course.id}/lessons/${course.lessons[0].id}`)} className="btn-secondary">
                 Review course
               </button>
@@ -98,9 +101,9 @@ export default function CourseOverviewPage() {
           </div>
         </div>
 
-        {(payment || enrollment?.imported) && (
+        {((SHOW_COURSE_PRICES && payment) || enrollment?.imported) && (
           <div className="mt-4 flex flex-wrap gap-2 text-xs">
-            {payment && (
+            {SHOW_COURSE_PRICES && payment && (
               <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-slate-600 ring-1 ring-petrol-100">
                 <Receipt size={13} /> Paid {payment.total.toFixed(3)} OMR · {payment.method === 'CARD' ? `${payment.cardBrand} •••• ${payment.cardLast4}` : 'Apple Pay'} · <span className="app-number">{payment.receiptNo}</span>
               </span>
@@ -128,7 +131,7 @@ export default function CourseOverviewPage() {
           </div>
         )}
 
-        <h2 className="mt-8 font-display text-base font-semibold text-ink">Syllabus</h2>
+        {isComingSoon(course) ? <p className="mt-8 text-sm text-slate-500">The lessons for this course are being prepared and will appear here once they are published.</p> : <h2 className="mt-8 font-display text-base font-semibold text-ink">Syllabus</h2>}
         <ol className="card mt-3 divide-y divide-petrol-50 p-0">
           {course.lessons.map((lesson, i) => {
             const lp = lessonProgress(enrollment, lesson.id);
@@ -166,7 +169,7 @@ export default function CourseOverviewPage() {
             );
           })}
         </ol>
-        {!enrollment && <p className="mt-3 text-xs text-slate-400">Enrol to unlock the first lesson. Lessons open in order as you pass each quiz.</p>}
+        {!enrollment && !isComingSoon(course) && <p className="mt-3 text-xs text-slate-400">Enrol to unlock the first lesson. Lessons open in order as you pass each quiz.</p>}
         {enrollment && !enrollment.completedAt && (
           <div className="mt-4"><ProgressBar pct={p.pct} /></div>
         )}

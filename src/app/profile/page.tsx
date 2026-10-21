@@ -13,7 +13,7 @@ import { useStore } from '@/lib/store';
 import { ROLE_LABEL } from '@/lib/types';
 import { initials, maskCivilId } from '@/lib/roles';
 import { passportNo } from '@/lib/passport';
-import { fmtDate, fmtDateTime } from '@/lib/training';
+import { fmtDate, fmtDateTime, SHOW_COURSE_PRICES } from '@/lib/training';
 import { Camera, CheckCircle2, Contact, History, Receipt, Save, ScanFace, TriangleAlert } from 'lucide-react';
 
 export default function ProfilePage() {
@@ -137,7 +137,7 @@ export default function ProfilePage() {
           </div>
         )}
 
-        {payments.length > 0 && (
+        {SHOW_COURSE_PRICES && payments.length > 0 && (
           <div className="card mt-6">
             <h2 className="flex items-center gap-2 font-display text-sm font-semibold text-ink"><Receipt size={16} /> Payment history</h2>
             <table className="rtable rtable-flush mt-3 w-full text-sm">

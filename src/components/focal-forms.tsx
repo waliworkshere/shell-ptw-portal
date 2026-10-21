@@ -6,7 +6,7 @@ import { CheckCircle2, ImagePlus, Plus, Save, Send, Trash2, Wand2, X } from 'luc
 import { useStore } from '@/lib/store';
 import { FocalContract, FocalReport, FocalReportKind } from '@/lib/types';
 import {
-  Answer, ChecklistSection, ENV_NOTES, ERP_SCENARIOS, ErpDrill, KIND_LABEL, PTW_AUDIT, SITE_INSPECTION, STAT_FIELDS, TRAINING_TYPES,
+  Answer, ChecklistSection, ENV_NOTES, ERP_SCENARIOS, ErpDrill, KIND_LABEL, PTW_AUDIT, SITE_INSPECTION, STAT_COMMENTS, STAT_FIELDS, TRAINING_TYPES,
   TrainingSession, WASTE_CLASSES, WASTE_ROUTES, checklistScore, dueDate, envKey, monthKey, monthLabel, statRates, addMonths,
 } from '@/lib/focal';
 import { compressImage } from '@/lib/ocr';
@@ -21,22 +21,34 @@ function NumberInput({ value, onChange, step = '1', disabled }: { value: unknown
 
 /* ---------------- monthly statistics ---------------- */
 
-function StatsForm({ data, set, ro, company, period }: { data: Record<string, any>; set: (k: string, v: unknown) => void; ro: boolean; company: string; period: string }) {
+function StatsForm({ data, set, ro, company, period, contract, ownerId }: { data: Record<string, any>; set: (k: string, v: unknown) => void; ro: boolean; company: string; period: string; contract: FocalContract; ownerId: string }) {
   const { state } = useStore();
   const groups = Array.from(new Set(STAT_FIELDS.map((f) => f.group)));
   const rates = statRates(data);
+  const env = state.focalReports.find((r) => r.kind === 'ENVIRONMENT' && r.userId === ownerId && r.period === period && r.contract === contract);
   function fromSos() {
     const companyOf = new Map(state.users.map((u) => [u.id, u.company]));
     const rows = state.hsseReports.filter((r) => r.createdAt.slice(0, 7) === period && r.reporterId && companyOf.get(r.reporterId) === company);
     STAT_FIELDS.filter((f) => f.sos).forEach((f) => set(f.key, rows.filter((r) => (r.types?.length ? r.types : [r.type]).includes(f.sos!)).length));
-    set('stopWork', rows.filter((r) => r.stoppedWork).length);
+    set('tnt', rows.filter((r) => r.stoppedWork).length);
+  }
+  function fromEnv() {
+    if (!env) return;
+    STAT_FIELDS.filter((f) => f.env).forEach((f) => {
+      const t = WASTE_ROUTES.reduce((a, r) => a + (Number(env.data[envKey(f.env!, r.key)]) || 0), 0);
+      set(f.key, Math.round(t * 1000) / 1000);
+    });
   }
   return (
     <div className="space-y-5">
+      <p className="text-xs text-slate-500">Same columns as the Artelia monthly HSSE statistics workbook ({contract}). TRCs, TRC FR and NMPIs are calculated for you.</p>
       {!ro && (
         <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-petrol-50 p-3 text-sm text-petrol-600">
-          <span>Near misses, potential incidents, unsafe acts / conditions and stop-work can be counted from SOS reports raised by {company} staff this month.</span>
-          <button type="button" onClick={fromSos} className="btn-secondary px-3 py-1.5 text-xs"><Wand2 size={13} /> Fill from SOS reports</button>
+          <span>Near misses, potential incidents and TNT interventions can be counted from SOS reports raised by {company} staff this month{env ? ', and waste tonnages taken from your environmental report' : ''}.</span>
+          <span className="flex flex-wrap gap-2">
+            <button type="button" onClick={fromSos} className="btn-secondary px-3 py-1.5 text-xs"><Wand2 size={13} /> Fill from SOS reports</button>
+            {env && <button type="button" onClick={fromEnv} className="btn-secondary px-3 py-1.5 text-xs"><Wand2 size={13} /> Waste from environment report</button>}
+          </span>
         </div>
       )}
       {groups.map((g) => (
@@ -46,16 +58,25 @@ function StatsForm({ data, set, ro, company, period }: { data: Record<string, an
             {STAT_FIELDS.filter((f) => f.group === g).map((f) => (
               <label key={f.key} className="block text-sm">
                 <span className="mb-1 block text-slate-600">{f.label}</span>
-                <NumberInput value={data[f.key]} onChange={(v) => set(f.key, v)} disabled={ro} />
+                <NumberInput step={f.decimals ? '0.001' : '1'} value={data[f.key]} onChange={(v) => set(f.key, v)} disabled={ro} />
               </label>
             ))}
           </div>
         </div>
       ))}
-      <div className="grid gap-3 rounded-xl bg-petrol-50 p-3 text-sm sm:grid-cols-3">
-        <p><span className="text-slate-500">Recordable cases</span><br /><b className="app-number">{rates.recordable}</b></p>
-        <p><span className="text-slate-500">TRCF (per 1 million man-hours)</span><br /><b className="app-number">{rates.trcf === null ? '—' : rates.trcf.toFixed(2)}</b></p>
+      <div className="grid gap-3 rounded-xl bg-petrol-50 p-3 text-sm sm:grid-cols-4">
+        <p><span className="text-slate-500">TRCs (LTI + RWC + MTC)</span><br /><b className="app-number">{rates.recordable}</b></p>
+        <p><span className="text-slate-500">TRC FR (per 1 million man-hours)</span><br /><b className="app-number">{rates.trcf === null ? '—' : rates.trcf.toFixed(2)}</b></p>
         <p><span className="text-slate-500">LTIF (per 1 million man-hours)</span><br /><b className="app-number">{rates.ltif === null ? '—' : rates.ltif.toFixed(2)}</b></p>
+        <p><span className="text-slate-500">NMPIs (NMs + PIs)</span><br /><b className="app-number">{rates.nmpi}</b></p>
+      </div>
+      <div className="grid gap-3 sm:grid-cols-2">
+        {STAT_COMMENTS.map((c) => (
+          <label key={c.key} className="block text-sm">
+            <span className="mb-1 block text-slate-600">{c.label}</span>
+            <textarea rows={3} disabled={ro} className="input" value={data[c.key] ?? ''} onChange={(e) => set(c.key, e.target.value)} />
+          </label>
+        ))}
       </div>
     </div>
   );
@@ -336,7 +357,7 @@ export function FocalReportEditor({
       </div>
       {lateNote && !ro && <p className="rounded-lg bg-sand-50 px-3 py-2 text-xs text-sand-700">The deadline for {monthLabel(period)} has passed — this will be recorded as a late submission.</p>}
 
-      {kind === 'MONTHLY_STATS' && <StatsForm data={data} set={set} ro={ro} company={report?.company ?? company} period={period} />}
+      {kind === 'MONTHLY_STATS' && <StatsForm data={data} set={set} ro={ro} company={report?.company ?? company} period={period} contract={contract} ownerId={report?.userId ?? state.currentUserId ?? ''} />}
       {kind === 'ENVIRONMENT' && <EnvForm data={data} set={set} ro={ro} />}
       {kind === 'TRAINING' && <TrainingForm data={data} setData={setData} ro={ro} />}
       {kind === 'ERP_TEST' && <ErpForm data={data} setData={setData} ro={ro} />}

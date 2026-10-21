@@ -5,9 +5,8 @@ import { RoleGuard } from '@/components/role-guard';
 import { PriceTag, ProgressBar, SourceBadge } from '@/components/ui';
 import { Ring } from '@/components/charts';
 import { greeting } from '@/lib/roles';
-import { SOURCE_LABEL, SOURCE_ORDER } from '@/lib/types';
 import { useStore } from '@/lib/store';
-import { courseMinutes, courseProgress, fmtDate, qualification, PathStepState, isCertificateValid } from '@/lib/training';
+import { courseMinutes, courseProgress, fmtDate, qualification, PathStepState, isCertificateValid, isComingSoon, SHOW_COURSE_PRICES, TIER_LABEL, TIER_ORDER, TIER_SHORT, menuSort } from '@/lib/training';
 import { BadgeCheck, BookOpen, CheckCircle2, Circle, Clock, AlertTriangle, PlayCircle, Map, Contact, Receipt, Camera, Smartphone, History } from 'lucide-react';
 
 const STEP_STYLE: Record<PathStepState, { label: string; dot: string; text: string }> = {
@@ -23,7 +22,7 @@ export default function LearnerHome() {
   const q = qualification(state, uid);
   const isTrainee = currentUser?.role === 'TRAINEE';
   const registration = state.registrations.find((r) => r.userId === uid);
-  const catalogue = state.courses.filter((c) => c.status === 'PUBLISHED');
+  const catalogue = state.courses.filter((c) => c.status === 'PUBLISHED' && c.tier);
   const nextStep = q.steps.find((s) => s.status !== 'COMPLETED');
   const payments = state.payments.filter((p) => p.userId === uid);
 
@@ -129,16 +128,16 @@ export default function LearnerHome() {
           )}
         </section>
 
-        {/* Catalogue — Shell first, Artelia second, Local third */}
-        <h2 className="mt-10 font-display text-lg font-semibold text-ink">Course catalogue</h2>
-        {SOURCE_ORDER.map((src) => {
-          const list = catalogue.filter((c) => c.source === src);
+        {/* Courses menu — Free, Paid Category 1, Paid Category 2 */}
+        <h2 className="mt-10 font-display text-lg font-semibold text-ink">Courses</h2>
+        {TIER_ORDER.map((tier) => {
+          const list = catalogue.filter((c) => c.tier === tier).sort(menuSort);
           if (!list.length) return null;
           return (
-            <section key={src} className="mt-5">
+            <section key={tier} className="mt-5">
               <div className="flex items-center gap-3">
-                <SourceBadge source={src} size="md" />
-                <p className="text-sm font-semibold text-ink">{SOURCE_LABEL[src]}</p>
+                <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${tier === 'FREE' ? 'bg-leaf-50 text-leaf-700' : 'bg-petrol-50 text-petrol-600'}`}>{TIER_SHORT[tier]}</span>
+                <p className="text-sm font-semibold text-ink">{TIER_LABEL[tier]}</p>
                 <span className="h-px flex-1 bg-petrol-100" />
                 <span className="text-xs text-slate-400">{list.length} course{list.length === 1 ? '' : 's'}</span>
               </div>
@@ -147,17 +146,23 @@ export default function LearnerHome() {
                   const enrollment = state.enrollments.find((e) => e.userId === uid && e.courseId === course.id);
                   const p = courseProgress(course, enrollment);
                   const valid = isCertificateValid(course, enrollment);
+                  const soon = isComingSoon(course);
                   return (
-                    <Link key={course.id} href={`/training/courses/${course.id}`} className="card card-hover flex flex-col p-5">
+                    <Link key={course.id} href={`/training/courses/${course.id}`} className={`card card-hover flex flex-col p-5 ${soon ? 'opacity-80' : ''}`}>
                       <div className="flex items-center justify-between gap-2">
                         <span className="app-number text-xs text-slate-400">{course.code}</span>
                         <div className="flex items-center gap-1.5">
-                          <PriceTag price={course.price} />
+                          <SourceBadge source={course.source} />
+                          {SHOW_COURSE_PRICES && <PriceTag price={course.price} tier={course.tier} />}
                           {course.mandatory && <span className="rounded bg-sand-100 px-1.5 py-0.5 text-[11px] font-medium text-sand-700">Required</span>}
                         </div>
                       </div>
                       <p className="mt-2 font-display text-sm font-semibold leading-snug text-ink">{course.title}</p>
                       <p className="mt-1 line-clamp-3 flex-1 text-xs leading-relaxed text-slate-500">{course.summary}</p>
+                      {soon ? (
+                        <p className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-sand-700"><Clock size={12} /> Course content coming soon</p>
+                      ) : (
+                      <>
                       <div className="mt-4 flex items-center gap-3 text-xs text-slate-400">
                         <span className="inline-flex items-center gap-1"><BookOpen size={12} /> {course.lessons.length} lessons</span>
                         <span className="inline-flex items-center gap-1"><Clock size={12} /> ~{courseMinutes(course)} min</span>
@@ -177,6 +182,8 @@ export default function LearnerHome() {
                           <span className="inline-flex items-center gap-1 text-xs text-slate-400"><Circle size={12} /> Not enrolled</span>
                         )}
                       </div>
+                      </>
+                      )}
                     </Link>
                   );
                 })}
@@ -185,7 +192,7 @@ export default function LearnerHome() {
           );
         })}
 
-        {payments.length > 0 && (
+        {SHOW_COURSE_PRICES && payments.length > 0 && (
           <section className="card mt-10">
             <h2 className="flex items-center gap-2 font-display text-sm font-semibold text-ink"><Receipt size={16} /> Payments</h2>
             <ul className="mt-3 divide-y divide-petrol-50 text-sm">

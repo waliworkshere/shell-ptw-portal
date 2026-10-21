@@ -133,7 +133,7 @@
   {
     "id": "crs-hse101",
     "code": "HSE-101",
-    "title": "Shell Retail Site Safety Induction",
+    "title": "Site HSSE Requirements",
     "summary": "The baseline every person working on a forecourt needs: how fuel behaves, the site rules that keep it under control, and what to do when something goes wrong.",
     "category": "HSE induction",
     "level": "Foundation",
@@ -348,12 +348,13 @@
         ]
       }
     ],
-    "cameraRequired": true
+    "cameraRequired": true,
+    "tier": "FREE"
   },
   {
     "id": "crs-ptw201",
     "code": "PTW-201",
-    "title": "Permit to Work Fundamentals",
+    "title": "Permit to Work",
     "summary": "How the Permit to Work system controls non-routine work: who does what, how risk sets the paperwork (WCF and JHA), and how isolation, gas testing and close-out work.",
     "category": "Permit to Work",
     "level": "Foundation",
@@ -556,7 +557,8 @@
       }
     ],
     "price": 25,
-    "cameraRequired": true
+    "cameraRequired": true,
+    "tier": "CAT2"
   },
   {
     "id": "crs-haz202",
@@ -689,7 +691,7 @@
   {
     "id": "crs-drv150",
     "code": "DRV-150",
-    "title": "Shell Road Safety: Defensive Driving & Journey Management",
+    "title": "Defensive Driving Basics",
     "summary": "Road transport is the biggest single cause of fatalities in our industry. This course covers defensive driving, how a Journey Management Plan works, and what to do when a journey goes wrong.",
     "category": "Road safety",
     "level": "Foundation",
@@ -903,7 +905,8 @@
         ]
       }
     ],
-    "cameraRequired": true
+    "cameraRequired": true,
+    "tier": "CAT2"
   },
   {
     "id": "crs-ram210",
@@ -1110,7 +1113,7 @@
   {
     "id": "crs-fir110",
     "code": "FIR-110",
-    "title": "Fire Safety and Extinguisher Use (Oman sites)",
+    "title": "Fire Response Basics",
     "summary": "An optional refresher on how fires start, which extinguisher to use on which class of fire, and when to fight a fire or leave.",
     "category": "Emergency response",
     "level": "Foundation",
@@ -1231,7 +1234,8 @@
         ]
       }
     ],
-    "cameraRequired": true
+    "cameraRequired": true,
+    "tier": "CAT1"
   },
   {
     "id": "crs-wah120",

@@ -5,7 +5,7 @@ import { RoleGuard } from '@/components/role-guard';
 import { SourceBadge } from '@/components/ui';
 import { useStore } from '@/lib/store';
 import { Course, CourseSource, SOURCE_LABEL, SOURCE_ORDER } from '@/lib/types';
-import { courseProgress, fmtDate, isCertificateValid, qualification } from '@/lib/training';
+import { courseProgress, fmtDate, isCertificateValid, isComingSoon, qualification, SHOW_COURSE_PRICES } from '@/lib/training';
 import { BadgeCheck, CheckCircle2, Contact, Flag, Lock, MapPin, PlayCircle, ShieldCheck, Star } from 'lucide-react';
 
 type Node =
@@ -23,7 +23,7 @@ export default function RoadmapPage() {
   const nodes: Node[] = [];
   SOURCE_ORDER.forEach((src) => {
     const required = q.steps.filter((s) => s.course.source === src);
-    const optional = published.filter((c) => c.source === src && !c.mandatory);
+    const optional = published.filter((c) => c.source === src && !c.mandatory && c.tier && !isComingSoon(c));
     if (!required.length && !optional.length) return;
     nodes.push({ kind: 'stage', source: src, done: required.filter((s) => s.status === 'COMPLETED').length, total: required.length });
     required.forEach((s) =>
@@ -127,7 +127,7 @@ export default function RoadmapPage() {
                     className={`absolute top-1/2 block w-[min(42vw,330px)] -translate-y-1/2 rounded-xl bg-white/95 p-3 shadow-sm ring-1 ring-petrol-100 transition hover:ring-petrol-300 ${card} ${n.state === 'active' ? 'ring-2 ring-sand-500' : ''}`}
                   >
                     <p className="app-number text-[11px] text-slate-400">
-                      {n.course.code} {n.state === 'optional' && '· optional'} {n.course.price ? `· ${n.course.price.toFixed(3)} OMR` : ''}
+                      {n.course.code} {n.state === 'optional' && '· optional'} {SHOW_COURSE_PRICES && n.course.price ? `· ${n.course.price.toFixed(3)} OMR` : ''}
                     </p>
                     <p className="text-sm font-semibold leading-snug text-ink">{n.course.title}</p>
                     <div className="mt-1.5 flex items-center gap-2">

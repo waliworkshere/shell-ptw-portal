@@ -1,7 +1,7 @@
 'use client';
 
 import { FocalReport } from '@/lib/types';
-import { MONTHLY_KINDS, PTW_AUDIT, SITE_INSPECTION, checklistScore, dueDate, isOnTime } from '@/lib/focal';
+import { MONTHLY_KINDS, PTW_AUDIT, SITE_INSPECTION, checklistScore, dueDate, isOnTime, statRates } from '@/lib/focal';
 
 export function ReportStatus({ r, period }: { r?: FocalReport; period?: string }) {
   const today = new Date().toISOString().slice(0, 10);
@@ -19,7 +19,10 @@ export function summary(r: FocalReport, stations: { id: string; name: string }[]
   const d = r.data ?? {};
   switch (r.kind) {
     case 'MONTHLY_STATS':
-      return `${Number(d.manHours) || 0} man-hours · ${(Number(d.lti) || 0) + (Number(d.rwc) || 0) + (Number(d.mtc) || 0) + (Number(d.fatalities) || 0)} recordable · ${Number(d.nearMiss) || 0} near misses`;
+    {
+      const x = statRates(d);
+      return `${(Number(d.manHours) || 0).toLocaleString()} man-hours · ${x.recordable} TRC · ${x.nmpi} NMPIs · ${Number(d.tnt) || 0} TNT`;
+    }
     case 'ENVIRONMENT': {
       const t = Object.entries(d).filter(([k]) => k.startsWith('haz_') || k.startsWith('non_')).reduce((a, [, v]) => a + (Number(v) || 0), 0);
       return `${t.toFixed(3)} t waste`;

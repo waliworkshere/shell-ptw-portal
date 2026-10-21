@@ -1,4 +1,28 @@
-import { AppState, Course, Enrollment, Lesson, LessonProgress } from './types';
+import { AppState, Course, CourseTier, Enrollment, Lesson, LessonProgress } from './types';
+
+/** Course prices are hidden from learners for now and enrolment needs no payment. Flip to true to bring pricing and checkout back. */
+export const SHOW_COURSE_PRICES = false;
+
+export const TIER_ORDER: CourseTier[] = ['FREE', 'CAT1', 'CAT2'];
+export const TIER_LABEL: Record<CourseTier, string> = { FREE: 'Free courses', CAT1: 'Paid courses — Category 1', CAT2: 'Paid courses — Category 2' };
+export const TIER_SHORT: Record<CourseTier, string> = { FREE: 'Free', CAT1: 'Category 1', CAT2: 'Category 2' };
+
+/** Order of the courses menu, as given by Artelia HSSE. Courses not in this list follow, by code. */
+export const MENU_ORDER = [
+  'crs-vsr100', 'crs-emr100', 'crs-hse101',
+  'crs-exc110', 'crs-hot120', 'crs-agt130', 'crs-fab140', 'crs-fir110', 'crs-dem150',
+  'crs-ptw201', 'crs-sup210', 'crs-psp220', 'crs-esr230', 'crs-cse240', 'crs-lft310', 'crs-scf260', 'crs-drv150',
+];
+export const menuSort = (a: Course, b: Course) => {
+  const ia = MENU_ORDER.indexOf(a.id), ib = MENU_ORDER.indexOf(b.id);
+  return (ia < 0 ? 999 : ia) - (ib < 0 ? 999 : ib) || a.code.localeCompare(b.code);
+};
+
+/** A listed course whose lessons have not been loaded yet. */
+export const isComingSoon = (c: Course) => c.lessons.length === 0;
+
+/** Does enrolling in this course need a payment first? */
+export const needsPaymentFor = (c: Course) => SHOW_COURSE_PRICES && !!c.price;
 
 export const EMPTY_PROGRESS: LessonProgress = { contentDone: false, attempts: 0, bestScore: 0, passed: false };
 

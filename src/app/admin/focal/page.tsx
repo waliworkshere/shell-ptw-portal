@@ -5,6 +5,8 @@ import { RoleGuard } from '@/components/role-guard';
 import { Kpi } from '@/components/charts';
 import { CompanySelect } from '@/components/company-select';
 import { FocalReportEditor } from '@/components/focal-forms';
+import { ArteliaStats } from '@/components/artelia-stats';
+import { isMeta } from '@/lib/artelia';
 import { ReportStatus, summary } from '@/components/focal-common';
 import { useStore } from '@/lib/store';
 import { FocalContract, FocalReport, FocalReportKind, User } from '@/lib/types';
@@ -14,7 +16,7 @@ import {
 import { fmtDate } from '@/lib/training';
 import { Award, Download, FileWarning, GraduationCap, Medal, Search, ShieldCheck, UserPlus, Users } from 'lucide-react';
 
-type Tab = 'dashboard' | 'appointments' | 'reports' | 'environment';
+type Tab = 'dashboard' | 'statistics' | 'appointments' | 'reports' | 'environment';
 type Range = 'month' | 'quarter' | 'ytd' | 'year';
 
 function rangeOf(r: Range, year: string): [string, string] {
@@ -47,6 +49,7 @@ export default function AdminFocalPage() {
   const [rf, setRf] = useState<{ kind: string; company: string; contract: string }>({ kind: '', company: '', contract: '' });
   const [viewing, setViewing] = useState<FocalReport | null>(null);
   const reports = state.focalReports
+    .filter((r) => !isMeta(r))
     .filter((r) => (!rf.kind || r.kind === rf.kind) && (!rf.company || r.company === rf.company) && (!rf.contract || r.contract === rf.contract))
     .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
 
@@ -60,18 +63,18 @@ export default function AdminFocalPage() {
 
   // company HSSE statistics for the period
   const stats = useMemo(() => {
-    const m = new Map<string, { company: string; manHours: number; recordable: number; lti: number; nearMiss: number; fac: number; tbt: number }>();
+    const m = new Map<string, { company: string; manHours: number; recordable: number; lti: number; nearMiss: number; fac: number; tnt: number }>();
     state.focalReports
-      .filter((r) => r.kind === 'MONTHLY_STATS' && r.status === 'SUBMITTED' && r.period >= from && r.period <= to)
+      .filter((r) => r.kind === 'MONTHLY_STATS' && r.status === 'SUBMITTED' && !isMeta(r) && r.period >= from && r.period <= to)
       .forEach((r) => {
-        const x = m.get(r.company) ?? { company: r.company, manHours: 0, recordable: 0, lti: 0, nearMiss: 0, fac: 0, tbt: 0 };
+        const x = m.get(r.company) ?? { company: r.company, manHours: 0, recordable: 0, lti: 0, nearMiss: 0, fac: 0, tnt: 0 };
         const d = r.data;
         x.manHours += Number(d.manHours) || 0;
         x.recordable += statRates(d).recordable;
         x.lti += Number(d.lti) || 0;
         x.nearMiss += Number(d.nearMiss) || 0;
         x.fac += Number(d.fac) || 0;
-        x.tbt += Number(d.tbt) || 0;
+        x.tnt += Number(d.tnt) || 0;
         m.set(r.company, x);
       });
     return Array.from(m.values()).sort((a, b) => b.manHours - a.manHours);
@@ -97,6 +100,7 @@ export default function AdminFocalPage() {
           {(
             [
               ['dashboard', 'Dashboard'],
+              ['statistics', 'Monthly statistics'],
               ['appointments', `Appointments (${focals.filter((u) => u.hsseFocal?.active).length})`],
               ['reports', 'Reports'],
               ['environment', 'Environment'],
@@ -183,7 +187,7 @@ export default function AdminFocalPage() {
               <div className="border-b border-petrol-100 px-4 py-3"><h2 className="font-display text-base font-semibold text-ink">HSSE statistics by company</h2><p className="text-xs text-slate-500">From submitted monthly statistics, {monthLabel(from)} – {monthLabel(to)}</p></div>
               <table className="rtable w-full text-sm">
                 <thead className="border-b border-petrol-100 text-left text-xs uppercase tracking-wide text-slate-400">
-                  <tr><th className="px-4 py-3">Company</th><th className="px-4 py-3">Man-hours</th><th className="px-4 py-3">Recordables</th><th className="px-4 py-3">LTI</th><th className="px-4 py-3">TRCF</th><th className="px-4 py-3">First aid</th><th className="px-4 py-3">Near misses</th><th className="px-4 py-3">TBTs</th></tr>
+                  <tr><th className="px-4 py-3">Company</th><th className="px-4 py-3">Man-hours</th><th className="px-4 py-3">Recordables</th><th className="px-4 py-3">LTI</th><th className="px-4 py-3">TRCF</th><th className="px-4 py-3">First aid</th><th className="px-4 py-3">Near misses</th><th className="px-4 py-3">TNT</th></tr>
                 </thead>
                 <tbody className="divide-y divide-petrol-50">
                   {stats.map((x) => (
@@ -195,7 +199,7 @@ export default function AdminFocalPage() {
                       <td data-label="TRCF" className="px-4 py-3 app-number">{x.manHours ? ((x.recordable * 1e6) / x.manHours).toFixed(2) : '—'}</td>
                       <td data-label="First aid" className="px-4 py-3 app-number">{x.fac}</td>
                       <td data-label="Near misses" className="px-4 py-3 app-number">{x.nearMiss}</td>
-                      <td data-label="TBTs" className="px-4 py-3 app-number">{x.tbt}</td>
+                      <td data-label="TNT" className="px-4 py-3 app-number">{x.tnt}</td>
                     </tr>
                   ))}
                   {!stats.length && <tr><td colSpan={8} className="px-4 py-8 text-center text-slate-400">No monthly statistics submitted for this period.</td></tr>}
@@ -204,6 +208,8 @@ export default function AdminFocalPage() {
             </div>
           </>
         )}
+
+        {tab === 'statistics' && <ArteliaStats />}
 
         {tab === 'appointments' && (
           <div className="mt-6 space-y-6">

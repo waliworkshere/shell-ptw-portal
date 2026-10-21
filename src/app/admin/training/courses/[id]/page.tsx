@@ -6,7 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { RoleGuard } from '@/components/role-guard';
 import { useStore } from '@/lib/store';
 import { Course, Lesson, QuizQuestion } from '@/lib/types';
-import { courseMinutes } from '@/lib/training';
+import { courseMinutes, SHOW_COURSE_PRICES, TIER_LABEL, TIER_ORDER } from '@/lib/training';
 import { ArrowDown, ArrowLeft, ArrowUp, BookOpen, Check, ChevronDown, ChevronRight, FileQuestion, Plus, Save, Trash2, Video } from 'lucide-react';
 
 const uid = (p: string) => `${p}-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
@@ -131,8 +131,16 @@ export default function CourseEditorPage() {
             </select>
           </div>
           <div className="sm:col-span-2">
+            <label className="label" htmlFor="tier">Courses menu</label>
+            <select id="tier" className="input" value={draft.tier ?? ''} onChange={(e) => set('tier', (e.target.value || undefined) as Course['tier'])}>
+              <option value="">Not listed in the menu</option>
+              {TIER_ORDER.map((t) => <option key={t} value={t}>{TIER_LABEL[t]}</option>)}
+            </select>
+          </div>
+          <div className="sm:col-span-2">
             <label className="label" htmlFor="price">Price (OMR, excl. VAT)</label>
             <input id="price" type="number" min={0} step={0.5} className="input" value={draft.price ?? 0} onChange={(e) => set('price', Number(e.target.value) || undefined)} />
+            {!SHOW_COURSE_PRICES && <p className="mt-1 text-xs text-slate-400">Prices are hidden from learners for now and enrolment is free.</p>}
           </div>
           <div className="sm:col-span-2">
             <label className="label" htmlFor="cam">Camera</label>

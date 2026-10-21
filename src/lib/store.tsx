@@ -32,6 +32,8 @@ interface StoreContextValue {
   appointFocal: (userId: string, company: string, contracts: FocalContract[]) => void;
   endFocal: (userId: string) => void;
   saveFocalReport: (r: Omit<FocalReport, 'id' | 'userId' | 'userName' | 'createdAt' | 'updatedAt' | 'submittedAt'> & { id?: string }) => FocalReport;
+  /** Admin: add or update report records taken from Artelia workbooks (matched by id). */
+  importFocalReports: (records: FocalReport[]) => void;
   // Points & rewards
   decideReportPoints: (reportId: string, approve: boolean, points: number, note: string) => void;
   requestRedemption: (reward: { id: string; label: string; cost: number }) => { ok: true } | { ok: false; error: string };
@@ -145,7 +147,7 @@ const EMPTY_LIVE: AppState = {
 };
 
 /** Bump when new catalogue items (courses, permit types, stations) ship in code. */
-const CATALOGUE_VERSION = 'seed-catalogue-v1';
+const CATALOGUE_VERSION = 'seed-catalogue-v2';
 const TOUR_KEY = 'gemsafety-tour';
 
 type RefMap = Record<string, Map<string, unknown>>;
@@ -436,10 +438,14 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     setState((s) => {
       if (s.auditLogs.some((a) => a.id === CATALOGUE_VERSION)) return s;
       const add = <T extends { id: string }>(have: T[], seed: T[]) => [...have, ...seed.filter((x) => !have.some((h) => h.id === x.id))];
-      const courses = add(s.courses, seedState.courses);
+      // v2: the courses menu (Free / Category 1 / Category 2) — set tier and menu title on courses that already exist.
+      const courses = add(s.courses, seedState.courses).map((c) => {
+        const seed = seedState.courses.find((x) => x.id === c.id);
+        return seed?.tier && (c.tier !== seed.tier || c.title !== seed.title) ? { ...c, tier: seed.tier, title: seed.title } : c;
+      });
       const permitTypes = add(s.permitTypes, seedState.permitTypes);
       const stations = add(s.stations, seedState.stations);
-      const n = courses.length - s.courses.length + permitTypes.length - s.permitTypes.length + stations.length - s.stations.length;
+      const n = courses.filter((c, i) => c !== s.courses[i]).length + permitTypes.length - s.permitTypes.length + stations.length - s.stations.length;
       return {
         ...s,
         courses,
@@ -629,6 +635,20 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     setState((s) => ({ ...s, focalReports: existing ? s.focalReports.map((x) => (x.id === saved.id ? saved : x)) : [saved, ...s.focalReports] }));
     if (r.status === 'SUBMITTED' && existing?.status !== 'SUBMITTED') addAuditLog('HSSE_FOCAL_REPORT', `${saved.company}: ${saved.kind.replace(/_/g, ' ').toLowerCase()} ${saved.period} (${saved.contract}) submitted`);
     return saved;
+  }, [addAuditLog]);
+
+  const importFocalReports = useCallback((records: FocalReport[]) => {
+    if (!records.length) return;
+    setState((s) => {
+      const have = new Map(s.focalReports.map((r) => [r.id, r]));
+      records.forEach((r) => {
+        const old = have.get(r.id);
+        have.set(r.id, old ? { ...r, createdAt: old.createdAt } : r);
+      });
+      return { ...s, focalReports: Array.from(have.values()) };
+    });
+    const months = Array.from(new Set(records.map((r) => `${r.contract} ${r.period}`))).sort();
+    addAuditLog('HSSE_STATS_IMPORTED', `Artelia HSSE statistics imported: ${months.join(', ')} (${records.length} record(s))`);
   }, [addAuditLog]);
 
   /* ======================= POINTS & REWARDS ======================= */
@@ -1502,6 +1522,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         appointFocal,
         endFocal,
         saveFocalReport,
+        importFocalReports,
         decideReportPoints,
         requestRedemption,
         decideRedemption,

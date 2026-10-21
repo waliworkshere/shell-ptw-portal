@@ -31,45 +31,101 @@ export interface StatField {
   key: string;
   label: string;
   group: string;
+  col: string;
   sos?: 'NEAR_MISS' | 'POTENTIAL_INCIDENT' | 'UNSAFE_ACT' | 'UNSAFE_CONDITION';
   decimals?: boolean;
+  env?: 'haz' | 'non';
 }
 
+/**
+ * Same columns, in the same order, as the Artelia monthly "HSSE STATISTICS" workbook (one row per L3/L2 contractor).
+ * `col` is the workbook column header. TRCs, TRC FR and NMPIs are calculated, the rest are entered.
+ */
 export const STAT_FIELDS: StatField[] = [
-  { group: 'Exposure', key: 'manpower', label: 'Average manpower (people)' },
-  { group: 'Exposure', key: 'manHours', label: 'Man-hours worked' },
-  { group: 'Exposure', key: 'kmDriven', label: 'Kilometres driven' },
-  { group: 'Injuries', key: 'fatalities', label: 'Fatalities' },
-  { group: 'Injuries', key: 'lti', label: 'Lost time injuries (LTI)' },
-  { group: 'Injuries', key: 'rwc', label: 'Restricted work cases (RWC)' },
-  { group: 'Injuries', key: 'mtc', label: 'Medical treatment cases (MTC)' },
-  { group: 'Injuries', key: 'fac', label: 'First aid cases (FAC)' },
-  { group: 'Incidents', key: 'rta', label: 'Road traffic accidents (RTA)' },
-  { group: 'Incidents', key: 'fire', label: 'Fire incidents' },
-  { group: 'Incidents', key: 'spills', label: 'Spills / environmental incidents' },
-  { group: 'Incidents', key: 'propertyDamage', label: 'Property / asset damage' },
-  { group: 'Proactive reporting', key: 'nearMiss', label: 'Near misses', sos: 'NEAR_MISS' },
-  { group: 'Proactive reporting', key: 'potentialIncident', label: 'Potential incidents', sos: 'POTENTIAL_INCIDENT' },
-  { group: 'Proactive reporting', key: 'unsafeAct', label: 'Unsafe acts', sos: 'UNSAFE_ACT' },
-  { group: 'Proactive reporting', key: 'unsafeCondition', label: 'Unsafe conditions', sos: 'UNSAFE_CONDITION' },
-  { group: 'Proactive reporting', key: 'stopWork', label: 'Stop-work interventions' },
-  { group: 'Activities', key: 'ptwIssued', label: 'Permits to work issued' },
-  { group: 'Activities', key: 'tbt', label: 'Toolbox talks conducted' },
-  { group: 'Activities', key: 'hseMeetings', label: 'HSE meetings held' },
-  { group: 'Activities', key: 'inspections', label: 'Inspections carried out' },
-  { group: 'Activities', key: 'audits', label: 'Audits carried out' },
+  { group: 'Exposure', key: 'manHours', label: 'Man-hours worked', col: 'Manhours worked' },
+  { group: 'Injuries & incidents', key: 'lti', label: 'Lost time injuries (LTIs)', col: '# of LTIs' },
+  { group: 'Injuries & incidents', key: 'rwc', label: 'Restricted work cases (RWCs)', col: '# of RWCs' },
+  { group: 'Injuries & incidents', key: 'mtc', label: 'Medical treatment cases (MTCs)', col: '# of MTCs' },
+  { group: 'Injuries & incidents', key: 'fac', label: 'First aid cases (FACs)', col: '# of FACs' },
+  { group: 'Injuries & incidents', key: 'lsr', label: 'Life-Saving Rule breaches', col: '# of LSR breaches' },
+  { group: 'Injuries & incidents', key: 'lopc', label: 'LOPCs (between 10 kg – 100 kg)', col: '# of LOPCs (between 10k - 100kg)' },
+  { group: 'Waste', key: 'hazWaste', label: 'Hazardous waste (tonnes)', col: 'Hazardous wastes in tons', decimals: true, env: 'haz' },
+  { group: 'Waste', key: 'nonHazWaste', label: 'Non-hazardous waste (tonnes)', col: 'Non Hazardous wastes in tons', decimals: true, env: 'non' },
+  { group: 'Near misses & potential incidents', key: 'nearMiss', label: 'Near misses (NMs)', col: '# of NMs', sos: 'NEAR_MISS' },
+  { group: 'Near misses & potential incidents', key: 'potentialIncident', label: 'Potential incidents (PIs)', col: '# of PIs', sos: 'POTENTIAL_INCIDENT' },
+  { group: 'Near misses & potential incidents', key: 'nmpiSig', label: 'Significant NMPIs (severity 4/5)', col: '# of NMPIs significants (sev 4/5)' },
+  { group: 'Near misses & potential incidents', key: 'nmpiSigPtw', label: 'Significant NMPIs related to PTW', col: '# of NMPIs significant related to PTW' },
+  { group: 'Proactive activities', key: 'tnt', label: 'TNT (interventions)', col: '# of TNT (interventions)' },
+  { group: 'Proactive activities', key: 'audits', label: 'Audits', col: '# Audits' },
+  { group: 'Proactive activities', key: 'inspections', label: 'Inspections', col: '# Inspections' },
+  { group: 'Proactive activities', key: 'ptwIssued', label: 'Permits to work (PTWs)', col: '# of PTWs' },
+  { group: 'Driving', key: 'journeyPlans', label: 'Journey plans', col: '# of Journey Plans' },
+  { group: 'Driving', key: 'kmDriven', label: 'Kilometres driven', col: '# of KM Driven' },
 ];
 
+/** Free-text boxes at the foot of the Artelia workbook. */
+export const STAT_COMMENTS = [
+  { key: 'commentsTrc', label: 'Comments for TRCs / LSR breaches reports' },
+  { key: 'commentsHighlights', label: 'Comments for specific HSSE activities to be highlighted' },
+];
+
+/** Full Artelia column order, including the calculated columns. */
+export type StatColumn = { key: string; col: string; calc?: 'trc' | 'trcfr' | 'nmpi'; decimals?: boolean };
+export const STAT_COLUMNS: StatColumn[] = (() => {
+  const by = (k: string) => STAT_FIELDS.find((f) => f.key === k)!;
+  const plain = (k: string): StatColumn => ({ key: k, col: by(k).col, decimals: by(k).decimals });
+  return [
+    plain('manHours'),
+    { key: 'trc', col: '# of TRCs', calc: 'trc' },
+    plain('lti'), plain('rwc'), plain('mtc'), plain('fac'), plain('lsr'), plain('lopc'), plain('hazWaste'), plain('nonHazWaste'),
+    { key: 'trcfr', col: 'TRC FR', calc: 'trcfr', decimals: true },
+    { key: 'nmpi', col: 'NMPIs', calc: 'nmpi' },
+    plain('nearMiss'), plain('potentialIncident'), plain('nmpiSig'), plain('nmpiSigPtw'), plain('tnt'), plain('audits'), plain('inspections'), plain('ptwIssued'), plain('journeyPlans'), plain('kmDriven'),
+  ];
+})();
+
+const n0 = (v: unknown) => {
+  const x = typeof v === 'string' ? parseFloat(v) : Number(v);
+  return Number.isFinite(x) ? x : 0;
+};
+
 export function statRates(d: Record<string, any>) {
-  const n = (k: string) => Number(d[k]) || 0;
-  const hours = n('manHours');
-  const recordable = n('fatalities') + n('lti') + n('rwc') + n('mtc');
+  const hours = n0(d.manHours);
+  // TRC = fatalities + LTIs + RWCs + MTCs (first aid cases are not recordable)
+  const recordable = n0(d.fatalities) + n0(d.lti) + n0(d.rwc) + n0(d.mtc);
   return {
     trcf: hours ? (recordable * 1_000_000) / hours : null, // per million man-hours
-    ltif: hours ? ((n('fatalities') + n('lti')) * 1_000_000) / hours : null,
+    ltif: hours ? ((n0(d.fatalities) + n0(d.lti)) * 1_000_000) / hours : null,
     recordable,
+    nmpi: n0(d.nearMiss) + n0(d.potentialIncident),
   };
 }
+
+/** Value of one Artelia column for a statistics record (or a summed row). */
+export function statValue(d: Record<string, any>, c: StatColumn): number | null {
+  const r = statRates(d);
+  if (c.calc === 'trc') return r.recordable;
+  if (c.calc === 'nmpi') return r.nmpi;
+  if (c.calc === 'trcfr') return r.trcf;
+  return n0(d[c.key]);
+}
+
+/** Add up statistics records field by field. */
+export function sumStats(rows: Record<string, any>[]) {
+  const out: Record<string, number> = {};
+  rows.forEach((d) => {
+    [...STAT_FIELDS.map((f) => f.key), 'fatalities'].forEach((k) => {
+      out[k] = (out[k] ?? 0) + n0(d[k]);
+    });
+  });
+  return out;
+}
+
+/** Reports imported from Artelia workbooks carry this as their userId (no focal person behind them). */
+export const IMPORT_USER = 'import-artelia';
+/** Marker title for the workbook's "Total for Program" row, stored once per contract and month. */
+export const PROGRAM_TOTAL = '__program_total__';
+export const isProgramTotal = (r: FocalReport) => r.title === PROGRAM_TOTAL;
 
 /* ---------------- Environment (Artelia Environmental Monitoring) ---------------- */
 

@@ -327,6 +327,8 @@ export const SOURCE_LABEL: Record<CourseSource, string> = {
   LOCAL: 'Local modules',
 };
 export type CourseStatus = 'DRAFT' | 'PUBLISHED';
+/** Courses-menu group. Courses without a tier are not listed in the menu (they can still be on the qualification path). */
+export type CourseTier = 'FREE' | 'CAT1' | 'CAT2';
 export type LessonType = 'READING' | 'VIDEO';
 
 export interface QuizQuestion {
@@ -368,6 +370,7 @@ export interface Course {
   enrollOpens?: string; // optional enrolment window (ISO date)
   enrollCloses?: string;
   price?: number; // OMR, excl. VAT. Undefined / 0 = free.
+  tier?: CourseTier; // courses-menu group
   cameraRequired?: boolean; // learner must be on camera during the course
   lessons: Lesson[];
 }
