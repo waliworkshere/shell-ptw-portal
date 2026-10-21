@@ -10,7 +10,7 @@ import { SourceBadge } from '@/components/ui';
 import { SOURCE_LABEL, SOURCE_ORDER } from '@/lib/types';
 import { fmtDateTime } from '@/lib/training';
 import { ramLevel } from '@/lib/hsse';
-import { Trophy, Award, ClipboardCheck, FileStack, GraduationCap, Megaphone, Radar, ScrollText, ShieldAlert, Siren, Truck, Upload, Users, Wallet } from 'lucide-react';
+import { Trophy, Award, ClipboardCheck, FileStack, GraduationCap, Megaphone, Radar, ScrollText, ShieldAlert, Siren, Truck, Upload, Users } from 'lucide-react';
 
 export default function AdminDashboard() {
   const { state, currentUser } = useStore();
@@ -21,7 +21,9 @@ export default function AdminDashboard() {
   const activeSos = state.sosAlerts.filter((a) => a.status !== 'RESOLVED');
   const openHsse = state.hsseReports.filter((r) => r.status !== 'CLOSED');
   const certs = state.enrollments.filter((e) => e.completedAt).length;
-  const revenue = state.payments.reduce((a, p) => a + p.total, 0);
+  const month = new Date().toISOString().slice(0, 7);
+  const trained = state.enrollments.filter((e) => e.completedAt && !e.imported);
+  const trainedThisMonth = trained.filter((e) => e.completedAt!.slice(0, 7) === month).length;
   const learners = state.users.filter((u) => u.role === 'TRAINEE' || u.role === 'APPLICANT');
 
   const bySource = SOURCE_ORDER.map((src) => {
@@ -52,7 +54,7 @@ export default function AdminDashboard() {
           <Kpi icon={Megaphone} label="Open HSSE" value={openHsse.length} tone="yellow" href="/hsse" hint={`${openHsse.filter((r) => ramLevel(r.consequence, r.likelihood) === 'HIGH').length} high potential`} />
           <Kpi icon={Award} label="Certificates" value={certs} tone="green" href="/admin/training" hint={`${learners.length} learners`} />
           <Kpi icon={Truck} label="On the road" value={activeJourneys.length} tone="navy" href="/journeys/monitor" hint={overdue ? `${overdue} overdue call-in` : 'all on schedule'} />
-          <Kpi icon={Wallet} label="Course revenue" value={<span className="text-2xl">{revenue.toFixed(1)}</span>} tone="navy" hint="OMR incl. VAT" />
+          <Kpi icon={GraduationCap} label="Trainings this month" value={trainedThisMonth} tone="navy" href="/admin/training" hint={`${trained.length} completed to date`} />
         </div>
 
         <div className="grid gap-6 lg:grid-cols-5">

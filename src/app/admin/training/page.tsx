@@ -7,7 +7,7 @@ import { RoleGuard } from '@/components/role-guard';
 import { PageHeader, PriceTag, SourceBadge, StatCard } from '@/components/ui';
 import { useStore } from '@/lib/store';
 import { ROLE_LABEL, SOURCE_LABEL, SOURCE_ORDER } from '@/lib/types';
-import { courseMinutes, courseProgress, fmtDate, fmtDateTime, isCertificateValid, pathCourses, qualification } from '@/lib/training';
+import { courseMinutes, courseProgress, fmtDate, fmtDateTime, isCertificateValid, pathCourses, qualification, SHOW_COURSE_PRICES } from '@/lib/training';
 import { ArrowDown, ArrowUp, Check, CloudDownload, Pencil, Plus, X } from 'lucide-react';
 
 type Tab = 'courses' | 'path' | 'learners' | 'registrations';
@@ -155,12 +155,12 @@ export default function AdminTrainingPage() {
                 </section>
               );
             })}
-            <div className="card flex flex-wrap items-center justify-between gap-3 p-5">
+            {SHOW_COURSE_PRICES && <div className="card flex flex-wrap items-center justify-between gap-3 p-5">
               <p className="text-sm text-slate-600">
                 Course revenue to date: <b className="app-number text-ink">{state.payments.reduce((a, p) => a + p.total, 0).toFixed(3)} OMR</b> from {state.payments.length} payment{state.payments.length === 1 ? '' : 's'} (incl. VAT).
               </p>
               <span className="text-xs text-slate-400">Payments processed through AmwalPay (simulated)</span>
-            </div>
+            </div>}
           </div>
         )}
 
