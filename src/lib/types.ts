@@ -80,6 +80,39 @@ export interface User {
   // Profile carried over from the member register import
   member?: MemberProfile;
   passportForm?: PassportForm;
+  hsseFocal?: HsseFocal; // set only by an Administrator
+}
+
+export type FocalContract = 'EPCM' | 'FMC';
+
+/** Appointment as a company's HSSE Focal person. */
+export interface HsseFocal {
+  active: boolean;
+  company: string;
+  contracts: FocalContract[];
+  appointedAt: string;
+  appointedBy: string;
+  endedAt?: string;
+}
+
+export type FocalReportKind = 'MONTHLY_STATS' | 'ENVIRONMENT' | 'TRAINING' | 'ERP_TEST' | 'SITE_INSPECTION' | 'PTW_AUDIT';
+
+/** One submission by an HSSE Focal. `data` depends on `kind` (see lib/focal.ts). */
+export interface FocalReport {
+  id: string;
+  userId: string;
+  userName: string;
+  company: string;
+  contract: FocalContract;
+  kind: FocalReportKind;
+  period: string; // YYYY-MM the report belongs to
+  date?: string; // YYYY-MM-DD for inspections / audits
+  title?: string;
+  data: Record<string, any>;
+  status: 'DRAFT' | 'SUBMITTED';
+  createdAt: string;
+  updatedAt: string;
+  submittedAt?: string;
 }
 
 export type CompetencyRole = 'SUPERVISOR_MANAGER' | 'MEP_CEI' | 'DRIVER_OPERATOR' | 'SKILLED_TRADES' | 'HELPER';
@@ -268,6 +301,7 @@ export interface AppState {
   ptwCards: PtwCard[]; // Permit Holder / Issuer authorisation cards
   certUploads: CertUpload[]; // certificates people uploaded for checking
   redemptions: Redemption[]; // reward points spent
+  focalReports: FocalReport[]; // HSSE Focal monthly reports, inspections and audits
 }
 
 export interface Company {

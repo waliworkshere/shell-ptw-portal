@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
-import { AppState, Application, ApplicationStatus, User, FuelStation, PermitType, UploadedDocument, RiskLevel, CallStatus, CallScreenshot, Course, Lesson, Enrollment, PermitHolderRegistration, JourneyPlan, Payment, PaymentMethod, HsseReport, HsseStatus, SosAlert, HSSE_TYPE_SHORT, Company, PtwCard, CertUpload, Redemption, PassportForm } from './types';
+import { AppState, Application, ApplicationStatus, User, FuelStation, PermitType, UploadedDocument, RiskLevel, CallStatus, CallScreenshot, Course, Lesson, Enrollment, PermitHolderRegistration, JourneyPlan, Payment, PaymentMethod, HsseReport, HsseStatus, SosAlert, HSSE_TYPE_SHORT, Company, PtwCard, CertUpload, Redemption, PassportForm, FocalContract, FocalReport } from './types';
 import { nextCertificateNumber } from './training';
 import { ROLE_LABEL } from './types';
 import { nextJmpNumber } from './journey';
@@ -29,6 +29,9 @@ interface StoreContextValue {
   savePtwCard: (card: Omit<PtwCard, 'id' | 'cardNo' | 'issuedAt'> & Partial<Pick<PtwCard, 'id' | 'cardNo' | 'issuedAt'>>) => PtwCard;
   updateUser: (userId: string, patch: Partial<User>) => void;
   mergeCompanies: (fromId: string, intoId: string) => number;
+  appointFocal: (userId: string, company: string, contracts: FocalContract[]) => void;
+  endFocal: (userId: string) => void;
+  saveFocalReport: (r: Omit<FocalReport, 'id' | 'userId' | 'userName' | 'createdAt' | 'updatedAt' | 'submittedAt'> & { id?: string }) => FocalReport;
   // Points & rewards
   decideReportPoints: (reportId: string, approve: boolean, points: number, note: string) => void;
   requestRedemption: (reward: { id: string; label: string; cost: number }) => { ok: true } | { ok: false; error: string };
@@ -138,7 +141,7 @@ const EMPTY_LIVE: AppState = {
   currentUserId: null,
   users: [], stations: [], permitTypes: [], applications: [], auditLogs: [], screenshotGallery: [],
   courses: [], enrollments: [], registrations: [], journeys: [], payments: [], hsseReports: [], sosAlerts: [],
-  faceChecks: [], tourDone: [], companies: [], ptwCards: [], certUploads: [], redemptions: [],
+  faceChecks: [], tourDone: [], companies: [], ptwCards: [], certUploads: [], redemptions: [], focalReports: [],
 };
 
 /** Bump when new catalogue items (courses, permit types, stations) ship in code. */
@@ -583,6 +586,49 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     }));
     addAuditLog('COMPANY_MERGED', `${from.name} merged into ${into.name} (${moved} people moved)`);
     return moved;
+  }, [addAuditLog]);
+
+  /* ======================= HSSE FOCAL ======================= */
+
+  const appointFocal = useCallback((userId: string, company: string, contracts: FocalContract[]) => {
+    const s0 = stateRef.current;
+    const admin = s0.users.find((u) => u.id === s0.currentUserId)?.fullName ?? 'Administrator';
+    const u = s0.users.find((x) => x.id === userId);
+    const keepDate = u?.hsseFocal?.active ? u.hsseFocal.appointedAt : undefined;
+    setState((s) => ({
+      ...s,
+      users: s.users.map((x) => (x.id === userId ? { ...x, hsseFocal: { active: true, company, contracts, appointedAt: keepDate ?? new Date().toISOString(), appointedBy: admin } } : x)),
+    }));
+    addAuditLog('HSSE_FOCAL_APPOINTED', `${u?.fullName ?? userId} appointed HSSE Focal for ${company} (${contracts.join(', ')})`);
+  }, [addAuditLog]);
+
+  const endFocal = useCallback((userId: string) => {
+    const u = stateRef.current.users.find((x) => x.id === userId);
+    setState((s) => ({
+      ...s,
+      users: s.users.map((x) => (x.id === userId && x.hsseFocal ? { ...x, hsseFocal: { ...x.hsseFocal, active: false, endedAt: new Date().toISOString() } } : x)),
+    }));
+    addAuditLog('HSSE_FOCAL_ENDED', `${u?.fullName ?? userId} is no longer an HSSE Focal`);
+  }, [addAuditLog]);
+
+  const saveFocalReport: StoreContextValue['saveFocalReport'] = useCallback((r) => {
+    const s0 = stateRef.current;
+    const me = s0.users.find((u) => u.id === s0.currentUserId)!;
+    const existing = r.id ? s0.focalReports.find((x) => x.id === r.id) : undefined;
+    const nowIso = new Date().toISOString();
+    const saved: FocalReport = {
+      ...existing,
+      ...r,
+      id: r.id ?? `fr-${rid()}`,
+      userId: existing?.userId ?? me.id,
+      userName: existing?.userName ?? me.fullName,
+      createdAt: existing?.createdAt ?? nowIso,
+      updatedAt: nowIso,
+      submittedAt: r.status === 'SUBMITTED' ? existing?.submittedAt ?? nowIso : undefined,
+    } as FocalReport;
+    setState((s) => ({ ...s, focalReports: existing ? s.focalReports.map((x) => (x.id === saved.id ? saved : x)) : [saved, ...s.focalReports] }));
+    if (r.status === 'SUBMITTED' && existing?.status !== 'SUBMITTED') addAuditLog('HSSE_FOCAL_REPORT', `${saved.company}: ${saved.kind.replace(/_/g, ' ').toLowerCase()} ${saved.period} (${saved.contract}) submitted`);
+    return saved;
   }, [addAuditLog]);
 
   /* ======================= POINTS & REWARDS ======================= */
@@ -1453,6 +1499,9 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         savePtwCard,
         updateUser,
         mergeCompanies,
+        appointFocal,
+        endFocal,
+        saveFocalReport,
         decideReportPoints,
         requestRedemption,
         decideRedemption,

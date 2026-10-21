@@ -1,4 +1,4 @@
-import { AppState, Course, Enrollment, HsseReport, JourneyPlan, LessonProgress, Payment } from './types';
+import { FocalReport, AppState, Course, Enrollment, HsseReport, JourneyPlan, LessonProgress, Payment } from './types';
 import coursesJson from './seed/courses.json';
 import coursesExtraJson from './seed/courses-extra.json';
 import { buildSchedule, computeRisk, VEHICLE_CHECKS, FITNESS_CHECKS } from './journey';
@@ -17,8 +17,8 @@ export const seedState: AppState = {
     { id: 'u-approver-2', fullName: 'Khalid Al Habsi', email: 'khalid.habsi@artelia.test', role: 'APPROVER', username: 'khalid.issuer', password: 'Shell@2026', civilId: '10988230', civilIdExpiry: '2029-01-20', phone: '+968 9234 0019', company: 'Artelia (PTW contractor)', jobTitle: 'Permit Issuer, Batinah region' },
     { id: 'u-station-alpha', fullName: 'Fahad Al Balushi', email: 'alkhuwair.manager@shell-retail.test', role: 'STATION', stationId: 'stn-alpha', username: 'alkhuwair.station', password: 'Shell@2026', civilId: '11203344', civilIdExpiry: '2027-06-30', phone: '+968 9555 1014', company: 'Shell Al Khuwair', jobTitle: 'Station Manager' },
     { id: 'u-station-beta', fullName: 'Layla Al Hinai', email: 'sohar.manager@shell-retail.test', role: 'STATION', stationId: 'stn-beta', username: 'sohar.station', password: 'Shell@2026', civilId: '11407788', civilIdExpiry: '2028-09-12', phone: '+968 9555 3031', company: 'Shell Sohar Falaj Al Qabail', jobTitle: 'Station Manager' },
-    { id: 'u-applicant-1', fullName: 'Ahmed Al Rashdi', email: 'ahmed.rashdi@gulfmech.test', role: 'APPLICANT', username: 'ahmed.holder', password: 'Shell@2026', civilId: '12345678', civilIdExpiry: '2028-05-31', phone: '+968 9911 2040', company: 'Gulf Mechanical LLC', jobTitle: 'Maintenance Technician', passportNo: 'SP-OM-104217', competencyRole: 'SUPERVISOR_MANAGER' },
-    { id: 'u-applicant-2', fullName: 'Sara Al Kindi', email: 'sara.kindi@alnoorelectric.test', role: 'APPLICANT', username: 'sara.holder', password: 'Shell@2026', civilId: '12876540', civilIdExpiry: '2027-02-28', phone: '+968 9822 7315', company: 'Al Noor Electrical Contracting', jobTitle: 'Electrical Supervisor', passportNo: 'SP-OM-103388', competencyRole: 'MEP_CEI' },
+    { id: 'u-applicant-1', fullName: 'Ahmed Al Rashdi', email: 'ahmed.rashdi@gulfmech.test', role: 'APPLICANT', username: 'ahmed.holder', password: 'Shell@2026', civilId: '12345678', civilIdExpiry: '2028-05-31', phone: '+968 9911 2040', company: 'Gulf Mechanical LLC', jobTitle: 'Maintenance Technician', passportNo: 'SP-OM-104217', competencyRole: 'SUPERVISOR_MANAGER', hsseFocal: { active: true, company: 'Gulf Mechanical LLC', contracts: ['EPCM', 'FMC'], appointedAt: daysAgo(150), appointedBy: 'Yusuf Al Balushi' } },
+    { id: 'u-applicant-2', fullName: 'Sara Al Kindi', email: 'sara.kindi@alnoorelectric.test', role: 'APPLICANT', username: 'sara.holder', password: 'Shell@2026', civilId: '12876540', civilIdExpiry: '2027-02-28', phone: '+968 9822 7315', company: 'Al Noor Electrical Contracting', jobTitle: 'Electrical Supervisor', passportNo: 'SP-OM-103388', competencyRole: 'MEP_CEI', hsseFocal: { active: true, company: 'Al Noor Electrical Contracting', contracts: ['FMC'], appointedAt: daysAgo(150), appointedBy: 'Yusuf Al Balushi' } },
     { id: 'u-imported-1', fullName: 'Rashid Al Maskari', email: 'rashid.maskari@omanfuelservices.test', role: 'APPLICANT', username: 'rashid.maskari', password: 'Shell@2026', civilId: '87654321', civilIdExpiry: '2029-08-15', phone: '+968 9677 4302', company: 'Oman Fuel Services LLC', jobTitle: 'Tank & Pipework Technician', imported: true, importedAt: daysAgo(6), importSource: 'Legacy PTW competence register', passportNo: 'SP-OM-099412', competencyRole: 'MEP_CEI' },
     { id: 'u-trainee-1', fullName: 'Hamed Al Siyabi', email: 'hamed.siyabi@gulfmech.test', role: 'TRAINEE', username: 'hamed.trainee', password: 'Shell@2026', civilId: '13300912', civilIdExpiry: '2030-04-01', phone: '+968 9781 6620', company: 'Gulf Mechanical LLC', jobTitle: 'Apprentice Technician', competencyRole: 'HELPER' },
     { id: 'u-trainee-2', fullName: 'Noor Al Lawati', email: 'noor.lawati@alnoorelectric.test', role: 'TRAINEE', username: 'noor.trainee', password: 'Shell@2026', civilId: '13455120', civilIdExpiry: '2028-12-19', phone: '+968 9781 2201', company: 'Al Noor Electrical Contracting', jobTitle: 'Electrician', competencyRole: 'MEP_CEI' },
@@ -287,6 +287,7 @@ export const seedState: AppState = {
   ],
   certUploads: [],
   redemptions: [],
+  focalReports: buildFocal(),
   ptwCards: [
     {
       id: 'ptw-1', userId: 'u-applicant-1', kind: 'PH', cardNo: 'AO-PTW-26-014/PH', position: 'Site Supervisor', company: 'Gulf Mechanical LLC',
@@ -550,4 +551,48 @@ function buildJourneys(): JourneyPlan[] {
       decisionNote: 'Arrival is well after sunset and the route through Al Wusta has long stretches without coverage. Re-plan as a two-day journey with an overnight stop in Haima and carry a satellite phone.',
     }),
   ];
+}
+
+
+/** Sample HSSE Focal reporting for the demo. */
+function buildFocal(): FocalReport[] {
+  const out: FocalReport[] = [];
+  const now = new Date();
+  const mk = (n: number) => new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + n, 1)).toISOString().slice(0, 7);
+  const onDay = (period: string, day: number) => `${period}-${String(day).padStart(2, '0')}T09:00:00.000Z`;
+  const next = (p: string) => mk(Number(p.slice(0, 4)) * 12 + Number(p.slice(5, 7)) - (now.getUTCFullYear() * 12 + now.getUTCMonth() + 1) + 1);
+  const add = (userId: string, userName: string, company: string, contract: FocalReport['contract'], kind: FocalReport['kind'], period: string, submitted: string, data: Record<string, any>, date?: string) =>
+    out.push({ id: `fr-${userId}-${kind}-${contract}-${period}-${date ?? ''}`, userId, userName, company, contract, kind, period, date, data, status: 'SUBMITTED', createdAt: submitted, updatedAt: submitted, submittedAt: submitted });
+  const stats = (h: number) => ({ manpower: Math.round(h / 208), manHours: h, kmDriven: Math.round(h * 1.6), lti: 0, rwc: 0, mtc: h > 9000 ? 1 : 0, fac: 2, nearMiss: 4, potentialIncident: 1, unsafeAct: 3, unsafeCondition: 5, stopWork: 2, ptwIssued: 18, tbt: 22, hseMeetings: 1, inspections: 4, audits: 1 });
+  const env = (k: number) => ({ haz_recycled: 0.12 * k, haz_landfill: 0.05, non_recycled: 0.4 * k, non_landfill: 1.2 * k });
+  const training = (n: number) => ({ sessions: Array.from({ length: n }, (_, i) => ({ date: '', topic: ['Hot work permit refresher', 'Fire extinguisher practical', 'Working at height', 'Spill response'][i % 4], type: i % 2 ? 'Practical / hands-on' : 'Toolbox talk', trainer: 'HSSE Focal', attendees: 8 + i * 3, hours: 1 })) });
+  const erp = { drills: [{ date: '', site: 'Shell Al Khuwair', scenario: 'Fire', participants: 9, responseMins: 3, outcome: 'Satisfactory', observations: 'Evacuation completed within target.', actions: '' }] };
+  const insp = (stationId: string, pct: number) => {
+    const answers: Record<string, string> = {};
+    let i = 0;
+    [3, 4, 4, 4, 5, 2].forEach((n, si) => { for (let ii = 0; ii < n; ii++) answers[`${si}.${ii}`] = (i++ * 37) % 100 < pct ? 'Y' : 'N'; });
+    return { stationId, answers, scorePct: pct, findings: 'Housekeeping good; extinguisher tag out of date at pump island 2.', actions: [{ text: 'Replace extinguisher tag', owner: 'Station Manager', due: '', done: true }] };
+  };
+  // Ahmed — Gulf Mechanical, EPCM + FMC, on time
+  for (const n of [-3, -2, -1]) {
+    const p = mk(n); const sub = onDay(next(p), 3);
+    for (const c of ['EPCM', 'FMC'] as const) {
+      add('u-applicant-1', 'Ahmed Al Rashdi', 'Gulf Mechanical LLC', c, 'MONTHLY_STATS', p, sub, stats(c === 'EPCM' ? 8400 : 5200));
+      add('u-applicant-1', 'Ahmed Al Rashdi', 'Gulf Mechanical LLC', c, 'ENVIRONMENT', p, sub, env(c === 'EPCM' ? 2 : 1));
+      add('u-applicant-1', 'Ahmed Al Rashdi', 'Gulf Mechanical LLC', c, 'TRAINING', p, sub, training(2));
+      add('u-applicant-1', 'Ahmed Al Rashdi', 'Gulf Mechanical LLC', c, 'ERP_TEST', p, sub, erp);
+    }
+    add('u-applicant-1', 'Ahmed Al Rashdi', 'Gulf Mechanical LLC', 'EPCM', 'SITE_INSPECTION', p, onDay(p, 12), insp('stn-alpha', 92), `${p}-12`);
+    add('u-applicant-1', 'Ahmed Al Rashdi', 'Gulf Mechanical LLC', 'EPCM', 'SITE_INSPECTION', p, onDay(p, 19), insp('stn-beta', 85), `${p}-19`);
+    add('u-applicant-1', 'Ahmed Al Rashdi', 'Gulf Mechanical LLC', 'FMC', 'PTW_AUDIT', p, onDay(p, 22), { ...insp('stn-alpha', 88), permitNumber: 'PTW-000119', contractor: 'Gulf Mechanical LLC', workType: 'Hot work' }, `${p}-22`);
+  }
+  // Sara — Al Noor, FMC, some late / missing
+  for (const n of [-3, -2]) {
+    const p = mk(n); const sub = onDay(next(p), n === -2 ? 11 : 4);
+    add('u-applicant-2', 'Sara Al Kindi', 'Al Noor Electrical Contracting', 'FMC', 'MONTHLY_STATS', p, sub, stats(3100));
+    add('u-applicant-2', 'Sara Al Kindi', 'Al Noor Electrical Contracting', 'FMC', 'ENVIRONMENT', p, sub, env(1));
+    add('u-applicant-2', 'Sara Al Kindi', 'Al Noor Electrical Contracting', 'FMC', 'TRAINING', p, sub, training(1));
+    add('u-applicant-2', 'Sara Al Kindi', 'Al Noor Electrical Contracting', 'FMC', 'SITE_INSPECTION', p, onDay(p, 15), insp('stn-gamma', 74), `${p}-15`);
+  }
+  return out;
 }

@@ -2,6 +2,8 @@
 
 import { MustChangePassword } from './password-form';
 import { IncomingCall } from './incoming-call';
+import { addMonths, dueDate, monthChecklist, monthKey, monthLabel } from '@/lib/focal';
+import { fmtDate } from '@/lib/training';
 
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
@@ -47,6 +49,7 @@ import {
   LayoutGrid,
   FileBadge,
   Gift,
+  ClipboardList,
 } from 'lucide-react';
 
 type NavItem = { href: string; label: string; icon: React.ElementType };
@@ -81,7 +84,7 @@ const NAV: Record<Role, NavGroup[]> = {
         { href: '/admin/certificates', label: 'Certificate checks', icon: FileBadge },
       ],
     },
-    { title: 'Operations', items: [{ href: '/hsse', label: 'SOS & HSSE reports', icon: ShieldAlert }, { href: '/admin/rewards', label: 'Points & rewards', icon: Gift }, { href: '/journeys/monitor', label: 'Journey management', icon: Radar }, { href: '/admin/audit-logs', label: 'Audit logs', icon: ScrollText }] },
+    { title: 'Operations', items: [{ href: '/hsse', label: 'SOS & HSSE reports', icon: ShieldAlert }, { href: '/admin/rewards', label: 'Points & rewards', icon: Gift }, { href: '/admin/focal', label: 'HSSE Focal', icon: ClipboardList }, { href: '/journeys/monitor', label: 'Journey management', icon: Radar }, { href: '/admin/audit-logs', label: 'Audit logs', icon: ScrollText }] },
     { items: [{ href: '/profile', label: 'My profile', icon: UserCircle }] },
   ],
   APPROVER: [
@@ -139,6 +142,11 @@ function useNotifications() {
     state.applications.filter((a) => ['SUBMITTED', 'RESUBMITTED'].includes(a.status)).forEach((a) => out.push({ id: a.id, text: `${a.applicationNumber} waiting for review`, href: `/approver/applications/${a.id}`, tone: 'blue' }));
   if (currentUser.role === 'ADMIN')
     state.registrations.filter((r) => r.status === 'PENDING').forEach((r) => out.push({ id: r.id, text: `${r.fullName} wants to become a Permit Holder`, href: '/admin/training#registrations', tone: 'amber' }));
+  if (currentUser.hsseFocal?.active) {
+    const prev = addMonths(monthKey(), -1);
+    const owed = monthChecklist(state, currentUser, prev).filter((x) => x.report?.status !== 'SUBMITTED');
+    if (owed.length) out.push({ id: `focal-${prev}`, text: `HSSE Focal: ${owed.length} report(s) for ${monthLabel(prev)} due by ${fmtDate(dueDate(prev))}`, href: '/focal', tone: new Date().toISOString().slice(0, 10) > dueDate(prev) ? 'red' : 'amber' });
+  }
   if (currentUser.role === 'APPLICANT')
     state.applications.filter((a) => a.applicantId === currentUser.id && a.callStatus === 'IN_PROGRESS').forEach((a) => out.push({ id: `call-${a.id}`, text: `${a.applicationNumber}: the Permit Issuer is calling you — join now`, href: `/applicant/applications/${a.id}`, tone: 'red' }));
   if (currentUser.role === 'APPLICANT')
@@ -176,7 +184,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   if (!currentUser) return null;
   if (mode === 'live' && mustChange) return <MustChangePassword />;
 
-  const groups = NAV[currentUser.role];
+  const groups = currentUser.hsseFocal?.active
+    ? [NAV[currentUser.role][0], { title: 'HSSE Focal', items: [{ href: '/focal', label: 'HSSE Focal', icon: ClipboardList }] }, ...NAV[currentUser.role].slice(1)]
+    : NAV[currentUser.role];
   const all = groups.flatMap((g) => g.items);
   const activeHref = all
     .filter((i) => pathname === i.href || pathname.startsWith(i.href + '/'))
