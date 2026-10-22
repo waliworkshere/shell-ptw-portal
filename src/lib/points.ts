@@ -27,11 +27,11 @@ export interface Reward {
 
 /** What points can be exchanged for. Edit here to change the catalogue. */
 export const REWARDS: Reward[] = [
-  { id: 'rw-cert', label: 'Safety Star certificate', description: 'A signed recognition certificate from the Retail HSSE team.', cost: 4 },
-  { id: 'rw-coffee', label: 'Shell Select coffee voucher', description: 'One hot drink at any Shell Select store in Oman.', cost: 6 },
-  { id: 'rw-fuel5', label: '5 OMR fuel voucher', description: 'Redeemable at Shell stations in Oman.', cost: 20 },
-  { id: 'rw-course', label: 'Paid course fee waived', description: 'Your next paid Gemsafety course (e.g. PTW-201) at no cost.', cost: 25 },
-  { id: 'rw-champion', label: 'Safety Champion of the Month', description: 'Nomination for the monthly award and recognition on site.', cost: 40 },
+  { id: 'rw-recharge1', label: '1 OMR mobile recharge', description: 'A 1 OMR top-up for your mobile number in Oman.', cost: 10 },
+  { id: 'rw-coffee', label: 'Shell Select coffee voucher', description: 'One coffee at any Shell Select store in Oman.', cost: 20 },
+  { id: 'rw-champion', label: 'Safety Champion certificate', description: 'A signed Safety Champion certificate from the Retail HSSE team.', cost: 30 },
+  { id: 'rw-fuel5', label: '5 OMR fuel voucher', description: 'Redeemable at Shell stations in Oman.', cost: 40 },
+  { id: 'rw-course', label: 'Paid course fee waived', description: 'Your next paid Gemsafety course at no cost.', cost: 50 },
 ];
 
 export function pointsFor(state: Pick<AppState, 'hsseReports' | 'redemptions'>, userId: string) {
