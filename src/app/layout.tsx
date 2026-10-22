@@ -4,6 +4,7 @@ import './globals.css';
 import { StoreProvider } from '@/lib/store';
 import { ProctorProvider } from '@/components/proctor';
 import { LangRuntime } from '@/components/i18n';
+import { Analytics } from '@vercel/analytics/next';
 
 const display = Space_Grotesk({ subsets: ['latin'], variable: '--font-display', weight: ['500', '600', '700'] });
 const body = Inter({ subsets: ['latin'], variable: '--font-body', weight: ['400', '500', '600'] });
@@ -23,6 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ProctorProvider>{children}</ProctorProvider>
           <LangRuntime />
         </StoreProvider>
+        <Analytics />
       </body>
     </html>
   );
