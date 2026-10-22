@@ -58,7 +58,7 @@ interface StoreContextValue {
   addCompany: (c: Pick<Company, 'name' | 'crNumber' | 'category'>) => void;
   setCompanyStatus: (id: string, status: Company['status']) => void;
   setHsseStatus: (id: string, status: HsseStatus, note: string) => void;
-  addHsseAction: (id: string, text: string, owner: string) => void;
+  addHsseAction: (id: string, text: string, owner: string, company?: string) => void;
   toggleHsseAction: (id: string, actionId: string) => void;
   raiseSos: (input: Pick<SosAlert, 'lat' | 'lng' | 'accuracy' | 'locationLabel' | 'kind' | 'message'>) => SosAlert;
   acknowledgeSos: (id: string) => void;
@@ -1398,6 +1398,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       refNo: `${prefix}-2026-${String(max + 1).padStart(4, '0')}`,
       reporterId: input.anonymous ? undefined : user?.id,
       reporterName,
+      reporterCompany: user?.company,
       status: 'OPEN',
       actions: [],
       createdAt: nowIso,
@@ -1422,16 +1423,25 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     addAuditLog('HSSE_STATUS', `${id} → ${status.toLowerCase()}`);
   }, [updateHsse, addAuditLog]);
 
-  const addHsseAction = useCallback((id: string, text: string, owner: string) => {
+  const addHsseAction = useCallback((id: string, text: string, owner: string, company?: string) => {
     updateHsse(id, (r, actor, nowIso) => ({
       ...r,
-      actions: [...r.actions, { id: `act-${rid()}`, text, owner, done: false }],
-      timeline: [...r.timeline, { id: `ht-${rid()}`, label: `Action added: ${text}`, actor, at: nowIso }],
+      actions: [...r.actions, { id: `act-${rid()}`, text, owner, done: false, ...(company ? { company } : {}) }],
+      timeline: [...r.timeline, { id: `ht-${rid()}`, label: `Action added: ${text}${company ? ` (${company})` : ''}`, actor, at: nowIso }],
     }));
   }, [updateHsse]);
 
   const toggleHsseAction = useCallback((id: string, actionId: string) => {
-    updateHsse(id, (r) => ({ ...r, actions: r.actions.map((a) => (a.id === actionId ? { ...a, done: !a.done } : a)) }));
+    updateHsse(id, (r, actor, nowIso) => {
+      const a = r.actions.find((x) => x.id === actionId);
+      if (!a) return r;
+      const done = !a.done;
+      return {
+        ...r,
+        actions: r.actions.map((x) => (x.id === actionId ? { ...x, done, doneBy: done ? actor : undefined, doneAt: done ? nowIso : undefined } : x)),
+        timeline: [...r.timeline, { id: `ht-${rid()}`, label: `${done ? 'Action completed' : 'Action re-opened'}: ${a.text}`, actor, at: nowIso }],
+      };
+    });
   }, [updateHsse]);
 
   /* ======================= COMPANIES ======================= */

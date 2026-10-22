@@ -3,6 +3,7 @@
 import { MustChangePassword } from './password-form';
 import { IncomingCall } from './incoming-call';
 import { addMonths, dueDate, monthChecklist, monthKey, monthLabel } from '@/lib/focal';
+import { focalOpenActions } from '@/lib/hsse';
 import { fmtDate } from '@/lib/training';
 
 import Link from 'next/link';
@@ -145,6 +146,12 @@ function useNotifications() {
   if (currentUser.hsseFocal?.active) {
     const prev = addMonths(monthKey(), -1);
     const owed = monthChecklist(state, currentUser, prev).filter((x) => x.report?.status !== 'SUBMITTED');
+    const co = currentUser.hsseFocal.company;
+    state.hsseReports.filter((r) => r.status !== 'CLOSED').forEach((r) => {
+      const open = focalOpenActions(r, co);
+      if (open.length) out.push({ id: `focal-act-${r.id}`, text: `${r.refNo}: ${open.length} action(s) for ${co}`, href: `/hsse/${r.id}`, tone: 'red' });
+      else if (r.reporterCompany === co && r.status === 'OPEN' && !r.actions.length) out.push({ id: `focal-rep-${r.id}`, text: `${r.refNo} reported by ${co} staff: ${r.title}`, href: `/hsse/${r.id}`, tone: 'amber' });
+    });
     if (owed.length) out.push({ id: `focal-${prev}`, text: `HSSE Focal: ${owed.length} report(s) for ${monthLabel(prev)} due by ${fmtDate(dueDate(prev))}`, href: '/focal', tone: new Date().toISOString().slice(0, 10) > dueDate(prev) ? 'red' : 'amber' });
   }
   if (currentUser.role === 'APPLICANT')

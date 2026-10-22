@@ -8,6 +8,8 @@ import { useStore } from '@/lib/store';
 import { FocalReport, FocalReportKind } from '@/lib/types';
 import { KIND_LABEL, addMonths, dueDate, monthChecklist, monthKey, monthLabel, standings } from '@/lib/focal';
 import { fmtDate } from '@/lib/training';
+import Link from 'next/link';
+import { focalOpenActions, focalSees } from '@/lib/hsse';
 import { BarChart3, ClipboardCheck, ClipboardList, FileWarning, GraduationCap, Leaf, Plus, Siren, Building2 } from 'lucide-react';
 
 type Tab = 'overview' | FocalReportKind;
@@ -120,6 +122,7 @@ export default function FocalPage() {
                     </div>
                   )}
                 </div>
+                <FocalSosCard company={f.company} />
                 {mySt && mySt.missing > 0 && (
                   <p className="flex items-center gap-2 rounded-lg bg-rust-50 px-3 py-2 text-sm text-rust-600"><FileWarning size={16} /> {mySt.missing} monthly report(s) this year are missing — they lower your score until filed.</p>
                 )}
@@ -160,3 +163,34 @@ export default function FocalPage() {
   );
 }
 
+
+function FocalSosCard({ company }: { company: string }) {
+  const { state } = useStore();
+  const list = state.hsseReports
+    .filter((r) => focalSees(r, company))
+    .map((r) => ({ r, open: focalOpenActions(r, company).length }))
+    .sort((a, b) => b.open - a.open || b.r.createdAt.localeCompare(a.r.createdAt))
+    .slice(0, 8);
+  return (
+    <div className="card">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h2 className="font-display text-base font-semibold text-ink">SOS reports for {company}</h2>
+        <Link href="/hsse" className="text-xs font-medium text-petrol-600 hover:underline">All reports</Link>
+      </div>
+      <p className="mt-1 text-sm text-slate-500">Reports raised by {company} staff, and reports where an action has been assigned to {company}. Mark your company&apos;s actions done on the report.</p>
+      <ul className="mt-3 divide-y divide-petrol-50">
+        {list.map(({ r, open }) => (
+          <li key={r.id} className="flex flex-wrap items-center justify-between gap-2 py-2.5 text-sm">
+            <span className="min-w-0"><span className="app-number mr-2 text-xs text-slate-400">{r.refNo}</span><span className="text-ink">{r.title}</span>
+              <span className="block text-xs text-slate-500">{r.reporterCompany === company ? 'Reported by your company' : `Action assigned by HSSE · reported by ${r.reporterCompany ?? 'another company'}`} · {r.status.toLowerCase()}</span></span>
+            <span className="flex items-center gap-2">
+              {open > 0 ? <span className="rounded-full bg-rust-50 px-2 py-0.5 text-[11px] font-semibold text-rust-600">{open} open action{open === 1 ? '' : 's'}</span> : <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-semibold text-slate-500">No open actions</span>}
+              <Link href={`/hsse/${r.id}`} className="btn-secondary px-3 py-1 text-xs">Open</Link>
+            </span>
+          </li>
+        ))}
+        {!list.length && <li className="py-6 text-center text-sm text-slate-400">No SOS reports for {company} yet.</li>}
+      </ul>
+    </div>
+  );
+}

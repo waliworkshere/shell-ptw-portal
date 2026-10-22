@@ -439,6 +439,10 @@ export interface HsseAction {
   text: string;
   owner: string;
   done: boolean;
+  /** Company responsible for the action. Its HSSE Focal is alerted and can mark it done. Defaults to the reporter's company. */
+  company?: string;
+  doneBy?: string;
+  doneAt?: string;
 }
 
 export interface GeoPoint {
@@ -461,6 +465,8 @@ export interface HsseReport {
   occurredAt: string;
   reporterId?: string;
   reporterName: string;
+  /** Company of the person who reported it (set by the server) — that company's HSSE Focal is alerted. */
+  reporterCompany?: string;
   anonymous: boolean;
   consequence: number; // 0-5 (RAM severity)
   likelihood: Likelihood;

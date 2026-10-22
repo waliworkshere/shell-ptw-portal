@@ -12,9 +12,10 @@ import { RamMatrix } from '@/components/ram-matrix';
 import { osmEmbed } from '@/components/sos';
 import { useStore } from '@/lib/store';
 import { HSSE_TYPE_LABEL, HsseStatus } from '@/lib/types';
-import { RAM_STYLE, ramLevel } from '@/lib/hsse';
+import { RAM_STYLE, actionCompany, activeFocalCo, focalSees, ramLevel } from '@/lib/hsse';
+import { CompanySelect } from '@/components/company-select';
 import { fmtDateTime } from '@/lib/training';
-import { ArrowLeft, CheckCircle2, Circle, ClipboardList, LocateFixed, MapPin, OctagonX, Plus, ShieldAlert, UserRound } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Circle, ClipboardList, LocateFixed, MapPin, OctagonX, Plus, ShieldAlert, UserRound, Building2, BellRing } from 'lucide-react';
 
 const ALL = ['ADMIN', 'APPROVER', 'STATION', 'APPLICANT', 'TRAINEE'] as const;
 
@@ -25,7 +26,9 @@ export default function HsseDetailPage() {
   const [note, setNote] = useState('');
   const [action, setAction] = useState('');
   const [owner, setOwner] = useState('');
+  const [actionCo, setActionCo] = useState<string | null>(null);
   const canManage = ['ADMIN', 'APPROVER', 'STATION'].includes(currentUser?.role ?? '');
+  const focalCo = activeFocalCo(currentUser);
 
   if (!r)
     return (
@@ -34,6 +37,9 @@ export default function HsseDetailPage() {
       </RoleGuard>
     );
   const lvl = ramLevel(r.consequence, r.likelihood);
+  const looped = Array.from(new Set([r.reporterCompany, ...r.actions.map((a) => actionCompany(r, a))].filter(Boolean))) as string[];
+  const focalsOf = (co: string) => state.users.filter((u) => u.hsseFocal?.active && u.hsseFocal.company === co).map((u) => u.fullName);
+  const isLoopedFocal = focalSees(r, focalCo);
   const station = state.stations.find((s) => s.id === r.stationId);
 
   function move(s: HsseStatus) {
@@ -56,6 +62,7 @@ export default function HsseDetailPage() {
             <p className="mt-1 flex flex-wrap items-center gap-3 text-sm text-slate-500">
               <span className="inline-flex items-center gap-1"><MapPin size={14} /> {station?.name ?? 'Off-site'} · {r.location}</span>
               <span className="inline-flex items-center gap-1"><UserRound size={14} /> {r.reporterName}</span>
+              {r.reporterCompany && <span className="inline-flex items-center gap-1"><Building2 size={14} /> {r.reporterCompany}</span>}
               <span>{fmtDateTime(r.occurredAt)}</span>
             </p>
           </div>
@@ -103,9 +110,13 @@ export default function HsseDetailPage() {
               <ul className="mt-3 space-y-2">
                 {r.actions.map((a) => (
                   <li key={a.id}>
-                    <button disabled={!canManage} onClick={() => toggleHsseAction(r.id, a.id)} className="flex w-full items-center gap-3 rounded-xl border border-petrol-100 px-3 py-2.5 text-left text-sm hover:bg-petrol-50 disabled:hover:bg-transparent">
-                      {a.done ? <CheckCircle2 size={18} className="text-leaf-600" /> : <Circle size={18} className="text-slate-300" />}
-                      <span className={`flex-1 ${a.done ? 'text-slate-400 line-through' : 'text-ink'}`}>{a.text}</span>
+                    <button disabled={!(canManage || (focalCo && actionCompany(r, a) === focalCo))} onClick={() => toggleHsseAction(r.id, a.id)} className="flex w-full items-center gap-3 rounded-xl border border-petrol-100 px-3 py-2.5 text-left text-sm hover:bg-petrol-50 disabled:hover:bg-transparent">
+                      {a.done ? <CheckCircle2 size={18} className="shrink-0 text-leaf-600" /> : <Circle size={18} className="shrink-0 text-slate-300" />}
+                      <span className="min-w-0 flex-1">
+                        <span className={a.done ? 'text-slate-400 line-through' : 'text-ink'}>{a.text}</span>
+                        {actionCompany(r, a) && <span className={`mt-0.5 block text-xs ${focalCo && actionCompany(r, a) === focalCo ? 'font-semibold text-rust-600' : 'text-slate-500'}`}><Building2 size={11} className="mr-1 inline" />{actionCompany(r, a)}{focalCo && actionCompany(r, a) === focalCo && !a.done ? ' — your company’s action' : ''}</span>}
+                        {a.done && a.doneBy && <span className="block text-[11px] text-slate-400">Done by {a.doneBy}{a.doneAt ? ` · ${fmtDateTime(a.doneAt)}` : ''}</span>}
+                      </span>
                       <span className="text-xs text-slate-400">{a.owner}</span>
                     </button>
                   </li>
@@ -116,14 +127,20 @@ export default function HsseDetailPage() {
                   onSubmit={(e) => {
                     e.preventDefault();
                     if (!action.trim()) return;
-                    addHsseAction(r.id, action.trim(), owner.trim() || currentUser!.fullName);
+                    const co = actionCo ?? r.reporterCompany ?? '';
+                    addHsseAction(r.id, action.trim(), owner.trim() || currentUser!.fullName, co && co !== r.reporterCompany ? co : undefined);
                     setAction('');
                     setOwner('');
+                    setActionCo(null);
                   }}
                   className="mt-3 flex flex-wrap gap-2"
                 >
                   <input className="input min-w-[200px] flex-1" placeholder="New action" value={action} onChange={(e) => setAction(e.target.value)} />
                   <input className="input w-full sm:w-40" placeholder="Owner" value={owner} onChange={(e) => setOwner(e.target.value)} />
+                  <div className="w-full">
+                    <label className="mb-1 block text-xs text-slate-500" htmlFor="action-co">Company responsible — its HSSE Focal is alerted</label>
+                    <CompanySelect id="action-co" value={actionCo ?? r.reporterCompany ?? ''} onChange={setActionCo} />
+                  </div>
                   <button className="btn-secondary"><Plus size={15} /> Add</button>
                 </form>
               )}
@@ -147,6 +164,19 @@ export default function HsseDetailPage() {
                   {r.status === 'CLOSED' && <button onClick={() => move('OPEN')} className="btn-secondary">Re-open</button>}
                   {r.status !== 'CLOSED' && r.actions.some((a) => !a.done) && <p className="text-xs text-slate-400">Complete all actions before closing.</p>}
                 </div>
+              </div>
+            )}
+            {looped.length > 0 && (canManage || isLoopedFocal) && (
+              <div className="card">
+                <h2 className="flex items-center gap-1.5 font-display text-sm font-semibold text-ink"><BellRing size={15} className="text-rust-500" /> HSSE Focals alerted</h2>
+                <ul className="mt-3 space-y-2 text-sm">
+                  {looped.map((co) => (
+                    <li key={co}>
+                      <p className="font-medium text-ink">{co}{co === r.reporterCompany ? <span className="ml-1 text-xs font-normal text-slate-400">· reporter&apos;s company</span> : <span className="ml-1 text-xs font-normal text-slate-400">· action owner</span>}</p>
+                      <p className="text-xs text-slate-500">{focalsOf(co).join(', ') || (canManage ? 'No HSSE Focal appointed for this company' : '')}</p>
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
             <div className="card">

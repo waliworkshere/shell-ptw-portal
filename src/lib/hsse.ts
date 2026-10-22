@@ -1,4 +1,16 @@
-import { HsseType, Likelihood } from './types';
+import { HsseAction, HsseReport, HsseType, Likelihood, User } from './types';
+
+/** The company responsible for a corrective action (its own, else the reporter's company). */
+export const actionCompany = (r: Pick<HsseReport, 'reporterCompany'>, a: HsseAction) => a.company || r.reporterCompany || '';
+
+/** Reports an HSSE Focal of `company` is looped into: their company reported it, or an action is assigned to their company. */
+export const focalSees = (r: HsseReport, company?: string) =>
+  !!company && (r.reporterCompany === company || r.actions.some((a) => actionCompany(r, a) === company));
+
+/** Open actions waiting on a focal's company. */
+export const focalOpenActions = (r: HsseReport, company?: string) => (company ? r.actions.filter((a) => !a.done && actionCompany(r, a) === company) : []);
+
+export const activeFocalCo = (u?: User | null) => (u?.hsseFocal?.active ? u.hsseFocal.company : undefined);
 
 export const LIKELIHOODS: { key: Likelihood; label: string }[] = [
   { key: 'A', label: 'Never heard of in industry' },

@@ -3,6 +3,7 @@ import coursesJson from './seed/courses.json';
 import coursesExtraJson from './seed/courses-extra.json';
 import { buildSchedule, computeRisk, VEHICLE_CHECKS, FITNESS_CHECKS } from './journey';
 
+const DEMO_COMPANY = { 'u-admin': 'Shell Oman (Retail HSSE)', 'u-approver-1': 'Shell Oman (Retail Operations)', 'u-approver-2': 'Artelia (PTW contractor)', 'u-station-alpha': 'Shell Al Khuwair', 'u-station-beta': 'Shell Sohar Falaj Al Qabail', 'u-applicant-1': 'Gulf Mechanical LLC', 'u-applicant-2': 'Al Noor Electrical Contracting', 'u-imported-1': 'Oman Fuel Services LLC', 'u-trainee-1': 'Gulf Mechanical LLC', 'u-trainee-2': 'Al Noor Electrical Contracting', 'u-trainee-3': 'Al Amri Electrical Services LLC' };
 const seedCourses = [...coursesJson, ...coursesExtraJson] as Course[];
 
 const now = new Date();
@@ -256,7 +257,7 @@ export const seedState: AppState = {
     payment('u-trainee-3', 12, 'RCT-2026-001133', 'CARD', '4242'),
   ],
 
-  hsseReports: buildHsse().map((r) =>
+  hsseReports: buildHsse().map((r) => ({ ...r, reporterCompany: r.reporterId ? (DEMO_COMPANY as Record<string, string>)[r.reporterId] : undefined })).map((r) =>
     r.status === 'CLOSED' && r.reporterId
       ? { ...r, points: r.types.every((t) => t === 'POTENTIAL_INCIDENT') ? 1 : 2, pointsStatus: 'APPROVED' as const, pointsDecidedAt: r.createdAt, pointsDecidedBy: 'Yusuf Al Balushi' }
       : r,

@@ -8,6 +8,7 @@ import { osmEmbed } from '@/components/sos';
 import { useStore } from '@/lib/store';
 import { HSSE_TYPE_LABEL, HSSE_TYPE_SHORT, HsseStatus, HsseType, ROLE_LABEL } from '@/lib/types';
 import { RAM_STYLE, ramLevel } from '@/lib/hsse';
+import { activeFocalCo, focalSees } from '@/lib/hsse';
 import { fmtDate, fmtDateTime } from '@/lib/training';
 import { AlertOctagon, CheckCircle2, Clock, FolderOpen, Megaphone, Phone, Plus, Search, Siren, ShieldCheck } from 'lucide-react';
 
@@ -36,7 +37,8 @@ export default function HssePage() {
     if (!currentUser) return [];
     if (control) return state.hsseReports;
     if (role === 'STATION') return state.hsseReports.filter((r) => r.stationId === currentUser.stationId);
-    return state.hsseReports.filter((r) => r.reporterId === currentUser.id);
+    const co = activeFocalCo(currentUser);
+    return state.hsseReports.filter((r) => r.reporterId === currentUser.id || focalSees(r, co));
   }, [state.hsseReports, currentUser, control, role]);
 
   const sos = state.sosAlerts.filter((a) => control || role === 'STATION' || a.userId === currentUser?.id);
