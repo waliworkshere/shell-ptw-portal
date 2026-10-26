@@ -786,7 +786,230 @@
     "validityMonths": 24,
     "cameraRequired": true,
     "tier": "CAT2",
-    "lessons": []
+    "lessons": [
+      {
+        "id": "l-psp-1",
+        "title": "Goal Zero, the Life-Saving Rules and Start Work Checks",
+        "type": "VIDEO",
+        "durationMins": 15,
+        "videoUrl": "https://drive.google.com/file/d/1RGkweZIkKc7_VCOPth9rJhECHsMvC9ME/preview",
+        "body": [
+          "Our target is Goal Zero: no harm to people and no significant incidents. We get there through honesty, integrity and respect for people, and by changing how we think and act. Four sets of enablers support Goal Zero: the Shell Golden Rules, the Life-Saving Rules, Start Work Checks and the Artelia Safety Rules.",
+          "The Golden Rules: comply with the law, standards and procedures; intervene on unsafe conditions or non-compliant actions; and respect our neighbours. Where a national law sets an even higher requirement, we meet the national requirement.",
+          "The nine Life-Saving Rules are the same across Shell. Bypassing safety controls: get authorisation before overriding or disabling safety-critical equipment such as alarms and sensors, deviating from a procedure or crossing a barrier. Confined space: get authorisation before entering; confirm energy is isolated, the atmosphere is tested and monitored, breathing apparatus is checked when required, an attendant is standing by and a rescue plan is in place. Driving: always wear a seat belt, keep within the speed limit and slow down for road conditions, do not use a phone while driving, be fit and rested, and follow journey management.",
+          "Energy isolation: verify isolation and zero energy before work begins — identify every energy source, isolate, lock and tag it (LOTO on electrical and fuel lines) and test for residual or stored energy. Hot work: control flammables and ignition sources, get authorisation, and in a hazardous area confirm a gas test has been done and gas is monitored continuously. Line of fire: keep yourself and others clear of moving objects, vehicles, pressure releases and dropped objects; obey barriers and exclusion zones and secure loose objects.",
+          "Safe mechanical lifting: confirm the equipment and load are inspected and fit for purpose, only operate equipment you are qualified for, and never walk under a suspended load. Work authorisation: work with a valid permit when required, understand it, confirm hazards are controlled, and stop and reassess if conditions change. Working at height: inspect fall protection before use, secure tools and materials, and tie off 100% to approved anchor points outside a protected area.",
+          "Compliance with the Life-Saving Rules is mandatory for everyone on Shell business and Shell sites. Breaking a rule, or encouraging or tolerating rule-breaking, leads to disciplinary action: if you choose to break the rules, you choose not to work for Shell. Every reported breach is investigated thoroughly and fairly.",
+          "Start Work Checks are a tool for putting the Life-Saving Rules into practice. The person doing the work confirms, just before starting, that the life-saving controls and safeguards are in place, and a verifier confirms it too (dual assurance). There are 13 activity-based checks, for example confined space, driving, energy isolation, hot work, lifting, working at height, excavation and live electrical work. They move us from \"I stop work when I see a problem\" to \"I confirm the safeguards before I start\".",
+          "Artelia Safety Rules: always have the mandatory PPE — helmet, safety shoes, safety vest and work clothes — and carry gloves and goggles. Use extra PPE when the task needs it, and double hearing protection above 95 dBA. Be trained and competent, do your last minute risk assessment, use the right tools, follow procedures and the JHA, protect your work area and keep it tidy. Report all hazards and incidents; an injured person going to a doctor must always be accompanied, and Artelia must be informed. Never smoke on site, never work intoxicated, avoid your phone while working, and stop work whenever you feel unsafe. HSSE is everyone's responsibility."
+        ],
+        "keyPoints": [
+          "Goal Zero: no harm to people, no significant incidents",
+          "Nine Life-Saving Rules — compliance is mandatory",
+          "Get authorisation before bypassing safety controls",
+          "Verify isolation and zero energy before work",
+          "Never walk under a suspended load",
+          "Tie off 100% when working at height",
+          "Start Work Checks: confirm safeguards before you start, with a verifier",
+          "Double hearing protection above 95 dBA",
+          "Stop work whenever you feel unsafe"
+        ],
+        "quiz": [
+          {
+            "id": "q-psp-1-1",
+            "prompt": "What does Goal Zero mean?",
+            "options": [
+              "Zero cost overruns on a project",
+              "No harm to people and no significant incidents",
+              "Zero permits raised in a month",
+              "No paperwork on site"
+            ],
+            "answer": 1,
+            "explanation": "Goal Zero means no harm to people and no significant incidents."
+          },
+          {
+            "id": "q-psp-1-2",
+            "prompt": "Which of these is NOT one of the four enablers of Goal Zero described in this lesson?",
+            "options": [
+              "Shell Golden Rules",
+              "Life-Saving Rules",
+              "Start Work Checks",
+              "Monthly sales targets"
+            ],
+            "answer": 3,
+            "explanation": "The enablers are the Golden Rules, the Life-Saving Rules, Start Work Checks and the Artelia Safety Rules."
+          },
+          {
+            "id": "q-psp-1-3",
+            "prompt": "A national law sets a higher safety requirement than the Shell procedure. What do you do?",
+            "options": [
+              "Follow the Shell procedure only",
+              "Meet the higher national requirement",
+              "Choose whichever is quicker",
+              "Ask the customer"
+            ],
+            "answer": 1,
+            "explanation": "If national law requires a higher level of compliance, we meet that national requirement."
+          },
+          {
+            "id": "q-psp-1-4",
+            "prompt": "You need to disable a station alarm or sensor to do your work. What must you do first?",
+            "options": [
+              "Nothing, if it is only for a short time",
+              "Tell a colleague afterwards",
+              "Obtain authorisation before overriding or disabling it",
+              "Cover it with tape"
+            ],
+            "answer": 2,
+            "explanation": "Life-Saving Rule: obtain authorisation before overriding or disabling safety controls."
+          },
+          {
+            "id": "q-psp-1-5",
+            "prompt": "Which of these must be in place before entering a confined space?",
+            "options": [
+              "Energy isolated, atmosphere tested and monitored, an attendant standing by and a rescue plan",
+              "Only a torch and a helmet",
+              "A second person inside with you, nobody outside",
+              "Nothing if the entry is under 5 minutes"
+            ],
+            "answer": 0,
+            "explanation": "Confirm isolation, gas testing and monitoring, an attendant and a rescue plan, and get authorisation to enter."
+          },
+          {
+            "id": "q-psp-1-6",
+            "prompt": "What does the energy isolation rule require before work begins?",
+            "options": [
+              "Switch the equipment off at the panel",
+              "Verify isolation and zero energy, including residual or stored energy",
+              "Ask the station manager if it is off",
+              "Wear rubber gloves instead of isolating"
+            ],
+            "answer": 1,
+            "explanation": "Isolate, lock and tag every energy source (LOTO) and test that there is zero energy before starting."
+          },
+          {
+            "id": "q-psp-1-7",
+            "prompt": "Under the safe mechanical lifting rule, who may walk under a suspended load?",
+            "options": [
+              "The rigger",
+              "The supervisor",
+              "Anyone wearing a helmet",
+              "No one"
+            ],
+            "answer": 3,
+            "explanation": "No one is allowed to walk under a suspended load."
+          },
+          {
+            "id": "q-psp-1-8",
+            "prompt": "When working at height outside a protected area, how must you be tied off?",
+            "options": [
+              "100% of the time to an approved anchor point",
+              "Only when climbing up",
+              "To any handrail nearby",
+              "Tying off is optional above 2 m"
+            ],
+            "answer": 0,
+            "explanation": "Tie off 100% to approved anchor points while outside a protected area."
+          },
+          {
+            "id": "q-psp-1-9",
+            "prompt": "What is the main purpose of a Start Work Check?",
+            "options": [
+              "To record hours worked",
+              "To confirm the life-saving controls and safeguards are in place just before work starts, with a verifier",
+              "To replace the permit to work",
+              "To check the weather forecast"
+            ],
+            "answer": 1,
+            "explanation": "Start Work Checks are a last verification, with dual assurance, that safeguards are in place before work begins. They supplement, not replace, the permit system."
+          },
+          {
+            "id": "q-psp-1-10",
+            "prompt": "Under the Artelia Safety Rules, when must you use double hearing protection?",
+            "options": [
+              "Above 65 dBA",
+              "Above 80 dBA",
+              "Above 95 dBA",
+              "Never"
+            ],
+            "answer": 2,
+            "explanation": "Use dual hearing protection where noise exceeds 95 dBA."
+          }
+        ]
+      },
+      {
+        "id": "l-psp-2",
+        "title": "Safety Passport — Part 2",
+        "type": "VIDEO",
+        "durationMins": 13,
+        "videoUrl": "https://drive.google.com/file/d/1T2UTTiuhs5PYSRgtkLnDWrEIAg1GS0ap/preview",
+        "body": [
+          "Watch the video for this part of the Safety Passport course. The written summary and quiz for this part are being prepared."
+        ],
+        "keyPoints": [],
+        "quiz": []
+      },
+      {
+        "id": "l-psp-3",
+        "title": "Safety Passport — Part 3",
+        "type": "VIDEO",
+        "durationMins": 6,
+        "videoUrl": "https://drive.google.com/file/d/1blASqseBsD-t6b1p8GpCgMwyJaxnFQZf/preview",
+        "body": [
+          "Watch the video for this part of the Safety Passport course. The written summary and quiz for this part are being prepared."
+        ],
+        "keyPoints": [],
+        "quiz": []
+      },
+      {
+        "id": "l-psp-4",
+        "title": "Safety Passport — Part 4",
+        "type": "VIDEO",
+        "durationMins": 11,
+        "videoUrl": "https://drive.google.com/file/d/1m03kLtnPfviYlEuePX52IIhPGB06ls8A/preview",
+        "body": [
+          "Watch the video for this part of the Safety Passport course. The written summary and quiz for this part are being prepared."
+        ],
+        "keyPoints": [],
+        "quiz": []
+      },
+      {
+        "id": "l-psp-5",
+        "title": "Safety Passport — Part 5",
+        "type": "VIDEO",
+        "durationMins": 16,
+        "videoUrl": "https://drive.google.com/file/d/14iiYF2KZOjpf8kY_J9uLZ2tKDgzE2a41/preview",
+        "body": [
+          "Watch the video for this part of the Safety Passport course. The written summary and quiz for this part are being prepared."
+        ],
+        "keyPoints": [],
+        "quiz": []
+      },
+      {
+        "id": "l-psp-6",
+        "title": "Safety Passport — Part 6",
+        "type": "VIDEO",
+        "durationMins": 18,
+        "videoUrl": "https://drive.google.com/file/d/1O79I7lfMSGS_hvDLERN0RUnb2IvqKMfP/preview",
+        "body": [
+          "Watch the video for this part of the Safety Passport course. The written summary and quiz for this part are being prepared."
+        ],
+        "keyPoints": [],
+        "quiz": []
+      },
+      {
+        "id": "l-psp-7",
+        "title": "Safety Passport — Part 7",
+        "type": "VIDEO",
+        "durationMins": 3,
+        "videoUrl": "https://drive.google.com/file/d/15WWHOA4Q-gElD7xM3D4d1oZSCLI7Lm2y/preview",
+        "body": [
+          "Watch the video for this part of the Safety Passport course. The written summary and quiz for this part are being prepared."
+        ],
+        "keyPoints": [],
+        "quiz": []
+      }
+    ]
   },
   {
     "id": "crs-esr230",
