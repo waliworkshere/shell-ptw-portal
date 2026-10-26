@@ -318,9 +318,9 @@ function dateOnly(daysAhead: number) {
 
 /** Workers in the legacy register that have not been imported yet (Admin → Users → Import). */
 export const IMPORT_SAMPLE = [
-  { fullName: 'Badar Al Hashmi', civilId: '14520033', civilIdExpiry: '2028-07-01', company: 'Oman Fuel Services LLC', jobTitle: 'Pump Technician', email: 'badar.hashmi@omanfuelservices.test', certs: ['crs-lsr100', 'crs-hse101', 'crs-ptw201', 'crs-drv150', 'crs-haz202'] },
-  { fullName: 'Maryam Al Zadjali', civilId: '14998102', civilIdExpiry: '2027-03-22', company: 'Gulf Mechanical LLC', jobTitle: 'HSE Officer', email: 'maryam.zadjali@gulfmech.test', certs: ['crs-lsr100', 'crs-hse101', 'crs-ram210'] },
-  { fullName: 'Talal Al Riyami', civilId: '15003377', civilIdExpiry: '2029-11-09', company: 'Al Noor Electrical Contracting', jobTitle: 'Electrician', email: 'talal.riyami@alnoorelectric.test', certs: ['crs-lsr100', 'crs-hse101', 'crs-ptw201', 'crs-drv150', 'crs-haz202', 'crs-fir110'] },
+  { fullName: 'Badar Al Hashmi', civilId: '14520033', civilIdExpiry: '2028-07-01', company: 'Oman Fuel Services LLC', jobTitle: 'Pump Technician', email: 'badar.hashmi@omanfuelservices.test', certs: ['crs-hse101', 'crs-ptw201', 'crs-drv150'] },
+  { fullName: 'Maryam Al Zadjali', civilId: '14998102', civilIdExpiry: '2027-03-22', company: 'Gulf Mechanical LLC', jobTitle: 'HSE Officer', email: 'maryam.zadjali@gulfmech.test', certs: ['crs-hse101'] },
+  { fullName: 'Talal Al Riyami', civilId: '15003377', civilIdExpiry: '2029-11-09', company: 'Al Noor Electrical Contracting', jobTitle: 'Electrician', email: 'talal.riyami@alnoorelectric.test', certs: ['crs-hse101', 'crs-ptw201', 'crs-drv150', 'crs-fir110'] },
 ];
 
 function payment(userId: string, ago: number, receiptNo: string, method: Payment['method'], last4?: string): Payment {
@@ -372,18 +372,13 @@ function completed(userId: string, courseId: string, finishedDaysAgo: number, ce
 function buildEnrollments(): Enrollment[] {
   const list: Enrollment[] = [
     // Permit holders — already qualified
-    completed('u-applicant-1', 'crs-lsr100', 125, 'TRN-2026-02095', 100),
     completed('u-applicant-1', 'crs-hse101', 120, 'TRN-2026-02101', 100),
     completed('u-applicant-1', 'crs-ptw201', 115, 'TRN-2026-02108', 92),
-    completed('u-applicant-1', 'crs-haz202', 110, 'TRN-2026-02117', 100),
     completed('u-applicant-1', 'crs-drv150', 104, 'TRN-2026-02125', 94),
-    completed('u-applicant-2', 'crs-lsr100', 205, 'TRN-2026-01539', 100),
     completed('u-applicant-2', 'crs-hse101', 200, 'TRN-2026-01544', 92),
     completed('u-applicant-2', 'crs-ptw201', 196, 'TRN-2026-01552', 85),
-    completed('u-applicant-2', 'crs-haz202', 190, 'TRN-2026-01560', 100),
     completed('u-applicant-2', 'crs-fir110', 60, 'TRN-2026-02790', 100),
     // Hamed — part way through the path
-    completed('u-trainee-1', 'crs-lsr100', 5, 'TRN-2026-02999', 100),
     completed('u-trainee-1', 'crs-hse101', 3, 'TRN-2026-03001', 92),
     {
       id: 'enr-u-trainee-1-crs-ptw201',
@@ -396,23 +391,17 @@ function buildEnrollments(): Enrollment[] {
       },
     },
     // Noor — finished everything, ready to register as Permit Holder
-    completed('u-trainee-2', 'crs-lsr100', 14, 'TRN-2026-02944', 100),
     completed('u-trainee-2', 'crs-hse101', 12, 'TRN-2026-02950', 100),
     completed('u-trainee-2', 'crs-ptw201', 9, 'TRN-2026-02961', 92),
-    completed('u-trainee-2', 'crs-haz202', 6, 'TRN-2026-02977', 100),
     completed('u-trainee-2', 'crs-drv150', 2, 'TRN-2026-02990', 88),
     // Salim — finished everything, registration pending admin approval
-    completed('u-trainee-3', 'crs-lsr100', 17, 'TRN-2026-02905', 100),
     completed('u-trainee-3', 'crs-hse101', 15, 'TRN-2026-02911', 92),
     completed('u-trainee-3', 'crs-ptw201', 12, 'TRN-2026-02920', 85),
-    completed('u-trainee-3', 'crs-haz202', 8, 'TRN-2026-02932', 100),
     completed('u-trainee-3', 'crs-drv150', 4, 'TRN-2026-02945', 94),
     // Rashid — imported from the legacy register with his certificates
-    imported('u-imported-1', 'crs-lsr100', 300, 'LEG-2025-00418'),
     imported('u-imported-1', 'crs-hse101', 290, 'LEG-2025-00419'),
     imported('u-imported-1', 'crs-ptw201', 280, 'LEG-2025-00431'),
     imported('u-imported-1', 'crs-drv150', 250, 'LEG-2025-00477'),
-    imported('u-imported-1', 'crs-haz202', 240, 'LEG-2025-00502'),
     imported('u-imported-1', 'crs-fir110', 200, 'LEG-2025-00560'),
   ];
   // Paid courses in the seed have a matching payment.

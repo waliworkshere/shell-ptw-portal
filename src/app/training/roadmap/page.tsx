@@ -43,13 +43,11 @@ export default function RoadmapPage() {
     });
   });
   const isHolder = currentUser?.role === 'APPLICANT';
-  const issuerDone = isCertificateValid(
-    state.courses.find((c) => c.id === 'crs-ptw301')!,
-    state.enrollments.find((e) => e.userId === uid && e.courseId === 'crs-ptw301'),
-  );
+  const issuerCourse = state.courses.find((c) => c.id === 'crs-ptw301' && c.status === 'PUBLISHED');
+  const issuerDone = !!issuerCourse && isCertificateValid(issuerCourse, state.enrollments.find((e) => e.userId === uid && e.courseId === issuerCourse.id));
   nodes.push({ kind: 'goal', id: 'passport', title: 'Safety Passport issued', body: 'Every required module complete. Your passport gets its QR code.', reached: q.eligible, href: '/training/passport', icon: Contact });
   nodes.push({ kind: 'goal', id: 'holder', title: 'Permit Holder', body: 'Approved by the administrator. You can request permits and plan journeys.', reached: isHolder, href: isHolder ? '/applicant/dashboard' : '/training/register', icon: BadgeCheck });
-  nodes.push({ kind: 'goal', id: 'issuer', title: 'Permit Issuer (advanced)', body: 'Pass PTW-301 Permit Issuer Certification to step up.', reached: issuerDone, href: '/training/courses/crs-ptw301', icon: ShieldCheck });
+  if (issuerCourse) nodes.push({ kind: 'goal', id: 'issuer', title: 'Permit Issuer (advanced)', body: 'Pass PTW-301 Permit Issuer Certification to step up.', reached: issuerDone, href: '/training/courses/crs-ptw301', icon: ShieldCheck });
 
   const ROW = 132;
   const H = nodes.length * ROW + 40;

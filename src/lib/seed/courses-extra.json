@@ -645,38 +645,6 @@
     "tier": "CAT2"
   },
   {
-    "id": "crs-cei300",
-    "code": "CEI-300",
-    "title": "Critical Equipment Inspection (CEI)",
-    "summary": "Internal course for MEP, fuel system and CEI technicians on inspecting safety-critical equipment at retail sites. Content to be completed by the Artelia HSSE team.",
-    "category": "Critical Equipment Inspection",
-    "level": "Intermediate",
-    "source": "ARTELIA",
-    "status": "DRAFT",
-    "mandatory": false,
-    "pathOrder": 99,
-    "dueDays": 30,
-    "passMark": 80,
-    "validityMonths": 24,
-    "lessons": [
-      {
-        "id": "l-cei-1",
-        "title": "What counts as critical equipment",
-        "type": "READING",
-        "durationMins": 10,
-        "body": [
-          "Draft outline — replace with the approved CEI content.",
-          "Safety-critical equipment at a retail site includes the emergency stop system, fuel dispenser shear valves and breakaways, tank and line leak detection, overfill protection, vapour recovery, fire detection and extinguishers, and electrical isolation and earthing.",
-          "A CEI inspector checks that each item is present, undamaged, tested at the right interval and recorded — and takes it out of service when it is not."
-        ],
-        "keyPoints": [
-          "Draft — awaiting approved content."
-        ],
-        "quiz": []
-      }
-    ]
-  },
-  {
     "id": "crs-emr100",
     "code": "EMR-100",
     "title": "Emergency Response",

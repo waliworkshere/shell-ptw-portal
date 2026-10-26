@@ -22,17 +22,17 @@ export const PTW_CATEGORY_LABEL: Record<PtwCategory, string> = {
 
 /** Training that supports each authorisation: member-register certificate codes and course ids. */
 export const PTW_CATEGORY_EVIDENCE: Record<PtwCategory, { certs: string[]; courses: string[] }> = {
-  HOT_WORK: { certs: [], courses: ['crs-haz202', 'crs-fir110'] },
+  HOT_WORK: { certs: [], courses: ['crs-hot120', 'crs-fir110'] },
   CONFINED_SPACE: { certs: ['CSE'], courses: [] },
   EXCAVATION: { certs: ['EXC'], courses: [] },
   LIFTING: { certs: ['RB'], courses: ['crs-lft310'] },
-  FLAMMABLE_GAS: { certs: ['AGT'], courses: ['crs-haz202'] },
+  FLAMMABLE_GAS: { certs: ['AGT'], courses: ['crs-agt130'] },
   LIVE_ELECTRICAL: { certs: ['ESR'], courses: [] },
   DRILLING: { certs: ['WDS'], courses: [] },
-  WORK_AT_HEIGHT: { certs: ['WAH', 'SCE', 'SCI'], courses: ['crs-wah120'] },
+  WORK_AT_HEIGHT: { certs: ['WAH', 'SCE', 'SCI'], courses: ['crs-scf260'] },
   DEMOLITION: { certs: [], courses: [] },
-  FUEL_LINE: { certs: [], courses: ['crs-haz202'] },
-  CEI: { certs: [], courses: ['crs-cei300'] },
+  FUEL_LINE: { certs: [], courses: ['crs-hot120'] },
+  CEI: { certs: [], courses: [] },
 };
 
 export const PTW_KIND_LABEL = { PH: 'Permit Holder', PI: 'Permit Issuer' } as const;
