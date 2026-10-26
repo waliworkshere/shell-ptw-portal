@@ -1,15 +1,17 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
-import { AppState, Application, ApplicationStatus, User, FuelStation, PermitType, UploadedDocument, RiskLevel, CallStatus, CallScreenshot, Course, Lesson, Enrollment, PermitHolderRegistration, JourneyPlan, Payment, PaymentMethod, HsseReport, HsseStatus, SosAlert, HSSE_TYPE_SHORT, Company, PtwCard, CertUpload, Redemption, PassportForm, FocalContract, FocalReport } from './types';
+import { AppState, Application, ApplicationStatus, User, FuelStation, PermitType, UploadedDocument, RiskLevel, CallStatus, CallScreenshot, Course, Lesson, Enrollment, PermitHolderRegistration, JourneyPlan, Payment, PaymentMethod, HsseReport, HsseStatus, SosAlert, HSSE_TYPE_SHORT, Company, PtwCard, CertUpload, Redemption, PassportForm, FocalContract, FocalReport, Order, WorkCheck } from './types';
 import { nextCertificateNumber } from './training';
 import { ROLE_LABEL } from './types';
 import { nextJmpNumber } from './journey';
+import { permitExpiry } from './permit-rules';
+import { SUBSCRIPTION_PRICE_USD, coursePriceUsd } from './access';
 import { seedState, IMPORT_SAMPLE } from './mock-data';
 import { preloadBrand } from './brand-assets';
 import { AppMode, NEWEST_FIRST, SYNCED, SyncedKey, WireRecord, authError, getMode, getToken, rid, rpc, setMode, setToken } from './live';
 
-const STORAGE_KEY = 'shell-ptw-prototype-state-v4';
+const STORAGE_KEY = 'shell-ptw-prototype-state-v5';
 
 interface StoreContextValue {
   state: AppState;
@@ -49,7 +51,7 @@ interface StoreContextValue {
   signInWithCivilId: (civilId: string, expiry: string) => { ok: true; user: User } | { ok: false; error: string };
   findByCivilId: (civilId: string) => User | undefined;
   registerAccount: (input: { fullName: string; email: string; phone: string; company: string; civilId: string; civilIdExpiry: string; username: string; password: string }) => User;
-  updateProfile: (patch: Partial<Pick<User, 'phone' | 'company' | 'jobTitle' | 'email'>>) => void;
+  updateProfile: (patch: Partial<Pick<User, 'phone' | 'company' | 'jobTitle' | 'email' | 'drivingLicence'>>) => void;
   importWorkers: (civilIds: string[]) => number;
   purchaseCourse: (courseId: string, method: PaymentMethod, card?: { last4: string; brand: string }) => Payment;
   enrolFace: (photo: string) => void;
@@ -89,6 +91,22 @@ interface StoreContextValue {
   addComment: (applicationId: string, body: string) => void;
   resubmit: (applicationId: string, documents: UploadedDocument[]) => void;
   setCallStatus: (applicationId: string, status: CallStatus) => void;
+  /** Book the video call for later (null cancels the booking). */
+  scheduleCall: (applicationId: string, atIso: string | null, note?: string) => void;
+  /** Ask to buy the annual subscription or a paid course (payment confirmed by an Administrator). */
+  requestOrder: (kind: Order['kind'], courseId?: string) => Order | null;
+  cancelOrder: (orderId: string) => void;
+  /** Administrator: payment received — unlocks the course or starts / extends the subscription. */
+  confirmOrder: (orderId: string, reference: string) => void;
+  rejectOrder: (orderId: string, note: string) => void;
+  /** Administrator: start or extend someone's annual subscription without an order. */
+  activateSubscription: (userId: string, reference: string) => void;
+  endSubscription: (userId: string) => void;
+  /** Administrator: switch an account off / back on. */
+  setDeactivated: (userId: string, reason: string | null) => void;
+  saveWorkCheck: (c: Omit<WorkCheck, 'id' | 'userId' | 'userName' | 'company' | 'createdAt'>) => WorkCheck;
+  /** Permit Holder closes an approved permit once the work is done. */
+  closePermit: (applicationId: string, note: string) => void;
   addCallScreenshot: (applicationId: string, dataUrl: string) => void;
 
   // Training / LMS
@@ -143,7 +161,7 @@ const EMPTY_LIVE: AppState = {
   currentUserId: null,
   users: [], stations: [], permitTypes: [], applications: [], auditLogs: [], screenshotGallery: [],
   courses: [], enrollments: [], registrations: [], journeys: [], payments: [], hsseReports: [], sosAlerts: [],
-  faceChecks: [], tourDone: [], companies: [], ptwCards: [], certUploads: [], redemptions: [], focalReports: [],
+  faceChecks: [], tourDone: [], companies: [], ptwCards: [], certUploads: [], redemptions: [], focalReports: [], orders: [], workChecks: [],
 };
 
 /** Bump when new catalogue items (courses, permit types, stations) ship in code. */
@@ -832,17 +850,13 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
           ...s,
           applications: s.applications.map((app) => {
             if (app.id !== applicationId) return app;
-            const permitType = s.permitTypes.find((p) => p.id === app.permitTypeId);
             return {
               ...app,
               status: newStatus,
               updatedAt: nowIso,
               approvedAt: decision === 'APPROVE' ? nowIso : app.approvedAt,
               rejectedAt: decision === 'REJECT' ? nowIso : app.rejectedAt,
-              expiresAt:
-                decision === 'APPROVE' && permitType
-                  ? new Date(Date.now() + permitType.validityDays * 86400000).toISOString()
-                  : app.expiresAt,
+              expiresAt: decision === 'APPROVE' ? permitExpiry(app.riskLevel) : app.expiresAt,
               permitNumber: decision === 'APPROVE' ? app.permitNumber ?? `PTW-${app.applicationNumber.split('-').pop()}` : app.permitNumber,
               permitPdfGeneratedAt: decision === 'APPROVE' ? nowIso : app.permitPdfGeneratedAt,
               rejectionReason: decision === 'REJECT' ? note : app.rejectionReason,
@@ -924,12 +938,12 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
                   callRequestedAt: status === 'RINGING' ? nowIso : app.callRequestedAt,
                   callRequestedBy: status === 'RINGING' ? user?.fullName : app.callRequestedBy,
                   callRequestedById: status === 'RINGING' ? user?.id : app.callRequestedById,
-                  callDirection: status === 'RINGING' ? (user?.role === 'APPLICANT' ? 'TO_ISSUER' : 'TO_HOLDER') : app.callDirection,
+                  callDirection: status === 'RINGING' ? (user?.id === app.applicantId ? 'TO_ISSUER' : 'TO_HOLDER') : app.callDirection,
                   callAnsweredBy: status === 'IN_PROGRESS' ? user?.fullName : app.callAnsweredBy,
                   videoRecorded: status === 'ENDED' ? true : app.videoRecorded,
                   timeline:
                     status === 'RINGING'
-                      ? [...app.timeline, { id: `t-${rid()}`, label: user?.role === 'APPLICANT' ? 'Called the Permit Issuer' : 'Called the Permit Holder', actor: user?.fullName ?? 'Caller', at: nowIso }]
+                      ? [...app.timeline, { id: `t-${rid()}`, label: user?.id === app.applicantId ? 'Called the reviewer' : 'Called the Permit Holder', actor: user?.fullName ?? 'Caller', at: nowIso }]
                       : status === 'IN_PROGRESS'
                         ? [...app.timeline, { id: `t-${rid()}`, label: app.callStatus === 'RINGING' ? 'Video call answered' : 'Video verification call started', actor: user?.fullName ?? 'Permit Issuer', at: nowIso }]
                         : status === 'ENDED'
@@ -945,6 +959,136 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     },
     [],
   );
+
+  const scheduleCall = useCallback((applicationId: string, atIso: string | null, note?: string) => {
+    setState((s) => {
+      const user = s.users.find((u) => u.id === s.currentUserId);
+      const nowIso = new Date().toISOString();
+      return {
+        ...s,
+        applications: s.applications.map((app) =>
+          app.id !== applicationId
+            ? app
+            : {
+                ...app,
+                scheduledCall: atIso ? { at: atIso, by: user?.fullName ?? 'User', byId: user?.id ?? '', note: note || undefined, bookedAt: nowIso } : undefined,
+                timeline: [
+                  ...app.timeline,
+                  { id: `t-${rid()}`, label: atIso ? `Video call scheduled for ${new Date(atIso).toLocaleString('en-GB', { timeZone: 'Asia/Muscat', dateStyle: 'medium', timeStyle: 'short' })} (Oman time)` : 'Scheduled video call cancelled', actor: user?.fullName ?? 'User', at: nowIso },
+                ],
+              },
+        ),
+      };
+    });
+  }, []);
+
+  const requestOrder = useCallback((kind: Order['kind'], courseId?: string): Order | null => {
+    const s0 = stateRef.current;
+    const me = s0.users.find((u) => u.id === s0.currentUserId);
+    if (!me) return null;
+    const existing = s0.orders.find((o) => o.userId === me.id && o.kind === kind && o.status === 'PENDING' && (kind !== 'COURSE' || o.courseId === courseId));
+    if (existing) return existing;
+    const course = courseId ? s0.courses.find((c) => c.id === courseId) : undefined;
+    const order: Order = {
+      id: `ord-${rid()}`, userId: me.id, userName: me.fullName, company: me.company, kind, courseId,
+      label: kind === 'SUBSCRIPTION' ? 'Annual subscription (Permit to Work & Journey Management)' : `${course?.code ?? ''} ${course?.title ?? 'Course'}`.trim(),
+      amountUsd: kind === 'SUBSCRIPTION' ? SUBSCRIPTION_PRICE_USD : course ? coursePriceUsd(course) : 0,
+      status: 'PENDING', requestedAt: new Date().toISOString(),
+    };
+    setState((st) => ({ ...st, orders: [order, ...st.orders] }));
+    addAuditLog('ORDER_REQUESTED', `${me.fullName}: ${order.label} (${order.amountUsd} USD)`);
+    return order;
+  }, [addAuditLog]);
+
+  const cancelOrder = useCallback((orderId: string) => {
+    setState((s) => ({ ...s, orders: s.orders.map((o) => (o.id === orderId && o.status === 'PENDING' ? { ...o, status: 'CANCELLED' } : o)) }));
+  }, []);
+
+  const extendSubscription = (u: User, by: string, reference: string, orderId?: string): User => {
+    const today = new Date().toISOString().slice(0, 10);
+    const from = u.subscription && u.subscription.expiresAt >= today ? new Date(new Date(u.subscription.expiresAt).getTime() + 86400000) : new Date(today);
+    const to = new Date(from);
+    to.setUTCFullYear(to.getUTCFullYear() + 1);
+    to.setUTCDate(to.getUTCDate() - 1);
+    return {
+      ...u,
+      subscription: {
+        plan: 'ANNUAL',
+        startsAt: u.subscription && u.subscription.expiresAt >= today ? u.subscription.startsAt : from.toISOString().slice(0, 10),
+        expiresAt: to.toISOString().slice(0, 10),
+        activatedBy: by, activatedAt: new Date().toISOString(), orderId, reference: reference || undefined,
+      },
+    };
+  };
+
+  const confirmOrder = useCallback((orderId: string, reference: string) => {
+    const s0 = stateRef.current;
+    const admin = s0.users.find((u) => u.id === s0.currentUserId)?.fullName ?? 'Administrator';
+    const o = s0.orders.find((x) => x.id === orderId);
+    if (!o || o.status !== 'PENDING') return;
+    const nowIso = new Date().toISOString();
+    setState((s) => ({
+      ...s,
+      orders: s.orders.map((x) => (x.id === orderId ? { ...x, status: 'PAID', paidAt: nowIso, confirmedBy: admin, reference: reference || undefined } : x)),
+      users: o.kind === 'SUBSCRIPTION' ? s.users.map((u) => (u.id === o.userId ? extendSubscription(u, admin, reference, o.id) : u)) : s.users,
+    }));
+    addAuditLog('ORDER_PAID', `${o.userName}: ${o.label} — payment confirmed${reference ? ` (${reference})` : ''}`);
+  }, [addAuditLog]);
+
+  const rejectOrder = useCallback((orderId: string, note: string) => {
+    setState((s) => ({ ...s, orders: s.orders.map((o) => (o.id === orderId && o.status === 'PENDING' ? { ...o, status: 'CANCELLED', note } : o)) }));
+  }, []);
+
+  const activateSubscription = useCallback((userId: string, reference: string) => {
+    const s0 = stateRef.current;
+    const admin = s0.users.find((u) => u.id === s0.currentUserId)?.fullName ?? 'Administrator';
+    setState((s) => ({ ...s, users: s.users.map((u) => (u.id === userId ? extendSubscription(u, admin, reference) : u)) }));
+    addAuditLog('SUBSCRIPTION_ACTIVATED', `${s0.users.find((u) => u.id === userId)?.fullName ?? userId}: annual subscription activated${reference ? ` (${reference})` : ''}`);
+  }, [addAuditLog]);
+
+  const endSubscription = useCallback((userId: string) => {
+    setState((s) => ({ ...s, users: s.users.map((u) => (u.id === userId ? { ...u, subscription: undefined } : u)) }));
+    addAuditLog('SUBSCRIPTION_ENDED', `${stateRef.current.users.find((u) => u.id === userId)?.fullName ?? userId}: subscription ended`);
+  }, [addAuditLog]);
+
+  const setDeactivated = useCallback((userId: string, reason: string | null) => {
+    const s0 = stateRef.current;
+    const admin = s0.users.find((u) => u.id === s0.currentUserId)?.fullName ?? 'Administrator';
+    setState((s) => ({ ...s, users: s.users.map((u) => (u.id === userId ? { ...u, deactivated: reason ? { at: new Date().toISOString(), by: admin, reason } : undefined } : u)) }));
+    addAuditLog(reason ? 'USER_DEACTIVATED' : 'USER_REACTIVATED', `${s0.users.find((u) => u.id === userId)?.fullName ?? userId}${reason ? `: ${reason}` : ' reactivated'}`);
+  }, [addAuditLog]);
+
+  const saveWorkCheck = useCallback((c: Omit<WorkCheck, 'id' | 'userId' | 'userName' | 'company' | 'createdAt'>) => {
+    const s0 = stateRef.current;
+    const me = s0.users.find((u) => u.id === s0.currentUserId);
+    const saved: WorkCheck = { ...c, id: `wc-${rid()}`, userId: me?.id ?? '', userName: me?.fullName ?? '', company: me?.company, createdAt: new Date().toISOString() };
+    setState((s) => ({ ...s, workChecks: [saved, ...s.workChecks] }));
+    addAuditLog(c.kind === 'SWC' ? 'START_WORK_CHECK' : 'LMRA', `${saved.userName}: ${c.kind === 'SWC' ? `Start Work Check (${c.activity})` : 'Last Minute Risk Assessment'} — ${c.outcome === 'STOPPED' ? 'work stopped' : 'safe to start'}`);
+    return saved;
+  }, [addAuditLog]);
+
+  const closePermit = useCallback((applicationId: string, note: string) => {
+    setState((s) => {
+      const user = s.users.find((u) => u.id === s.currentUserId);
+      const nowIso = new Date().toISOString();
+      return {
+        ...s,
+        applications: s.applications.map((app) =>
+          app.id !== applicationId || app.status !== 'APPROVED'
+            ? app
+            : {
+                ...app,
+                status: 'CLOSED',
+                closedAt: nowIso,
+                closedBy: user?.fullName,
+                updatedAt: nowIso,
+                timeline: [...app.timeline, { id: `t-${rid()}`, label: note ? `Permit closed — work complete: ${note}` : 'Permit closed — work complete', actor: user?.fullName ?? 'Permit Holder', at: nowIso }],
+              },
+        ),
+      };
+    });
+    addAuditLog('PERMIT_CLOSED', `${stateRef.current.applications.find((a) => a.id === applicationId)?.permitNumber ?? applicationId} closed by the Permit Holder`);
+  }, [addAuditLog]);
 
   const addCallScreenshot = useCallback(
     (applicationId: string, dataUrl: string) => {
@@ -1268,6 +1412,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     const u = stateRef.current.users.find((x) => x.username.toLowerCase() === username.trim().toLowerCase() || x.email.toLowerCase() === username.trim().toLowerCase());
     if (!u) return { ok: false, error: 'No account found with that username.' };
     if (u.password !== password) return { ok: false, error: 'Incorrect password. In the demo every password is Shell@2026.' };
+    if (u.deactivated) return { ok: false, error: authError('DEACTIVATED') };
     setState((s) => ({ ...s, currentUserId: u.id }));
     return { ok: true, user: u };
   }, []);
@@ -1573,6 +1718,16 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         addComment,
         resubmit,
         setCallStatus,
+        scheduleCall,
+        closePermit,
+        requestOrder,
+        cancelOrder,
+        confirmOrder,
+        rejectOrder,
+        activateSubscription,
+        endSubscription,
+        setDeactivated,
+        saveWorkCheck,
         addCallScreenshot,
         createTrainee,
         saveCourse,

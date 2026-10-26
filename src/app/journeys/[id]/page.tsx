@@ -27,18 +27,19 @@ export default function JourneyDetailPage() {
     return () => clearInterval(t);
   }, []);
 
-  const backHref = currentUser?.role === 'APPLICANT' ? '/journeys' : currentUser?.role === 'STATION' ? '/station/dashboard' : '/journeys/monitor';
+  const backHref = j?.driverId === currentUser?.id || ['APPLICANT', 'COMPANY_MANAGER'].includes(currentUser?.role ?? '') ? '/journeys' : currentUser?.role === 'STATION' ? '/station/dashboard' : '/journeys/monitor';
 
   if (!j) {
     return (
-      <RoleGuard role={['APPLICANT', 'APPROVER', 'ADMIN', 'STATION']}>
+      <RoleGuard role={['APPLICANT', 'APPROVER', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'ADMIN', 'STATION']}>
         <div className="mx-auto max-w-3xl px-4 py-6 sm:px-8 sm:py-10 text-sm text-slate-500">Journey not found.</div>
       </RoleGuard>
     );
   }
 
   const isDriver = currentUser?.id === j.driverId;
-  const isManager = currentUser?.role === 'APPROVER' || currentUser?.role === 'ADMIN';
+  // Journey Managers (Permit Issuers, Artelia Managers, Administrators) — never on their own journey.
+  const isManager = ['APPROVER', 'ARTELIA_MANAGER', 'ADMIN'].includes(currentUser?.role ?? '') && j?.driverId !== currentUser?.id;
   const od = overdueState(j, now);
   const prog = journeyProgress(j);
   const next = j.checkpoints.find((c) => !c.actualAt);
@@ -46,7 +47,7 @@ export default function JourneyDetailPage() {
   const driveMins = Math.round((new Date(j.arriveBy).getTime() - new Date(j.departAt).getTime()) / 60000);
 
   return (
-    <RoleGuard role={['APPLICANT', 'APPROVER', 'ADMIN', 'STATION']}>
+    <RoleGuard role={['APPLICANT', 'APPROVER', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'ADMIN', 'STATION']}>
       <div className="mx-auto max-w-6xl px-4 py-6 sm:px-8 sm:py-10">
         <Link href={backHref} className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-ink">
           <ArrowLeft size={15} /> Back
@@ -153,7 +154,8 @@ export default function JourneyDetailPage() {
                   ['Linked permit', linked?.applicationNumber ?? 'None'],
                   ['Vehicle', `${j.vehicleType} (${j.vehicleReg}), IVMS ${j.ivmsFitted ? 'fitted' : 'not fitted'}`],
                   ['Driver', `${j.driverName}, ${j.driverPhone}, licence ${j.licenceNo}`],
-                  ['Passengers', j.passengers.join(', ') || 'None'],
+                  ['Passengers', (j.passengerDetails?.length ? j.passengerDetails.map((p) => `${p.name}${p.canDrive ? ' (licensed driver)' : ''}`) : j.passengers).join(', ') || 'None'],
+                  ['Driving allowance', `${10 * (1 + (j.passengerDetails?.filter((p) => p.canDrive).length ?? 0))} hours (10 per driver)`],
                   ['Call-in method', j.commsMethod === 'MOBILE' ? 'Mobile phone' : j.commsMethod === 'SATELLITE' ? 'Satellite phone' : 'Two-way radio'],
                   ['Emergency contact', j.emergencyContact],
                   ['Journey Manager', j.journeyManagerName ?? 'Not yet assigned'],

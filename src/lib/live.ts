@@ -99,7 +99,7 @@ export interface WireRecord {
 export const SYNCED = [
   'users', 'stations', 'permitTypes', 'applications', 'auditLogs', 'screenshotGallery', 'courses', 'enrollments',
   'registrations', 'journeys', 'payments', 'hsseReports', 'sosAlerts', 'faceChecks', 'companies', 'ptwCards',
-  'certUploads', 'redemptions', 'focalReports',
+  'certUploads', 'redemptions', 'focalReports', 'orders', 'workChecks',
 ] as const;
 export type SyncedKey = (typeof SYNCED)[number];
 
@@ -112,6 +112,8 @@ export const NEWEST_FIRST: Partial<Record<SyncedKey, string>> = {
   hsseReports: 'createdAt',
   sosAlerts: 'createdAt',
   faceChecks: 'at',
+  orders: 'requestedAt',
+  workChecks: 'createdAt',
   registrations: 'submittedAt',
   ptwCards: 'issuedAt',
   certUploads: 'submittedAt',
@@ -133,6 +135,11 @@ export const AUTH_ERRORS: Record<string, string> = {
   AUTH: 'Your session has expired. Please sign in again.',
   FORBIDDEN: 'You do not have permission to do that.',
   NOT_FOUND: 'Account not found.',
+  DEACTIVATED: 'This account has been deactivated — only Safety Passport holders can use Gemsafety. Contact your HSSE administrator.',
+  PASSPORT_REQUIRED: 'Only Safety Passport holders can use Gemsafety. Use “First time here?” if you hold a Safety Passport.',
+  HOURS: 'Calls can only be made between 8:00 and 17:00, Sunday to Thursday (Oman time). Schedule the call instead.',
+  SUBSCRIPTION: 'This needs an active annual subscription.',
+  PAYMENT: 'This course has to be paid for first.',
 };
 
 export function authError(code?: string) {

@@ -16,6 +16,9 @@ import { ArrowLeft, ArrowRight, Award, CheckCircle2, History, Contact, LogIn, Sh
 
 type Step = 'civil' | 'exists' | 'details' | 'liveExists';
 
+/** New accounts come from the Safety Passport register only (no open sign-up). */
+const OPEN_REGISTRATION = false;
+
 export default function RegisterPage() {
   const { state, findByCivilId, signInWithCivilId, registerAccount, mode, checkCivilId, liveRegister } = useStore();
   const live = mode === 'live';
@@ -90,6 +93,26 @@ export default function RegisterPage() {
         .map((e) => ({ e, c: state.courses.find((c) => c.id === e.courseId)! }))
         .filter((x) => x.c)
     : [];
+
+  if (!OPEN_REGISTRATION)
+    return (
+      <div className="min-h-screen bg-paper">
+        <PrototypeRibbon />
+        <div className="mx-auto max-w-xl px-5 py-10">
+          <div className="flex items-center justify-between gap-3">
+            <Link href="/" className="inline-flex items-center gap-1.5 whitespace-nowrap text-sm text-slate-500 hover:text-ink"><ArrowLeft size={15} /> Back to sign in</Link>
+            <LangToggle compact />
+          </div>
+          <div className="mt-6 flex items-center gap-3"><ShellLogo size={34} /><ArteliaLogo height={18} /><span className="h-6 w-px bg-petrol-100" /><Wordmark className="text-xl" /></div>
+          <div className="card mt-8 space-y-3">
+            <h1 className="font-display text-2xl font-semibold text-ink">Gemsafety is for Safety Passport holders</h1>
+            <p className="text-sm text-slate-600">Only people who hold a valid Safety Passport can use Gemsafety. If you have one, your account is already set up — go back to sign in and choose <b>First time here?</b> to activate it with your Civil ID and date of birth.</p>
+            <p className="text-sm text-slate-600">If you don&apos;t have a Safety Passport yet, ask your company HSSE Focal or the Retail HSSE team to book you onto the Safety Passport training. Your account is created when you pass.</p>
+            <Link href="/" className="btn-primary">Go to sign in</Link>
+          </div>
+        </div>
+      </div>
+    );
 
   return (
     <div className="min-h-screen bg-paper">

@@ -1,5 +1,7 @@
 'use client';
 
+import { hasSafetyPassport, subscriptionActive } from '@/lib/access';
+
 import Link from 'next/link';
 import { useState } from 'react';
 import { useStore } from '@/lib/store';
@@ -74,7 +76,9 @@ function tempPassword() {
 
 /** Admin view of one person: profile, register data, competency, cards, role and password. */
 export function UserDetail({ user }: { user: User }) {
-  const { state, mode, updateUser, addAuditLog, adminSetPassword } = useStore();
+  const { state, mode, updateUser, addAuditLog, adminSetPassword, setDeactivated, activateSubscription, endSubscription } = useStore();
+  const passport = hasSafetyPassport(state, user);
+  const subOn = subscriptionActive(user);
   const [pw, setPw] = useState<{ login: string; password: string } | null>(null);
   const [err, setErr] = useState('');
   const [busy, setBusy] = useState(false);
@@ -113,6 +117,30 @@ export function UserDetail({ user }: { user: User }) {
           </>
         )}
       </dl>
+
+      <div className={`grid gap-3 rounded-xl p-3 sm:grid-cols-3 ${user.deactivated ? 'bg-rust-50' : 'bg-petrol-50/60'}`}>
+        <div>
+          <p className="text-xs text-slate-400">Account</p>
+          {user.deactivated ? (
+            <p className="text-rust-700"><b>Deactivated</b> {fmtDate(user.deactivated.at)} by {user.deactivated.by}<span className="block text-xs">{user.deactivated.reason}</span></p>
+          ) : (
+            <p className="text-leaf-700"><b>Active</b></p>
+          )}
+          <button onClick={() => (user.deactivated ? setDeactivated(user.id, null) : setDeactivated(user.id, prompt('Reason for deactivating', 'No valid Safety Passport') || 'Deactivated by administrator'))} className="mt-1 text-xs font-medium text-petrol-600 hover:underline">{user.deactivated ? 'Reactivate' : 'Deactivate'}</button>
+        </div>
+        <div>
+          <p className="text-xs text-slate-400">Safety Passport</p>
+          <p className={passport ? 'text-leaf-700' : 'text-rust-600'}>{passport ? 'Valid' : 'Not held'}{user.passportNo ? <span className="app-number block text-xs text-slate-500">{user.passportNo}</span> : null}</p>
+        </div>
+        <div>
+          <p className="text-xs text-slate-400">Subscription (PTW &amp; JMP)</p>
+          <p className={subOn ? 'text-leaf-700' : 'text-slate-600'}>{subOn ? `Active to ${user.subscription!.expiresAt}` : user.subscription ? `Ended ${user.subscription.expiresAt}` : 'Free plan'}</p>
+          <span className="flex gap-3">
+            <button onClick={() => activateSubscription(user.id, 'Activated by administrator')} className="text-xs font-medium text-petrol-600 hover:underline">{subOn ? 'Extend 1 year' : 'Activate 1 year'}</button>
+            {user.subscription && <button onClick={() => endSubscription(user.id)} className="text-xs font-medium text-rust-600 hover:underline">End</button>}
+          </span>
+        </div>
+      </div>
 
       <div className="grid gap-3 sm:grid-cols-2">
         <div>

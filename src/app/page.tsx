@@ -33,13 +33,15 @@ type Tab = 'password' | 'civil' | 'activate';
 
 const ROLE_ICON: Record<Role, React.ElementType> = {
   ADMIN: ShieldCheck,
+  ARTELIA_MANAGER: ShieldCheck,
+  COMPANY_MANAGER: Building2,
   APPROVER: ClipboardCheck,
   STATION: Building2,
   APPLICANT: UserRound,
   TRAINEE: GraduationCap,
 };
 
-const ROLE_ORDER: Role[] = ['APPLICANT', 'TRAINEE', 'APPROVER', 'STATION', 'ADMIN'];
+const ROLE_ORDER: Role[] = ['APPLICANT', 'TRAINEE', 'COMPANY_MANAGER', 'APPROVER', 'ARTELIA_MANAGER', 'STATION', 'ADMIN'];
 
 export default function LoginPage() {
   const { state, ready, currentUser, signIn, signInWithCivilId, mode, liveSignIn, liveActivate, switchMode } = useStore();

@@ -87,6 +87,10 @@ export function PriceTag({ price, tier }: { price?: number; tier?: CourseTier })
     if (!tier) return null;
     return <span className="rounded bg-petrol-50 px-1.5 py-0.5 text-[11px] font-semibold text-petrol-600">{TIER_SHORT[tier]}</span>;
   }
+  if (tier) {
+    if (tier === 'FREE') return <span className="text-[11px] font-semibold text-leaf-600">Free</span>;
+    return <span className="app-number rounded bg-ink px-1.5 py-0.5 text-[11px] font-semibold text-sand-400">{tier === 'CAT1' ? 25 : 40} USD</span>;
+  }
   if (!price) return <span className="text-[11px] font-semibold text-leaf-600">Free</span>;
   return <span className="app-number rounded bg-ink px-1.5 py-0.5 text-[11px] font-semibold text-sand-400">{price.toFixed(3)} OMR</span>;
 }

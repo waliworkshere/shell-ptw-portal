@@ -1,10 +1,12 @@
-export type Role = 'ADMIN' | 'APPROVER' | 'STATION' | 'APPLICANT' | 'TRAINEE';
+export type Role = 'ADMIN' | 'ARTELIA_MANAGER' | 'COMPANY_MANAGER' | 'APPROVER' | 'STATION' | 'APPLICANT' | 'TRAINEE';
 
 // Display labels only — internal role codes (and routes) are unchanged so the
 // rest of the app doesn't need to be rewired, but everywhere a role is shown
 // to a person it now reads using the client's terminology.
 export const ROLE_LABEL: Record<Role, string> = {
   ADMIN: 'Administrator',
+  ARTELIA_MANAGER: 'Artelia Manager',
+  COMPANY_MANAGER: 'Company Manager & HSSE',
   APPROVER: 'Permit Issuer',
   STATION: 'Fuel Station',
   APPLICANT: 'Permit Holder',
@@ -39,7 +41,8 @@ export type ApplicationStatus =
   | 'APPROVED'
   | 'REJECTED'
   | 'EXPIRED'
-  | 'CANCELLED';
+  | 'CANCELLED'
+  | 'CLOSED';
 
 export const STATUS_LABEL: Record<ApplicationStatus, string> = {
   DRAFT: 'Draft',
@@ -51,6 +54,7 @@ export const STATUS_LABEL: Record<ApplicationStatus, string> = {
   REJECTED: 'Rejected',
   EXPIRED: 'Expired',
   CANCELLED: 'Cancelled',
+  CLOSED: 'Closed',
 };
 
 export interface User {
@@ -81,6 +85,72 @@ export interface User {
   member?: MemberProfile;
   passportForm?: PassportForm;
   hsseFocal?: HsseFocal; // set only by an Administrator
+  /** Annual subscription that unlocks Permit to Work and Journey Management (set by an Administrator). */
+  subscription?: Subscription;
+  /** Account switched off (e.g. no valid Safety Passport). Set by an Administrator; the person cannot sign in. */
+  deactivated?: { at: string; by: string; reason: string };
+  /** Driving licence uploaded on the profile; needed before planning a journey. */
+  drivingLicence?: DrivingLicence;
+}
+
+export interface Subscription {
+  plan: 'ANNUAL';
+  startsAt: string; // YYYY-MM-DD
+  expiresAt: string; // YYYY-MM-DD
+  activatedBy: string;
+  activatedAt: string;
+  orderId?: string;
+  reference?: string;
+}
+
+export interface DrivingLicence {
+  number: string;
+  expires: string; // YYYY-MM-DD
+  issued?: string;
+  classes?: string;
+  holderName?: string;
+  image?: string; // compressed preview
+  ocrText?: string;
+  uploadedAt: string;
+}
+
+/** A purchase waiting for (or confirmed with) payment: the annual subscription or a paid course. */
+export interface Order {
+  id: string;
+  userId: string;
+  userName: string;
+  company?: string;
+  kind: 'SUBSCRIPTION' | 'COURSE';
+  courseId?: string;
+  label: string;
+  amountUsd: number;
+  status: 'PENDING' | 'PAID' | 'CANCELLED';
+  requestedAt: string;
+  paidAt?: string;
+  confirmedBy?: string;
+  reference?: string;
+  note?: string;
+}
+
+/** Start Work Check (SWC) or Last Minute Risk Assessment (LMRA) filled in at the work site. */
+export interface WorkCheck {
+  id: string;
+  kind: 'SWC' | 'LMRA';
+  userId: string;
+  userName: string;
+  company?: string;
+  applicationId?: string; // linked permit (SWC)
+  permitNumber?: string;
+  activity?: string; // SWC activity picked from the dropdown
+  stationId?: string;
+  location?: string;
+  answers: Record<string, 'YES' | 'NO' | 'NA'>;
+  hazards?: string;
+  controls?: string;
+  verifierName?: string;
+  outcome: 'SAFE_TO_START' | 'STOPPED';
+  photo?: string;
+  createdAt: string;
 }
 
 export type FocalContract = 'EPCM' | 'FMC';
@@ -234,6 +304,8 @@ export interface Application {
   applicationNumber: string;
   applicantId: string;
   applicantName: string;
+  /** Permit Holder's company (stamped by the server) — its Company Manager / HSSE Focal can review low and medium risk permits. */
+  applicantCompany?: string;
   stationId: string;
   permitTypeId: string;
   status: ApplicationStatus;
@@ -256,6 +328,10 @@ export interface Application {
   approvedAt?: string;
   rejectedAt?: string;
   expiresAt?: string;
+  closedAt?: string; // Permit Holder closed the permit when the work was done
+  closedBy?: string;
+  /** Video call booked for later (calls can be made straight away only in working hours). */
+  scheduledCall?: { at: string; by: string; byId: string; note?: string; bookedAt: string };
   createdAt: string;
   updatedAt: string;
   timeline: TimelineEntry[];
@@ -302,6 +378,8 @@ export interface AppState {
   certUploads: CertUpload[]; // certificates people uploaded for checking
   redemptions: Redemption[]; // reward points spent
   focalReports: FocalReport[]; // HSSE Focal monthly reports, inspections and audits
+  orders: Order[]; // subscription and course purchases awaiting / with payment
+  workChecks: WorkCheck[]; // Start Work Checks and Last Minute Risk Assessments
 }
 
 export interface Company {
@@ -350,6 +428,8 @@ export interface Lesson {
   images?: { src: string; caption?: string }[]; // shown under the reading text
   videoUrl?: string; // embeddable video (e.g. Google Drive /preview link)
   resources?: { label: string; url: string }[]; // reference documents
+  /** Lesson text in other portal languages (Arabic, Hindi, Urdu, Bengali) — shown and read aloud when that language is picked. */
+  i18n?: Partial<Record<'ar' | 'hi' | 'ur' | 'bn', { title?: string; body: string[]; keyPoints?: string[] }>>;
   quiz: QuizQuestion[];
 }
 
@@ -631,6 +711,8 @@ export interface JourneyPlan {
   licenceNo: string;
   licenceExpiry: string;
   passengers: string[];
+  /** Passengers and whether each holds a valid licence and can drive (each adds a 10-hour driving allowance). */
+  passengerDetails?: { name: string; canDrive: boolean }[];
   vehicleReg: string;
   vehicleType: string;
   ivmsFitted: boolean;

@@ -32,7 +32,7 @@ import {
   X,
 } from 'lucide-react';
 
-const ALL = ['ADMIN', 'APPROVER', 'STATION', 'APPLICANT', 'TRAINEE'] as const;
+const ALL = ['ADMIN', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'APPROVER', 'STATION', 'APPLICANT', 'TRAINEE'] as const;
 const TYPE_ICON: Record<HsseType, React.ElementType> = { NEAR_MISS: Megaphone, POTENTIAL_INCIDENT: AlertOctagon, UNSAFE_ACT: Hand, UNSAFE_CONDITION: Wrench };
 const OFF_SITE = '__off_site__';
 
@@ -203,9 +203,10 @@ export default function SosReportPage() {
           <p className="mt-2 max-w-2xl text-sm text-petrol-100">
             Saw something unsafe? Report it here — Near Miss, Potential Incident, Unsafe Act or Unsafe Condition. Takes under a minute and every report helps prevent a serious incident.
           </p>
-          <a href="tel:9999" className="mt-4 inline-flex items-center gap-2 rounded-lg bg-rust-500 px-3 py-1.5 text-xs font-semibold text-white hover:bg-rust-600">
-            <Phone size={13} /> Life-threatening emergency? Call 9999
-          </a>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <a href="tel:9991" className="inline-flex items-center gap-2 rounded-lg bg-rust-500 px-3 py-1.5 text-xs font-semibold text-white hover:bg-rust-600"><Phone size={13} /> Ambulance &amp; Civil Defence: 9991</a>
+            <a href="tel:9999" className="inline-flex items-center gap-2 rounded-lg bg-rust-500 px-3 py-1.5 text-xs font-semibold text-white hover:bg-rust-600"><Phone size={13} /> Royal Oman Police: 9999</a>
+          </div>
         </div>
 
         <form onSubmit={submit} className="mt-6 space-y-6">

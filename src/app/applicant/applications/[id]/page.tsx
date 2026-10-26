@@ -3,6 +3,7 @@
 import { Phone, PhoneOff, Video as VideoIcon } from 'lucide-react';
 import { canCall, isRinging } from '@/lib/calls';
 import { useCallOutcome } from '@/components/call-outcome';
+import { CallHoursNote, ScheduleCall, useWorkingHours } from '@/components/call-schedule';
 import { LiveCall } from '@/components/daily-call';
 
 import { useEffect, useState } from 'react';
@@ -12,7 +13,9 @@ import { RoleGuard } from '@/components/role-guard';
 import { useStore } from '@/lib/store';
 import { StatusStamp } from '@/components/status-stamp';
 import { generatePermitPdf } from '@/lib/permit-pdf';
-import { ArrowLeft, CheckCircle2, Circle, Download, Upload } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Circle, Download, ListChecks, Lock, Upload } from 'lucide-react';
+import { Application } from '@/lib/types';
+import { VALIDITY_TEXT, effectiveStatus } from '@/lib/permit-rules';
 
 const FLOW_STEPS: { status: string; label: string }[] = [
   { status: 'SUBMITTED', label: 'Submitted' },
@@ -22,7 +25,8 @@ const FLOW_STEPS: { status: string; label: string }[] = [
 
 export default function ApplicationStatusPage() {
   const { id } = useParams<{ id: string }>();
-  const { state, resubmit, mode, setCallStatus } = useStore();
+  const { state, resubmit, mode, setCallStatus, closePermit } = useStore();
+  const callOpen = useWorkingHours();
   const [inCall, setInCall] = useState(false);
   const callNote = useCallOutcome(state.applications.find((a) => a.id === id), state.currentUserId, setCallStatus);
   const myCall = state.applications.find((a) => a.id === id && a.callStatus === 'IN_PROGRESS' && a.callRequestedById === state.currentUserId);
@@ -45,7 +49,7 @@ export default function ApplicationStatusPage() {
 
   const permitType = state.permitTypes.find((p) => p.id === app.permitTypeId);
   const station = state.stations.find((s) => s.id === app.stationId);
-  const isRejectedOrCancelled = ['REJECTED', 'CANCELLED', 'EXPIRED'].includes(app.status);
+  const isRejectedOrCancelled = ['REJECTED', 'CANCELLED', 'EXPIRED', 'CLOSED'].includes(app.status);
   const currentStepIndex = FLOW_STEPS.findIndex((s) => s.status === app.status);
 
   return (
@@ -101,7 +105,13 @@ export default function ApplicationStatusPage() {
                   <p className="mt-0.5 text-sm text-slate-500">A Permit Issuer must see you on site before this permit can be approved. Call them when you&apos;re ready, or wait for their call.</p>
                   {callNote && <p className="mt-1 text-sm text-sand-700">{callNote}</p>}
                 </div>
-                <button onClick={() => setCallStatus(app.id, 'RINGING')} className="btn-primary"><Phone size={15} /> Call the Permit Issuer</button>
+                <button onClick={() => setCallStatus(app.id, 'RINGING')} disabled={!callOpen} className="btn-primary disabled:opacity-40"><Phone size={15} /> Call now</button>
+              </div>
+            )}
+            {app.callStatus !== 'IN_PROGRESS' && !isRinging(app) && (
+              <div className="mt-3 space-y-2">
+                <CallHoursNote open={callOpen} />
+                <ScheduleCall app={app} />
               </div>
             )}
           </div>
@@ -167,17 +177,13 @@ export default function ApplicationStatusPage() {
         )}
 
         {app.status === 'APPROVED' && (
-          <div className="mt-6 rounded-lg border border-petrol-500 bg-petrol-50 p-4 text-sm">
-            <p className="font-medium text-petrol-600">Permit approved — {app.permitNumber ?? app.applicationNumber}</p>
-            {app.expiresAt && (
-              <p className="mt-1 text-ink">Valid until {new Date(app.expiresAt).toLocaleDateString('en-GB', { dateStyle: 'long' } as any)}</p>
-            )}
-            <button
-              className="btn-primary mt-3 text-xs"
-              onClick={() => generatePermitPdf({ application: app, station, permitType, holder: currentUser })}
-            >
-              <Download size={14} /> Download my permit
-            </button>
+          <ApprovedPermit app={app} onClose={(n) => closePermit(app.id, n)} onDownload={() => generatePermitPdf({ application: app, station, permitType, holder: currentUser })} />
+        )}
+
+        {app.status === 'CLOSED' && (
+          <div className="mt-6 rounded-lg border border-leaf-500 bg-leaf-50 p-4 text-sm">
+            <p className="font-medium text-leaf-700">Permit closed — work complete</p>
+            <p className="mt-1 text-ink">Closed {app.closedAt ? new Date(app.closedAt).toLocaleString('en-GB') : ''}{app.closedBy ? ` by ${app.closedBy}` : ''}.</p>
           </div>
         )}
 
@@ -194,5 +200,33 @@ export default function ApplicationStatusPage() {
         </div>
       </div>
     </RoleGuard>
+  );
+}
+
+function ApprovedPermit({ app, onClose, onDownload }: { app: Application; onClose: (note: string) => void; onDownload: () => void }) {
+  const [closing, setClosing] = useState(false);
+  const [note, setNote] = useState('');
+  const expired = effectiveStatus(app) === 'EXPIRED';
+  return (
+    <div className={`mt-6 rounded-lg border p-4 text-sm ${expired ? 'border-rust-500 bg-rust-50' : 'border-petrol-500 bg-petrol-50'}`}>
+      <p className={`font-medium ${expired ? 'text-rust-600' : 'text-petrol-600'}`}>{expired ? 'Permit expired — close it now' : 'Permit approved'} — {app.permitNumber ?? app.applicationNumber}</p>
+      {app.expiresAt && <p className="mt-1 text-ink">Valid until {new Date(app.expiresAt).toLocaleString('en-GB', { timeZone: 'Asia/Muscat', dateStyle: 'long', timeStyle: 'short' })} (Oman time)</p>}
+      <p className="mt-1 text-xs text-slate-600">{VALIDITY_TEXT[app.riskLevel]}.</p>
+      <div className="mt-3 flex flex-wrap gap-2">
+        <button className="btn-primary text-xs" onClick={onDownload}><Download size={14} /> Download my permit</button>
+        <Link href={`/swc/new?permit=${app.id}`} className="btn-secondary text-xs"><ListChecks size={14} /> Start Work Check</Link>
+        {!closing && <button className="btn-secondary text-xs" onClick={() => setClosing(true)}><Lock size={14} /> Close permit — work done</button>}
+      </div>
+      {closing && (
+        <div className="mt-3 space-y-2 rounded-lg bg-white p-3">
+          <p className="text-xs text-slate-600">Close the permit once the work is finished and the site is left safe. A closed permit cannot be used again.</p>
+          <input className="input" placeholder="Close-out note (e.g. work complete, area handed back, isolations removed)" value={note} onChange={(e) => setNote(e.target.value)} />
+          <div className="flex gap-2">
+            <button className="btn-primary text-xs" onClick={() => onClose(note.trim())}>Confirm close</button>
+            <button className="btn-secondary text-xs" onClick={() => setClosing(false)}>Cancel</button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

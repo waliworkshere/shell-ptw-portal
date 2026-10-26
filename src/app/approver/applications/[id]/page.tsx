@@ -9,6 +9,9 @@ import { PTW_CATEGORY_LABEL, ptwCardStatus } from '@/lib/ptw-cards';
 import { useEffect, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { RoleGuard } from '@/components/role-guard';
+import { canReviewPermit, canReviewPermits } from '@/lib/access';
+import { permitExpiry, VALIDITY_TEXT } from '@/lib/permit-rules';
+import { CallHoursNote, ScheduleCall, useWorkingHours } from '@/components/call-schedule';
 import { useStore } from '@/lib/store';
 import { StatusStamp } from '@/components/status-stamp';
 import { generatePermitPdf } from '@/lib/permit-pdf';
@@ -27,6 +30,7 @@ export default function ApplicationReviewPage() {
   const callNote = useCallOutcome(state.applications.find((a) => a.id === id), state.currentUserId, setCallStatus);
 
   const app = state.applications.find((a) => a.id === id);
+  const callOpen = useWorkingHours();
   const [note, setNote] = useState('');
   const [commentBody, setCommentBody] = useState('');
   const [pendingAction, setPendingAction] = useState<'APPROVE' | 'REJECT' | 'REQUEST_CHANGES' | null>(null);
@@ -37,10 +41,10 @@ export default function ApplicationReviewPage() {
     if (videoRef.current && streamRef.current && videoRef.current.srcObject !== streamRef.current) videoRef.current.srcObject = streamRef.current;
   });
 
-  if (!app) {
+  if (!app || !canReviewPermit(state.users.find((u) => u.id === state.currentUserId), app)) {
     return (
-      <RoleGuard role={["APPROVER", "ADMIN"]}>
-        <div className="mx-auto max-w-3xl px-4 py-6 sm:px-8 sm:py-10 text-sm text-slate-500">Application not found.</div>
+      <RoleGuard role={['APPROVER', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'ADMIN']} can={canReviewPermits}>
+        <div className="mx-auto max-w-3xl px-4 py-6 sm:px-8 sm:py-10 text-sm text-slate-500">Application not found, or it is not one you can review.</div>
       </RoleGuard>
     );
   }
@@ -48,7 +52,7 @@ export default function ApplicationReviewPage() {
   const station = state.stations.find((s) => s.id === app.stationId);
   const permitType = state.permitTypes.find((p) => p.id === app.permitTypeId);
   const applicant = state.users.find((u) => u.id === app.applicantId);
-  const isDecided = ['APPROVED', 'REJECTED'].includes(app.status);
+  const isDecided = ['APPROVED', 'REJECTED', 'CLOSED', 'CANCELLED', 'EXPIRED'].includes(app.status);
   const callRequired = permitType?.videoRequired ?? false;
   const callSatisfied = !callRequired || app.callStatus === 'ENDED';
 
@@ -105,9 +109,7 @@ export default function ApplicationReviewPage() {
     if (action === 'APPROVE') {
       const nowIso = new Date().toISOString();
       const permitNumber = app!.permitNumber ?? `PTW-${app!.applicationNumber.split('-').pop()}`;
-      const expiresAt = permitType
-        ? new Date(Date.now() + permitType.validityDays * 86400000).toISOString()
-        : app!.expiresAt;
+      const expiresAt = permitExpiry(app!.riskLevel);
       generatePermitPdf({
         application: { ...app!, approvedAt: nowIso, permitNumber, expiresAt },
         station,
@@ -122,7 +124,7 @@ export default function ApplicationReviewPage() {
   }
 
   return (
-    <RoleGuard role={["APPROVER", "ADMIN"]}>
+    <RoleGuard role={['APPROVER', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'ADMIN']} can={canReviewPermits}>
       <div className="mx-auto max-w-4xl px-4 py-6 sm:px-8 sm:py-10">
         <Link href="/approver/dashboard" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-ink">
           <ArrowLeft size={15} /> Back to queue
@@ -297,7 +299,7 @@ export default function ApplicationReviewPage() {
                       </div>
                     ) : (
                       <div className="flex flex-col items-center gap-2">
-                        <button onClick={live ? () => setCallStatus(app.id, 'RINGING') : startCall} disabled={isDecided} className="flex flex-col items-center gap-2 text-white/80 hover:text-white disabled:opacity-40">
+                        <button onClick={live ? () => setCallStatus(app.id, 'RINGING') : startCall} disabled={isDecided || !callOpen} className="flex flex-col items-center gap-2 text-white/80 hover:text-white disabled:opacity-40">
                           <Video size={28} />
                           <span className="text-xs">{live ? 'Call the Permit Holder' : 'Start video call with Permit Holder'}</span>
                         </button>
@@ -307,6 +309,12 @@ export default function ApplicationReviewPage() {
                   </div>
                 )}
 
+                {!isDecided && app.callStatus !== 'IN_PROGRESS' && app.callStatus !== 'ENDED' && (
+                  <div className="mt-3 space-y-2">
+                    <CallHoursNote open={callOpen} />
+                    <ScheduleCall app={app} />
+                  </div>
+                )}
                 {app.callScreenshots.length > 0 && (
                   <div className="mt-3 grid grid-cols-4 gap-2">
                     {app.callScreenshots.map((s) => (
@@ -361,7 +369,7 @@ export default function ApplicationReviewPage() {
               {isDecided ? (
                 <div className="mt-3">
                   <p className="text-sm text-slate-500">
-                    This application has already been {app.status === 'APPROVED' ? 'approved' : 'rejected'}.
+                    This application has already been {app.status === 'APPROVED' ? 'approved' : app.status.toLowerCase()}.
                   </p>
                   {app.status === 'APPROVED' && (
                     <button
@@ -381,6 +389,7 @@ export default function ApplicationReviewPage() {
                       End the video verification call before approving this permit.
                     </p>
                   )}
+                  <p className="mt-3 rounded-md bg-petrol-50 px-3 py-2 text-xs text-petrol-700"><b>{app.riskLevel} risk.</b> {VALIDITY_TEXT[app.riskLevel]}.</p>
                   <div className="mt-4 flex flex-col gap-2">
                     <button onClick={() => submitDecision('APPROVE')} disabled={!callSatisfied} className="btn-primary disabled:opacity-40">
                       <Check size={16} /> Approve &amp; issue permit

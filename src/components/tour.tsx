@@ -20,7 +20,7 @@ const STEPS: Record<Role, Step[]> = {
     { target: 'nav:/training/roadmap', title: 'Training roadmap', body: 'Your route through Shell, Artelia and Local modules. Courses are taken on camera.' },
     { target: 'nav:/training/passport', title: 'Safety Passport', body: 'Your digital Safety Passport with a QR code. Show it at the station so staff can check your competence.' },
     { target: 'nav:/hsse/report', title: 'SOS — See it, Own it, Stop it', body: 'Saw something unsafe? Report it in under a minute. Your location is captured automatically and you can tick more than one type.' },
-    { target: 'sos', title: 'SOS button', body: 'See it, Own it, Stop it. Tap SOS any time to report something unsafe, or to raise an emergency alert. Call 9999 for police and ambulance.' },
+    { target: 'sos', title: 'SOS button', body: 'See it, Own it, Stop it. Tap SOS any time to report something unsafe, or to raise an emergency alert. Call 9991 for ambulance and civil defence, 9999 for the Royal Oman Police.' },
     { target: 'help', title: 'Help is always here', body: 'Open tips or replay this tour any time from the help button.' },
   ],
   TRAINEE: [
@@ -43,6 +43,17 @@ const STEPS: Record<Role, Step[]> = {
     { target: 'nav:/hsse/report', title: 'SOS report', body: 'See it, Own it, Stop it — log a Near Miss or unsafe condition the moment you see it.' },
     { target: 'sos', title: 'SOS', body: 'See it, Own it, Stop it — report anything unsafe from any screen.' },
     { target: 'help', title: 'Help', body: 'Replay this tour any time.' },
+  ],
+  ARTELIA_MANAGER: [
+    { target: 'nav:/approver/dashboard', title: 'Permit review', body: 'Every permit request across all companies and stations, including High risk permits that only you, Permit Issuers and Administrators can approve.' },
+    { target: 'nav:/hsse', title: 'SOS & HSSE', body: 'See it, Own it, Stop it reports and emergency alerts across the network.' },
+    { target: 'nav:/journeys/monitor', title: 'Journey management', body: 'Track drivers on the road and spot missed call-ins.' },
+    { target: 'help', title: 'Help is always here', body: 'Replay this tour or read tips from the help button.' },
+  ],
+  COMPANY_MANAGER: [
+    { target: 'nav:/approver/dashboard', title: 'Permit review', body: 'Low and Medium risk permit requests from your company’s Permit Holders. High risk permits go to the Permit Issuer or Artelia Manager.' },
+    { target: 'nav:/hsse', title: 'SOS reports', body: 'Reports raised by your company’s staff, and actions assigned to your company.' },
+    { target: 'help', title: 'Help is always here', body: 'Replay this tour or read tips from the help button.' },
   ],
   ADMIN: [
     { target: 'nav:/admin/dashboard', title: 'Overview', body: 'Live KPIs for permits, training, HSSE and journeys across the network.' },
@@ -67,7 +78,7 @@ export const TIPS: Record<Role, string[]> = {
     'Courses are recorded on camera. Sit in good light with your face visible.',
     'You need 80% on each lesson quiz; retakes are unlimited.',
     'Shell modules come first on the roadmap, then Artelia, then Local.',
-    'PTW courses carry a fee — pay by card or Apple Pay when you enrol.',
+    'Category 1 courses cost 25 USD and Category 2 courses 40 USD. Free courses need no payment.',
     'Follow Shell mobile usage guidelines at all times during work.',
   ],
   APPROVER: [
@@ -78,6 +89,16 @@ export const TIPS: Record<Role, string[]> = {
   STATION: [
     'Check a contractor’s Safety Passport QR before work starts.',
     'Report damaged equipment as an Unsafe Condition so it is tracked to closure.',
+  ],
+  ARTELIA_MANAGER: [
+    'You can approve High risk permits; Company Managers can only approve Low and Medium risk permits for their own company.',
+    'High risk permits are valid for 7 consecutive calendar days and must be closed by the Permit Holder when the work is done.',
+    'Calls can be made straight away from 8:00 to 17:00, Sunday to Thursday; outside those hours, schedule the call.',
+  ],
+  COMPANY_MANAGER: [
+    'You review Low and Medium risk permits raised by your own company. High risk permits go to the Permit Issuer or Artelia Manager.',
+    'A WCF covers one scope of work for one day only.',
+    'Calls can be made straight away from 8:00 to 17:00, Sunday to Thursday; outside those hours, schedule the call.',
   ],
   ADMIN: [
     'Imported workers keep their legacy certificate numbers.',

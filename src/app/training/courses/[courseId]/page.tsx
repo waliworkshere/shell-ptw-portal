@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { RoleGuard } from '@/components/role-guard';
 import { PriceTag, ProgressBar, SourceBadge } from '@/components/ui';
-import { Checkout } from '@/components/checkout';
+import { courseUnlocked, coursePriceUsd, pendingOrder } from '@/lib/access';
 import { CourseGate } from '@/components/course-gate';
 import { useProctor } from '@/components/proctor';
 import { useStore } from '@/lib/store';
@@ -16,11 +16,10 @@ import { ArrowLeft, Award, BookOpen, Camera, CheckCircle2, Clock, CreditCard, Do
 export default function CourseOverviewPage() {
   const { courseId } = useParams<{ courseId: string }>();
   const router = useRouter();
-  const { state, currentUser, enroll } = useStore();
+  const { state, currentUser, enroll, requestOrder, cancelOrder } = useStore();
   const course = state.courses.find((c) => c.id === courseId);
   const enrollment = state.enrollments.find((e) => e.userId === currentUser?.id && e.courseId === courseId);
   const proctor = useProctor();
-  const [payOpen, setPayOpen] = useState(false);
   const [gateOpen, setGateOpen] = useState(false);
 
   if (!course || course.status !== 'PUBLISHED') {
@@ -35,7 +34,10 @@ export default function CourseOverviewPage() {
   const resume = nextLesson(course, enrollment);
 
   const payment = enrollment?.paymentId ? state.payments.find((p) => p.id === enrollment.paymentId) : undefined;
-  const needsPayment = needsPaymentFor(course) && !enrollment?.paymentId && !enrollment?.imported && !enrollment?.completedAt;
+  const me = state.users.find((u) => u.id === state.currentUserId);
+  const priceUsd = coursePriceUsd(course);
+  const needsPayment = needsPaymentFor(course) && !!me && !courseUnlocked(state, me, course);
+  const order = me ? pendingOrder(state, me.id, 'COURSE', course.id) : undefined;
 
   function go() {
     if (!enrollment) enroll(course!.id);
@@ -43,7 +45,10 @@ export default function CourseOverviewPage() {
   }
 
   function start() {
-    if (needsPayment) return setPayOpen(true);
+    if (needsPayment) {
+      requestOrder('COURSE', course!.id);
+      return;
+    }
     if (course!.cameraRequired && !proctor.active) return setGateOpen(true);
     go();
   }
@@ -55,7 +60,6 @@ export default function CourseOverviewPage() {
           <ArrowLeft size={15} /> My learning
         </Link>
 
-        <Checkout course={course} open={payOpen} onClose={() => setPayOpen(false)} onPaid={() => { setPayOpen(false); setGateOpen(true); }} />
         <CourseGate course={course} open={gateOpen} onClose={() => setGateOpen(false)} onReady={() => { setGateOpen(false); go(); }} />
 
         <div className="relative mt-4 overflow-hidden rounded-2xl bg-petrol-600 p-8 text-white">
@@ -65,7 +69,7 @@ export default function CourseOverviewPage() {
             <SourceBadge source={course.source} size="md" />
             <span className="rounded-full bg-white/10 px-2.5 py-1 text-xs">{course.level}</span>
             {course.mandatory && <span className="rounded-full bg-sand-500 px-2.5 py-1 text-xs font-semibold text-ink">Required</span>}
-            {SHOW_COURSE_PRICES && course.price ? <span className="app-number rounded-full bg-ink px-2.5 py-1 text-xs font-semibold text-sand-400">{course.price.toFixed(3)} OMR + VAT</span> : null}
+            {SHOW_COURSE_PRICES && priceUsd ? <span className="app-number rounded-full bg-ink px-2.5 py-1 text-xs font-semibold text-sand-400">{priceUsd} USD</span> : null}
             {!SHOW_COURSE_PRICES && course.tier && <span className="rounded-full bg-white/10 px-2.5 py-1 text-xs">{TIER_LABEL[course.tier]}</span>}
           </div>
           <p className="app-number mt-4 text-xs text-petrol-100">{course.code} · {course.category}</p>
@@ -87,7 +91,7 @@ export default function CourseOverviewPage() {
               </button>
             ) : (
               <button onClick={start} className="inline-flex items-center gap-2 rounded-lg bg-sand-500 px-4 py-2 text-sm font-semibold text-ink transition hover:bg-sand-400">
-                {needsPayment ? <CreditCard size={16} /> : <PlayCircle size={16} />} {needsPayment ? `Enrol — ${(course.price! * 1.05).toFixed(3)} OMR` : enrollment && p.done > 0 ? 'Continue course' : enrollment ? 'Start course' : 'Enrol and start'}
+                {needsPayment ? <CreditCard size={16} /> : <PlayCircle size={16} />} {needsPayment ? (order ? 'Purchase requested' : `Buy course — ${priceUsd} USD`) : enrollment && p.done > 0 ? 'Continue course' : enrollment ? 'Start course' : 'Enrol and start'}
               </button>
             )}
             {enrollment && (
@@ -101,6 +105,12 @@ export default function CourseOverviewPage() {
           </div>
         </div>
 
+        {needsPayment && order && (
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl bg-sand-50 px-4 py-3 text-sm text-sand-800">
+            <span><b>Purchase requested — {order.amountUsd} USD.</b> The HSSE team will confirm your payment and unlock the course. Pay by bank transfer or at the GEM office, quoting <span className="app-number">{order.id.slice(-8).toUpperCase()}</span>.</span>
+            <button onClick={() => cancelOrder(order.id)} className="text-xs font-medium text-rust-600 hover:underline">Cancel request</button>
+          </div>
+        )}
         {((SHOW_COURSE_PRICES && payment) || enrollment?.imported) && (
           <div className="mt-4 flex flex-wrap gap-2 text-xs">
             {SHOW_COURSE_PRICES && payment && (

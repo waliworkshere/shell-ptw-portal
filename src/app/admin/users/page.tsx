@@ -13,7 +13,7 @@ import { initials, maskCivilId } from '@/lib/roles';
 import { fmtDate } from '@/lib/training';
 import { CheckCircle2, FileSpreadsheet, History, Loader2, Plus, ScanFace, Search, Upload, X } from 'lucide-react';
 
-const ROLE_OPTIONS: Role[] = ['ADMIN', 'APPROVER', 'STATION', 'APPLICANT', 'TRAINEE'];
+const ROLE_OPTIONS: Role[] = ['ADMIN', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'APPROVER', 'STATION', 'APPLICANT', 'TRAINEE'];
 
 export default function AdminUsersPage() {
   const { state, addUser, importWorkers, mode, importMembers } = useStore();
@@ -159,6 +159,7 @@ export default function AdminUsersPage() {
                             <p className="flex flex-wrap items-center gap-1.5 font-medium text-ink">
                               {u.fullName}
                               {u.imported && <span className="inline-flex items-center gap-0.5 rounded bg-leaf-50 px-1.5 py-0.5 text-[10px] font-semibold text-leaf-700"><History size={10} /> Imported</span>}
+                              {u.deactivated && <span className="rounded bg-rust-50 px-1.5 py-0.5 text-[10px] font-semibold text-rust-600">Deactivated</span>}
                               {u.faceEnrolledAt && <ScanFace size={13} className="text-leaf-600" aria-label="Face enrolled" />}
                             </p>
                             <p className="text-xs text-slate-400">{u.email}</p>

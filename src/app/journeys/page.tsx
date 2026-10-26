@@ -17,7 +17,7 @@ export default function MyJourneysPage() {
   const rest = mine.filter((j) => j.status !== 'IN_PROGRESS');
 
   return (
-    <RoleGuard role="APPLICANT">
+    <RoleGuard role={['APPLICANT', 'APPROVER', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'ADMIN']}>
       <div className="mx-auto max-w-4xl px-4 py-6 sm:px-8 sm:py-10">
         <PageHeader
           title="My journeys"

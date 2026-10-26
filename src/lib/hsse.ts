@@ -10,7 +10,8 @@ export const focalSees = (r: HsseReport, company?: string) =>
 /** Open actions waiting on a focal's company. */
 export const focalOpenActions = (r: HsseReport, company?: string) => (company ? r.actions.filter((a) => !a.done && actionCompany(r, a) === company) : []);
 
-export const activeFocalCo = (u?: User | null) => (u?.hsseFocal?.active ? u.hsseFocal.company : undefined);
+/** Company whose SOS reports this person is looped into: an appointed HSSE Focal, or a Company Manager & HSSE. */
+export const activeFocalCo = (u?: User | null) => (u?.hsseFocal?.active ? u.hsseFocal.company : u?.role === 'COMPANY_MANAGER' ? u.company : undefined);
 
 export const LIKELIHOODS: { key: Likelihood; label: string }[] = [
   { key: 'A', label: 'Never heard of in industry' },

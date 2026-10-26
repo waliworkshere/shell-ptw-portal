@@ -91,7 +91,7 @@ export default function AdminFocalPage() {
   }
 
   return (
-    <RoleGuard role="ADMIN">
+    <RoleGuard role={['ADMIN', 'ARTELIA_MANAGER']}>
       <div className="mx-auto max-w-6xl px-4 py-6 sm:px-8 sm:py-8">
         <h1 className="font-display text-2xl font-semibold text-ink">HSSE Focal</h1>
         <p className="mt-1 text-sm text-slate-500">Company HSSE Focal persons: appointments, monthly reporting and performance ranking.</p>

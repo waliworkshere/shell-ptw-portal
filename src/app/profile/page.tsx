@@ -1,5 +1,7 @@
 'use client';
 
+import { DrivingLicenceCard } from '@/components/driving-licence';
+
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
 import { useState } from 'react';
@@ -22,13 +24,13 @@ export default function ProfilePage() {
   const [saved, setSaved] = useState(false);
   const [f, setF] = useState({ phone: currentUser?.phone ?? '', company: currentUser?.company ?? '', jobTitle: currentUser?.jobTitle ?? '', email: currentUser?.email ?? '' });
   const u = currentUser;
-  if (!u) return <RoleGuard role={['APPLICANT', 'TRAINEE', 'ADMIN', 'APPROVER', 'STATION']}>{null}</RoleGuard>;
+  if (!u) return <RoleGuard role={['APPLICANT', 'TRAINEE', 'ADMIN', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'APPROVER', 'STATION']}>{null}</RoleGuard>;
   const daysLeft = u.civilIdExpiry ? Math.round((new Date(u.civilIdExpiry).getTime() - Date.now()) / 86400000) : null;
   const checks = state.faceChecks.filter((c) => c.userId === u.id).slice(0, 5);
   const payments = state.payments.filter((p) => p.userId === u.id);
 
   return (
-    <RoleGuard role={['APPLICANT', 'TRAINEE', 'ADMIN', 'APPROVER', 'STATION']}>
+    <RoleGuard role={['APPLICANT', 'TRAINEE', 'ADMIN', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'APPROVER', 'STATION']}>
       <div className="mx-auto max-w-5xl px-4 py-6 sm:px-8 sm:py-8">
         <div className="relative overflow-hidden rounded-3xl bg-petrol-600 p-6 text-white">
           <div className="shell-stripe absolute inset-x-0 top-0 h-1" />
@@ -128,6 +130,8 @@ export default function ProfilePage() {
             <div className="mt-2"><MemberCerts user={u} /></div>
           </div>
         </div>
+
+        <div className="mt-6"><DrivingLicenceCard /></div>
 
         {mode === 'live' && (
           <div className="card mt-6">

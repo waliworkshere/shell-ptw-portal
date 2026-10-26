@@ -6,6 +6,7 @@ import { Phone, PhoneOff } from 'lucide-react';
 import { useStore } from '@/lib/store';
 import { isRinging } from '@/lib/calls';
 import { initials } from '@/lib/roles';
+import { canReviewPermit } from '@/lib/access';
 
 /** Soft two-tone ring made with Web Audio (no sound file needed). */
 function useRingtone(on: boolean) {
@@ -58,7 +59,7 @@ export function IncomingCall() {
     return () => clearInterval(iv);
   }, []);
 
-  const staff = currentUser?.role === 'APPROVER' || currentUser?.role === 'ADMIN';
+
   const call =
     mode === 'live' && currentUser
       ? state.applications.find(
@@ -66,7 +67,7 @@ export function IncomingCall() {
             isRinging(a) &&
             a.callRequestedById !== currentUser.id &&
             !handled.current.has(`${a.id}|${a.callRequestedAt}`) &&
-            ((staff && a.callDirection === 'TO_ISSUER') || (a.applicantId === currentUser.id && a.callDirection === 'TO_HOLDER')),
+            ((a.callDirection === 'TO_ISSUER' && canReviewPermit(currentUser, a)) || (a.applicantId === currentUser.id && a.callDirection === 'TO_HOLDER')),
         )
       : undefined;
 
@@ -81,7 +82,7 @@ export function IncomingCall() {
   function accept() {
     handled.current.add(key);
     setCallStatus(call!.id, 'IN_PROGRESS');
-    router.push(staff ? `/approver/applications/${call!.id}` : `/applicant/applications/${call!.id}?join=1`);
+    router.push(call!.applicantId !== currentUser?.id ? `/approver/applications/${call!.id}` : `/applicant/applications/${call!.id}?join=1`);
   }
   function decline() {
     handled.current.add(key);

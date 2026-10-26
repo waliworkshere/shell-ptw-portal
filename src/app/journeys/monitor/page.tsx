@@ -60,7 +60,7 @@ export default function JourneyMonitorPage() {
     .sort((a, b) => new Date(b.departAt).getTime() - new Date(a.departAt).getTime());
 
   return (
-    <RoleGuard role={['APPROVER', 'ADMIN']}>
+    <RoleGuard role={['APPROVER', 'ARTELIA_MANAGER', 'ADMIN']}>
       <div className="mx-auto max-w-6xl px-4 py-6 sm:px-8 sm:py-10">
         <PageHeader
           title="Journey management"

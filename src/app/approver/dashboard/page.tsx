@@ -9,15 +9,19 @@ import { RiskBadge } from '@/components/ui';
 import { BarChart, Kpi, weeklyCounts } from '@/components/charts';
 import { DashboardHero, StatusDonut } from '@/components/dashboard';
 import { fmtDate } from '@/lib/training';
+import { approverCompany, canReviewPermits, reviewablePermits, reviewsAllPermits } from '@/lib/access';
 import { CheckCircle2, Clock, Inbox, RefreshCw, Search, Siren, Video, XCircle } from 'lucide-react';
 
 export default function ApproverDashboard() {
   const { state, currentUser } = useStore();
   const [q, setQ] = useState('');
   const [station, setStation] = useState('ALL');
-  const count = (s: string[]) => state.applications.filter((a) => s.includes(a.status)).length;
+  const mine = reviewablePermits(state, currentUser);
+  const co = approverCompany(currentUser);
+  const all = reviewsAllPermits(currentUser);
+  const count = (s: string[]) => mine.filter((a) => s.includes(a.status)).length;
 
-  const queue = state.applications
+  const queue = mine
     .filter((a) => ['SUBMITTED', 'UNDER_REVIEW', 'RESUBMITTED'].includes(a.status))
     .filter((a) => station === 'ALL' || a.stationId === station)
     .filter((a) => !q || `${a.applicationNumber} ${a.applicantName}`.toLowerCase().includes(q.toLowerCase()))
@@ -25,9 +29,9 @@ export default function ApproverDashboard() {
   const sos = state.sosAlerts.filter((a) => a.status === 'ACTIVE');
 
   return (
-    <RoleGuard role="APPROVER">
+    <RoleGuard role={['APPROVER', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'ADMIN']} can={canReviewPermits}>
       <div className="mx-auto max-w-7xl space-y-6 px-4 py-6 sm:px-8 sm:py-8">
-        <DashboardHero name={currentUser?.fullName ?? ''} subtitle={`${queue.length} permit request${queue.length === 1 ? '' : 's'} waiting for you across ${state.stations.length} Shell stations.`} />
+        <DashboardHero name={currentUser?.fullName ?? ''} subtitle={all ? `${queue.length} permit request${queue.length === 1 ? '' : 's'} waiting for you across ${state.stations.length} Shell stations${currentUser?.role === 'ARTELIA_MANAGER' ? ', including High risk' : ''}.` : `${queue.length} Low / Medium risk permit request${queue.length === 1 ? '' : 's'} from ${co} waiting for you. High risk permits go to the Permit Issuer or Artelia Manager.`} />
 
         {sos.length > 0 && (
           <Link href="/hsse#sos" className="flex items-center gap-3 rounded-2xl bg-rust-500 px-5 py-4 text-white shadow-lg">
@@ -84,11 +88,11 @@ export default function ApproverDashboard() {
           <div className="space-y-6">
             <div className="card">
               <h2 className="font-display text-sm font-semibold text-ink">All requests</h2>
-              <div className="mt-4"><StatusDonut apps={state.applications} /></div>
+              <div className="mt-4"><StatusDonut apps={mine} /></div>
             </div>
             <div className="card">
               <h2 className="font-display text-sm font-semibold text-ink">Decisions per week</h2>
-              <div className="mt-4"><BarChart data={weeklyCounts(state.applications.flatMap((a) => [a.approvedAt, a.rejectedAt].filter(Boolean) as string[]), 6)} height={130} /></div>
+              <div className="mt-4"><BarChart data={weeklyCounts(mine.flatMap((a) => [a.approvedAt, a.rejectedAt].filter(Boolean) as string[]), 6)} height={130} /></div>
             </div>
           </div>
         </div>

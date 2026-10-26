@@ -3,7 +3,7 @@ import coursesJson from './seed/courses.json';
 import coursesExtraJson from './seed/courses-extra.json';
 import { buildSchedule, computeRisk, VEHICLE_CHECKS, FITNESS_CHECKS } from './journey';
 
-const DEMO_COMPANY = { 'u-admin': 'Shell Oman (Retail HSSE)', 'u-approver-1': 'Shell Oman (Retail Operations)', 'u-approver-2': 'Artelia (PTW contractor)', 'u-station-alpha': 'Shell Al Khuwair', 'u-station-beta': 'Shell Sohar Falaj Al Qabail', 'u-applicant-1': 'Gulf Mechanical LLC', 'u-applicant-2': 'Al Noor Electrical Contracting', 'u-imported-1': 'Oman Fuel Services LLC', 'u-trainee-1': 'Gulf Mechanical LLC', 'u-trainee-2': 'Al Noor Electrical Contracting', 'u-trainee-3': 'Al Amri Electrical Services LLC' };
+const DEMO_COMPANY = { 'u-artelia-mgr': 'Artelia Muscat Engineering Consultancy LLC', 'u-company-mgr': 'Al Noor Electrical Contracting', 'u-admin': 'Shell Oman (Retail HSSE)', 'u-approver-1': 'Shell Oman (Retail Operations)', 'u-approver-2': 'Artelia (PTW contractor)', 'u-station-alpha': 'Shell Al Khuwair', 'u-station-beta': 'Shell Sohar Falaj Al Qabail', 'u-applicant-1': 'Gulf Mechanical LLC', 'u-applicant-2': 'Al Noor Electrical Contracting', 'u-imported-1': 'Oman Fuel Services LLC', 'u-trainee-1': 'Gulf Mechanical LLC', 'u-trainee-2': 'Al Noor Electrical Contracting', 'u-trainee-3': 'Al Amri Electrical Services LLC' };
 const seedCourses = [...coursesJson, ...coursesExtraJson] as Course[];
 
 const now = new Date();
@@ -14,12 +14,14 @@ export const seedState: AppState = {
 
   users: [
     { id: 'u-admin', fullName: 'Yusuf Al Balushi', email: 'yusuf.balushi@shell-retail.test', role: 'ADMIN', username: 'admin', password: 'Shell@2026', civilId: '09812345', civilIdExpiry: '2028-03-14', phone: '+968 9100 2200', company: 'Shell Oman (Retail HSSE)', jobTitle: 'HSSE Systems Administrator' },
+    { id: 'u-artelia-mgr', fullName: 'Omar Al Zadjali', email: 'omar.zadjali@artelia.test', role: 'ARTELIA_MANAGER', username: 'artelia.manager', password: 'Shell@2026', civilId: '10321987', civilIdExpiry: '2029-03-01', phone: '+968 9200 7711', company: 'Artelia Muscat Engineering Consultancy LLC', jobTitle: 'PTW & HSSE Manager' },
+    { id: 'u-company-mgr', fullName: 'Nasser Al Hashmi', email: 'nasser.hashmi@alnoorelectric.test', role: 'COMPANY_MANAGER', username: 'alnoor.manager', password: 'Shell@2026', civilId: '10765432', civilIdExpiry: '2028-07-09', phone: '+968 9822 1100', company: 'Al Noor Electrical Contracting', jobTitle: 'Operations Manager & HSSE' },
     { id: 'u-approver-1', fullName: 'Mariam Al Farsi', email: 'mariam.farsi@shell-retail.test', role: 'APPROVER', username: 'mariam.issuer', password: 'Shell@2026', civilId: '10456721', civilIdExpiry: '2027-11-02', phone: '+968 9123 4410', company: 'Shell Oman (Retail Operations)', jobTitle: 'Permit Issuer, Muscat region' },
     { id: 'u-approver-2', fullName: 'Khalid Al Habsi', email: 'khalid.habsi@artelia.test', role: 'APPROVER', username: 'khalid.issuer', password: 'Shell@2026', civilId: '10988230', civilIdExpiry: '2029-01-20', phone: '+968 9234 0019', company: 'Artelia (PTW contractor)', jobTitle: 'Permit Issuer, Batinah region' },
     { id: 'u-station-alpha', fullName: 'Fahad Al Balushi', email: 'alkhuwair.manager@shell-retail.test', role: 'STATION', stationId: 'stn-alpha', username: 'alkhuwair.station', password: 'Shell@2026', civilId: '11203344', civilIdExpiry: '2027-06-30', phone: '+968 9555 1014', company: 'Shell Al Khuwair', jobTitle: 'Station Manager' },
     { id: 'u-station-beta', fullName: 'Layla Al Hinai', email: 'sohar.manager@shell-retail.test', role: 'STATION', stationId: 'stn-beta', username: 'sohar.station', password: 'Shell@2026', civilId: '11407788', civilIdExpiry: '2028-09-12', phone: '+968 9555 3031', company: 'Shell Sohar Falaj Al Qabail', jobTitle: 'Station Manager' },
-    { id: 'u-applicant-1', fullName: 'Ahmed Al Rashdi', email: 'ahmed.rashdi@gulfmech.test', role: 'APPLICANT', username: 'ahmed.holder', password: 'Shell@2026', civilId: '12345678', civilIdExpiry: '2028-05-31', phone: '+968 9911 2040', company: 'Gulf Mechanical LLC', jobTitle: 'Maintenance Technician', passportNo: 'SP-OM-104217', competencyRole: 'SUPERVISOR_MANAGER', hsseFocal: { active: true, company: 'Gulf Mechanical LLC', contracts: ['EPCM', 'FMC'], appointedAt: daysAgo(150), appointedBy: 'Yusuf Al Balushi' } },
-    { id: 'u-applicant-2', fullName: 'Sara Al Kindi', email: 'sara.kindi@alnoorelectric.test', role: 'APPLICANT', username: 'sara.holder', password: 'Shell@2026', civilId: '12876540', civilIdExpiry: '2027-02-28', phone: '+968 9822 7315', company: 'Al Noor Electrical Contracting', jobTitle: 'Electrical Supervisor', passportNo: 'SP-OM-103388', competencyRole: 'MEP_CEI', hsseFocal: { active: true, company: 'Al Noor Electrical Contracting', contracts: ['FMC'], appointedAt: daysAgo(150), appointedBy: 'Yusuf Al Balushi' } },
+    { id: 'u-applicant-1', fullName: 'Ahmed Al Rashdi', email: 'ahmed.rashdi@gulfmech.test', role: 'APPLICANT', username: 'ahmed.holder', password: 'Shell@2026', civilId: '12345678', civilIdExpiry: '2028-05-31', phone: '+968 9911 2040', company: 'Gulf Mechanical LLC', jobTitle: 'Maintenance Technician', passportNo: 'SP-OM-104217', competencyRole: 'SUPERVISOR_MANAGER', hsseFocal: { active: true, company: 'Gulf Mechanical LLC', contracts: ['EPCM', 'FMC'], appointedAt: daysAgo(150), appointedBy: 'Yusuf Al Balushi' }, subscription: { plan: 'ANNUAL', startsAt: daysAgo(40).slice(0, 10), expiresAt: daysAgo(-325).slice(0, 10), activatedBy: 'Yusuf Al Balushi', activatedAt: daysAgo(40), reference: 'Bank transfer' }, drivingLicence: { number: '12345678', expires: daysAgo(-700).slice(0, 10), issued: '2019-04-02', classes: 'Light vehicle', holderName: 'Ahmed Al Rashdi', uploadedAt: daysAgo(30) } },
+    { id: 'u-applicant-2', fullName: 'Sara Al Kindi', email: 'sara.kindi@alnoorelectric.test', role: 'APPLICANT', username: 'sara.holder', password: 'Shell@2026', civilId: '12876540', civilIdExpiry: '2027-02-28', phone: '+968 9822 7315', company: 'Al Noor Electrical Contracting', jobTitle: 'Electrical Supervisor', passportNo: 'SP-OM-103388', competencyRole: 'MEP_CEI', hsseFocal: { active: true, company: 'Al Noor Electrical Contracting', contracts: ['FMC'], appointedAt: daysAgo(150), appointedBy: 'Yusuf Al Balushi' }, subscription: { plan: 'ANNUAL', startsAt: daysAgo(20).slice(0, 10), expiresAt: daysAgo(-345).slice(0, 10), activatedBy: 'Yusuf Al Balushi', activatedAt: daysAgo(20), reference: 'Bank transfer' } },
     { id: 'u-imported-1', fullName: 'Rashid Al Maskari', email: 'rashid.maskari@omanfuelservices.test', role: 'APPLICANT', username: 'rashid.maskari', password: 'Shell@2026', civilId: '87654321', civilIdExpiry: '2029-08-15', phone: '+968 9677 4302', company: 'Oman Fuel Services LLC', jobTitle: 'Tank & Pipework Technician', imported: true, importedAt: daysAgo(6), importSource: 'Legacy PTW competence register', passportNo: 'SP-OM-099412', competencyRole: 'MEP_CEI' },
     { id: 'u-trainee-1', fullName: 'Hamed Al Siyabi', email: 'hamed.siyabi@gulfmech.test', role: 'TRAINEE', username: 'hamed.trainee', password: 'Shell@2026', civilId: '13300912', civilIdExpiry: '2030-04-01', phone: '+968 9781 6620', company: 'Gulf Mechanical LLC', jobTitle: 'Apprentice Technician', competencyRole: 'HELPER' },
     { id: 'u-trainee-2', fullName: 'Noor Al Lawati', email: 'noor.lawati@alnoorelectric.test', role: 'TRAINEE', username: 'noor.trainee', password: 'Shell@2026', civilId: '13455120', civilIdExpiry: '2028-12-19', phone: '+968 9781 2201', company: 'Al Noor Electrical Contracting', jobTitle: 'Electrician', competencyRole: 'MEP_CEI' },
@@ -289,6 +291,8 @@ export const seedState: AppState = {
   certUploads: [],
   redemptions: [],
   focalReports: buildFocal(),
+  orders: [],
+  workChecks: [],
   ptwCards: [
     {
       id: 'ptw-1', userId: 'u-applicant-1', kind: 'PH', cardNo: 'AO-PTW-26-014/PH', position: 'Site Supervisor', company: 'Gulf Mechanical LLC',
@@ -597,3 +601,8 @@ function buildFocal(): FocalReport[] {
   }
   return out;
 }
+
+// Every demo permit carries its Permit Holder's company (the live server stamps this on save).
+seedState.applications.forEach((a) => {
+  a.applicantCompany ??= (DEMO_COMPANY as Record<string, string>)[a.applicantId];
+});

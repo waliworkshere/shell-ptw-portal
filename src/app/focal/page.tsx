@@ -30,8 +30,8 @@ export default function FocalPage() {
   const [editing, setEditing] = useState<{ kind: FocalReportKind; report?: FocalReport } | null>(null);
   const f = currentUser?.hsseFocal;
 
-  if (!currentUser) return <RoleGuard role={['APPLICANT', 'TRAINEE', 'APPROVER', 'STATION', 'ADMIN']}>{null}</RoleGuard>;
-  const roles = ['APPLICANT', 'TRAINEE', 'APPROVER', 'STATION', 'ADMIN'] as const;
+  if (!currentUser) return <RoleGuard role={['APPLICANT', 'TRAINEE', 'APPROVER', 'STATION', 'ADMIN', 'ARTELIA_MANAGER', 'COMPANY_MANAGER']}>{null}</RoleGuard>;
+  const roles = ['APPLICANT', 'TRAINEE', 'APPROVER', 'STATION', 'ADMIN', 'ARTELIA_MANAGER', 'COMPANY_MANAGER'] as const;
 
   if (!f?.active) {
     return (

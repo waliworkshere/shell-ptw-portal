@@ -7,7 +7,7 @@ import { Kpi } from '@/components/charts';
 import { PointsReview } from '@/components/points-review';
 import { useStore } from '@/lib/store';
 import { HSSE_TYPE_LABEL } from '@/lib/types';
-import { POINTS_RULES, REWARDS, pointsFor } from '@/lib/points';
+import { POINTS_RULES, REWARDS, pointsFor, quarterOf } from '@/lib/points';
 import { fmtDate } from '@/lib/training';
 import { Gift, ListChecks, Star, Trophy } from 'lucide-react';
 
@@ -54,7 +54,7 @@ export default function AdminRewardsPage() {
             [
               ['review', `Reports to review (${toReview.length})`],
               ['redemptions', `Reward requests (${pendingRed.length})`],
-              ['leaderboard', 'Leaderboard'],
+              ['leaderboard', `Leaderboard — ${quarterOf().label}`],
             ] as const
           ).map(([k, l]) => (
             <button key={k} role="tab" aria-selected={tab === k} onClick={() => setTab(k)} className={`-mb-px whitespace-nowrap border-b-2 px-4 py-2.5 text-sm font-medium transition ${tab === k ? 'border-petrol-500 text-ink' : 'border-transparent text-slate-500 hover:text-ink'}`}>

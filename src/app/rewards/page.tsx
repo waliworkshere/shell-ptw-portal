@@ -12,7 +12,7 @@ import { CheckCircle2, Clock, Gift, Megaphone, Star, XCircle } from 'lucide-reac
 export default function RewardsPage() {
   const { state, currentUser, requestRedemption, cancelRedemption } = useStore();
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
-  if (!currentUser) return <RoleGuard role={['APPLICANT', 'TRAINEE', 'APPROVER', 'STATION']}>{null}</RoleGuard>;
+  if (!currentUser) return <RoleGuard role={['APPLICANT', 'TRAINEE', 'APPROVER', 'STATION', 'ARTELIA_MANAGER', 'COMPANY_MANAGER']}>{null}</RoleGuard>;
   const p = pointsFor(state, currentUser.id);
   const mine = state.redemptions.filter((r) => r.userId === currentUser.id);
 
@@ -23,21 +23,22 @@ export default function RewardsPage() {
   }
 
   return (
-    <RoleGuard role={['APPLICANT', 'TRAINEE', 'APPROVER', 'STATION']}>
+    <RoleGuard role={['APPLICANT', 'TRAINEE', 'APPROVER', 'STATION', 'ARTELIA_MANAGER', 'COMPANY_MANAGER']}>
       <div className="mx-auto max-w-5xl px-4 py-6 sm:px-8 sm:py-10">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <h1 className="font-display text-2xl font-semibold text-ink">My points &amp; rewards</h1>
             <p className="mt-1 text-sm text-slate-500">Earn points for safety reports once the HSSE team approves them, then exchange them for rewards.</p>
+            <p className="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-sand-50 px-3 py-1.5 text-xs font-medium text-sand-800"><Clock size={13} /> Points are for {p.quarter.label} only — use them by {new Date(p.quarter.end).toLocaleDateString('en-GB', { dateStyle: 'long' })}. Unused points don&apos;t roll over; everyone starts from zero each quarter.</p>
           </div>
           <Link href="/hsse/report" className="btn-primary"><Megaphone size={16} /> Make a report</Link>
         </div>
 
         <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
-          <Kpi icon={Star} label="Points to spend" value={p.balance} tone="yellow" />
-          <Kpi icon={CheckCircle2} label="Earned so far" value={p.earned} tone="green" />
+          <Kpi icon={Star} label="Points to spend" value={p.balance} tone="yellow" hint={`expire ${p.quarter.end}`} />
+          <Kpi icon={CheckCircle2} label={`Earned in ${p.quarter.label}`} value={p.earned} tone="green" hint={`${p.lifetime} all time`} />
           <Kpi icon={Clock} label="Awaiting approval" value={p.pending} tone="navy" hint="if approved" />
-          <Kpi icon={Gift} label="Used on rewards" value={p.spent} tone="red" />
+          <Kpi icon={Gift} label="Used this quarter" value={p.spent} tone="red" />
         </div>
 
         <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_320px]">

@@ -1,10 +1,10 @@
 import { AppState, Course, CourseTier, Enrollment, Lesson, LessonProgress } from './types';
 
-/** Course prices are hidden from learners for now and enrolment needs no payment. Flip to true to bring pricing and checkout back. */
-export const SHOW_COURSE_PRICES = false;
+/** Course prices are shown (USD by category: Category 1 = 25 USD, Category 2 = 40 USD). Payment is confirmed by an Administrator until online payment goes live. */
+export const SHOW_COURSE_PRICES = true;
 
 export const TIER_ORDER: CourseTier[] = ['FREE', 'CAT1', 'CAT2'];
-export const TIER_LABEL: Record<CourseTier, string> = { FREE: 'Free courses', CAT1: 'Paid courses — Category 1', CAT2: 'Paid courses — Category 2' };
+export const TIER_LABEL: Record<CourseTier, string> = { FREE: 'Free courses', CAT1: 'Paid courses — Category 1 · under 2 hours · 25 USD', CAT2: 'Paid courses — Category 2 · over 2 hours · 40 USD' };
 export const TIER_SHORT: Record<CourseTier, string> = { FREE: 'Free', CAT1: 'Category 1', CAT2: 'Category 2' };
 
 /** Order of the courses menu, as given by Artelia HSSE. Courses not in this list follow, by code. */
@@ -22,7 +22,7 @@ export const menuSort = (a: Course, b: Course) => {
 export const isComingSoon = (c: Course) => c.lessons.length === 0;
 
 /** Does enrolling in this course need a payment first? */
-export const needsPaymentFor = (c: Course) => SHOW_COURSE_PRICES && !!c.price;
+export const needsPaymentFor = (c: Course) => SHOW_COURSE_PRICES && !!c.tier && c.tier !== 'FREE';
 
 export const EMPTY_PROGRESS: LessonProgress = { contentDone: false, attempts: 0, bestScore: 0, passed: false };
 

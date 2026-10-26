@@ -17,7 +17,9 @@ import {
   ROAD_LABEL,
   VEHICLE_CHECKS,
 } from '@/lib/journey';
-import { fmtDateTime, isCertificateValid } from '@/lib/training';
+import { fmtDateTime } from '@/lib/training';
+import { HOURS_PER_DRIVER, canUsePtwJmp, defensiveDriving, licenceStatus } from '@/lib/access';
+import { JmpRequirements } from '@/components/requirements';
 import { AlertTriangle, ArrowLeft, ArrowRight, CheckCircle2, Coffee, Flag, MapPin, Moon, Phone, ShieldAlert } from 'lucide-react';
 
 const STEPS = ['Journey', 'Driver & vehicle', 'Hazards & risk', 'Stops & call-ins', 'Pre-trip checks', 'Review'];
@@ -55,12 +57,15 @@ export default function NewJourneyPage() {
 
   // Driver & vehicle
   const [driverPhone, setDriverPhone] = useState('+968 ');
-  const [licenceNo, setLicenceNo] = useState('');
-  const [licenceExpiry, setLicenceExpiry] = useState('');
+  const licence = currentUser?.drivingLicence;
+  const licenceNo = licence?.number ?? '';
+  const licenceExpiry = licence?.expires ?? '';
   const [vehicleReg, setVehicleReg] = useState('');
   const [vehicleType, setVehicleType] = useState('Toyota Hilux 4x4 double cab');
   const [ivmsFitted, setIvmsFitted] = useState(true);
-  const [passengers, setPassengers] = useState('');
+  const [pax, setPax] = useState<{ name: string; canDrive: boolean }[]>([]);
+  const extraDrivers = pax.filter((p) => p.name.trim() && p.canDrive).length;
+  const maxDriveMins = HOURS_PER_DRIVER * 60 * (1 + extraDrivers);
 
   // Risk
   const [pickedHazards, setPickedHazards] = useState<string[]>([]);
@@ -90,9 +95,11 @@ export default function NewJourneyPage() {
   const hazards = Array.from(new Set([...autoHazards, ...pickedHazards.filter((h) => !['long_distance', 'night', 'graded'].includes(h))]));
   const risk = computeRisk(hazards);
 
-  const drvCourse = state.courses.find((c) => c.id === 'crs-drv150');
-  const drvEnrollment = state.enrollments.find((e) => e.userId === currentUser?.id && e.courseId === 'crs-drv150');
-  const drivingTrained = drvCourse ? isCertificateValid(drvCourse, drvEnrollment) : true;
+  const ddc = currentUser ? defensiveDriving(state, currentUser) : { held: false };
+  const drivingTrained = ddc.held;
+  const lic = licenceStatus(currentUser);
+  const subOk = canUsePtwJmp(currentUser);
+  const overLimit = schedule.driveMins > maxDriveMins;
 
   const myPermits = state.applications.filter((a) => a.applicantId === currentUser?.id && ['APPROVED', 'UNDER_REVIEW', 'SUBMITTED', 'RESUBMITTED'].includes(a.status));
 
@@ -107,19 +114,20 @@ export default function NewJourneyPage() {
 
   function canProceed() {
     if (step === 0) return necessary && origin.trim() && destination.trim() && purpose.trim() && departLocal && distanceKm > 0;
-    if (step === 1) return driverPhone.trim().length > 6 && licenceNo.trim() && licenceExpiry && vehicleReg.trim() && vehicleType.trim();
-    if (step === 2) return !schedule.exceedsDailyLimit;
+    if (step === 1) return driverPhone.trim().length > 6 && lic === 'VALID' && vehicleReg.trim() && vehicleType.trim();
+    if (step === 2) return !overLimit;
     if (step === 3) return emergencyContact.trim();
     if (step === 4) return VEHICLE_CHECKS.every((c) => vehicleChecklist[c.key]) && FITNESS_CHECKS.every((c) => fitness[c.key]);
-    return drivingTrained && !schedule.exceedsDailyLimit;
+    return drivingTrained && !overLimit && lic === 'VALID' && subOk;
   }
 
   function submit() {
     const j = createJourney({
       driverPhone,
       licenceNo,
-      licenceExpiry: new Date(licenceExpiry).toISOString(),
-      passengers: passengers.split(',').map((p) => p.trim()).filter(Boolean),
+      licenceExpiry: licenceExpiry ? new Date(licenceExpiry).toISOString() : '',
+      passengers: pax.map((p) => p.name.trim()).filter(Boolean),
+      passengerDetails: pax.filter((p) => p.name.trim()).map((p) => ({ name: p.name.trim(), canDrive: p.canDrive })),
       vehicleReg,
       vehicleType,
       ivmsFitted,
@@ -147,8 +155,19 @@ export default function NewJourneyPage() {
     router.push(`/journeys/${j.id}`);
   }
 
+  if (!subOk || lic !== 'VALID' || !drivingTrained)
+    return (
+      <RoleGuard role={['APPLICANT', 'APPROVER', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'ADMIN']}>
+        <div className="mx-auto max-w-3xl px-4 py-6 sm:px-8 sm:py-10">
+          <Link href="/journeys" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-ink"><ArrowLeft size={15} /> My journeys</Link>
+          <h1 className="mt-3 font-display text-xl font-semibold text-ink">Plan a journey</h1>
+          <JmpRequirements />
+        </div>
+      </RoleGuard>
+    );
+
   return (
-    <RoleGuard role="APPLICANT">
+    <RoleGuard role={['APPLICANT', 'APPROVER', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'ADMIN']}>
       <div className="mx-auto max-w-3xl px-4 py-6 sm:px-8 sm:py-10">
         <Link href="/journeys" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-ink">
           <ArrowLeft size={15} /> My journeys
@@ -252,10 +271,10 @@ export default function NewJourneyPage() {
                 {drivingTrained ? <CheckCircle2 size={18} className="mt-0.5 shrink-0" /> : <ShieldAlert size={18} className="mt-0.5 shrink-0" />}
                 <div>
                   {drivingTrained ? (
-                    <p>Defensive driving training is current (DRV-150, certificate {drvEnrollment?.certificateNo}).</p>
+                    <p>Defensive driving is in your Safety Passport ({ddc.source}).</p>
                   ) : (
                     <p>
-                      You need a current DRV-150 Defensive Driving and Journey Management certificate before this plan can be submitted.{' '}
+                      Defensive driving must be in your Safety Passport before you can plan a journey.{' '}
                       <Link href="/training/courses/crs-drv150" className="font-medium underline">Take the course</Link>
                     </p>
                   )}
@@ -271,12 +290,12 @@ export default function NewJourneyPage() {
                   <input id="phone" className="input" value={driverPhone} onChange={(e) => setDriverPhone(e.target.value)} />
                 </div>
                 <div>
-                  <label className="label" htmlFor="lic">Licence number</label>
-                  <input id="lic" className="input" value={licenceNo} onChange={(e) => setLicenceNo(e.target.value)} />
+                  <label className="label">Licence number <span className="text-xs font-normal text-slate-400">(from your profile)</span></label>
+                  <input className="input bg-paper" value={licenceNo} readOnly />
                 </div>
                 <div>
-                  <label className="label" htmlFor="licexp">Licence expiry</label>
-                  <input id="licexp" type="date" className="input" value={licenceExpiry} onChange={(e) => setLicenceExpiry(e.target.value)} />
+                  <label className="label">Licence expiry</label>
+                  <input className={`input bg-paper `} value={licenceExpiry} readOnly />
                 </div>
                 <div>
                   <label className="label" htmlFor="reg">Vehicle registration</label>
@@ -287,8 +306,22 @@ export default function NewJourneyPage() {
                   <input id="vt" className="input" value={vehicleType} onChange={(e) => setVehicleType(e.target.value)} />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="label" htmlFor="pax">Passengers (comma separated)</label>
-                  <input id="pax" className="input" value={passengers} onChange={(e) => setPassengers(e.target.value)} placeholder="Leave blank if travelling alone" />
+                  <p className="label">Passengers</p>
+                  <p className="mb-2 text-xs text-slate-500">Each driver may drive at most {HOURS_PER_DRIVER} hours. Tick a passenger who holds a valid driving licence and can drive — that adds {HOURS_PER_DRIVER} hours so you can switch drivers.</p>
+                  <div className="space-y-2">
+                    {pax.map((p, i) => (
+                      <div key={i} className="flex flex-wrap items-center gap-2 rounded-lg border border-petrol-100 p-2">
+                        <input className="input min-w-[160px] flex-1 py-1.5" placeholder={`Passenger ${i + 1} name`} value={p.name} onChange={(e) => setPax((x) => x.map((y, j) => (j === i ? { ...y, name: e.target.value } : y)))} />
+                        <label className="flex items-center gap-1.5 text-xs text-ink">
+                          <input type="checkbox" className="accent-petrol-500" checked={p.canDrive} onChange={(e) => setPax((x) => x.map((y, j) => (j === i ? { ...y, canDrive: e.target.checked } : y)))} />
+                          Has a driving licence and can drive
+                        </label>
+                        <button type="button" onClick={() => setPax((x) => x.filter((_, j) => j !== i))} className="text-xs text-rust-600 hover:underline">Remove</button>
+                      </div>
+                    ))}
+                    <button type="button" onClick={() => setPax((x) => [...x, { name: '', canDrive: false }])} className="btn-secondary px-3 py-1.5 text-xs">+ Add passenger</button>
+                  </div>
+                  <p className="mt-2 text-xs font-medium text-petrol-700">Driving allowance for this journey: {(maxDriveMins / 60).toFixed(0)} hours ({1 + extraDrivers} driver{extraDrivers ? 's' : ''}).</p>
                 </div>
               </div>
               <label className="flex items-center gap-2 text-sm text-ink">
@@ -301,10 +334,10 @@ export default function NewJourneyPage() {
 
           {step === 2 && (
             <div className="space-y-4">
-              {schedule.exceedsDailyLimit && (
+              {overLimit && (
                 <div className="flex gap-2 rounded-lg bg-rust-50 p-3 text-sm text-rust-600">
                   <AlertTriangle size={18} className="shrink-0" />
-                  This journey needs {fmtDuration(schedule.driveMins)} of driving, over the {JM_RULES.maxDrivingHoursPerDay}-hour daily limit. Split it into two days with an overnight stop, or add a second driver.
+                  This journey needs {fmtDuration(schedule.driveMins)} of driving, over the {(maxDriveMins / 60).toFixed(0)}-hour allowance ({HOURS_PER_DRIVER} hours per driver). Split it into two days with an overnight stop, or add a passenger who can drive.
                 </div>
               )}
               {schedule.night && (
@@ -438,7 +471,7 @@ export default function NewJourneyPage() {
           {step === 5 && (
             <div className="space-y-4 text-sm">
               {!drivingTrained && (
-                <p className="rounded-lg bg-rust-50 px-3 py-2 text-rust-600">Submission is blocked until your DRV-150 certificate is current.</p>
+                <p className="rounded-lg bg-rust-50 px-3 py-2 text-rust-600">Submission is blocked until defensive driving is in your Safety Passport.</p>
               )}
               <dl className="grid gap-3 rounded-lg bg-petrol-50/50 p-4 sm:grid-cols-2">
                 {[

@@ -169,9 +169,7 @@ export function SosButton() {
               </span>
               <ArrowRight size={18} />
             </button>
-            <a href="tel:9999" className="flex items-center justify-center gap-1.5 pt-1 text-sm font-medium text-rust-600 hover:underline">
-              <Phone size={14} /> Life-threatening? Call 9999
-            </a>
+            <EmergencyNumbers />
           </div>
         ) : sent ? (
           <div className="space-y-4">
@@ -188,9 +186,7 @@ export function SosButton() {
             </div>
             <iframe title="Your location" src={osmEmbed(sent.lat, sent.lng)} className="h-44 w-full rounded-xl border border-petrol-100" loading="lazy" />
             <p className="flex items-center gap-1.5 text-xs text-slate-500"><MapPin size={12} /> {sent.locationLabel}</p>
-            <a href="tel:9999" className="btn-danger w-full border-2 py-3 text-base font-semibold">
-              <Phone size={18} /> Call Royal Oman Police / Ambulance — 9999
-            </a>
+            <EmergencyNumbers big />
             <p className="text-center text-[11px] text-slate-400">Prototype: the alert appears on the Admin and Permit Issuer dashboards. No real emergency service is contacted.</p>
           </div>
         ) : (
@@ -225,9 +221,7 @@ export function SosButton() {
                 <Siren size={22} /> {hold > 0 ? 'Keep holding…' : 'Press and hold to send SOS'}
               </span>
             </button>
-            <a href="tel:9999" className="flex items-center justify-center gap-1.5 text-sm font-medium text-rust-600 hover:underline">
-              <Phone size={14} /> Or call 9999 directly
-            </a>
+            <EmergencyNumbers />
             <p className="text-center text-xs text-slate-400">
               Not an emergency? <Link href="/hsse/report" onClick={close} className="font-medium text-petrol-500 hover:underline">Report it with See it · Own it · Stop it</Link>
             </p>
@@ -235,5 +229,23 @@ export function SosButton() {
         )}
       </Modal>
     </>
+  );
+}
+
+/** Oman emergency numbers: Civil Defence and Ambulance Authority (CDAA) 9991, Royal Oman Police (ROP) 9999. */
+export const EMERGENCY_NUMBERS = [
+  { number: '9991', label: 'Ambulance & Civil Defence (CDAA)' },
+  { number: '9999', label: 'Royal Oman Police (ROP)' },
+];
+
+export function EmergencyNumbers({ big = false }: { big?: boolean }) {
+  return (
+    <div className={`grid gap-2 ${big ? '' : 'pt-1'} sm:grid-cols-2`}>
+      {EMERGENCY_NUMBERS.map((n) => (
+        <a key={n.number} href={`tel:${n.number}`} className={big ? 'btn-danger w-full border-2 py-3 text-sm font-semibold' : 'flex items-center justify-center gap-1.5 rounded-lg border border-rust-200 px-2 py-2 text-sm font-medium text-rust-600 hover:bg-rust-50'}>
+          <Phone size={big ? 17 : 14} /> <span><b className="app-number">{n.number}</b> · {n.label}</span>
+        </a>
+      ))}
+    </div>
   );
 }

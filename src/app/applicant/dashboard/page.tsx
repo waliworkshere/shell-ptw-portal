@@ -1,5 +1,7 @@
 'use client';
 
+import { SUBSCRIPTION_PRICE_USD, canUsePtwJmp } from '@/lib/access';
+
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
 import { useState } from 'react';
@@ -37,6 +39,12 @@ export default function ApplicantDashboard() {
         <DashboardHero name={currentUser?.fullName ?? ''} subtitle={`${currentUser?.company ?? ''}${currentUser?.imported ? ' · account imported from Shell records' : ''}`}>
           <Link href="/applicant/applications/new" className="btn-shell"><Plus size={16} /> New permit request</Link>
         </DashboardHero>
+        {!canUsePtwJmp(currentUser) && (
+          <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-sand-50 px-5 py-4 text-sm text-sand-800">
+            <span><b>You are on the free plan.</b> SOS reporting, the Last Minute Risk Assessment and training are open to you. Subscribe ({SUBSCRIPTION_PRICE_USD} USD a year) to request permits and plan journeys.</span>
+            <Link href="/subscription" className="btn-primary text-sm">Subscribe</Link>
+          </div>
+        )}
 
         {changes.length > 0 && (
           <Link href={`/applicant/applications/${changes[0].id}`} className="flex items-center gap-3 rounded-2xl border border-sand-400 bg-sand-50 px-5 py-3.5 text-sm text-sand-700">

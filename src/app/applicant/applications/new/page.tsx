@@ -1,5 +1,8 @@
 'use client';
 
+import { canUsePtwJmp } from '@/lib/access';
+import { PtwRequirements } from '@/components/requirements';
+
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { RoleGuard } from '@/components/role-guard';
@@ -113,7 +116,11 @@ function OnSiteDocPicker({
 }
 
 export default function NewApplicationPage() {
-  const { state, createApplication } = useStore();
+  const { state, createApplication, currentUser } = useStore();
+  const myCompany = currentUser?.company?.trim() ?? '';
+  /** Company questions are answered from the Permit Holder's profile, not asked again. */
+  const isCompanyField = (f: { key: string; label: string }) => f.key === 'company' || /^(company|contractor|company name|contractor name)$/i.test(f.label.trim());
+  const fromProfile = (f: { key: string; label: string }) => !!myCompany && isCompanyField(f);
   const router = useRouter();
 
   const [step, setStep] = useState(0);
@@ -132,7 +139,7 @@ export default function NewApplicationPage() {
     if (step === 0) return !!stationId;
     if (step === 1) return !!permitTypeId;
     if (step === 2) return !!riskLevel;
-    if (step === 3) return (permitType?.fields ?? []).filter((f) => f.required).every((f) => fieldValues[f.key]?.trim());
+    if (step === 3) return (permitType?.fields ?? []).filter((f) => f.required && !fromProfile(f)).every((f) => fieldValues[f.key]?.trim());
     if (step === 4) {
       const requiredDocs = permitType?.documents.filter((d) => d.required) ?? [];
       const uploadedKeys = documents.map((d) => d.key);
@@ -190,7 +197,7 @@ export default function NewApplicationPage() {
       stationId,
       permitTypeId,
       riskLevel,
-      fieldValues,
+      fieldValues: { ...fieldValues, ...Object.fromEntries((permitType?.fields ?? []).filter(fromProfile).map((f) => [f.key, myCompany])) },
       documents,
       wcfDocument,
       jhaDocument,
@@ -198,6 +205,16 @@ export default function NewApplicationPage() {
     });
     router.push(`/applicant/applications/${created.id}`);
   }
+
+  if (!canUsePtwJmp(currentUser))
+    return (
+      <RoleGuard role="APPLICANT">
+        <div className="mx-auto max-w-3xl px-4 py-6 sm:px-8 sm:py-10">
+          <h1 className="font-display text-xl font-semibold text-ink">New permit request</h1>
+          <PtwRequirements />
+        </div>
+      </RoleGuard>
+    );
 
   return (
     <RoleGuard role="APPLICANT">
@@ -295,7 +312,10 @@ export default function NewApplicationPage() {
                 />
               </div>
               {autoFilled && <p className="rounded-lg bg-sand-50 px-3 py-2 text-xs text-sand-700">{autoFilled}</p>}
-              {permitType.fields.map((f) => (
+              {myCompany && permitType.fields.some(isCompanyField) && (
+                <p className="rounded-lg bg-petrol-50 px-3 py-2 text-sm text-petrol-700">Company: <b>{myCompany}</b> <span className="text-xs text-slate-500">(from your profile)</span></p>
+              )}
+              {permitType.fields.filter((f) => !fromProfile(f)).map((f) => (
                 <div key={f.key}>
                   <label className="label">
                     {f.label}
@@ -399,7 +419,7 @@ export default function NewApplicationPage() {
                 <p><span className="text-slate-400">Permit type:</span> {permitType.name}</p>
                 <p><span className="text-slate-400">Risk level:</span> {RISK_LABEL[riskLevel]}</p>
                 {permitType.fields.map((f) => (
-                  <p key={f.key}><span className="text-slate-400">{f.label}:</span> {fieldValues[f.key] || '—'}</p>
+                  <p key={f.key}><span className="text-slate-400">{f.label}:</span> {(fromProfile(f) ? myCompany : fieldValues[f.key]) || '—'}</p>
                 ))}
                 <p><span className="text-slate-400">WCF:</span> {wcfDocument?.fileName || 'Not uploaded'}</p>
                 {needsJha && <p><span className="text-slate-400">JHA/RA:</span> {jhaDocument?.fileName || 'Not uploaded'}</p>}

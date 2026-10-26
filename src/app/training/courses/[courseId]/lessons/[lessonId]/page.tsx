@@ -1,5 +1,8 @@
 'use client';
 
+import { ReadAloud } from '@/components/read-aloud';
+import { getLang, type Lang } from '@/components/i18n';
+
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
@@ -85,6 +88,13 @@ export default function LessonPlayerPage() {
   const lesson = course?.lessons[index];
 
   const [phase, setPhase] = useState<Phase>('content');
+  const readRef = useRef<HTMLDivElement>(null);
+  // Lesson text in the portal language, when a translation has been added to the course.
+  const [uiLang, setUiLang] = useState<Lang>('en');
+  useEffect(() => setUiLang(getLang()), []);
+  const localised = uiLang !== 'en' ? lesson?.i18n?.[uiLang] : undefined;
+  const localBody = localised?.body;
+  const localPoints = localised?.keyPoints;
   const [answers, setAnswers] = useState<number[]>([]);
   const [result, setResult] = useState<QuizResult | null>(null);
   const [videoWatched, setVideoWatched] = useState(false);
@@ -243,10 +253,12 @@ export default function LessonPlayerPage() {
                       <p className="mt-6 text-xs font-semibold uppercase tracking-wide text-slate-400">Transcript</p>
                     </div>
                   )}
-                  <div className="space-y-4 text-[15px] leading-7 text-ink/90">
-                    {lesson.body.map((para, i) => (
+                  <div className="mb-3 flex justify-end"><ReadAloud target={readRef} label="Listen to this lesson" /></div>
+                  <div ref={readRef} className="space-y-4 text-[15px] leading-7 text-ink/90">
+                    {(localBody ?? lesson.body).map((para, i) => (
                       <p key={i}>{para}</p>
                     ))}
+                    {(localPoints ?? lesson.keyPoints).length > 0 && <p className="sr-only">{(localPoints ?? lesson.keyPoints).join('. ')}</p>}
                   </div>
                   {lesson.images && lesson.images.length > 0 && (
                     <div className="mt-6 space-y-4">

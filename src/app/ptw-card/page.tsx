@@ -22,7 +22,7 @@ export default function MyPtwCardPage() {
   }
 
   return (
-    <RoleGuard role={['APPLICANT', 'APPROVER', 'TRAINEE', 'STATION', 'ADMIN']}>
+    <RoleGuard role={['APPLICANT', 'APPROVER', 'TRAINEE', 'STATION', 'ADMIN', 'ARTELIA_MANAGER', 'COMPANY_MANAGER']}>
       <div className="mx-auto max-w-4xl px-4 py-6 sm:px-8 sm:py-10">
         <PageHeader title="My PTW card" subtitle="Your Permit Holder / Permit Issuer authorisation. Show it on site — the QR code on the back lets anyone check it is genuine and current." />
         {cards.length === 0 ? (

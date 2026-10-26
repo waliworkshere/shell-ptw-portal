@@ -12,7 +12,7 @@ import { activeFocalCo, focalSees } from '@/lib/hsse';
 import { fmtDate, fmtDateTime } from '@/lib/training';
 import { AlertOctagon, CheckCircle2, Clock, FolderOpen, Megaphone, Phone, Plus, Search, Siren, ShieldCheck } from 'lucide-react';
 
-const ALL = ['ADMIN', 'APPROVER', 'STATION', 'APPLICANT', 'TRAINEE'] as const;
+const ALL = ['ADMIN', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'APPROVER', 'STATION', 'APPLICANT', 'TRAINEE'] as const;
 const STATUS_STAMP: Record<HsseStatus, string> = { OPEN: 'stamp-changes_required', INVESTIGATING: 'stamp-submitted', CLOSED: 'stamp-approved' };
 const STATUS_LABEL: Record<HsseStatus, string> = { OPEN: 'Open', INVESTIGATING: 'Investigating', CLOSED: 'Closed' };
 const TYPE_COLOR: Record<HsseType, string> = { NEAR_MISS: CHART.blue, POTENTIAL_INCIDENT: CHART.red, UNSAFE_ACT: CHART.amber, UNSAFE_CONDITION: CHART.violet };
@@ -31,7 +31,7 @@ export default function HssePage() {
   const [status, setStatus] = useState<HsseStatus | 'ALL'>('ALL');
   const [q, setQ] = useState('');
   const role = currentUser?.role;
-  const control = role === 'ADMIN' || role === 'APPROVER';
+  const control = role === 'ADMIN' || role === 'APPROVER' || role === 'ARTELIA_MANAGER';
 
   const scoped = useMemo(() => {
     if (!currentUser) return [];

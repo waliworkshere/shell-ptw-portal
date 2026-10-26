@@ -236,3 +236,28 @@ export function matchFields(text: string, labels: { key: string; label: string; 
   }
   return out;
 }
+
+export interface LicenceGuess {
+  number?: string;
+  expires?: string;
+  issued?: string;
+  classes?: string;
+  holderName?: string;
+}
+
+/** Reads the useful fields off a photo of a driving licence (Oman licences show the Civil ID as the licence number). */
+export function parseLicence(text: string): LicenceGuess {
+  const t = text.replace(/\r/g, '');
+  const expires =
+    dateAfter(t, /(expiry|expiry date|date of expiry|valid until|valid to|exp\.?|تاريخ الانتهاء|الانتهاء)/) ||
+    findDates(t).map((d) => d.date).sort().pop() || undefined;
+  const issued = dateAfter(t, /(issue date|date of issue|issued|تاريخ الإصدار|الإصدار)/) || undefined;
+  let number =
+    valueAfter(t, /(licen[cs]e\s*(no|number|#)|licence|license|civil\s*(no|number)|id\s*no|رقم الرخصة|الرقم المدني)/, /([0-9][0-9 ]{5,12}[0-9])/) ||
+    (t.match(/\b\d{8,9}\b/)?.[0] ?? '');
+  number = number.replace(/\s+/g, '');
+  const classes = valueAfter(t, /(class|category|type|vehicle class|الفئة)/, /([A-Z0-9 ,/+-]{1,30})/i) || undefined;
+  const nameLine = t.split('\n').find((l) => /^\s*(name|الاسم)\b/i.test(l));
+  const holderName = nameLine ? nameLine.replace(/^\s*(name|الاسم)\s*[:.]?\s*/i, '').trim() || undefined : undefined;
+  return { number: number || undefined, expires, issued, classes: classes?.trim(), holderName };
+}

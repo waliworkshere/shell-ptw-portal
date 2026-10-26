@@ -17,7 +17,7 @@ import { CompanySelect } from '@/components/company-select';
 import { fmtDateTime } from '@/lib/training';
 import { ArrowLeft, CheckCircle2, Circle, ClipboardList, LocateFixed, MapPin, OctagonX, Plus, ShieldAlert, UserRound, Building2, BellRing } from 'lucide-react';
 
-const ALL = ['ADMIN', 'APPROVER', 'STATION', 'APPLICANT', 'TRAINEE'] as const;
+const ALL = ['ADMIN', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'APPROVER', 'STATION', 'APPLICANT', 'TRAINEE'] as const;
 
 export default function HsseDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -27,7 +27,7 @@ export default function HsseDetailPage() {
   const [action, setAction] = useState('');
   const [owner, setOwner] = useState('');
   const [actionCo, setActionCo] = useState<string | null>(null);
-  const canManage = ['ADMIN', 'APPROVER', 'STATION'].includes(currentUser?.role ?? '');
+  const canManage = ['ADMIN', 'ARTELIA_MANAGER', 'APPROVER', 'STATION'].includes(currentUser?.role ?? '');
   const focalCo = activeFocalCo(currentUser);
 
   if (!r)

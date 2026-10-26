@@ -3,14 +3,15 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useStore } from '@/lib/store';
-import { Role } from '@/lib/types';
+import { Role, User } from '@/lib/types';
 import { AppShell } from './app-shell';
 
-export function RoleGuard({ role, children }: { role: Role | Role[]; children: React.ReactNode }) {
+/** Shows the page to the listed roles, or to anyone `can` lets in (e.g. an appointed HSSE Focal). */
+export function RoleGuard({ role, can, children }: { role: Role | Role[]; can?: (u: User) => boolean; children: React.ReactNode }) {
   const { currentUser, ready } = useStore();
   const router = useRouter();
   const roles = Array.isArray(role) ? role : [role];
-  const allowed = !!currentUser && roles.includes(currentUser.role);
+  const allowed = !!currentUser && (roles.includes(currentUser.role) || !!can?.(currentUser));
 
   useEffect(() => {
     if (ready && !allowed) {

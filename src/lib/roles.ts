@@ -2,6 +2,8 @@ import { Role } from './types';
 
 export const ROLE_HOME: Record<Role, string> = {
   ADMIN: '/admin/dashboard',
+  ARTELIA_MANAGER: '/approver/dashboard',
+  COMPANY_MANAGER: '/approver/dashboard',
   APPROVER: '/approver/dashboard',
   STATION: '/station/dashboard',
   APPLICANT: '/applicant/dashboard',

@@ -2,7 +2,7 @@
 
 /* eslint-disable @next/next/no-img-element */
 import { useMemo, useRef, useState } from 'react';
-import { CheckCircle2, ImagePlus, Plus, Save, Send, Trash2, Wand2, X } from 'lucide-react';
+import { Camera, CheckCircle2, ImagePlus, Plus, Save, Send, Trash2, Wand2, X } from 'lucide-react';
 import { useStore } from '@/lib/store';
 import { FocalContract, FocalReport, FocalReportKind } from '@/lib/types';
 import {
@@ -178,6 +178,7 @@ function ChecklistForm({ sections, data, setData, ro, ptw }: { sections: Checkli
   const photos: string[] = data.photos ?? [];
   const score = checklistScore(sections, answers);
   const fileRef = useRef<HTMLInputElement>(null);
+  const camRef = useRef<HTMLInputElement>(null);
   const setAns = (k: string, a: Answer) => setData({ ...data, answers: { ...answers, [k]: a }, scorePct: checklistScore(sections, { ...answers, [k]: a }).pct });
   async function addPhotos(files: FileList | null) {
     if (!files) return;
@@ -278,7 +279,9 @@ function ChecklistForm({ sections, data, setData, ro, ptw }: { sections: Checkli
           {!ro && photos.length < 4 && (
             <>
               <input ref={fileRef} type="file" accept="image/*" multiple className="hidden" onChange={(e) => addPhotos(e.target.files)} />
-              <button type="button" onClick={() => fileRef.current?.click()} className="flex h-24 w-32 flex-col items-center justify-center gap-1 rounded-lg border-2 border-dashed border-petrol-200 text-xs text-slate-500 hover:bg-petrol-50"><ImagePlus size={18} /> Add photo</button>
+              <input ref={camRef} type="file" accept="image/*" capture="environment" className="hidden" onChange={(e) => addPhotos(e.target.files)} />
+              <button type="button" onClick={() => camRef.current?.click()} className="flex h-24 w-32 flex-col items-center justify-center gap-1 rounded-lg border-2 border-dashed border-rust-200 bg-rust-50/40 text-xs font-medium text-rust-600 hover:bg-rust-50"><Camera size={18} /> Take photo</button>
+              <button type="button" onClick={() => fileRef.current?.click()} className="flex h-24 w-32 flex-col items-center justify-center gap-1 rounded-lg border-2 border-dashed border-petrol-200 text-xs text-slate-500 hover:bg-petrol-50"><ImagePlus size={18} /> Choose from gallery</button>
             </>
           )}
         </div>

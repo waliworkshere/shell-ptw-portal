@@ -34,12 +34,29 @@ export const REWARDS: Reward[] = [
   { id: 'rw-course', label: 'Paid course fee waived', description: 'Your next paid Gemsafety course at no cost.', cost: 50 },
 ];
 
-export function pointsFor(state: Pick<AppState, 'hsseReports' | 'redemptions'>, userId: string) {
+/* Points last one calendar quarter (Jan–Mar, Apr–Jun, Jul–Sep, Oct–Dec, Oman time).
+ * Unused points do not roll over — everyone starts from zero each quarter. */
+export function quarterOf(iso: string | Date = new Date()) {
+  const d = new Date(new Date(iso).getTime() + 4 * 3600_000); // Oman time
+  const q = Math.floor(d.getUTCMonth() / 3);
+  const y = d.getUTCFullYear();
+  const start = `${y}-${String(q * 3 + 1).padStart(2, '0')}-01`;
+  const endDate = new Date(Date.UTC(y, q * 3 + 3, 0));
+  const end = endDate.toISOString().slice(0, 10);
+  return { key: `${y}-Q${q + 1}`, label: `Q${q + 1} ${y}`, start, end };
+}
+
+const inQuarter = (iso: string | undefined, key: string) => !!iso && quarterOf(iso).key === key;
+
+export function pointsFor(state: Pick<AppState, 'hsseReports' | 'redemptions'>, userId: string, now: Date = new Date()) {
+  const q = quarterOf(now);
   const reports = state.hsseReports.filter((r) => r.reporterId === userId);
-  const earned = reports.filter((r) => r.pointsStatus === 'APPROVED').reduce((a, r) => a + (r.points ?? 0), 0);
+  // Points count in the quarter they were approved.
+  const earned = reports.filter((r) => r.pointsStatus === 'APPROVED' && inQuarter(r.pointsDecidedAt ?? r.createdAt, q.key)).reduce((a, r) => a + (r.points ?? 0), 0);
   const pending = reports.filter((r) => !r.pointsStatus).reduce((a, r) => a + suggestedPoints(r), 0);
   const spent = state.redemptions
-    .filter((x) => x.userId === userId && (x.status === 'PENDING' || x.status === 'FULFILLED'))
+    .filter((x) => x.userId === userId && (x.status === 'PENDING' || x.status === 'FULFILLED') && inQuarter(x.requestedAt, q.key))
     .reduce((a, x) => a + x.cost, 0);
-  return { earned, pending, spent, balance: earned - spent, reports };
+  const lifetime = reports.filter((r) => r.pointsStatus === 'APPROVED').reduce((a, r) => a + (r.points ?? 0), 0);
+  return { earned, pending, spent, balance: Math.max(0, earned - spent), reports, quarter: q, lifetime };
 }

@@ -46,7 +46,7 @@ export function PtwCardView({ card, user, flippable = true }: { card: PtwCard; u
           <div className={face}>
             <div className="absolute inset-y-0 left-0 flex w-[13%] items-center justify-center bg-[#00843d]">
               <span className="whitespace-nowrap text-[10px] font-bold tracking-wide text-white [writing-mode:vertical-rl] rotate-180">
-                Shell PTW System Ver.- 5.1
+                Shell PTW System
               </span>
             </div>
             <div className="absolute inset-y-0 left-[13%] right-0 flex flex-col p-[4%]">

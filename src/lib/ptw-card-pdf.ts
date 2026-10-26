@@ -27,7 +27,7 @@ export function generatePtwCardPdf(card: PtwCard, user: User | undefined, qrData
   doc.setTextColor(255, 255, 255);
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(7);
-  doc.text('Shell PTW System Ver.- 5.1', x0 + 6.8, y0 + H - 6, { angle: 90 });
+  doc.text('Shell PTW System', x0 + 6.8, y0 + H - 6, { angle: 90 });
   drawLogo(doc, 'shell', x0 + 14, y0 + 3, 10);
   doc.setTextColor(20, 30, 40);
   doc.setFontSize(7.5);

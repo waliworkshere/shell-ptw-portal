@@ -3,7 +3,9 @@
 import { MustChangePassword } from './password-form';
 import { IncomingCall } from './incoming-call';
 import { addMonths, dueDate, monthChecklist, monthKey, monthLabel } from '@/lib/focal';
-import { focalOpenActions } from '@/lib/hsse';
+import { activeFocalCo, focalOpenActions } from '@/lib/hsse';
+import { canReviewPermit } from '@/lib/access';
+import { fmtOman } from '@/lib/permit-rules';
 import { fmtDate } from '@/lib/training';
 
 import Link from 'next/link';
@@ -51,6 +53,9 @@ import {
   FileBadge,
   Gift,
   ClipboardList,
+  Wallet,
+  ListChecks,
+  Gauge,
 } from 'lucide-react';
 
 type NavItem = { href: string; label: string; icon: React.ElementType };
@@ -62,6 +67,7 @@ const HSSE: NavGroup = {
     { href: '/hsse/report', label: 'SOS report', icon: Megaphone },
     { href: '/hsse', label: 'SOS & HSSE reports', icon: ShieldAlert },
     { href: '/rewards', label: 'My points & rewards', icon: Gift },
+    { href: '/lmra', label: 'Last Minute Risk Assessment', icon: Gauge },
   ],
 };
 
@@ -85,11 +91,21 @@ const NAV: Record<Role, NavGroup[]> = {
         { href: '/admin/certificates', label: 'Certificate checks', icon: FileBadge },
       ],
     },
-    { title: 'Operations', items: [{ href: '/hsse', label: 'SOS & HSSE reports', icon: ShieldAlert }, { href: '/admin/rewards', label: 'Points & rewards', icon: Gift }, { href: '/admin/focal', label: 'HSSE Focal', icon: ClipboardList }, { href: '/journeys/monitor', label: 'Journey management', icon: Radar }, { href: '/admin/audit-logs', label: 'Audit logs', icon: ScrollText }] },
+    { title: 'Operations', items: [{ href: '/hsse', label: 'SOS & HSSE reports', icon: ShieldAlert }, { href: '/admin/rewards', label: 'Points & rewards', icon: Gift }, { href: '/admin/payments', label: 'Payments & subscriptions', icon: Wallet }, { href: '/admin/focal', label: 'HSSE Focal', icon: ClipboardList }, { href: '/journeys/monitor', label: 'Journey management', icon: Radar }, { href: '/admin/audit-logs', label: 'Audit logs', icon: ScrollText }] },
+    { items: [{ href: '/profile', label: 'My profile', icon: UserCircle }] },
+  ],
+  ARTELIA_MANAGER: [
+    { items: [{ href: '/approver/dashboard', label: 'Permit review (all risks)', icon: ClipboardCheck }, { href: '/journeys/monitor', label: 'Journey management', icon: Radar }, { href: '/journeys', label: 'My journeys (JMP)', icon: Route }, { href: '/admin/focal', label: 'HSSE Focal statistics', icon: ClipboardList }, { href: '/swc', label: 'Start Work Checks', icon: ListChecks }] },
+    HSSE,
+    { items: [{ href: '/profile', label: 'My profile', icon: UserCircle }] },
+  ],
+  COMPANY_MANAGER: [
+    { items: [{ href: '/approver/dashboard', label: 'Permit review (low & medium)', icon: ClipboardCheck }, { href: '/journeys', label: 'My journeys (JMP)', icon: Route }, { href: '/swc', label: 'Start Work Checks', icon: ListChecks }] },
+    HSSE,
     { items: [{ href: '/profile', label: 'My profile', icon: UserCircle }] },
   ],
   APPROVER: [
-    { items: [{ href: '/approver/dashboard', label: 'Permit Issuer queue', icon: ClipboardCheck }, { href: '/journeys/monitor', label: 'Journey management', icon: Radar }, { href: '/ptw-card', label: 'My PTW card', icon: CreditCard }] },
+    { items: [{ href: '/approver/dashboard', label: 'Permit Issuer queue', icon: ClipboardCheck }, { href: '/journeys/monitor', label: 'Journey management', icon: Radar }, { href: '/journeys', label: 'My journeys (JMP)', icon: Route }, { href: '/swc', label: 'Start Work Checks', icon: ListChecks }, { href: '/ptw-card', label: 'My PTW card', icon: CreditCard }] },
     HSSE,
     { items: [{ href: '/profile', label: 'My profile', icon: UserCircle }] },
   ],
@@ -100,6 +116,8 @@ const NAV: Record<Role, NavGroup[]> = {
         { href: '/applicant/dashboard', label: 'Dashboard', icon: LayoutDashboard },
         { href: '/applicant/applications/new', label: 'New permit request', icon: FilePlus2 },
         { href: '/journeys', label: 'My journeys (JMP)', icon: Route },
+        { href: '/swc', label: 'Start Work Checks', icon: ListChecks },
+        { href: '/subscription', label: 'Subscription', icon: Wallet },
       ],
     },
     {
@@ -125,6 +143,7 @@ const NAV: Record<Role, NavGroup[]> = {
         { href: '/my-details', label: 'My details & certificates', icon: FileBadge },
         { href: '/training/certificates', label: 'Certificates', icon: Award },
         { href: '/training/register', label: 'Become a Permit Holder', icon: BadgeCheck },
+        { href: '/subscription', label: 'Subscription', icon: Wallet },
       ],
     },
     HSSE,
@@ -137,23 +156,30 @@ function useNotifications() {
   if (!currentUser) return [];
   const out: { id: string; text: string; href: string; tone: 'red' | 'amber' | 'blue' }[] = [];
   const activeSos = state.sosAlerts.filter((a) => a.status === 'ACTIVE');
-  if (['ADMIN', 'APPROVER'].includes(currentUser.role))
+  if (['ADMIN', 'APPROVER', 'ARTELIA_MANAGER'].includes(currentUser.role))
     activeSos.forEach((a) => out.push({ id: a.id, text: `SOS ${a.refNo}: ${a.kind} — ${a.userName}`, href: '/hsse#sos', tone: 'red' }));
-  if (currentUser.role === 'APPROVER')
-    state.applications.filter((a) => ['SUBMITTED', 'RESUBMITTED'].includes(a.status)).forEach((a) => out.push({ id: a.id, text: `${a.applicationNumber} waiting for review`, href: `/approver/applications/${a.id}`, tone: 'blue' }));
+  if (currentUser.role !== 'ADMIN')
+    state.applications.filter((a) => ['SUBMITTED', 'RESUBMITTED'].includes(a.status) && canReviewPermit(currentUser, a)).forEach((a) => out.push({ id: a.id, text: `${a.applicationNumber} waiting for review`, href: `/approver/applications/${a.id}`, tone: 'blue' }));
   if (currentUser.role === 'ADMIN')
     state.registrations.filter((r) => r.status === 'PENDING').forEach((r) => out.push({ id: r.id, text: `${r.fullName} wants to become a Permit Holder`, href: '/admin/training#registrations', tone: 'amber' }));
+  const sosCo = activeFocalCo(currentUser);
+  if (sosCo)
+    state.hsseReports.filter((r) => r.status !== 'CLOSED').forEach((r) => {
+      const open = focalOpenActions(r, sosCo);
+      if (open.length) out.push({ id: `focal-act-${r.id}`, text: `${r.refNo}: ${open.length} action(s) for ${sosCo}`, href: `/hsse/${r.id}`, tone: 'red' });
+      else if (r.reporterCompany === sosCo && r.status === 'OPEN' && !r.actions.length) out.push({ id: `focal-rep-${r.id}`, text: `${r.refNo} reported by ${sosCo} staff: ${r.title}`, href: `/hsse/${r.id}`, tone: 'amber' });
+    });
   if (currentUser.hsseFocal?.active) {
     const prev = addMonths(monthKey(), -1);
     const owed = monthChecklist(state, currentUser, prev).filter((x) => x.report?.status !== 'SUBMITTED');
-    const co = currentUser.hsseFocal.company;
-    state.hsseReports.filter((r) => r.status !== 'CLOSED').forEach((r) => {
-      const open = focalOpenActions(r, co);
-      if (open.length) out.push({ id: `focal-act-${r.id}`, text: `${r.refNo}: ${open.length} action(s) for ${co}`, href: `/hsse/${r.id}`, tone: 'red' });
-      else if (r.reporterCompany === co && r.status === 'OPEN' && !r.actions.length) out.push({ id: `focal-rep-${r.id}`, text: `${r.refNo} reported by ${co} staff: ${r.title}`, href: `/hsse/${r.id}`, tone: 'amber' });
-    });
     if (owed.length) out.push({ id: `focal-${prev}`, text: `HSSE Focal: ${owed.length} report(s) for ${monthLabel(prev)} due by ${fmtDate(dueDate(prev))}`, href: '/focal', tone: new Date().toISOString().slice(0, 10) > dueDate(prev) ? 'red' : 'amber' });
   }
+  state.applications
+    .filter((a) => a.applicantId === currentUser.id && a.status === 'APPROVED' && a.expiresAt && new Date(a.expiresAt).getTime() < Date.now())
+    .forEach((a) => out.push({ id: `close-${a.id}`, text: `${a.permitNumber ?? a.applicationNumber} has expired — close the permit`, href: `/applicant/applications/${a.id}`, tone: 'red' }));
+  state.applications
+    .filter((a) => a.scheduledCall && Math.abs(new Date(a.scheduledCall.at).getTime() - Date.now()) < 30 * 60_000 && (a.applicantId === currentUser.id || canReviewPermit(currentUser, a)))
+    .forEach((a) => out.push({ id: `sched-${a.id}`, text: `${a.applicationNumber}: scheduled video call at ${fmtOman(a.scheduledCall!.at)}`, href: a.applicantId === currentUser.id ? `/applicant/applications/${a.id}` : `/approver/applications/${a.id}`, tone: 'blue' }));
   if (currentUser.role === 'APPLICANT')
     state.applications.filter((a) => a.applicantId === currentUser.id && a.callStatus === 'IN_PROGRESS').forEach((a) => out.push({ id: `call-${a.id}`, text: `${a.applicationNumber}: the Permit Issuer is calling you — join now`, href: `/applicant/applications/${a.id}`, tone: 'red' }));
   if (currentUser.role === 'APPLICANT')
@@ -191,8 +217,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   if (!currentUser) return null;
   if (mode === 'live' && mustChange) return <MustChangePassword />;
 
+  const focalItems = [{ href: '/focal', label: 'HSSE Focal', icon: ClipboardList }, ...(currentUser.role === 'APPLICANT' || currentUser.role === 'TRAINEE' ? [{ href: '/approver/dashboard', label: 'Company permit review', icon: ClipboardCheck }] : [])];
   const groups = currentUser.hsseFocal?.active
-    ? [NAV[currentUser.role][0], { title: 'HSSE Focal', items: [{ href: '/focal', label: 'HSSE Focal', icon: ClipboardList }] }, ...NAV[currentUser.role].slice(1)]
+    ? [NAV[currentUser.role][0], { title: 'HSSE Focal', items: focalItems }, ...NAV[currentUser.role].slice(1)]
     : NAV[currentUser.role];
   const all = groups.flatMap((g) => g.items);
   const activeHref = all

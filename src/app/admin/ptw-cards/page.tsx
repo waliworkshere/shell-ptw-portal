@@ -96,7 +96,7 @@ export default function PtwCardsAdminPage() {
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <h1 className="font-display text-2xl font-semibold text-ink">PTW cards</h1>
-            <p className="mt-1 text-sm text-slate-500">Permit Holder and Permit Issuer authorisation cards (Shell PTW System Ver. 5.1), including CEI – Critical Equipment Inspection.</p>
+            <p className="mt-1 text-sm text-slate-500">Permit Holder and Permit Issuer authorisation cards (Shell PTW System), including CEI – Critical Equipment Inspection.</p>
           </div>
           <button onClick={() => startNew()} className="btn-primary"><Plus size={16} /> Issue a card</button>
         </div>
