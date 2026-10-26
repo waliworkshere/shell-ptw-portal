@@ -154,7 +154,7 @@ export default function CourseOverviewPage() {
                   <p className="text-sm font-medium text-ink">{lesson.title}</p>
                   <p className="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-slate-400">
                     <span className="inline-flex items-center gap-1 whitespace-nowrap"><Icon size={12} /> {lesson.type === 'VIDEO' ? 'Video' : 'Reading'}, {lesson.durationMins} min</span>
-                    <span className="inline-flex items-center gap-1 whitespace-nowrap"><FileQuestion size={12} /> Quiz, {lesson.quiz.length} questions</span>
+                    <span className="inline-flex items-center gap-1 whitespace-nowrap"><FileQuestion size={12} /> {lesson.quiz.length ? `Quiz, ${lesson.quiz.length} questions` : 'Quiz coming soon'}</span>
                   </p>
                 </div>
                 {lp.passed ? (

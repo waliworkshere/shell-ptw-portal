@@ -179,7 +179,7 @@ export default function LessonPlayerPage() {
                   <div className="min-w-0">
                     <p className={`text-sm leading-snug ${current ? 'font-medium text-ink' : open ? 'text-ink' : 'text-slate-400'}`}>{l.title}</p>
                     <p className="mt-0.5 text-[11px] text-slate-400">
-                      {l.type === 'VIDEO' ? 'Video' : 'Reading'} {l.durationMins} min, quiz {l.quiz.length} Qs
+                      {l.type === 'VIDEO' ? 'Video' : 'Reading'} {l.durationMins} min, {l.quiz.length ? `quiz ${l.quiz.length} Qs` : 'quiz coming soon'}
                     </p>
                   </div>
                 </div>
@@ -295,7 +295,7 @@ export default function LessonPlayerPage() {
                   )}
                   <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-petrol-100 pt-6">
                     <p className="text-xs text-slate-400">
-                      {!activityReady ? 'Find every hazard in the scene to unlock the quiz.' : lesson.type === 'VIDEO' && !contentReady ? 'Watch the video to unlock the quiz.' : `${lesson.quiz.length} questions. You need ${course.passMark}% to pass. Retakes are unlimited.`}
+                      {!activityReady ? 'Find every hazard in the scene to unlock the quiz.' : lesson.type === 'VIDEO' && !contentReady ? 'Watch the video to unlock the quiz.' : lesson.quiz.length === 0 ? 'The quiz for this lesson is being prepared. You can watch the video now; the next lesson opens once the quiz is published and passed.' : `${lesson.quiz.length} questions. You need ${course.passMark}% to pass. Retakes are unlimited.`}
                     </p>
                     <button onClick={goQuiz} disabled={!contentReady || lesson.quiz.length === 0} className="btn-primary">
                       {lp.passed ? 'Retake the quiz' : 'Mark complete and take the quiz'} <ArrowRight size={15} />
