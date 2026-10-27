@@ -819,12 +819,12 @@
             "id": "q-psp-1-1",
             "prompt": "What does Goal Zero mean?",
             "options": [
-              "Zero cost overruns on a project",
               "No harm to people and no significant incidents",
+              "No paperwork on site",
               "Zero permits raised in a month",
-              "No paperwork on site"
+              "Zero cost overruns on a project"
             ],
-            "answer": 1,
+            "answer": 0,
             "explanation": "Goal Zero means no harm to people and no significant incidents."
           },
           {
@@ -832,23 +832,23 @@
             "prompt": "Which of these is NOT one of the four enablers of Goal Zero described in this lesson?",
             "options": [
               "Shell Golden Rules",
+              "Monthly sales targets",
               "Life-Saving Rules",
-              "Start Work Checks",
-              "Monthly sales targets"
+              "Start Work Checks"
             ],
-            "answer": 3,
+            "answer": 1,
             "explanation": "The enablers are the Golden Rules, the Life-Saving Rules, Start Work Checks and the Artelia Safety Rules."
           },
           {
             "id": "q-psp-1-3",
             "prompt": "A national law sets a higher safety requirement than the Shell procedure. What do you do?",
             "options": [
-              "Follow the Shell procedure only",
               "Meet the higher national requirement",
+              "Follow the Shell procedure only",
               "Choose whichever is quicker",
               "Ask the customer"
             ],
-            "answer": 1,
+            "answer": 0,
             "explanation": "If national law requires a higher level of compliance, we meet that national requirement."
           },
           {
@@ -867,58 +867,58 @@
             "id": "q-psp-1-5",
             "prompt": "Which of these must be in place before entering a confined space?",
             "options": [
-              "Energy isolated, atmosphere tested and monitored, an attendant standing by and a rescue plan",
-              "Only a torch and a helmet",
               "A second person inside with you, nobody outside",
-              "Nothing if the entry is under 5 minutes"
+              "Only a torch and a helmet",
+              "Nothing if the entry is under 5 minutes",
+              "Energy isolated, atmosphere tested and monitored, an attendant standing by and a rescue plan"
             ],
-            "answer": 0,
+            "answer": 3,
             "explanation": "Confirm isolation, gas testing and monitoring, an attendant and a rescue plan, and get authorisation to enter."
           },
           {
             "id": "q-psp-1-6",
             "prompt": "What does the energy isolation rule require before work begins?",
             "options": [
-              "Switch the equipment off at the panel",
               "Verify isolation and zero energy, including residual or stored energy",
               "Ask the station manager if it is off",
+              "Switch the equipment off at the panel",
               "Wear rubber gloves instead of isolating"
             ],
-            "answer": 1,
+            "answer": 0,
             "explanation": "Isolate, lock and tag every energy source (LOTO) and test that there is zero energy before starting."
           },
           {
             "id": "q-psp-1-7",
             "prompt": "Under the safe mechanical lifting rule, who may walk under a suspended load?",
             "options": [
-              "The rigger",
               "The supervisor",
               "Anyone wearing a helmet",
-              "No one"
+              "No one",
+              "The rigger"
             ],
-            "answer": 3,
+            "answer": 2,
             "explanation": "No one is allowed to walk under a suspended load."
           },
           {
             "id": "q-psp-1-8",
             "prompt": "When working at height outside a protected area, how must you be tied off?",
             "options": [
-              "100% of the time to an approved anchor point",
-              "Only when climbing up",
+              "Tying off is optional above 2 m",
               "To any handrail nearby",
-              "Tying off is optional above 2 m"
+              "Only when climbing up",
+              "100% of the time to an approved anchor point"
             ],
-            "answer": 0,
+            "answer": 3,
             "explanation": "Tie off 100% to approved anchor points while outside a protected area."
           },
           {
             "id": "q-psp-1-9",
             "prompt": "What is the main purpose of a Start Work Check?",
             "options": [
-              "To record hours worked",
+              "To check the weather forecast",
               "To confirm the life-saving controls and safeguards are in place just before work starts, with a verifier",
               "To replace the permit to work",
-              "To check the weather forecast"
+              "To record hours worked"
             ],
             "answer": 1,
             "explanation": "Start Work Checks are a last verification, with dual assurance, that safeguards are in place before work begins. They supplement, not replace, the permit system."
@@ -928,86 +928,856 @@
             "prompt": "Under the Artelia Safety Rules, when must you use double hearing protection?",
             "options": [
               "Above 65 dBA",
+              "Never",
               "Above 80 dBA",
-              "Above 95 dBA",
-              "Never"
+              "Above 95 dBA"
             ],
-            "answer": 2,
+            "answer": 3,
             "explanation": "Use dual hearing protection where noise exceeds 95 dBA."
           }
         ]
       },
       {
         "id": "l-psp-2",
-        "title": "Safety Passport — Part 2",
+        "title": "Permit to Work: PTW, JHA and WCF, and building a risk assessment",
         "type": "VIDEO",
-        "durationMins": 13,
+        "durationMins": 11,
         "videoUrl": "https://drive.google.com/file/d/1T2UTTiuhs5PYSRgtkLnDWrEIAg1GS0ap/preview",
         "body": [
-          "Watch the video for this part of the Safety Passport course. The written summary and quiz for this part are being prepared."
+          "The retail Permit to Work (PTW) system sits under work authorisation and uses three documents: the Permit to Work, the Job Hazard Analysis (JHA) and the Work Clearance Form (WCF).",
+          "Permit to Work: keep a copy with all its attachments at the work site. It records the work site details, the permit issuer, when the permit is valid, the activities it covers, who isolates equipment before work and who recommissions it afterwards, emergency contacts, any additional hazards and controls not covered in the WCF and JHA, other attached documents (JHA, gas test records, licences), and the signatures of the permit holder and the permit issuer.",
+          "Job Hazard Analysis: records the station, which activities the work involves, a reference and review number, the work description and expected duration, the PPE to be used throughout, the equipment needed such as fire extinguishers and barricades, and the work crew's acknowledgement.",
+          "Work Clearance Form: records the job and site information, the minimum PPE, the Life-Saving Rules that apply, the work description, the risk level (high, medium or other), the permit number and JHA reference, the hazards and controls including tools and equipment, and where the fire extinguishers are. It is acknowledged by the contractor, the work crew and the site representative, and closed out by the contractor and the site representative. Do your last minute risk assessment before and during every task.",
+          "Which documents you need is set by Appendix 2 of the retail PTW activity table. High-risk activities (for example hot work or confined space entry) need all three: WCF, JHA and Permit to Work. Medium-risk activities need the WCF and the JHA. All other work needs the WCF only. A permit is just paper unless it is discussed with the team — paper cannot save your life.",
+          "A risk assessment has four main steps: select the job, break it into a sequence of steps, identify the hazards in each step, and decide the controls. The JHA/risk assessment shows the assessment number, contractor, site, date, work description, minimum PPE, work equipment and a risk rating matrix, which rates each risk by severity and likelihood so the biggest risks get attention first. When it is a full risk assessment, also record who might be harmed and the risk rating before and after controls. If the scope, conditions, procedure or equipment change, the permit issuer or permit holder amends the assessment and the crew signs again.",
+          "Major hazard types: contact hazards (struck by or against, cuts, falling objects, caught in or between); falls (slips, trips, falls on the same level and from height); strains and over-exertion (lifting, pushing, pulling, bending, twisting); exposure (extreme temperatures, chemical burns, radiation, hazardous atmospheres, noise); and energy sources (electricity, pressure, compression and tension).",
+          "Controls should bring each hazard down to an acceptable level, in this order: eliminate the hazard (change the process, use safer equipment or another method); if not possible, isolate it (barriers, guards, segregating the area); and if neither is possible, minimise it (less hazardous materials, PPE, safe work procedures, training and regular inspection)."
         ],
-        "keyPoints": [],
-        "quiz": []
+        "keyPoints": [
+          "Three PTW documents: Permit to Work, JHA, WCF",
+          "High risk = WCF + JHA + PTW",
+          "Medium risk = WCF + JHA",
+          "Other work = WCF only",
+          "Risk assessment: select job, break into steps, find hazards, decide controls",
+          "Risk matrix = severity × likelihood",
+          "Controls in order: eliminate, isolate, minimise",
+          "A permit is just paper unless discussed with the team"
+        ],
+        "quiz": [
+          {
+            "id": "q-psp-2-1",
+            "prompt": "What are the three documents of the retail Permit to Work system?",
+            "options": [
+              "Permit to Work, Job Hazard Analysis and Work Clearance Form",
+              "Gas test record, licence and ID card",
+              "Invoice, delivery note and receipt",
+              "Timesheet, PPE log and toolbox register"
+            ],
+            "answer": 0,
+            "explanation": "The PTW system uses the Permit to Work, the JHA and the WCF."
+          },
+          {
+            "id": "q-psp-2-2",
+            "prompt": "Which documents does a HIGH-risk activity such as hot work need?",
+            "options": [
+              "No documents if supervised",
+              "WCF and JHA",
+              "WCF, JHA and Permit to Work",
+              "WCF only"
+            ],
+            "answer": 2,
+            "explanation": "High-risk activities require all three PTW documents."
+          },
+          {
+            "id": "q-psp-2-3",
+            "prompt": "Which documents does a MEDIUM-risk activity need?",
+            "options": [
+              "WCF and JHA",
+              "None",
+              "Permit to Work only",
+              "JHA only"
+            ],
+            "answer": 0,
+            "explanation": "Medium-risk activities need the Work Clearance Form and the Job Hazard Analysis."
+          },
+          {
+            "id": "q-psp-2-4",
+            "prompt": "Where must the Permit to Work and its attachments be kept during the job?",
+            "options": [
+              "In the office",
+              "In the vehicle",
+              "With the customer",
+              "At the work site"
+            ],
+            "answer": 3,
+            "explanation": "Always have a copy of the permit and its attachments ready at the work site."
+          },
+          {
+            "id": "q-psp-2-5",
+            "prompt": "What are the four main steps of a risk assessment?",
+            "options": [
+              "Select the job, break it into steps, identify hazards, determine controls",
+              "Plan, buy, build, hand over",
+              "Sign, file, archive, forget",
+              "Inspect, invoice, pay, close"
+            ],
+            "answer": 0,
+            "explanation": "Select the job, break it into a sequence of steps, identify hazards and determine controls."
+          },
+          {
+            "id": "q-psp-2-6",
+            "prompt": "A risk rating matrix rates each risk by…",
+            "options": [
+              "Number of workers and tools",
+              "Severity and likelihood",
+              "Cost and time",
+              "Weather and season"
+            ],
+            "answer": 1,
+            "explanation": "The matrix assesses severity and likelihood to prioritise risks."
+          },
+          {
+            "id": "q-psp-2-7",
+            "prompt": "What is the most effective way to control a hazard?",
+            "options": [
+              "Tell people to be careful",
+              "Provide PPE",
+              "Put up a sign",
+              "Eliminate the hazard entirely"
+            ],
+            "answer": 3,
+            "explanation": "Elimination comes first, then isolation, then minimisation (including PPE)."
+          },
+          {
+            "id": "q-psp-2-8",
+            "prompt": "The job scope changes halfway through. What happens to the JHA / risk assessment?",
+            "options": [
+              "It is thrown away",
+              "Only the customer is told",
+              "It is amended and the crew signs again",
+              "Nothing, it stays the same"
+            ],
+            "answer": 2,
+            "explanation": "Amend the risk assessment and sign off if scope, conditions, procedure or equipment change."
+          },
+          {
+            "id": "q-psp-2-9",
+            "prompt": "Lifting, pushing, pulling, bending and twisting belong to which hazard group?",
+            "options": [
+              "Exposure hazards",
+              "Contact hazards",
+              "Strains and over-exertion",
+              "Energy source hazards"
+            ],
+            "answer": 2,
+            "explanation": "These are strain and over-exertion hazards."
+          },
+          {
+            "id": "q-psp-2-10",
+            "prompt": "\"A permit is merely a paper if not discussed with the team.\" What does this mean?",
+            "options": [
+              "Permits are not needed",
+              "Only the supervisor needs to read it",
+              "Permits should be laminated",
+              "The permit only protects people if its hazards and controls are discussed and understood by the crew"
+            ],
+            "answer": 3,
+            "explanation": "A paper cannot save your life — the team must discuss and understand the permit."
+          }
+        ]
       },
       {
         "id": "l-psp-3",
-        "title": "Safety Passport — Part 3",
+        "title": "Hazardous zones, fire prevention and firefighting",
         "type": "VIDEO",
-        "durationMins": 6,
+        "durationMins": 9,
         "videoUrl": "https://drive.google.com/file/d/1blASqseBsD-t6b1p8GpCgMwyJaxnFQZf/preview",
         "body": [
-          "Watch the video for this part of the Safety Passport course. The written summary and quiz for this part are being prepared."
+          "Every retail site selling fuel and gas has a Hazardous Areas map. It highlights the petrol dispensers (high fire risk from fuel handling), the oil–water separators (to prevent contamination from spills) and the LPG dispensers. Any hot work inside these hazardous areas needs a Permit to Work.",
+          "Hazardous areas are classified into three zones. Zone 0: an explosive atmosphere of air mixed with flammable gas, vapour or mist is present. Zone 1: an explosive atmosphere is likely to occur occasionally during normal activities. Zone 2: an explosive atmosphere is not expected in normal operation, and if it does occur it lasts only a short time.",
+          "Sources of ignition include hot surfaces (exhausts, machinery), electrostatic discharge, open flames and hot gases, electrical equipment such as switches and motors that can spark, stray electricity and lightning, radio-frequency and electromagnetic waves, ionising radiation, and adiabatic compression from rapid pressure changes or shock waves.",
+          "Fire prevention means acting before a fire starts: regularly checking and fixing electrical systems, heating devices and fire alarms, and teaching people about fire safety. Fire can injure and kill, and careless actions can start one, so we all have to be responsible.",
+          "The fire triangle: a fire needs heat, fuel and oxygen together. Remove any one of the three and the fire goes out.",
+          "Fire precautions: install smoke detectors, heat detectors and fire alarms; keep escape routes clear and well lit, with doors that open easily; place the right type of fire extinguisher at strategic points; and train everyone on alarms, evacuation and using fire equipment.",
+          "Means of firefighting: sand smothers fires in solids such as wood and paper; water cools fires in paper, wood and other solids; CO2 is effective on flammable liquids, gases and electrical equipment; foam forms a layer that keeps oxygen away from burning liquids; dry powder works on many types of fire.",
+          "In a fire: stay calm, alert others and call the fire brigade immediately, close doors and windows to slow the fire and smoke, and evacuate using the designated exit routes to the assembly point. Only try to put out a fire if you are trained and have the correct extinguisher — otherwise, getting people out of danger is the safer choice."
         ],
-        "keyPoints": [],
-        "quiz": []
+        "keyPoints": [
+          "Hot work in a hazardous area needs a Permit to Work",
+          "Zone 0, Zone 1, Zone 2 — Zone 0 is the most hazardous",
+          "Fire triangle: heat, fuel, oxygen — remove one to stop the fire",
+          "Keep escape routes clear and well lit",
+          "CO2 or foam for flammable liquids; CO2 for electrical equipment",
+          "Stay calm, raise the alarm, call the fire brigade, evacuate",
+          "Only fight a fire if trained and with the right extinguisher"
+        ],
+        "quiz": [
+          {
+            "id": "q-psp-3-1",
+            "prompt": "What must you have before doing hot work inside a site's hazardous area?",
+            "options": [
+              "A Permit to Work",
+              "Permission from the customer",
+              "Nothing if it takes under 10 minutes",
+              "A verbal OK from a colleague"
+            ],
+            "answer": 0,
+            "explanation": "Any hot work within the hazardous areas requires a Permit to Work."
+          },
+          {
+            "id": "q-psp-3-2",
+            "prompt": "Which of these is normally marked on a retail site Hazardous Areas map?",
+            "options": [
+              "Staff lockers",
+              "Customer parking bays only",
+              "The shop's coffee machine",
+              "Petrol dispensers, oil–water separators and LPG dispensers"
+            ],
+            "answer": 3,
+            "explanation": "The map highlights petrol dispensers, oil–water separators and LPG dispensers."
+          },
+          {
+            "id": "q-psp-3-3",
+            "prompt": "In which zone is an explosive atmosphere NOT expected in normal operation, and lasts only a short time if it does occur?",
+            "options": [
+              "Zone 3",
+              "Zone 0",
+              "Zone 1",
+              "Zone 2"
+            ],
+            "answer": 3,
+            "explanation": "Zone 2: not expected in normal operation; if it occurs, only for a short duration."
+          },
+          {
+            "id": "q-psp-3-4",
+            "prompt": "Which of these can be a source of ignition?",
+            "options": [
+              "Static electricity discharge",
+              "A switch or motor that sparks",
+              "A hot exhaust surface",
+              "All of the above"
+            ],
+            "answer": 3,
+            "explanation": "Electrostatic discharge, electrical equipment and hot surfaces are all ignition sources."
+          },
+          {
+            "id": "q-psp-3-5",
+            "prompt": "What are the three elements of the fire triangle?",
+            "options": [
+              "Smoke, flame and ash",
+              "Heat, fuel and oxygen",
+              "Wind, heat and fuel",
+              "Water, sand and foam"
+            ],
+            "answer": 1,
+            "explanation": "A fire needs heat, fuel and oxygen; removing any one extinguishes it."
+          },
+          {
+            "id": "q-psp-3-6",
+            "prompt": "Which extinguishing agent is suitable for a fire in electrical equipment?",
+            "options": [
+              "CO2",
+              "A wet cloth",
+              "Water",
+              "Sand thrown onto live equipment"
+            ],
+            "answer": 0,
+            "explanation": "CO2 is effective on flammable liquids, gases and electrical equipment."
+          },
+          {
+            "id": "q-psp-3-7",
+            "prompt": "How does firefighting foam put out a flammable liquid fire?",
+            "options": [
+              "It forms a layer that stops the fuel touching oxygen",
+              "It adds oxygen",
+              "It heats the fuel",
+              "It only cools the air above the fire"
+            ],
+            "answer": 0,
+            "explanation": "Foam forms a barrier between the fuel and oxygen."
+          },
+          {
+            "id": "q-psp-3-8",
+            "prompt": "A fire breaks out and you have not been trained to use the extinguisher. What should you do?",
+            "options": [
+              "Raise the alarm, call the fire brigade and evacuate by the designated route",
+              "Try anyway",
+              "Open all windows to clear the smoke",
+              "Collect your belongings first"
+            ],
+            "answer": 0,
+            "explanation": "Only fight a fire if trained and with the right extinguisher; otherwise alert others, call the fire brigade and evacuate."
+          },
+          {
+            "id": "q-psp-3-9",
+            "prompt": "Why should you close doors and windows as you leave a fire?",
+            "options": [
+              "To contain the fire and slow the spread of smoke, giving more time to evacuate",
+              "To lock the building",
+              "To keep the heat in",
+              "It makes no difference"
+            ],
+            "answer": 0,
+            "explanation": "Closing doors and windows helps contain the fire and limit smoke spread."
+          }
+        ]
       },
       {
         "id": "l-psp-4",
-        "title": "Safety Passport — Part 4",
+        "title": "Safe working area, plant and equipment, manual handling and safe behaviour",
         "type": "VIDEO",
-        "durationMins": 11,
+        "durationMins": 10,
         "videoUrl": "https://drive.google.com/file/d/1m03kLtnPfviYlEuePX52IIhPGB06ls8A/preview",
         "body": [
-          "Watch the video for this part of the Safety Passport course. The written summary and quiz for this part are being prepared."
+          "Working areas must be clearly segregated — safe walkways and green zones apart from restricted areas such as excavations, open manholes, storage and lifting areas — using the correct barriers. Good signage with pictograms and caution notices in the local language tells people about the hazards and the main site rules.",
+          "Slips, trips and falls injure many people every year and are mostly preventable. They come from poor housekeeping: tools, debris, cables or materials left on the ground, spills not cleaned up, mud and wet patches, poor lighting, and missing barriers or signs. Prevent them by clearing waste as it is produced, bundling or bagging light waste, removing nails from scrap timber, cleaning spills straight away, routing power-tool cables above head height where possible, cleaning muddy boots before climbing ladders, keeping work areas well lit and putting up barricades and signs.",
+          "Most plant and equipment accidents come from wrong use — being trained and competent is the key. With abrasive wheels: never exceed the maximum speed, don't press hard or use the side of the wheel, keep fingers clear, and wear the right PPE including ear and full-face protection. For portable grinders: only mount a wheel if you are trained, use the correct disc, check the maximum speed on both the wheel and the tool, adjust the guard to expose as little wheel as possible, and watch out for people around you.",
+          "For bench-mounted wheels: put the glass screen in the safe position, wear eye and ear protection, keep fingers below the tool-rest level, use cut-resistant gloves and a push stick on table saws, and cover blades when you finish. After replacing a wheel, test-run it for at least one minute. Stop the wheel when not in use and switch off the power when equipment is idle or left unattended.",
+          "Manual handling — lifting, lowering, pushing, pulling and carrying — is involved in nearly 30% of incidents: get it wrong today and you suffer tomorrow. Avoid manual handling by using machines where possible. When you must lift, use the kinetic technique: bend your knees, grasp the load, lift with your legs, then carry. Use aids such as lifting platforms, hand hooks and rollers, and team-lift heavy loads to share the weight.",
+          "Good housekeeping is part of HSSE. In waste management, prevention is the most preferred option and disposal the least preferred. Keep contaminated waste in a separate covered metal bin and dispose of it through approved waste contractors.",
+          "More than 90% of injuries result from risky behaviour. Behaviour is what people do that others can see, shaped by culture, education and values. Before any work: identify the hazards, put the controls in place, get the permits, follow the job procedure, and stop the work if hazards are not under control. Your actions silently influence others — be a safety ambassador and set the example for your team."
         ],
-        "keyPoints": [],
-        "quiz": []
+        "keyPoints": [
+          "Segregate work areas with proper barriers and signs in the local language",
+          "Most slips, trips and falls come from poor housekeeping",
+          "Never exceed an abrasive wheel's maximum speed",
+          "Test-run a new wheel for at least one minute",
+          "Lift with your legs: bend knees, grasp, lift, carry",
+          "Waste: prevention first, disposal last",
+          "Over 90% of injuries come from risky behaviour — lead by example"
+        ],
+        "quiz": [
+          {
+            "id": "q-psp-4-1",
+            "prompt": "What is the most common cause of slips, trips and falls on site?",
+            "options": [
+              "Wearing safety shoes",
+              "Poor housekeeping — items, spills and mud left on the ground",
+              "Too many signs",
+              "Bad weather only"
+            ],
+            "answer": 1,
+            "explanation": "Slips, trips and falls are mostly caused by poor housekeeping."
+          },
+          {
+            "id": "q-psp-4-2",
+            "prompt": "Where should power-tool cables be routed when possible?",
+            "options": [
+              "Above head height",
+              "Through puddles",
+              "Under loose boards",
+              "Across walkways"
+            ],
+            "answer": 0,
+            "explanation": "Route cables above head height whenever possible to prevent trips."
+          },
+          {
+            "id": "q-psp-4-3",
+            "prompt": "Which is correct when using an abrasive wheel?",
+            "options": [
+              "Never exceed the maximum speed marked on the wheel and the tool",
+              "Use the side of the wheel for faster cutting",
+              "Any disc will do",
+              "Remove the guard for a better view"
+            ],
+            "answer": 0,
+            "explanation": "Never exceed the maximum speed; use the correct disc and keep the guard adjusted."
+          },
+          {
+            "id": "q-psp-4-4",
+            "prompt": "After replacing a wheel on a bench grinder, what should you do?",
+            "options": [
+              "Start work immediately",
+              "Tap it with a hammer",
+              "Run it only at half speed forever",
+              "Test-run it for at least one minute"
+            ],
+            "answer": 3,
+            "explanation": "Run a test for at least one minute to check for irregularities."
+          },
+          {
+            "id": "q-psp-4-5",
+            "prompt": "Roughly what share of incidents involve manual handling?",
+            "options": [
+              "Nearly 30%",
+              "About 5%",
+              "None",
+              "About 75%"
+            ],
+            "answer": 0,
+            "explanation": "Manual handling is involved in nearly 30% of incidents."
+          },
+          {
+            "id": "q-psp-4-6",
+            "prompt": "What is the correct order for a safe (kinetic) lift?",
+            "options": [
+              "Pull the load towards you with your arms only",
+              "Bend your back, grab, twist, carry",
+              "Lift quickly with straight legs",
+              "Bend your knees, grasp the load, lift using your legs, carry"
+            ],
+            "answer": 3,
+            "explanation": "Bend the knees, grasp the load, lift with the legs, then carry."
+          },
+          {
+            "id": "q-psp-4-7",
+            "prompt": "In waste management, which is the MOST preferred option?",
+            "options": [
+              "Burying",
+              "Disposal",
+              "Burning on site",
+              "Prevention"
+            ],
+            "answer": 3,
+            "explanation": "Prevention is the most preferred option; disposal the least preferred."
+          },
+          {
+            "id": "q-psp-4-8",
+            "prompt": "How should contaminated waste be kept?",
+            "options": [
+              "Mixed with general waste",
+              "In a separate covered metal bin, disposed of through an approved waste contractor",
+              "Washed into the drain",
+              "In an open pile at the back of the site"
+            ],
+            "answer": 1,
+            "explanation": "Keep contaminated waste in a separate covered metal bin and use approved waste contractors."
+          },
+          {
+            "id": "q-psp-4-9",
+            "prompt": "What share of injuries result from risky behaviour?",
+            "options": [
+              "About 50%",
+              "More than 90%",
+              "None",
+              "Less than 10%"
+            ],
+            "answer": 1,
+            "explanation": "More than 90% of injuries result from risky behaviours."
+          }
+        ]
       },
       {
         "id": "l-psp-5",
-        "title": "Safety Passport — Part 5",
+        "title": "Major hazardous activities: height, scaffolds, lifting, pressure, electricity, substances and PPE",
         "type": "VIDEO",
-        "durationMins": 16,
+        "durationMins": 35,
         "videoUrl": "https://drive.google.com/file/d/14iiYF2KZOjpf8kY_J9uLZ2tKDgzE2a41/preview",
         "body": [
-          "Watch the video for this part of the Safety Passport course. The written summary and quiz for this part are being prepared."
+          "Major hazardous activities include handling chemicals, operating heavy machinery, working at height, heat and cold exposure (prevent with suitable clothing, drinking water and rest breaks) and transporting hazardous materials.",
+          "Working at height means working 1.8 m or more above the ground. Before you start, ask: what is the job and its risks, what is my part, how high and in what conditions (weather, light), is it planned and prepared, are we communicating, is there enough working space, do we have the right tools and materials, do I have the right personal and collective protective equipment (PPE and CPE), and what did my last minute risk assessment show?",
+          "Ladders: a straight standing ladder is for access only — going up or down — not for working from. Platform ladders and A-frame ladders are approved for work at height, but avoid working from ladders where a scaffold or work platform can be used. Inspect ladders for missing or loose rungs; do not use painted ladders (paint hides damage); label and remove defective ladders and never repair them yourself. On an A-frame, keep off the top three rungs and have a buddy hold it from outside the line of fire. Set ladders on firm, level, non-slip ground at 75° (1 out for every 4 up), tie them at the top (or secure the bottom if the top can't be tied), extend them 1 m above the landing, face the ladder, hold with both hands and never over-reach. Don't stand them on drums or boxes, don't carry heavy loads up (use a hoist), and keep metal ladders away from electrical hazards. Most ladder accidents happen because the ladder was not secured at the top.",
+          "Case study: a worker pushing a long metal rod through a wall touched a 4,800-volt power line and was electrocuted. Survey the site for hazards during planning, train workers in their own language, and give scaffold workers training from a qualified person.",
+          "Scaffolds: mobile towers on wheels and fixed scaffolds. Steel mobile scaffolds are banned on Shell retail sites — use standard aluminium mobile towers. Only a competent person may erect, alter or dismantle a scaffold. Fixed scaffolds must be tied to the structure; every scaffold and platform must show its safe working load; nobody stays on a tower while it is moved; check wheels and brakes. Tube-and-fitting scaffolds are built from tubes, fittings (clamps) and couplers. Never climb the tubes — use the ladder; keep a 60 cm passage clear when stacking materials; don't leave tools lying about; fit guard rails and toe boards wherever someone could fall; never use an incomplete scaffold or remove ties, rails, braces, toe boards or ladders; never throw or drop materials. The scaffold should be no more than 20 cm from the structure, with at least 60 cm working space.",
+          "MEWPs (mobile elevating work platforms) are for short tasks. Inspect and test them before each use, wear a fall-arrest harness clipped to the anchor points in the manual, and only trained, certified people may operate them. On roofs: competent workers only, guard rails and toe boards before work starts, harnesses with suitable anchors, a clear work area, safety nets where needed and regular equipment checks. Check the competence of any supplier who repairs or maintains your fall protection equipment.",
+          "Lifting and hoisting: dropped objects cause injuries, deaths and damage. Every critical lift is controlled by a permit. The permit issuer checks the lifting equipment is suitable and its safety devices work. The rigging supervisor makes sure the equipment matches the lift plan, the controls and lift procedure are followed, people are kept clear of loads, and a flagman is assigned when cranes move near overhead lines or among people and plant. Riggers use standard signals and taglines and stay out of the line of fire. Crane operators and anyone needing tight-fitting respiratory protection must hold a fitness-to-work certificate before starting.",
+          "Pressure (air, hydraulics, pneumatic tools, jacks) can kill when released. Never open equipment that is under pressure; both sides of every connection must have the same diameter, make and thread; check hammer unions with go/no-go rings; use flashback arresters. Causes of pressure incidents include not following procedures, mismatched connections, damaged hoses, not depressurising or isolating (LOTO), failed valves and fittings, trusting faulty gauges and transferring from high- to low-pressure systems. Control it with the right equipment, barriers and buffer zones, working gauges and relief valves, communication before opening valves, secured temporary piping, permits and trained workers.",
+          "Electricity gives no warning. Before digging, check the utility plans, use a cable locator you are trained on, assume every cable is live, hand-dig trial holes and look for marker tape or tiles. Treat all overhead lines as live — never assume they are telephone cables — keep the clearance distances set by the Oman electricity standards, check for overhead lines before moving scaffolds or ladders, and never stack materials under them.",
+          "Hazardous substances can be corrosive, dangerous to the environment, explosive, very toxic, oxidising, harmful or irritant, or highly flammable (like petrol and solvents). They enter the body by swallowing, breathing in, or absorption through skin and eyes. On site you may meet contaminated ground, solvent fumes, epoxy paints, concrete admixtures, hardwood dust, welding fumes, cement, resins and asbestos in old buildings. Assess the risk first — can the substance be eliminated or replaced with something safer? Read the safety data sheet, be trained, wear gloves, goggles, respirators or chemical suits as needed, know where the first aid kit and washing facilities are, store substances securely below head height after use, never eat, drink or smoke while handling them, and wash your hands.",
+          "PPE is the gear and clothing that protects you at work. Some PPE is preventive (high-visibility vests, positioning systems); some reduces the consequences when something goes wrong (hard hats, full-body harnesses). PPE must meet the recognised standards and local regulations — for example, safety helmets, steel-toe safety shoes, safety glasses, ear defenders or earplugs, cut-resistant gloves, Class II high-visibility vests and disposable FFP respirators. Ask Artelia HSSE or your project manager for the standards for other equipment."
         ],
-        "keyPoints": [],
-        "quiz": []
+        "keyPoints": [
+          "Work at height = 1.8 m or more",
+          "Straight ladders are for access only; 75° angle, tied at the top, 1 m above the landing",
+          "Keep off the top three rungs of an A-frame ladder",
+          "Steel mobile scaffolds are banned on Shell retail sites",
+          "Only a competent person erects or alters a scaffold",
+          "Every critical lift needs a permit; stay out from under loads",
+          "Never open equipment under pressure; match every connection",
+          "Treat every cable and overhead line as live",
+          "Read the safety data sheet before using a hazardous substance"
+        ],
+        "quiz": [
+          {
+            "id": "q-psp-5-1",
+            "prompt": "From what height is work considered 'working at height' in this course?",
+            "options": [
+              "0.5 m",
+              "10 m",
+              "1.8 m",
+              "5 m"
+            ],
+            "answer": 2,
+            "explanation": "Working at height means work at 1.8 m and above."
+          },
+          {
+            "id": "q-psp-5-2",
+            "prompt": "What is a straight standing (lean-to) ladder allowed to be used for?",
+            "options": [
+              "As a work platform for painting",
+              "Access only — going up or down",
+              "As a ramp",
+              "Working from for long periods"
+            ],
+            "answer": 1,
+            "explanation": "Access ladders must not be used as work platforms."
+          },
+          {
+            "id": "q-psp-5-3",
+            "prompt": "What is the correct angle for a leaning ladder?",
+            "options": [
+              "60°",
+              "75° (1 out for every 4 up)",
+              "45° (1 out for every 1 up)",
+              "90° straight up"
+            ],
+            "answer": 1,
+            "explanation": "Set ladders at 75°: one unit out for every four units up."
+          },
+          {
+            "id": "q-psp-5-4",
+            "prompt": "Why should you not use a heavily painted ladder?",
+            "options": [
+              "The paint can hide damage",
+              "It is slippery",
+              "It is too heavy",
+              "Paint attracts lightning"
+            ],
+            "answer": 0,
+            "explanation": "Paint can hide damaged parts that make the ladder unsafe."
+          },
+          {
+            "id": "q-psp-5-5",
+            "prompt": "Which type of mobile scaffold is banned on Shell retail sites?",
+            "options": [
+              "None are banned",
+              "Aluminium mobile towers",
+              "Steel mobile scaffolds",
+              "Fixed tube-and-fitting scaffolds"
+            ],
+            "answer": 2,
+            "explanation": "Steel mobile scaffolds are banned; standard aluminium towers are used."
+          },
+          {
+            "id": "q-psp-5-6",
+            "prompt": "Who may erect, alter or dismantle a scaffold?",
+            "options": [
+              "Only a competent person",
+              "The driver",
+              "The customer",
+              "Anyone on the crew"
+            ],
+            "answer": 0,
+            "explanation": "Scaffold erection, alteration and dismantling is a specialist job for a competent person."
+          },
+          {
+            "id": "q-psp-5-7",
+            "prompt": "A mobile scaffold tower needs to be moved. What about the people on it?",
+            "options": [
+              "Only one person can stay",
+              "Nobody may be on it while it is moved",
+              "They can stay on if they hold on",
+              "They should sit down"
+            ],
+            "answer": 1,
+            "explanation": "When the tower is moved there must never be anyone on it."
+          },
+          {
+            "id": "q-psp-5-8",
+            "prompt": "What controls a critical lift?",
+            "options": [
+              "The weather forecast",
+              "A permit",
+              "A verbal agreement",
+              "Nothing if the crane is new"
+            ],
+            "answer": 1,
+            "explanation": "Any critical lift has to be controlled using a permit."
+          },
+          {
+            "id": "q-psp-5-9",
+            "prompt": "Which is a common cause of pressure incidents?",
+            "options": [
+              "Using mismatched connections or not depressurising before work",
+              "Checking unions with go/no-go rings",
+              "Installing barriers",
+              "Using connections with matching diameter and thread"
+            ],
+            "answer": 0,
+            "explanation": "Mismatched connections and failure to depressurise or isolate are major causes."
+          },
+          {
+            "id": "q-psp-5-10",
+            "prompt": "Before digging, how should you treat underground cables?",
+            "options": [
+              "Assume they are dead",
+              "Dig quickly with a machine",
+              "Assume all cables are live unless proven isolated, and locate them first",
+              "Only check if you see a sign"
+            ],
+            "answer": 2,
+            "explanation": "Check plans, use a cable locator, assume all cables are live and hand-dig trial holes."
+          },
+          {
+            "id": "q-psp-5-11",
+            "prompt": "How can a hazardous substance enter your body?",
+            "options": [
+              "It cannot enter the body",
+              "Only by swallowing",
+              "Swallowing, breathing it in, or absorption through skin and eyes",
+              "Only through the skin"
+            ],
+            "answer": 2,
+            "explanation": "Ingestion, inhalation and absorption are the three routes."
+          },
+          {
+            "id": "q-psp-5-12",
+            "prompt": "Where do you find the hazards, safe handling and emergency information for a chemical?",
+            "options": [
+              "Nowhere",
+              "On the invoice",
+              "In the safety data sheet (SDS/MSDS)",
+              "On the delivery truck"
+            ],
+            "answer": 2,
+            "explanation": "The material safety data sheet has the hazards, safe handling and emergency measures."
+          }
+        ]
       },
       {
         "id": "l-psp-6",
-        "title": "Safety Passport — Part 6",
+        "title": "Near misses, LMRA, Talk Not Tick, emergency response and first aid",
         "type": "VIDEO",
-        "durationMins": 18,
+        "durationMins": 12,
         "videoUrl": "https://drive.google.com/file/d/1O79I7lfMSGS_hvDLERN0RUnb2IvqKMfP/preview",
         "body": [
-          "Watch the video for this part of the Safety Passport course. The written summary and quiz for this part are being prepared."
+          "Know the difference. A potential incident is an unsafe condition, act or omission that could cause injury or damage; depending on how serious the outcome could be, it may be raised to a high-potential incident. A near miss is when something unsafe happens but nobody is hurt — it almost caused harm. An incident is an event where real harm or damage occurs; it is investigated and actions are taken so it does not happen again. Potential incidents and near misses that are stopped and reported to the site supervisor in time prevent injuries, damage and losses.",
+          "Report near misses and potential incidents on the reporting form: site, date, place, time, type, what happened, the immediate action taken and recommendations. Every contractor's HSSE Focal reports NMPIs to Artelia on the digital platform. The Artelia retail contractor incident procedure covers personal injuries, loss of primary containment (LOPC) above 100 kg (120 L), Life-Saving Rule violations and high-potential incidents; significant incidents such as fatalities have extra reporting and investigation requirements. First aid cases, near misses, potential incidents and LOPCs below 100 kg with no serious consequence do not need a formal investigation, but the local HSSE manager and contract holder may decide to investigate.",
+          "Last Minute Risk Assessment (LMRA): after the start-work discussion or toolbox talk, everyone does their own LMRA. Check for accidental energy release (flow, pressure, electricity, chemical, potential, rotating and kinetic energy); the right PPE; the right tools — a complete set, power tools on an earth-leakage breaker, ATEX-certified tools in hazardous zones, industrial plugs and sockets, and cords that are not a trip hazard; and your position — falling into excavations or pits, falls from height, line of fire and hazards from contractors working nearby. However many times you have done the job, do an LMRA before every task.",
+          "Talk Not Tick (TNT) is a conversation, not a tick-box exercise. Talking with people who are exposed to unsafe conditions or doing unsafe acts — rather than just filing a complaint — changes behaviour. It is positive, engages people, is measurable and rewarding. Once agreement is reached after the intervention, the supervisor records it on the TNT form (site, date, people involved and what was discussed).",
+          "Emergency response, step 1 — immediate response: notify the site supervisor or site manager first; as on-scene commander they start the emergency response and notifications. Look after the injured and call emergency services if needed. Anyone needing medical attention must always be accompanied off site. Tell the site operator if the station is open.",
+          "Step 2 — notification: whatever the severity, phone the Artelia project manager within one hour of the incident — even for a minor first aid case or when not all details are known. The written report can follow later. Emergency contact numbers must be displayed at every site.",
+          "Incidents include injuries, fires, damage to power cables or gas and water mains, petroleum leaks and spills, finding oil or contaminated soil, chemical incidents, accidents involving the public or vehicles, crane overturns and the collapse of structures, slopes, ladders or scaffolds. Also: keep everyone calm, photograph or sketch the scene, take witness details, do not restart work until it is completely safe, keep copies of logbooks, the WCF, JHA and PTW, share the lessons learned while respecting the privacy of those hurt, and keep emergency numbers to hand.",
+          "Every team must have a certified first aider. First aid priorities: save life, stop injuries getting worse, and get the person to medical help quickly — always accompanied. A site needs a first aid kit suited to the number of people and the work, plus items such as a fire blanket, eye wash and stretcher. Do not leave the casualty; send someone for help; always wear gloves to avoid cross-contamination."
         ],
-        "keyPoints": [],
-        "quiz": []
+        "keyPoints": [
+          "Near miss: something unsafe happened, nobody was hurt",
+          "Potential incident: an unsafe act or condition that could cause harm",
+          "Do an LMRA before every task, however experienced you are",
+          "Talk Not Tick: have the conversation, then record it",
+          "Tell the site supervisor first",
+          "Phone the Artelia project manager within 1 hour of any incident",
+          "Injured people always go to medical care accompanied",
+          "Every team needs a certified first aider"
+        ],
+        "quiz": [
+          {
+            "id": "q-psp-6-1",
+            "prompt": "A hose bursts near a worker but nobody is hurt. What is this?",
+            "options": [
+              "An incident",
+              "Nothing to report",
+              "A near miss",
+              "A potential incident only if someone saw it"
+            ],
+            "answer": 2,
+            "explanation": "A near miss is when something unsafe happens but no harm occurs."
+          },
+          {
+            "id": "q-psp-6-2",
+            "prompt": "A damaged ladder is left on site and nobody has used it yet. What is this?",
+            "options": [
+              "An incident",
+              "A Life-Saving Rule award",
+              "A potential incident (unsafe condition)",
+              "A near miss"
+            ],
+            "answer": 2,
+            "explanation": "Unsafe conditions, acts or omissions that could cause harm are potential incidents."
+          },
+          {
+            "id": "q-psp-6-3",
+            "prompt": "When must you do a Last Minute Risk Assessment?",
+            "options": [
+              "Only for new jobs",
+              "Before every task, however many times you have done it",
+              "Only once a week",
+              "Only when the supervisor asks"
+            ],
+            "answer": 1,
+            "explanation": "Before each task we must do an LMRA, regardless of experience."
+          },
+          {
+            "id": "q-psp-6-4",
+            "prompt": "Which tools are required for use in hazardous zones?",
+            "options": [
+              "Any battery tools",
+              "Domestic plugs and extension leads",
+              "Tools with the guard removed",
+              "ATEX-certified tools"
+            ],
+            "answer": 3,
+            "explanation": "The LMRA checks for ATEX-certified tools in hazardous zones."
+          },
+          {
+            "id": "q-psp-6-5",
+            "prompt": "What is Talk Not Tick (TNT)?",
+            "options": [
+              "A checklist you tick without talking",
+              "A timesheet",
+              "A disciplinary letter",
+              "A conversation with people exposed to unsafe acts or conditions, rather than a tick-box exercise"
+            ],
+            "answer": 3,
+            "explanation": "TNT is an outcomes-led conversation to improve behavioural safety; the supervisor records it afterwards."
+          },
+          {
+            "id": "q-psp-6-6",
+            "prompt": "Who should be notified first of any incident or near miss on site?",
+            "options": [
+              "The site supervisor or site manager",
+              "Nobody until the end of the shift",
+              "The customer",
+              "The newspaper"
+            ],
+            "answer": 0,
+            "explanation": "The site supervisor or manager is notified first and acts as on-scene commander."
+          },
+          {
+            "id": "q-psp-6-7",
+            "prompt": "Within what time must the Artelia project manager be phoned about an incident?",
+            "options": [
+              "Only for serious injuries",
+              "Within 24 hours",
+              "Within 1 hour, whatever the severity",
+              "At the end of the month"
+            ],
+            "answer": 2,
+            "explanation": "Notify the Artelia project manager by phone within a maximum of one hour, even for minor first aid cases."
+          },
+          {
+            "id": "q-psp-6-8",
+            "prompt": "A worker needs to see a doctor after an injury. How should they leave site?",
+            "options": [
+              "Always accompanied",
+              "Only after finishing the shift",
+              "By driving themselves",
+              "Alone, to save time"
+            ],
+            "answer": 0,
+            "explanation": "Anyone needing medical attention must always be accompanied."
+          },
+          {
+            "id": "q-psp-6-9",
+            "prompt": "What are the priorities of first aid?",
+            "options": [
+              "Save life, prevent the injury getting worse and get the person to medical help promptly",
+              "Wait for the supervisor",
+              "Move the casualty to the office",
+              "Fill in the form first"
+            ],
+            "answer": 0,
+            "explanation": "First aid priorities: save lives, prevent worsening and evacuate promptly to medical help."
+          },
+          {
+            "id": "q-psp-6-10",
+            "prompt": "Why should you wear gloves when giving first aid?",
+            "options": [
+              "To keep warm",
+              "Gloves are not needed",
+              "To grip tools",
+              "To prevent cross-contamination"
+            ],
+            "answer": 3,
+            "explanation": "Always wear gloves to prevent cross-contamination."
+          }
+        ]
       },
       {
         "id": "l-psp-7",
-        "title": "Safety Passport — Part 7",
+        "title": "Promoting HSSE on site, awards and the assessment",
         "type": "VIDEO",
-        "durationMins": 3,
+        "durationMins": 5,
         "videoUrl": "https://drive.google.com/file/d/15WWHOA4Q-gElD7xM3D4d1oZSCLI7Lm2y/preview",
         "body": [
-          "Watch the video for this part of the Safety Passport course. The written summary and quiz for this part are being prepared."
+          "Promoting HSSE (health, safety, security and environment) means actively putting the wellbeing of people and the environment first. It means showing the benefits of working safely, reducing the downsides of unsafe work by dealing with hazards and risks, and making everyone aware of what unsafe work leads to. Strong systems and procedures should make unsafe working practically impossible and build a culture of safety and security.",
+          "Strong basic safety rules are absolute: they do not change, they are not negotiable and they are not open to discussion. They apply to everyone, without exception.",
+          "Good safety is recognised. Shell gives annual awards — cash, certificates and recognition — to frontline workers, line managers and supervisors in categories such as HSSE initiative, worker, operator or driver, emergency response, core team and contractor. Artelia also runs a monthly programme: a Safety Champion of the month is chosen for Near Miss and Potential Incident (NMPI) reports, interventions and responsible safe behaviour, and receives a cash or gift reward, a certificate and team appreciation. Supervisors and safety officers are also recognised every quarter.",
+          "You are free to choose, but you are not free from the consequences of your choice — think before you act. And if there's any doubt, get it out: never carry on working with uncertainty when your actions can affect everyone's safety.",
+          "To receive the Safety Passport card you must pass the Safety Passport assessment with at least 80%."
         ],
-        "keyPoints": [],
-        "quiz": []
+        "keyPoints": [
+          "HSSE = health, safety, security and environment",
+          "Make unsafe working practically impossible",
+          "Basic safety rules are absolute and apply to everyone",
+          "Artelia names a Safety Champion every month",
+          "If there's any doubt, get it out",
+          "Pass mark for the Safety Passport: 80%"
+        ],
+        "quiz": [
+          {
+            "id": "q-psp-7-1",
+            "prompt": "What does HSSE stand for?",
+            "options": [
+              "Health, Standards, Systems and Engineering",
+              "Hazards, Safety, Supervision and Equipment",
+              "Health, Safety, Security and Environment",
+              "Hygiene, Safety, Services and Energy"
+            ],
+            "answer": 2,
+            "explanation": "HSSE stands for health, safety, security and environment."
+          },
+          {
+            "id": "q-psp-7-2",
+            "prompt": "How are strong basic safety rules described?",
+            "options": [
+              "Suggestions that are open to discussion",
+              "Absolute, unchanging and non-negotiable, applying to everyone without exception",
+              "Guidelines that supervisors can relax when work is urgent",
+              "Rules for new workers only"
+            ],
+            "answer": 1,
+            "explanation": "Basic safety rules are absolute and non-negotiable, and apply to everyone."
+          },
+          {
+            "id": "q-psp-7-3",
+            "prompt": "What is the Artelia Safety Champion of the month chosen for?",
+            "options": [
+              "Having the longest time with the company",
+              "Near Miss / Potential Incident reports, interventions and responsible safe behaviour",
+              "Working the most overtime",
+              "Finishing jobs fastest"
+            ],
+            "answer": 1,
+            "explanation": "The monthly Safety Champion is selected on NMPIs reported, interventions done and responsible safe behaviour."
+          },
+          {
+            "id": "q-psp-7-4",
+            "prompt": "How often are supervisors and safety officers recognised by Artelia, in addition to the monthly champion?",
+            "options": [
+              "Every quarter",
+              "Once every five years",
+              "Every week",
+              "Never"
+            ],
+            "answer": 0,
+            "explanation": "Supervisors and safety officers are rewarded and recognised quarterly."
+          },
+          {
+            "id": "q-psp-7-5",
+            "prompt": "You are unsure whether a job is safe to continue. What does \"If there's any doubt, get it out\" tell you to do?",
+            "options": [
+              "Clear the doubt before continuing — do not work with uncertainty",
+              "Ask the customer",
+              "Finish quickly to reduce exposure",
+              "Carry on and check later"
+            ],
+            "answer": 0,
+            "explanation": "Working with uncertainty where safety is at stake must be avoided; resolve the doubt first."
+          },
+          {
+            "id": "q-psp-7-6",
+            "prompt": "What score do you need in the Safety Passport assessment to receive the card?",
+            "options": [
+              "50%",
+              "65%",
+              "80%",
+              "100%"
+            ],
+            "answer": 2,
+            "explanation": "The Safety Passport exam pass mark is 80%."
+          }
+        ]
       }
     ]
   },
