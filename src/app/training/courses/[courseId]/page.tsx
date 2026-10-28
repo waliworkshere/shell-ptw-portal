@@ -7,6 +7,7 @@ import { RoleGuard } from '@/components/role-guard';
 import { PriceTag, ProgressBar, SourceBadge } from '@/components/ui';
 import { courseUnlocked, coursePriceUsd, pendingOrder } from '@/lib/access';
 import { CourseGate } from '@/components/course-gate';
+import { PreviewBanner } from '@/components/preview-banner';
 import { useProctor } from '@/components/proctor';
 import { useStore } from '@/lib/store';
 import { generateCertificatePdf } from '@/lib/certificate-pdf';
@@ -21,10 +22,12 @@ export default function CourseOverviewPage() {
   const enrollment = state.enrollments.find((e) => e.userId === currentUser?.id && e.courseId === courseId);
   const proctor = useProctor();
   const [gateOpen, setGateOpen] = useState(false);
+  // Administrators open learner pages in preview: every lesson open, nothing enrolled, paid or saved.
+  const preview = currentUser?.role === 'ADMIN';
 
-  if (!course || course.status !== 'PUBLISHED') {
+  if (!course || (course.status !== 'PUBLISHED' && !preview)) {
     return (
-      <RoleGuard role={['TRAINEE', 'APPLICANT']}>
+      <RoleGuard role={['TRAINEE', 'APPLICANT', 'ADMIN']}>
         <div className="mx-auto max-w-3xl px-4 py-6 sm:px-8 sm:py-10 text-sm text-slate-500">This course isn&apos;t available.</div>
       </RoleGuard>
     );
@@ -36,7 +39,7 @@ export default function CourseOverviewPage() {
   const payment = enrollment?.paymentId ? state.payments.find((p) => p.id === enrollment.paymentId) : undefined;
   const me = state.users.find((u) => u.id === state.currentUserId);
   const priceUsd = coursePriceUsd(course);
-  const needsPayment = needsPaymentFor(course) && !!me && !courseUnlocked(state, me, course);
+  const needsPayment = !preview && needsPaymentFor(course) && !!me && !courseUnlocked(state, me, course);
   const order = me ? pendingOrder(state, me.id, 'COURSE', course.id) : undefined;
 
   function go() {
@@ -45,6 +48,10 @@ export default function CourseOverviewPage() {
   }
 
   function start() {
+    if (preview) {
+      if (course!.lessons[0]) router.push(`/training/courses/${course!.id}/lessons/${course!.lessons[0].id}`);
+      return;
+    }
     if (needsPayment) {
       requestOrder('COURSE', course!.id);
       return;
@@ -54,10 +61,11 @@ export default function CourseOverviewPage() {
   }
 
   return (
-    <RoleGuard role={['TRAINEE', 'APPLICANT']}>
+    <RoleGuard role={['TRAINEE', 'APPLICANT', 'ADMIN']}>
       <div className="mx-auto max-w-4xl px-4 py-6 sm:px-8 sm:py-10">
-        <Link href="/training" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-ink">
-          <ArrowLeft size={15} /> My learning
+        {preview && <PreviewBanner />}
+        <Link href={preview ? '/admin/training/preview' : '/training'} className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-ink">
+          <ArrowLeft size={15} /> {preview ? 'Course preview' : 'My learning'}
         </Link>
 
         <CourseGate course={course} open={gateOpen} onClose={() => setGateOpen(false)} onReady={() => { setGateOpen(false); go(); }} />
@@ -69,7 +77,8 @@ export default function CourseOverviewPage() {
             <SourceBadge source={course.source} size="md" />
             <span className="rounded-full bg-white/10 px-2.5 py-1 text-xs">{course.level}</span>
             {course.mandatory && <span className="rounded-full bg-sand-500 px-2.5 py-1 text-xs font-semibold text-ink">Required</span>}
-            {SHOW_COURSE_PRICES && priceUsd ? <span className="app-number rounded-full bg-ink px-2.5 py-1 text-xs font-semibold text-sand-400">{priceUsd} USD</span> : null}
+            {preview && course.status !== 'PUBLISHED' && <span className="rounded-full bg-rust-500 px-2.5 py-1 text-xs font-semibold text-white">Draft</span>}
+            {(SHOW_COURSE_PRICES || preview) && priceUsd ? <span className="app-number rounded-full bg-ink px-2.5 py-1 text-xs font-semibold text-sand-400">{priceUsd} USD</span> : null}
             {!SHOW_COURSE_PRICES && course.tier && <span className="rounded-full bg-white/10 px-2.5 py-1 text-xs">{TIER_LABEL[course.tier]}</span>}
           </div>
           <p className="app-number mt-4 text-xs text-petrol-100">{course.code} · {course.category}</p>
@@ -91,7 +100,7 @@ export default function CourseOverviewPage() {
               </button>
             ) : (
               <button onClick={start} className="inline-flex items-center gap-2 rounded-lg bg-sand-500 px-4 py-2 text-sm font-semibold text-ink transition hover:bg-sand-400">
-                {needsPayment ? <CreditCard size={16} /> : <PlayCircle size={16} />} {needsPayment ? (order ? 'Purchase requested' : `Buy course — ${priceUsd} USD`) : enrollment && p.done > 0 ? 'Continue course' : enrollment ? 'Start course' : 'Enrol and start'}
+                {needsPayment ? <CreditCard size={16} /> : <PlayCircle size={16} />} {preview ? 'Start preview' : needsPayment ? (order ? 'Purchase requested' : `Buy course — ${priceUsd} USD`) : enrollment && p.done > 0 ? 'Continue course' : enrollment ? 'Start course' : 'Enrol and start'}
               </button>
             )}
             {enrollment && (
@@ -145,7 +154,7 @@ export default function CourseOverviewPage() {
         <ol className="card mt-3 divide-y divide-petrol-50 p-0">
           {course.lessons.map((lesson, i) => {
             const lp = lessonProgress(enrollment, lesson.id);
-            const unlocked = isLessonUnlocked(course, enrollment, i);
+            const unlocked = preview || isLessonUnlocked(course, enrollment, i);
             const Icon = lesson.type === 'VIDEO' ? Video : BookOpen;
             const row = (
               <div className="flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-4 sm:px-6">
@@ -161,6 +170,8 @@ export default function CourseOverviewPage() {
                   <span className="inline-flex items-center gap-1 text-xs font-medium text-petrol-600"><CheckCircle2 size={14} /> Passed {lp.bestScore}%</span>
                 ) : !unlocked ? (
                   <Lock size={15} className="text-slate-400" aria-label="Locked" />
+                ) : preview ? (
+                  <span className="text-xs text-petrol-500">Preview</span>
                 ) : lp.attempts > 0 ? (
                   <span className="text-xs font-medium text-sand-600">Best {lp.bestScore}%, retake</span>
                 ) : (
@@ -179,7 +190,7 @@ export default function CourseOverviewPage() {
             );
           })}
         </ol>
-        {!enrollment && !isComingSoon(course) && <p className="mt-3 text-xs text-slate-400">Enrol to unlock the first lesson. Lessons open in order as you pass each quiz.</p>}
+        {!enrollment && !preview && !isComingSoon(course) && <p className="mt-3 text-xs text-slate-400">Enrol to unlock the first lesson. Lessons open in order as you pass each quiz.</p>}
         {enrollment && !enrollment.completedAt && (
           <div className="mt-4"><ProgressBar pct={p.pct} /></div>
         )}

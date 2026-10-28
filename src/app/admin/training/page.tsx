@@ -8,7 +8,7 @@ import { PageHeader, PriceTag, SourceBadge, StatCard } from '@/components/ui';
 import { useStore } from '@/lib/store';
 import { ROLE_LABEL, SOURCE_LABEL, SOURCE_ORDER } from '@/lib/types';
 import { courseMinutes, courseProgress, fmtDate, fmtDateTime, isCertificateValid, pathCourses, qualification, SHOW_COURSE_PRICES } from '@/lib/training';
-import { ArrowDown, ArrowUp, Check, CloudDownload, Pencil, Plus, X } from 'lucide-react';
+import { ArrowDown, ArrowUp, Check, CloudDownload, Eye, Pencil, Plus, X } from 'lucide-react';
 
 type Tab = 'courses' | 'path' | 'learners' | 'registrations';
 
@@ -54,6 +54,9 @@ export default function AdminTrainingPage() {
           title="Training modules"
           subtitle="Shell modules first, Artelia modules second, Local modules third. Build courses, set prices and the qualification timeline, and approve trainees as Permit Holders."
         >
+          <Link href="/admin/training/preview" className="btn-secondary">
+            <Eye size={16} /> Preview as learner
+          </Link>
           <Link href="/admin/training/shell" className="btn-secondary">
             <CloudDownload size={16} /> Import from Shell
           </Link>
@@ -142,9 +145,14 @@ export default function AdminTrainingPage() {
                                 <span className={`stamp ${c.status === 'PUBLISHED' ? 'stamp-approved' : 'stamp-draft'}`}>{c.status === 'PUBLISHED' ? 'Published' : 'Draft'}</span>
                               </td>
                               <td className="rt-action px-5 py-3 text-right">
+<div className="inline-flex gap-2">
+                                <Link href={`/training/courses/${c.id}`} className="btn-secondary px-3 py-1.5 text-xs">
+                                  <Eye size={13} /> Preview
+                                </Link>
                                 <Link href={`/admin/training/courses/${c.id}`} className="btn-secondary px-3 py-1.5 text-xs">
                                   <Pencil size={13} /> Edit
                                 </Link>
+                                </div>
                               </td>
                             </tr>
                           );

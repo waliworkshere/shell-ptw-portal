@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { RoleGuard } from '@/components/role-guard';
+import { PreviewBanner } from '@/components/preview-banner';
 import { ProgressBar } from '@/components/ui';
 import { QuizResult, useStore } from '@/lib/store';
 import { generateCertificatePdf } from '@/lib/certificate-pdf';
@@ -86,6 +87,8 @@ export default function LessonPlayerPage() {
   const enrollment = state.enrollments.find((e) => e.userId === currentUser?.id && e.courseId === courseId);
   const index = course?.lessons.findIndex((l) => l.id === lessonId) ?? -1;
   const lesson = course?.lessons[index];
+  // Administrators preview lessons: every lesson open, quizzes scored but never saved.
+  const preview = currentUser?.role === 'ADMIN';
 
   const [phase, setPhase] = useState<Phase>('content');
   const readRef = useRef<HTMLDivElement>(null);
@@ -114,21 +117,21 @@ export default function LessonPlayerPage() {
 
   if (!course || !lesson) {
     return (
-      <RoleGuard role={['TRAINEE', 'APPLICANT']}>
+      <RoleGuard role={['TRAINEE', 'APPLICANT', 'ADMIN']}>
         <div className="mx-auto max-w-3xl px-4 py-6 sm:px-8 sm:py-10 text-sm text-slate-500">Lesson not found.</div>
       </RoleGuard>
     );
   }
 
   const lp = lessonProgress(enrollment, lesson.id);
-  const unlocked = isLessonUnlocked(course, enrollment, index);
+  const unlocked = preview || isLessonUnlocked(course, enrollment, index);
   const next = course.lessons[index + 1];
   const progress = courseProgress(course, enrollment);
   const activityReady = !lesson.activity || huntDone || lp.contentDone;
-  const contentReady = (lesson.type === 'READING' || videoWatched || lp.contentDone) && activityReady;
+  const contentReady = preview || (lesson.type === 'READING' || videoWatched || lp.contentDone) && activityReady;
 
   function goQuiz() {
-    markLessonContentDone(course!.id, lesson!.id);
+    if (!preview) markLessonContentDone(course!.id, lesson!.id);
     setAnswers(new Array(lesson!.quiz.length).fill(-1));
     setResult(null);
     setQi(0);
@@ -136,8 +139,14 @@ export default function LessonPlayerPage() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  function previewScore(): QuizResult {
+    const correct = lesson!.quiz.map((q, i) => answers[i] === q.answer);
+    const score = lesson!.quiz.length ? Math.round((correct.filter(Boolean).length / lesson!.quiz.length) * 100) : 100;
+    return { score, passed: score >= course!.passMark, correct, courseCompleted: false };
+  }
+
   function handleSubmit() {
-    const r = submitQuiz(course!.id, lesson!.id, answers);
+    const r: QuizResult = preview ? previewScore() : submitQuiz(course!.id, lesson!.id, answers);
     setResult(r);
     if (r.passed) setBoom(Date.now());
     setPhase('result');
@@ -145,7 +154,7 @@ export default function LessonPlayerPage() {
   }
 
   return (
-    <RoleGuard role={['TRAINEE', 'APPLICANT']}>
+    <RoleGuard role={['TRAINEE', 'APPLICANT', 'ADMIN']}>
       <Confetti fire={boom} />
       <div className="flex min-h-[calc(100vh-88px)]">
         {/* Outline */}
@@ -163,7 +172,7 @@ export default function LessonPlayerPage() {
           <ol className="p-3">
             {course.lessons.map((l, i) => {
               const p = lessonProgress(enrollment, l.id);
-              const open = isLessonUnlocked(course, enrollment, i);
+              const open = preview || isLessonUnlocked(course, enrollment, i);
               const current = l.id === lesson.id;
               const inner = (
                 <div className={`flex items-start gap-3 rounded-lg px-3 py-2.5 ${current ? 'bg-petrol-50' : open ? 'hover:bg-petrol-50/60' : ''}`}>
@@ -190,12 +199,13 @@ export default function LessonPlayerPage() {
         </aside>
 
         <div className="mx-auto w-full max-w-3xl px-4 py-6 sm:px-8 sm:py-10">
+          {preview && <PreviewBanner backHref={`/training/courses/${course.id}`} backLabel="Course overview" />}
           <p className="app-number text-xs text-slate-400">
             {course.code} · Lesson {index + 1} of {course.lessons.length}
           </p>
           <h1 className="mt-1 font-display text-2xl font-semibold text-ink">{lesson.title}</h1>
 
-          {!enrollment ? (
+          {!enrollment && !preview ? (
             <div className="card mt-6 text-center">
               <p className="text-sm text-slate-500">You aren&apos;t enrolled on this course yet.</p>
               <button onClick={() => enroll(course.id)} className="btn-primary mt-4">Enrol now</button>
@@ -215,7 +225,7 @@ export default function LessonPlayerPage() {
                   ] as const
                 ).map(([key, label, Icon]) => {
                   const active = phase === key || (key === 'quiz' && phase === 'result');
-                  const disabled = key === 'quiz' && !lp.contentDone && phase === 'content';
+                  const disabled = key === 'quiz' && !preview && !lp.contentDone && phase === 'content';
                   return (
                     <button
                       key={key}
@@ -298,7 +308,7 @@ export default function LessonPlayerPage() {
                       {!activityReady ? 'Find every hazard in the scene to unlock the quiz.' : lesson.type === 'VIDEO' && !contentReady ? 'Watch the video to unlock the quiz.' : lesson.quiz.length === 0 ? 'The quiz for this lesson is being prepared. You can watch the video now; the next lesson opens once the quiz is published and passed.' : `${lesson.quiz.length} questions. You need ${course.passMark}% to pass. Retakes are unlimited.`}
                     </p>
                     <button onClick={goQuiz} disabled={!contentReady || lesson.quiz.length === 0} className="btn-primary">
-                      {lp.passed ? 'Retake the quiz' : 'Mark complete and take the quiz'} <ArrowRight size={15} />
+                      {preview ? 'Try the quiz' : lp.passed ? 'Retake the quiz' : 'Mark complete and take the quiz'} <ArrowRight size={15} />
                     </button>
                   </div>
                 </div>
@@ -384,7 +394,7 @@ export default function LessonPlayerPage() {
                             <button onClick={goQuiz} className="btn-primary"><RotateCcw size={15} /> Retake quiz</button>
                           </>
                         )}
-                        {result.passed && next && (
+                        {(result.passed || preview) && next && (
                           <button onClick={() => router.push(`/training/courses/${course.id}/lessons/${next.id}`)} className="btn-primary">
                             Next lesson <ArrowRight size={15} />
                           </button>
@@ -425,7 +435,7 @@ export default function LessonPlayerPage() {
                                 Your answer: {String.fromCharCode(65 + answers[qi])}. {q.options[answers[qi]]}
                               </p>
                               {/* Like Coursera: explanations are revealed once you pass, so retakes still test recall. */}
-                              {result.passed ? (
+                              {result.passed || preview ? (
                                 <p className="mt-2 rounded-md bg-petrol-50/70 px-3 py-2 text-xs leading-relaxed text-petrol-600">
                                   {!ok && <>Correct answer: {String.fromCharCode(65 + q.answer)}. {q.options[q.answer]}. </>}
                                   {q.explanation}

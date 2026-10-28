@@ -56,6 +56,7 @@ import {
   Wallet,
   ListChecks,
   Gauge,
+  Eye,
 } from 'lucide-react';
 
 type NavItem = { href: string; label: string; icon: React.ElementType };
@@ -86,6 +87,7 @@ const NAV: Record<Role, NavGroup[]> = {
       title: 'Competence',
       items: [
         { href: '/admin/training', label: 'Training modules', icon: GraduationCap },
+        { href: '/admin/training/preview', label: 'Course preview', icon: Eye },
         { href: '/admin/competency', label: 'Competency matrix', icon: LayoutGrid },
         { href: '/admin/ptw-cards', label: 'PTW cards', icon: CreditCard },
         { href: '/admin/certificates', label: 'Certificate checks', icon: FileBadge },
