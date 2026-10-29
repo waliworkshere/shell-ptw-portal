@@ -78,7 +78,7 @@ export const TIPS: Record<Role, string[]> = {
     'Courses are recorded on camera. Sit in good light with your face visible.',
     'You need 80% on each lesson quiz; retakes are unlimited.',
     'Shell modules come first on the roadmap, then Artelia, then Local.',
-    'Category 1 courses cost 25 USD and Category 2 courses 40 USD. Free courses need no payment.',
+    'Courses are marked Free or Paid. The fee for a paid course is shown when you go to buy it.',
     'Follow Shell mobile usage guidelines at all times during work.',
   ],
   APPROVER: [

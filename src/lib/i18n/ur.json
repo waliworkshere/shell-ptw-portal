@@ -1703,7 +1703,15 @@
 "Listen to this lesson": "یہ سبق سنیں",
 "Video": "ویڈیو",
 "Transcript": "تحریری متن",
-"Reading": "مطالعہ"
+"Reading": "مطالعہ",
+"Paid": "بامعاوضہ",
+"Paid courses — Category 1 · under 2 hours": "بامعاوضہ کورس — کیٹیگری 1 · 2 گھنٹے سے کم",
+"Paid courses — Category 2 · over 2 hours": "بامعاوضہ کورس — کیٹیگری 2 · 2 گھنٹے سے زیادہ",
+"Buy course": "کورس خریدیں",
+"Buy this course": "یہ کورس خریدیں",
+"Confirm purchase —": "خریداری کی تصدیق کریں —",
+"After you confirm, pay by bank transfer or at the GEM office, quoting the reference shown. The HSSE team unlocks the course as soon as payment is received. Online card / PayPal payment is coming soon.": "تصدیق کے بعد دکھائے گئے حوالہ نمبر کے ساتھ بینک ٹرانسفر یا GEM دفتر میں ادائیگی کریں۔ ادائیگی ملتے ہی HSSE ٹیم کورس کھول دے گی۔ آن لائن کارڈ / PayPal ادائیگی جلد آ رہی ہے۔",
+"Courses are marked Free or Paid. The fee for a paid course is shown when you go to buy it.": "کورس مفت یا بامعاوضہ کے طور پر نشان زد ہیں۔ بامعاوضہ کورس کی فیس خریدتے وقت دکھائی جاتی ہے۔"
 },
 "patterns": [
 [

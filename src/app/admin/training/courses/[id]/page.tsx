@@ -6,7 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { RoleGuard } from '@/components/role-guard';
 import { useStore } from '@/lib/store';
 import { Course, Lesson, QuizQuestion } from '@/lib/types';
-import { courseMinutes, SHOW_COURSE_PRICES, TIER_LABEL, TIER_ORDER } from '@/lib/training';
+import { courseMinutes, SHOW_COURSE_PRICES, TIER_LABEL_FEE as TIER_LABEL, TIER_ORDER } from '@/lib/training';
 import { ArrowDown, ArrowLeft, ArrowUp, BookOpen, Check, ChevronDown, ChevronRight, FileQuestion, Plus, Save, Trash2, Video } from 'lucide-react';
 
 const uid = (p: string) => `${p}-${Date.now()}-${Math.floor(Math.random() * 1000)}`;

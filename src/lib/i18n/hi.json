@@ -1703,7 +1703,15 @@
 "Listen to this lesson": "यह पाठ सुनें",
 "Video": "वीडियो",
 "Transcript": "लिखित पाठ",
-"Reading": "पढ़ना"
+"Reading": "पढ़ना",
+"Paid": "सशुल्क",
+"Paid courses — Category 1 · under 2 hours": "सशुल्क कोर्स — श्रेणी 1 · 2 घंटे से कम",
+"Paid courses — Category 2 · over 2 hours": "सशुल्क कोर्स — श्रेणी 2 · 2 घंटे से अधिक",
+"Buy course": "कोर्स खरीदें",
+"Buy this course": "यह कोर्स खरीदें",
+"Confirm purchase —": "खरीद की पुष्टि करें —",
+"After you confirm, pay by bank transfer or at the GEM office, quoting the reference shown. The HSSE team unlocks the course as soon as payment is received. Online card / PayPal payment is coming soon.": "पुष्टि के बाद, दिखाए गए संदर्भ के साथ बैंक ट्रांसफ़र से या GEM कार्यालय में भुगतान करें। भुगतान मिलते ही HSSE टीम कोर्स खोल देगी। ऑनलाइन कार्ड / PayPal भुगतान जल्द आ रहा है।",
+"Courses are marked Free or Paid. The fee for a paid course is shown when you go to buy it.": "कोर्स मुफ़्त या सशुल्क के रूप में चिह्नित हैं। सशुल्क कोर्स का शुल्क खरीदते समय दिखाया जाता है।"
 },
 "patterns": [
 [

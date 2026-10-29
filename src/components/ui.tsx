@@ -81,7 +81,11 @@ export function SourceBadge({ source, size = 'sm' }: { source: import('@/lib/typ
   return <span className={`inline-flex items-center gap-1 rounded-full bg-leaf-50 font-semibold text-leaf-700 ${h}`}>● Local</span>;
 }
 
-export function PriceTag({ price, tier }: { price?: number; tier?: CourseTier }) {
+export function PriceTag({ price, tier, showFee = false }: { price?: number; tier?: CourseTier; showFee?: boolean }) {
+  if (tier && !showFee) {
+    if (tier === 'FREE') return <span className="text-[11px] font-semibold text-leaf-600">Free</span>;
+    return <span className="rounded bg-ink px-1.5 py-0.5 text-[11px] font-semibold text-sand-400">Paid</span>;
+  }
   if (!SHOW_COURSE_PRICES) {
     if (tier === 'FREE' || (!tier && !price)) return <span className="text-[11px] font-semibold text-leaf-600">Free</span>;
     if (!tier) return null;

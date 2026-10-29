@@ -1703,7 +1703,15 @@
 "Listen to this lesson": "এই পাঠটি শুনুন",
 "Video": "ভিডিও",
 "Transcript": "লিখিত পাঠ",
-"Reading": "পড়া"
+"Reading": "পড়া",
+"Paid": "পেইড",
+"Paid courses — Category 1 · under 2 hours": "পেইড কোর্স — ক্যাটাগরি ১ · ২ ঘণ্টার কম",
+"Paid courses — Category 2 · over 2 hours": "পেইড কোর্স — ক্যাটাগরি ২ · ২ ঘণ্টার বেশি",
+"Buy course": "কোর্স কিনুন",
+"Buy this course": "এই কোর্স কিনুন",
+"Confirm purchase —": "কেনা নিশ্চিত করুন —",
+"After you confirm, pay by bank transfer or at the GEM office, quoting the reference shown. The HSSE team unlocks the course as soon as payment is received. Online card / PayPal payment is coming soon.": "নিশ্চিত করার পর দেখানো রেফারেন্স উল্লেখ করে ব্যাংক ট্রান্সফার বা GEM অফিসে পরিশোধ করুন। পেমেন্ট পেলেই HSSE টিম কোর্সটি খুলে দেবে। অনলাইন কার্ড / PayPal পেমেন্ট শিগগিরই আসছে।",
+"Courses are marked Free or Paid. The fee for a paid course is shown when you go to buy it.": "কোর্সগুলো ফ্রি বা পেইড হিসেবে চিহ্নিত। পেইড কোর্সের ফি কেনার সময় দেখানো হয়।"
 },
 "patterns": [
 [

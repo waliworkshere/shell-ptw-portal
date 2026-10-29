@@ -131,7 +131,7 @@ export default function AdminTrainingPage() {
                                   {c.mandatory && <span className="ml-2 rounded bg-sand-100 px-1.5 py-0.5 text-[10px] font-medium text-sand-700">Required</span>}
                                 </p>
                               </td>
-                              <td data-label="Menu" className="px-5 py-3">{c.tier ? <PriceTag price={c.price} tier={c.tier} /> : <span className="text-[11px] text-slate-400">Not listed</span>}</td>
+                              <td data-label="Menu" className="px-5 py-3">{c.tier ? <PriceTag price={c.price} tier={c.tier} showFee /> : <span className="text-[11px] text-slate-400">Not listed</span>}</td>
                               <td data-label="Lessons / Qs" className="app-number px-5 py-3 text-slate-500">{c.lessons.length} / {c.lessons.reduce((a, l) => a + l.quiz.length, 0)}</td>
                               <td data-label="Length" className="px-5 py-3 text-slate-500">~{courseMinutes(c)} min</td>
                               <td data-label="Enrolled" className="app-number px-5 py-3">{enr.length}</td>

@@ -7,6 +7,7 @@ import { RoleGuard } from '@/components/role-guard';
 import { PriceTag, ProgressBar, SourceBadge } from '@/components/ui';
 import { courseUnlocked, coursePriceUsd, pendingOrder } from '@/lib/access';
 import { CourseGate } from '@/components/course-gate';
+import { Modal } from '@/components/modal';
 import { PreviewBanner } from '@/components/preview-banner';
 import { useProctor } from '@/components/proctor';
 import { useStore } from '@/lib/store';
@@ -22,6 +23,7 @@ export default function CourseOverviewPage() {
   const enrollment = state.enrollments.find((e) => e.userId === currentUser?.id && e.courseId === courseId);
   const proctor = useProctor();
   const [gateOpen, setGateOpen] = useState(false);
+  const [payOpen, setPayOpen] = useState(false);
   // Administrators open learner pages in preview: every lesson open, nothing enrolled, paid or saved.
   const preview = currentUser?.role === 'ADMIN';
 
@@ -53,7 +55,7 @@ export default function CourseOverviewPage() {
       return;
     }
     if (needsPayment) {
-      requestOrder('COURSE', course!.id);
+      if (!order) setPayOpen(true);
       return;
     }
     if (course!.cameraRequired && !proctor.active) return setGateOpen(true);
@@ -68,6 +70,25 @@ export default function CourseOverviewPage() {
           <ArrowLeft size={15} /> {preview ? 'Course preview' : 'My learning'}
         </Link>
 
+        <Modal open={payOpen} onClose={() => setPayOpen(false)} title="Buy this course">
+          <div className="space-y-4 text-sm">
+            <div className="rounded-xl bg-petrol-50 p-4">
+              <p className="app-number text-xs text-slate-500">{course.code}</p>
+              <p className="mt-0.5 font-medium text-ink">{course.title}</p>
+              {course.tier && <p className="mt-0.5 text-xs text-slate-500">{TIER_LABEL[course.tier]}</p>}
+              <div className="mt-3 flex items-baseline justify-between border-t border-petrol-100 pt-3">
+                <span className="text-slate-600">Course fee</span>
+                <span className="app-number font-display text-2xl font-semibold text-ink">{priceUsd} USD</span>
+              </div>
+            </div>
+            <p className="text-xs leading-relaxed text-slate-500">After you confirm, pay by bank transfer or at the GEM office, quoting the reference shown. The HSSE team unlocks the course as soon as payment is received. Online card / PayPal payment is coming soon.</p>
+            <div className="flex justify-end gap-2">
+              <button onClick={() => setPayOpen(false)} className="btn-secondary">Cancel</button>
+              <button onClick={() => { requestOrder('COURSE', course.id); setPayOpen(false); }} className="btn-primary"><CreditCard size={15} /> Confirm purchase — {priceUsd} USD</button>
+            </div>
+          </div>
+        </Modal>
+
         <CourseGate course={course} open={gateOpen} onClose={() => setGateOpen(false)} onReady={() => { setGateOpen(false); go(); }} />
 
         <div className="relative mt-4 overflow-hidden rounded-2xl bg-petrol-600 p-8 text-white">
@@ -78,7 +99,7 @@ export default function CourseOverviewPage() {
             <span className="rounded-full bg-white/10 px-2.5 py-1 text-xs">{course.level}</span>
             {course.mandatory && <span className="rounded-full bg-sand-500 px-2.5 py-1 text-xs font-semibold text-ink">Required</span>}
             {preview && course.status !== 'PUBLISHED' && <span className="rounded-full bg-rust-500 px-2.5 py-1 text-xs font-semibold text-white">Draft</span>}
-            {(SHOW_COURSE_PRICES || preview) && priceUsd ? <span className="app-number rounded-full bg-ink px-2.5 py-1 text-xs font-semibold text-sand-400">{priceUsd} USD</span> : null}
+            {course.tier && <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${priceUsd ? 'bg-ink text-sand-400' : 'bg-leaf-500 text-white'}`}>{priceUsd ? 'Paid' : 'Free'}</span>}
             {!SHOW_COURSE_PRICES && course.tier && <span className="rounded-full bg-white/10 px-2.5 py-1 text-xs">{TIER_LABEL[course.tier]}</span>}
           </div>
           <p className="app-number mt-4 text-xs text-petrol-100">{course.code} · {course.category}</p>
@@ -100,7 +121,7 @@ export default function CourseOverviewPage() {
               </button>
             ) : (
               <button onClick={start} className="inline-flex items-center gap-2 rounded-lg bg-sand-500 px-4 py-2 text-sm font-semibold text-ink transition hover:bg-sand-400">
-                {needsPayment ? <CreditCard size={16} /> : <PlayCircle size={16} />} {preview ? 'Start preview' : needsPayment ? (order ? 'Purchase requested' : `Buy course — ${priceUsd} USD`) : enrollment && p.done > 0 ? 'Continue course' : enrollment ? 'Start course' : 'Enrol and start'}
+                {needsPayment ? <CreditCard size={16} /> : <PlayCircle size={16} />} {preview ? 'Start preview' : needsPayment ? (order ? 'Purchase requested' : 'Buy course') : enrollment && p.done > 0 ? 'Continue course' : enrollment ? 'Start course' : 'Enrol and start'}
               </button>
             )}
             {enrollment && (

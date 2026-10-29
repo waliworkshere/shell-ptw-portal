@@ -4,7 +4,10 @@ import { AppState, Course, CourseTier, Enrollment, Lesson, LessonProgress } from
 export const SHOW_COURSE_PRICES = true;
 
 export const TIER_ORDER: CourseTier[] = ['FREE', 'CAT1', 'CAT2'];
-export const TIER_LABEL: Record<CourseTier, string> = { FREE: 'Free courses', CAT1: 'Paid courses — Category 1 · under 2 hours · 25 USD', CAT2: 'Paid courses — Category 2 · over 2 hours · 40 USD' };
+/** Learner-facing: says Free or Paid only. The fee is shown at the payment step. */
+export const TIER_LABEL: Record<CourseTier, string> = { FREE: 'Free courses', CAT1: 'Paid courses — Category 1 · under 2 hours', CAT2: 'Paid courses — Category 2 · over 2 hours' };
+/** Admin-facing: includes the fee. */
+export const TIER_LABEL_FEE: Record<CourseTier, string> = { FREE: 'Free courses', CAT1: 'Paid courses — Category 1 · under 2 hours · 25 USD', CAT2: 'Paid courses — Category 2 · over 2 hours · 40 USD' };
 export const TIER_SHORT: Record<CourseTier, string> = { FREE: 'Free', CAT1: 'Category 1', CAT2: 'Category 2' };
 
 /** Order of the courses menu, as given by Artelia HSSE. Courses not in this list follow, by code. */
