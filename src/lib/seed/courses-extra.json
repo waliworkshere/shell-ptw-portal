@@ -640,6 +640,121 @@
             "explanation": "UST installation is listed as Category 2 in 04.100."
           }
         ]
+      },
+      {
+        "id": "l-swc-lift",
+        "title": "Start-Work Checks: Lifting & Rigging",
+        "type": "READING",
+        "durationMins": 10,
+        "body": [
+          "These are the Start-Work Checks for lifting & rigging: the Save Your Life Actions that must be in place before this work begins. Start Work Authority means \"I will not start work until I confirm\" every action below.",
+          "Every person exposed to the work confirms each action, and the Start-Work Verifier confirms them too. If any safeguard is not in place, stop and seek help. The numbers in the illustration match the actions.",
+          "1. A written lift plan is in place where required, and the operator and rigger have discussed it. How to confirm: Confirm equipment operator and rigger have discussed the written lift plan prior to making a lift. Confirm additional safeguards required for the following specialised lifts have been documented in the written lift plan and are in place and working: Blind Lifts. Complex Lifts. Complicated Lifts. Heavy Lifts. Personnel Lifts.",
+          "2. Equipment operator and rigger are qualified to perform the lifting and rigging task. How to confirm: Review qualification records of crane operator and riggers.",
+          "3. Load weight is within the range of the equipment’s safe working limit. How to confirm: Refer to manufacturer’s load chart for reference. Ask the equipment operator and rigger to explain how the weight of the load was determined and calculated. If load chart does not exist, assume equipment is not rated for the lift, stop work and identify alternative lifting equipment that is rated for the load.",
+          "4. Lifting and rigging equipment is certified, inspected and rated for the task. How to confirm: Inspect slings, shackles, cables, etc., for wear/defects. Confirm the lifting and rigging equipment certifications have not expired. Complete pre-use check of lifting and rigging equipment. Confirm equipment has not been altered, modified or field-fabricated.",
+          "5. Lifting and rigging equipment safety devices are in place and working. How to confirm: Complete a pre-use crane inspection and review manufacturer's recommendations for safety equipment (e.g., emergency shut down equipment, booms, stop, anti-two block, brake, weight indicators and load limiting devices). Follow the Bypassing Critical Protection standard when lifting and rigging safety devices are bypassed.",
+          "6. Communication plan is agreed by all workers involved. How to confirm: Examples of communication methods: Hand signals. Radio communications. Agree on emergency stop signals during pre-job meeting. Agree on communication methods for blind lifts. Ask crew to demonstrate communication plan.",
+          "7. A plan is in place to prevent and mitigate load shifts, dropped objects, load-path obstructions, overhead obstructions and power lines, and working under suspended loads. How to confirm: Establish exclusion zones considering the cone of exposure / line of fire. Erect barricades to protect the exclusion zone as needed. Identify and mitigate load shifts, dropped objects, load-path obstructions, overhead obstructions and power lines, and working under suspended loads.",
+          "8. Lifting equipment is stable, per equipment manufacturer specifications. How to confirm: Confirm ground is stable and level for the lifting equipment. Confirm matting is stable and level for the lifting equipment. Confirm restraints (e.g., hold-down bolts, fasteners) are secure. Confirm there is enough space for outrigger deployment.",
+          "In Gemsafety, record these checks in the Start Work Check section, with your verifier, before work starts. The original Start-Work Check form is linked below."
+        ],
+        "keyPoints": [
+          "A written lift plan is in place where required, and the operator and rigger have discussed it.",
+          "Equipment operator and rigger are qualified to perform the lifting and rigging task.",
+          "Load weight is within the range of the equipment’s safe working limit.",
+          "Lifting and rigging equipment is certified, inspected and rated for the task.",
+          "Lifting and rigging equipment safety devices are in place and working.",
+          "Communication plan is agreed by all workers involved.",
+          "A plan is in place to prevent and mitigate load shifts, dropped objects, load-path obstructions, overhead obstructions and power lines, and working under suspended loads.",
+          "Lifting equipment is stable, per equipment manufacturer specifications."
+        ],
+        "images": [
+          {
+            "src": "/training/swc/lifting-rigging.jpg",
+            "caption": "Start-Work Checks — Lifting & Rigging. The numbers match the actions in this lesson."
+          }
+        ],
+        "resources": [
+          {
+            "label": "Start-Work Checks form — Lifting & Rigging (Word)",
+            "url": "/docs/swc/start-work-checks-lifting-rigging.docx"
+          }
+        ],
+        "quiz": [
+          {
+            "id": "l-swc-lift-q1",
+            "prompt": "There is no load chart for the lifting equipment. What do you do?",
+            "options": [
+              "Assume it is not rated, stop work and find rated equipment",
+              "Lift slowly",
+              "Ask the rigger to guess",
+              "Estimate the capacity"
+            ],
+            "answer": 0,
+            "explanation": "If no load chart exists, assume the equipment is not rated for the lift, stop and identify alternative rated equipment."
+          },
+          {
+            "id": "l-swc-lift-q2",
+            "prompt": "Which lifts need extra safeguards in the written lift plan?",
+            "options": [
+              "Only lifts over 50 tonnes",
+              "None",
+              "Blind, complex, complicated, heavy and personnel lifts",
+              "Only lifts at night"
+            ],
+            "answer": 2,
+            "explanation": "Specialised lifts — blind, complex, complicated, heavy and personnel lifts — have extra documented safeguards."
+          },
+          {
+            "id": "l-swc-lift-q3",
+            "prompt": "Is altered or field-fabricated lifting equipment acceptable?",
+            "options": [
+              "Yes, if welded by a professional",
+              "No — equipment must not be altered, modified or field-fabricated",
+              "Yes, if it looks strong",
+              "Yes, for small lifts"
+            ],
+            "answer": 1,
+            "explanation": "Confirm the equipment has not been altered, modified or field-fabricated, and certifications have not expired."
+          },
+          {
+            "id": "l-swc-lift-q4",
+            "prompt": "What is the exclusion zone based on?",
+            "options": [
+              "The size of the crane cab",
+              "The operator's preference",
+              "The cone of exposure / line of fire",
+              "The site boundary only"
+            ],
+            "answer": 2,
+            "explanation": "Exclusion zones are set considering the cone of exposure / line of fire, with barricades as needed."
+          },
+          {
+            "id": "l-swc-lift-q5",
+            "prompt": "What is checked under the lifting equipment?",
+            "options": [
+              "Nothing",
+              "That it is painted",
+              "Only that it is dry",
+              "Stable, level ground or matting, and space for the outriggers"
+            ],
+            "answer": 3,
+            "explanation": "Confirm the ground and matting are stable and level, restraints are secure and outriggers have space."
+          },
+          {
+            "id": "l-swc-lift-q6",
+            "prompt": "When are emergency stop signals agreed?",
+            "options": [
+              "During the pre-job meeting",
+              "During the lift",
+              "After the lift",
+              "They are not needed"
+            ],
+            "answer": 0,
+            "explanation": "Agree emergency stop signals during the pre-job meeting, and ask the crew to demonstrate the communication plan."
+          }
+        ]
       }
     ],
     "tier": "CAT2"
@@ -678,7 +793,119 @@
     "validityMonths": 24,
     "cameraRequired": true,
     "tier": "CAT1",
-    "lessons": []
+    "lessons": [
+      {
+        "id": "l-swc-exc",
+        "title": "Start-Work Checks: Excavation",
+        "type": "READING",
+        "durationMins": 10,
+        "body": [
+          "These are the Start-Work Checks for excavation: the Save Your Life Actions that must be in place before this work begins. Start Work Authority means \"I will not start work until I confirm\" every action below.",
+          "Every person exposed to the work confirms each action, and the Start-Work Verifier confirms them too. If any safeguard is not in place, stop and seek help. The numbers in the illustration match the actions.",
+          "1. Underground utilities are visibly marked (e.g., pipelines, cables, communications, power). How to confirm: Confirm local utilities have been notified of the dig so they can identify their lines (e.g., One-Call). Confirm underground utilities are visibly identified with flagging or paint. Confirm depth and width of pipeline are known before digging, or non-mechanical means are used to find lines.",
+          "2. Excavation equipment maintains minimum clearances from overhead obstructions. How to confirm: Ask crew members if they know the exact location, height and voltage of overhead power lines. Keep clear by applying the overhead power line proximity calculation (load length + equipment height + at least 10 feet), by using goal-post barriers on overhead power lines, or by keeping at least 6 metres (20 feet) between equipment and the energy source when the voltage is unknown.",
+          "3. Excavation area is secured and barriers are in place to prevent unauthorised access. How to confirm: Confirm excavation area is visibly identified with caution tape, silt fencing or other visual identification. Confirm excavation site is secure from unauthorised access. Confirm a competent person assessed the soil type to define the excavation. Confirm no personnel are in line-of-fire hazards (e.g., swing radius, discharge side of trencher). Confirm personnel will not be allowed to enter or occupy excavations while heavy equipment is digging. Confirm essential personnel in the crew who need to be in the area.",
+          "4. Excavation has been evaluated to determine if it is a confined space. How to confirm: Confirm the excavation area has been evaluated to determine if it is a confined space (trench depths greater than or equal to 1.2 meters or 4 feet with vertical walls and limited access/egress). If the excavation area is a confined space follow the CSE standard and complete the CSE Start-Work Check.",
+          "5. A plan is in place to protect personnel entering the excavation from cave-in, hazardous atmosphere and water accumulation. How to confirm: Cave-in: protective systems include bracing, shoring, underpinning, benching, retaining devices or shield systems. Confirm a daily inspection will identify hazards and changing conditions, and that the crew will report collapse, contamination, water build-up or utilities encountered. Hazardous atmosphere: ask for gas testing if there are unexpected odours or leaks. Ask the Qualified Gas Tester how they know the meter is working, watch the initial test, confirm the follow-up frequency is on the permit, test for stratified atmospheres, and start work no more than 30 minutes after the initial gas test. Water accumulation: confirm the crew will carry out a daily inspection to identify hazards and changing conditions.",
+          "6. Excavations deeper than 1.2 meters (4 feet) have access and egress. How to confirm: Confirm there is a safe means of access and egress when entering an excavation greater than 1.2 meters (4 feet) in depth, up to 7.6 meters (25 feet) of lateral travel. Examples are ladder, stairways, ramps, sloping for ingress/egress.",
+          "In Gemsafety, record these checks in the Start Work Check section, with your verifier, before work starts. The original Start-Work Check form is linked below."
+        ],
+        "keyPoints": [
+          "Underground utilities are visibly marked (e.g., pipelines, cables, communications, power).",
+          "Excavation equipment maintains minimum clearances from overhead obstructions.",
+          "Excavation area is secured and barriers are in place to prevent unauthorised access.",
+          "Excavation has been evaluated to determine if it is a confined space.",
+          "A plan is in place to protect personnel entering the excavation from cave-in, hazardous atmosphere and water accumulation.",
+          "Excavations deeper than 1.2 meters (4 feet) have access and egress."
+        ],
+        "images": [
+          {
+            "src": "/training/swc/excavation.jpg",
+            "caption": "Start-Work Checks — Excavation. The numbers match the actions in this lesson."
+          }
+        ],
+        "resources": [
+          {
+            "label": "Start-Work Checks form — Excavation (Word)",
+            "url": "/docs/swc/start-work-checks-excavation.docx"
+          }
+        ],
+        "quiz": [
+          {
+            "id": "l-swc-exc-q1",
+            "prompt": "An excavation is evaluated as a possible confined space from what depth?",
+            "options": [
+              "0.5 metres (1.5 feet)",
+              "Any depth with water in it",
+              "3 metres (10 feet)",
+              "1.2 metres (4 feet), with vertical walls and limited access"
+            ],
+            "answer": 3,
+            "explanation": "Trench depths of 1.2 m (4 ft) or more with vertical walls and limited access/egress are evaluated as confined spaces."
+          },
+          {
+            "id": "l-swc-exc-q2",
+            "prompt": "The voltage of an overhead line is unknown. What minimum distance do you keep?",
+            "options": [
+              "6 metres (20 feet)",
+              "3 metres (10 feet)",
+              "1 metre (3 feet)",
+              "No distance if the line looks old"
+            ],
+            "answer": 0,
+            "explanation": "For unknown voltages keep at least 6 m (20 ft) between equipment and the energy source."
+          },
+          {
+            "id": "l-swc-exc-q3",
+            "prompt": "Excavations deeper than 1.2 m need a safe way in and out within what lateral distance?",
+            "options": [
+              "30 metres (100 feet)",
+              "15 metres (50 feet)",
+              "7.6 metres (25 feet)",
+              "Anywhere on site"
+            ],
+            "answer": 2,
+            "explanation": "Safe access and egress (ladder, stairs, ramp, sloping) within 7.6 m (25 ft) of lateral travel."
+          },
+          {
+            "id": "l-swc-exc-q4",
+            "prompt": "Can people enter the excavation while heavy equipment is digging?",
+            "options": [
+              "Yes, for quick measurements",
+              "No",
+              "Yes, if the operator can see them",
+              "Yes, if wearing a hard hat"
+            ],
+            "answer": 1,
+            "explanation": "Personnel are not allowed to enter or occupy excavations while heavy equipment is digging."
+          },
+          {
+            "id": "l-swc-exc-q5",
+            "prompt": "Which of these protects workers against cave-in?",
+            "options": [
+              "A daily phone call",
+              "Working faster",
+              "Bracing, shoring, benching or shield systems",
+              "Caution tape"
+            ],
+            "answer": 2,
+            "explanation": "Protective systems include bracing, shoring, underpinning, benching, retaining devices or shield systems."
+          },
+          {
+            "id": "l-swc-exc-q6",
+            "prompt": "Before digging, how are underground utilities shown?",
+            "options": [
+              "Guessed from the station layout",
+              "Found by digging with the machine",
+              "Not needed on retail sites",
+              "Visibly marked with flagging or paint after the utilities are notified"
+            ],
+            "answer": 3,
+            "explanation": "Utilities are notified and lines are visibly marked; depth and width are known or non-mechanical means are used."
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "crs-hot120",
@@ -696,7 +923,123 @@
     "validityMonths": 24,
     "cameraRequired": true,
     "tier": "CAT1",
-    "lessons": []
+    "lessons": [
+      {
+        "id": "l-swc-hot",
+        "title": "Start-Work Checks: Hot Work",
+        "type": "READING",
+        "durationMins": 10,
+        "body": [
+          "These are the Start-Work Checks for hot work: the Save Your Life Actions that must be in place before this work begins. Start Work Authority means \"I will not start work until I confirm\" every action below.",
+          "Every person exposed to the work confirms each action, and the Start-Work Verifier confirms them too. If any safeguard is not in place, stop and seek help. The numbers in the illustration match the actions.",
+          "1. Hot work has been evaluated for Isolation of Hazardous Energy (IHE) requirements. How to confirm: Confirm all potential energy sources have been identified, isolated, and locked and tagged. Confirm the system has been flushed, drained or purged to remove explosive materials or gases.",
+          "2. The atmosphere is within allowed limits prior to hot work. How to confirm: Ask Qualified Gas Tester to explain how they know the gas meter is working as designed. Watch the initial gas testing and confirm results are within acceptable limits. Confirm Qualified Gas Tester has performed atmospheric testing, including: At all openings below and above the hot work area. At a minimum of 15 meters (50 feet) around the hot work area.",
+          "3. Gas testing frequency has been established. How to confirm: Confirm follow-up frequency has been established by reviewing the Hot Work Permit/Certificate. Confirm that no more than 30 minutes will pass after the initial gas testing before starting hot work.",
+          "4. Drains, openings and vents are sealed. How to confirm: Look for drains within the hot work area and verify they are sealed and/or covered. Look for vents within the hot work area and verify they are routed away from the work area or are isolated. Walk surrounding area to identify gaps and openings in tanks or piping and verify they are sealed.",
+          "5. All combustible materials have been removed, covered or drenched. How to confirm: Walk the surrounding 15 meters (50 feet) area and ensure all combustible materials have been removed or that measures are in place to either cover them, shield them or keep them wet.",
+          "6. Firefighting equipment has been inspected and is at hot work site. How to confirm: Review the hot work certificate and confirm the firefighting equipment listed is on site and inspected to ensure it is fully functional.",
+          "7. Heat, slag or sparks will be contained. How to confirm: Confirm fire blankets are used to cover combustible materials. Confirm barriers are in place to prevent sparks from reaching a potential source.",
+          "8. Dedicated Fire Watch is in place. How to confirm: Confirm a Fire Watch has been designated and is on-site.",
+          "In Gemsafety, record these checks in the Start Work Check section, with your verifier, before work starts. The original Start-Work Check form is linked below."
+        ],
+        "keyPoints": [
+          "Hot work has been evaluated for Isolation of Hazardous Energy (IHE) requirements.",
+          "The atmosphere is within allowed limits prior to hot work.",
+          "Gas testing frequency has been established.",
+          "Drains, openings and vents are sealed.",
+          "All combustible materials have been removed, covered or drenched.",
+          "Firefighting equipment has been inspected and is at hot work site.",
+          "Heat, slag or sparks will be contained.",
+          "Dedicated Fire Watch is in place."
+        ],
+        "images": [
+          {
+            "src": "/training/swc/hot-work.jpg",
+            "caption": "Start-Work Checks — Hot Work. The numbers match the actions in this lesson."
+          }
+        ],
+        "resources": [
+          {
+            "label": "Start-Work Checks form — Hot Work (Word)",
+            "url": "/docs/swc/start-work-checks-hot-work.docx"
+          }
+        ],
+        "quiz": [
+          {
+            "id": "l-swc-hot-q1",
+            "prompt": "What is the longest time allowed between the initial gas test and starting hot work?",
+            "options": [
+              "The whole shift",
+              "2 hours",
+              "60 minutes",
+              "30 minutes"
+            ],
+            "answer": 3,
+            "explanation": "No more than 30 minutes may pass after the initial gas test before hot work starts."
+          },
+          {
+            "id": "l-swc-hot-q2",
+            "prompt": "How far around the hot work must combustible materials be removed, covered or kept wet?",
+            "options": [
+              "15 metres (50 feet)",
+              "50 metres (165 feet)",
+              "1 metre (3 feet)",
+              "3 metres (10 feet)"
+            ],
+            "answer": 0,
+            "explanation": "Walk the surrounding 15 m (50 ft) and remove, cover, shield or drench combustibles."
+          },
+          {
+            "id": "l-swc-hot-q3",
+            "prompt": "Where must the Qualified Gas Tester test the atmosphere?",
+            "options": [
+              "Only at the welding point",
+              "Only at ground level",
+              "At all openings above and below the work and at least 15 m around it",
+              "Only inside the shop"
+            ],
+            "answer": 2,
+            "explanation": "Testing covers all openings below and above the hot work area and a minimum of 15 m around it."
+          },
+          {
+            "id": "l-swc-hot-q4",
+            "prompt": "Before hot work, what must be done to the system?",
+            "options": [
+              "Painted",
+              "Flushed, drained or purged to remove explosive materials or gases",
+              "Pressurised",
+              "Left in service"
+            ],
+            "answer": 1,
+            "explanation": "Energy sources are isolated, locked and tagged, and the system is flushed, drained or purged."
+          },
+          {
+            "id": "l-swc-hot-q5",
+            "prompt": "Who must be in place for the hot work?",
+            "options": [
+              "A photographer",
+              "The station cashier",
+              "A dedicated Fire Watch",
+              "Nobody extra"
+            ],
+            "answer": 2,
+            "explanation": "A Fire Watch is designated and on site."
+          },
+          {
+            "id": "l-swc-hot-q6",
+            "prompt": "How are heat, slag and sparks contained?",
+            "options": [
+              "A bucket of sand nearby",
+              "Working faster",
+              "Opening the drains",
+              "Fire blankets over combustibles and barriers against sparks"
+            ],
+            "answer": 3,
+            "explanation": "Fire blankets cover combustibles and barriers stop sparks reaching a potential source."
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "crs-agt130",
@@ -750,7 +1093,107 @@
     "validityMonths": 24,
     "cameraRequired": true,
     "tier": "CAT1",
-    "lessons": []
+    "lessons": [
+      {
+        "id": "l-swc-dem",
+        "title": "Start-Work Checks: Decommissioning & Demolition",
+        "type": "READING",
+        "durationMins": 10,
+        "body": [
+          "These are the Start-Work Checks for decommissioning & demolition: the Save Your Life Actions that must be in place before this work begins. Start Work Authority means \"I will not start work until I confirm\" every action below.",
+          "Every person exposed to the work confirms each action, and the Start-Work Verifier confirms them too. If any safeguard is not in place, stop and seek help. The numbers in the illustration match the actions.",
+          "1. Equipment to be demolished is emptied/cleared of hazardous materials. How to confirm: Includes hydrocarbons, chemicals, contaminants and NORM.",
+          "2. All energy sources are identified, isolated and marked / colour coded. How to confirm: Includes electrical, pressure and gravity energy sources.",
+          "3. Equipment that may have stored energy is identified and marked. How to confirm: For example spring-loaded equipment, bent or obstructed materials, valves, pipe, suspensions and loading arms.",
+          "4. Safe areas, out of the line of fire are identified, with barriers in place where practical. How to confirm: Consider unforeseen equipment and materials movement.",
+          "5. Work area is assessed for potential dropped or unsecure objects, and potential objects have been removed or secured. How to confirm: Look for objects that may become loose or unsecure during the demolition process and could cause harm.",
+          "6. Residual contaminants have been identified, and appropriate PPE and work methods provided. How to confirm: For example lead, asbestos and PCBs.",
+          "In Gemsafety, record these checks in the Start Work Check section, with your verifier, before work starts. The original Start-Work Check form is linked below."
+        ],
+        "keyPoints": [
+          "Equipment to be demolished is emptied/cleared of hazardous materials.",
+          "All energy sources are identified, isolated and marked / colour coded.",
+          "Equipment that may have stored energy is identified and marked.",
+          "Safe areas, out of the line of fire are identified, with barriers in place where practical.",
+          "Work area is assessed for potential dropped or unsecure objects, and potential objects have been removed or secured.",
+          "Residual contaminants have been identified, and appropriate PPE and work methods provided."
+        ],
+        "images": [
+          {
+            "src": "/training/swc/decommissioning-demolition.jpg",
+            "caption": "Start-Work Checks — Decommissioning & Demolition. The numbers match the actions in this lesson."
+          }
+        ],
+        "resources": [
+          {
+            "label": "Start-Work Checks form — Decommissioning & Demolition (Word)",
+            "url": "/docs/swc/start-work-checks-decommissioning-demolition.docx"
+          }
+        ],
+        "quiz": [
+          {
+            "id": "l-swc-dem-q1",
+            "prompt": "Before demolition, the equipment must be emptied or cleared of what?",
+            "options": [
+              "Only loose tools",
+              "Paint and labels",
+              "Nothing — it is removed whole",
+              "Hazardous materials such as hydrocarbons, chemicals and NORM"
+            ],
+            "answer": 3,
+            "explanation": "Equipment to be demolished is emptied / cleared of hazardous materials (hydrocarbons, chemicals, contaminants, NORM)."
+          },
+          {
+            "id": "l-swc-dem-q2",
+            "prompt": "What must be done with all energy sources?",
+            "options": [
+              "Identified, isolated and marked / colour coded",
+              "Recorded only on the permit",
+              "Left live for lighting",
+              "Switched off at the end of the job"
+            ],
+            "answer": 0,
+            "explanation": "All energy sources (electrical, pressure, gravity) are identified, isolated and marked or colour coded."
+          },
+          {
+            "id": "l-swc-dem-q3",
+            "prompt": "Which is an example of equipment that may hold stored energy?",
+            "options": [
+              "A site office",
+              "A painted handrail",
+              "Spring-loaded equipment or loading arms",
+              "An empty pallet"
+            ],
+            "answer": 2,
+            "explanation": "Stored energy examples: spring-loaded equipment, bent or obstructed materials, valves, pipe, suspensions and loading arms."
+          },
+          {
+            "id": "l-swc-dem-q4",
+            "prompt": "Lead, asbestos or PCBs are found. What must be provided?",
+            "options": [
+              "Nothing, if the job is short",
+              "Appropriate PPE and work methods",
+              "Only a dust mask",
+              "A warning sign only"
+            ],
+            "answer": 1,
+            "explanation": "Residual contaminants are identified and the right PPE and work methods are provided."
+          },
+          {
+            "id": "l-swc-dem-q5",
+            "prompt": "Where should people be during demolition?",
+            "options": [
+              "Under the structure for shade",
+              "As close as possible to watch",
+              "In safe areas out of the line of fire, with barriers where practical",
+              "Anywhere with a hard hat"
+            ],
+            "answer": 2,
+            "explanation": "Safe areas out of the line of fire are identified, with barriers in place where practical."
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "crs-sup210",
@@ -768,7 +1211,141 @@
     "validityMonths": 24,
     "cameraRequired": true,
     "tier": "CAT2",
-    "lessons": []
+    "lessons": [
+      {
+        "id": "l-swc-verify",
+        "title": "Verifying Start-Work Checks",
+        "type": "READING",
+        "durationMins": 15,
+        "body": [
+          "As Site Supervisor you will often act as the Start-Work Verifier. Start-Work Checks are done at the job, immediately before work starts. Start Work Authority means \"I will not start work until I confirm\" each Save Your Life Action for the activity.",
+          "Every person exposed to the work confirms each action, and you confirm them as verifier. If any safeguard is not in place, stop and seek help — never sign a check you have not seen with your own eyes.",
+          "There are ten Start-Work Check sets. These are the actions for each:",
+          "Working at Heights: (1) Fall protection equipment (fall arrest and fall restraint) is certified, inspected and rated for the task. (2) Rescue plan has been reviewed with work crew and rescue equipment is available. (3) Fall protection equipment is adjusted to fit the worker. (4) Work crew agreed to be 100% tied off to the identified, approved anchorage point(s). (5) Fall path is clear of obstructions or mitigations have been implemented to address hazards. (6) Potential dropped objects have been identified and mitigated. (7) Work crew has agreed that no team member will work at height alone.",
+          "Decommissioning & Demolition: (1) Equipment to be demolished is emptied/cleared of hazardous materials. (2) All energy sources are identified, isolated and marked / colour coded. (3) Equipment that may have stored energy is identified and marked. (4) Safe areas, out of the line of fire are identified, with barriers in place where practical. (5) Work area is assessed for potential dropped or unsecure objects, and potential objects have been removed or secured. (6) Residual contaminants have been identified, and appropriate PPE and work methods provided.",
+          "Hot Work: (1) Hot work has been evaluated for Isolation of Hazardous Energy (IHE) requirements. (2) The atmosphere is within allowed limits prior to hot work. (3) Gas testing frequency has been established. (4) Drains, openings and vents are sealed. (5) All combustible materials have been removed, covered or drenched. (6) Firefighting equipment has been inspected and is at hot work site. (7) Heat, slag or sparks will be contained. (8) Dedicated Fire Watch is in place.",
+          "Excavation: (1) Underground utilities are visibly marked (e.g., pipelines, cables, communications, power). (2) Excavation equipment maintains minimum clearances from overhead obstructions. (3) Excavation area is secured and barriers are in place to prevent unauthorised access. (4) Excavation has been evaluated to determine if it is a confined space. (5) A plan is in place to protect personnel entering the excavation from cave-in, hazardous atmosphere and water accumulation. (6) Excavations deeper than 1.2 meters (4 feet) have access and egress.",
+          "Confined Space Entry: (1) Confined Space Entry has been evaluated for Isolation of Hazardous Energy (IHE) requirements. (2) The atmosphere is within allowed limits for entry. (3) Gas testing frequency has been established. (4) Ventilation is in place and working. (5) Entry watch has been assigned and communication plan agreed to. (6) All entrants are wearing rescue equipment required in rescue plan.",
+          "De-Energised Electrical Work: (1) Circuit/equipment to be worked on is the one identified in the plan. (2) Isolation points are identified per diagram and/or plan. (3) Isolation devices are set in the identified position per diagram and/or plan. (4) Electrical components are placed in an electrically safe condition. (5) Isolation points are locked and/or tagged, and keys are controlled by me or my crew supervisor. (6) Identify and mitigate hazards on adjacent live parts.",
+          "Energised / Live Electrical Work: (1) The authorised work scope has been reviewed and agreed to. (2) Personnel are wearing PPE rated for the arc flash (per the arc flash hazard analysis) and for the electrical voltage before entering the limited approach boundary. (3) Circuit/equipment to be worked on is the one identified in the plan. (4) Safe work zones have been identified and visually barricaded. (5) Electrical standby person has been assigned and emergency response plan has been agreed to. (6) Communication plan with the standby person has been agreed to, including stop work signals. (7) Insulated tools and testing equipment have been inspected for damage and are rated for the task.",
+          "Isolation of Hazardous Energy: (1) Isolation points are identified per plan. (2) Isolation equipment is rated for the energy source. (3) Isolation devices are set in the identified position per plan. (4) Isolation points are locked and tagged, and keys are controlled by me or my crew supervisor. (5) Equipment is de-energised and tested for residual or stored energy. (6) Isolation devices are removed per plan. (7) All personnel exposed to energy source have been told equipment is ready to be re-energised. (8) Equipment is ready to be put back in service.",
+          "Lifting & Rigging: (1) A written lift plan is in place where required, and the operator and rigger have discussed it. (2) Equipment operator and rigger are qualified to perform the lifting and rigging task. (3) Load weight is within the range of the equipment’s safe working limit. (4) Lifting and rigging equipment is certified, inspected and rated for the task. (5) Lifting and rigging equipment safety devices are in place and working. (6) Communication plan is agreed by all workers involved. (7) A plan is in place to prevent and mitigate load shifts, dropped objects, load-path obstructions, overhead obstructions and power lines, and working under suspended loads. (8) Lifting equipment is stable, per equipment manufacturer specifications.",
+          "Heavy Equipment and Vehicle Operations: (1) Controls are in place to segregate pedestrians from mobile equipment and vehicle roadways. (2) Vehicle / Equipment is properly certified for duty, and daily inspections are completed and recorded. (3) Loads are assessed for stability, securement and capacity for the vehicle / equipment being used. (4) An authorised and competent person is assigned to aid in control of vehicle / equipment movement as required (i.e. flagman, banksman, spotter). (5) Blind-spots are identified and mitigated, and controls are in place to minimise and manage all equipment and vehicle reversing. (6) Controls are in place to manage proximity of equipment and vehicles from excavations, overhead lines, and underground infrastructure. (7) Vehicles / Equipment are positioned with conditions and controls in place to prevent unintentional movement.",
+          "The full \"how to confirm\" guidance for each set is in the matching course: Scaffold Inspection and Rescue, Demolition Safety, Hot Works, Excavation Safety, Confined Space Entry, Electrical Safety Rules, Permit to Work, Riggers and Banksmen, and Defensive Driving Basics. The original forms are linked below."
+        ],
+        "keyPoints": [
+          "Start Work Authority: do not start until every action is confirmed",
+          "Every exposed worker confirms, and the verifier confirms too",
+          "Any safeguard missing: stop and seek help",
+          "Ten Start-Work Check sets, one per high-risk activity",
+          "Gas test to start of work: 30 minutes maximum"
+        ],
+        "resources": [
+          {
+            "label": "Start-Work Checks form — Working at Heights (Word)",
+            "url": "/docs/swc/start-work-checks-working-at-heights.docx"
+          },
+          {
+            "label": "Start-Work Checks form — Decommissioning & Demolition (Word)",
+            "url": "/docs/swc/start-work-checks-decommissioning-demolition.docx"
+          },
+          {
+            "label": "Start-Work Checks form — Hot Work (Word)",
+            "url": "/docs/swc/start-work-checks-hot-work.docx"
+          },
+          {
+            "label": "Start-Work Checks form — Excavation (Word)",
+            "url": "/docs/swc/start-work-checks-excavation.docx"
+          },
+          {
+            "label": "Start-Work Checks form — Confined Space Entry (Word)",
+            "url": "/docs/swc/start-work-checks-confined-space-entry.docx"
+          },
+          {
+            "label": "Start-Work Checks form — De-Energised Electrical Work (Word)",
+            "url": "/docs/swc/start-work-checks-de-energised-electrical.docx"
+          },
+          {
+            "label": "Start-Work Checks form — Energised / Live Electrical Work (Word)",
+            "url": "/docs/swc/start-work-checks-live-electrical.docx"
+          },
+          {
+            "label": "Start-Work Checks form — Isolation of Hazardous Energy (Word)",
+            "url": "/docs/swc/start-work-checks-isolation-of-hazardous-energy.docx"
+          },
+          {
+            "label": "Start-Work Checks form — Lifting & Rigging (Word)",
+            "url": "/docs/swc/start-work-checks-lifting-rigging.docx"
+          },
+          {
+            "label": "Start-Work Checks form — Heavy Equipment and Vehicle Operations (Word)",
+            "url": "/docs/swc/start-work-checks-heavy-equipment-vehicles.docx"
+          }
+        ],
+        "quiz": [
+          {
+            "id": "l-swc-verify-q1",
+            "prompt": "Who confirms the Save Your Life Actions before work starts?",
+            "options": [
+              "Only the supervisor",
+              "Every exposed person doing the work, and the Start-Work Verifier",
+              "Only the permit issuer",
+              "Only the HSSE office"
+            ],
+            "answer": 1,
+            "explanation": "All exposed persons confirm each action and the Start-Work Verifier confirms them too."
+          },
+          {
+            "id": "l-swc-verify-q2",
+            "prompt": "A safeguard on the Start-Work Check is not in place. What do you do?",
+            "options": [
+              "Ask the crew to be careful",
+              "Start and fix it later",
+              "Stop and seek help",
+              "Tick it anyway"
+            ],
+            "answer": 2,
+            "explanation": "Stop and seek help if any of the safeguards are not in place."
+          },
+          {
+            "id": "l-swc-verify-q3",
+            "prompt": "What does Start Work Authority mean?",
+            "options": [
+              "The supervisor may start work at any time",
+              "Work can start once the permit is printed",
+              "The client decides when to start",
+              "\"I will not start work until I confirm\" every action"
+            ],
+            "answer": 3,
+            "explanation": "Start Work Authority: I will not start work until I confirm each action."
+          },
+          {
+            "id": "l-swc-verify-q4",
+            "prompt": "For hot work and confined space entry, the job must start within how long of the initial gas test?",
+            "options": [
+              "30 minutes",
+              "2 hours",
+              "10 minutes",
+              "The same day"
+            ],
+            "answer": 0,
+            "explanation": "Both checks say no more than 30 minutes may pass after the initial gas test."
+          },
+          {
+            "id": "l-swc-verify-q5",
+            "prompt": "How many Start-Work Check activity sets are there?",
+            "options": [
+              "3",
+              "10",
+              "20",
+              "5"
+            ],
+            "answer": 1,
+            "explanation": "Ten sets: working at heights, demolition, hot work, excavation, confined space, de-energised and live electrical, isolation, lifting and rigging, and heavy equipment and vehicles."
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "crs-psp220",
@@ -1797,7 +2374,323 @@
     "validityMonths": 24,
     "cameraRequired": true,
     "tier": "CAT2",
-    "lessons": []
+    "lessons": [
+      {
+        "id": "l-swc-ihe-esr",
+        "title": "Start-Work Checks: Isolation of Hazardous Energy",
+        "type": "READING",
+        "durationMins": 10,
+        "body": [
+          "These are the Start-Work Checks for Isolation of Hazardous Energy: the Save Your Life Actions that must be in place before this work begins. Start Work Authority means \"I will not start work until I confirm\" every action below.",
+          "Every person exposed to the work confirms each action, and the Start-Work Verifier confirms them too. If any safeguard is not in place, stop and seek help. The numbers in the illustration match the actions.",
+          "1. Isolation points are identified per plan. How to confirm: Use the Equipment Isolation Procedure, P&IDs, or Process Flow Diagrams to physically confirm all isolations are in place and tagged or marked. Confirm crew has physically inspected the equipment for other potential energy sources not previously identified or isolated.",
+          "2. Isolation equipment is rated for the energy source. How to confirm: Confirm blinds, spades and skillets are stamped or certified for the pressure rating of the equipment.",
+          "3. Isolation devices are set in the identified position per plan. How to confirm: Confirm valves are open or closed per plan. Confirm blinds, spades and skillets are installed per plan. Confirm switchgear or Motor Control Center (MCC) equipment switches are open and locked out.",
+          "4. Isolation points are locked and tagged, and keys are controlled by me or my crew supervisor. How to confirm: Confirm locks, tags or securing devices are on isolation points. Confirm keys are in a designated secure location.",
+          "5. Equipment is de-energised and tested for residual or stored energy. How to confirm: Ask crew/operations to attempt to start up equipment. Confirm systems (lines, gauges, etc.) have been tested for residual or stored energy by: Opening bleed and vent points to release stored energy. Pressure testing. Air gapping of lines. Confirm gas testing and atmospheric monitoring will occur when opening piping, equipment, etc.",
+          "6. Isolation devices are removed per plan. How to confirm: Physically inspect: Equipment to confirm scope of work was completed. Work area to confirm all mechanical, process and electrical isolations were removed. Bleed and vent points to confirm they are closed.",
+          "7. All personnel exposed to energy source have been told equipment is ready to be re-energised. How to confirm: Ask work crews in and near the work area if they are aware equipment is ready to be re-energised.",
+          "8. Equipment is ready to be put back in service. How to confirm: Ask work crews in and near the work area if they are aware equipment is ready to be put back in service.",
+          "In Gemsafety, record these checks in the Start Work Check section, with your verifier, before work starts. The original Start-Work Check form is linked below."
+        ],
+        "keyPoints": [
+          "Isolation points are identified per plan.",
+          "Isolation equipment is rated for the energy source.",
+          "Isolation devices are set in the identified position per plan.",
+          "Isolation points are locked and tagged, and keys are controlled by me or my crew supervisor.",
+          "Equipment is de-energised and tested for residual or stored energy.",
+          "Isolation devices are removed per plan.",
+          "All personnel exposed to energy source have been told equipment is ready to be re-energised.",
+          "Equipment is ready to be put back in service."
+        ],
+        "images": [
+          {
+            "src": "/training/swc/isolation-of-hazardous-energy.jpg",
+            "caption": "Start-Work Checks — Isolation of Hazardous Energy. The numbers match the actions in this lesson."
+          }
+        ],
+        "resources": [
+          {
+            "label": "Start-Work Checks form — Isolation of Hazardous Energy (Word)",
+            "url": "/docs/swc/start-work-checks-isolation-of-hazardous-energy.docx"
+          }
+        ],
+        "quiz": [
+          {
+            "id": "l-swc-ihe-esr-q1",
+            "prompt": "What must be true of blinds, spades and skillets?",
+            "options": [
+              "Painted red",
+              "Recently cleaned",
+              "Stamped or certified for the pressure rating of the equipment",
+              "The same size as the pipe"
+            ],
+            "answer": 2,
+            "explanation": "Isolation equipment is rated for the energy source: blinds, spades and skillets are stamped or certified for the pressure rating."
+          },
+          {
+            "id": "l-swc-ihe-esr-q2",
+            "prompt": "How is residual or stored energy tested?",
+            "options": [
+              "Wait one hour",
+              "Look at the equipment",
+              "Ask whether it was switched off",
+              "Try to start the equipment, open bleed and vent points, pressure test, air gap lines"
+            ],
+            "answer": 3,
+            "explanation": "Attempt a start-up and test lines and gauges by opening bleed/vent points, pressure testing and air gapping."
+          },
+          {
+            "id": "l-swc-ihe-esr-q3",
+            "prompt": "Who controls the keys for isolation locks?",
+            "options": [
+              "Me or my crew supervisor, kept in a designated secure location",
+              "They stay in the locks",
+              "Anyone who needs them",
+              "The first person to arrive"
+            ],
+            "answer": 0,
+            "explanation": "Locks and tags are on all isolation points and keys are controlled by me or my crew supervisor."
+          },
+          {
+            "id": "l-swc-ihe-esr-q4",
+            "prompt": "Before re-energising, who must be told?",
+            "options": [
+              "The customer",
+              "All personnel exposed to the energy source",
+              "Only the supervisor",
+              "Nobody"
+            ],
+            "answer": 1,
+            "explanation": "Ask the crews in and near the work area if they know the equipment is ready to be re-energised."
+          },
+          {
+            "id": "l-swc-ihe-esr-q5",
+            "prompt": "After the work, what is checked before the equipment is re-energised?",
+            "options": [
+              "Only that the tools are packed",
+              "That the paperwork is signed",
+              "Nothing",
+              "Scope completed, all isolations removed per plan, bleed and vent points closed"
+            ],
+            "answer": 3,
+            "explanation": "Physically inspect the equipment, the work area and the bleed and vent points before re-energising."
+          }
+        ]
+      },
+      {
+        "id": "l-swc-deen",
+        "title": "Start-Work Checks: De-Energised Electrical Work",
+        "type": "READING",
+        "durationMins": 10,
+        "body": [
+          "These are the Start-Work Checks for De-Energised Electrical Work: the Save Your Life Actions that must be in place before this work begins. Start Work Authority means \"I will not start work until I confirm\" every action below.",
+          "Every person exposed to the work confirms each action, and the Start-Work Verifier confirms them too. If any safeguard is not in place, stop and seek help. The numbers in the illustration match the actions.",
+          "1. Circuit/equipment to be worked on is the one identified in the plan. How to confirm: Confirm equipment to be worked on is correct using tag numbers or cable markings.",
+          "2. Isolation points are identified per diagram and/or plan. How to confirm: Use the isolation diagram and/or Equipment Isolation Procedure to physically confirm all isolations are in place and tagged or marked.",
+          "3. Isolation devices are set in the identified position per diagram and/or plan. How to confirm: Confirm all switches are open or closed per the diagram and/or plan. Confirm Switchgear or Motor Control Center (MCC) equipment switches are locked out and tagged. Confirm crew has physically inspected the equipment for other potential energy sources not previously identified or isolated.",
+          "4. Electrical components are placed in an electrically safe condition. How to confirm: Wear appropriate level of PPE based on the shock and arc flash risk assessment until the equipment is confirmed to be de-energised. Conduct a test for absence of voltage. Confirm grounds have been applied per plan and rated for the fault current.",
+          "5. Isolation points are locked and/or tagged, and keys are controlled by me or my crew supervisor. How to confirm: Confirm locks, tags or securing devices are on all isolation points. Confirm keys are in a designated secure location.",
+          "6. Identify and mitigate hazards on adjacent live parts. How to confirm: If no insulating materials exist, then install temporary insulating materials such as rubber matting or screening.",
+          "In Gemsafety, record these checks in the Start Work Check section, with your verifier, before work starts. The original Start-Work Check form is linked below."
+        ],
+        "keyPoints": [
+          "Circuit/equipment to be worked on is the one identified in the plan.",
+          "Isolation points are identified per diagram and/or plan.",
+          "Isolation devices are set in the identified position per diagram and/or plan.",
+          "Electrical components are placed in an electrically safe condition.",
+          "Isolation points are locked and/or tagged, and keys are controlled by me or my crew supervisor.",
+          "Identify and mitigate hazards on adjacent live parts."
+        ],
+        "images": [
+          {
+            "src": "/training/swc/de-energised-electrical.jpg",
+            "caption": "Start-Work Checks — De-Energised Electrical Work. The numbers match the actions in this lesson."
+          }
+        ],
+        "resources": [
+          {
+            "label": "Start-Work Checks form — De-Energised Electrical Work (Word)",
+            "url": "/docs/swc/start-work-checks-de-energised-electrical.docx"
+          }
+        ],
+        "quiz": [
+          {
+            "id": "l-swc-deen-q1",
+            "prompt": "How do you confirm you are working on the right circuit?",
+            "options": [
+              "Check tag numbers or cable markings",
+              "Use the colour of the panel",
+              "Switch everything off and guess",
+              "Ask a passer-by"
+            ],
+            "answer": 0,
+            "explanation": "Confirm the equipment is correct using tag numbers or cable markings."
+          },
+          {
+            "id": "l-swc-deen-q2",
+            "prompt": "Until the equipment is confirmed de-energised, what PPE do you wear?",
+            "options": [
+              "No PPE needed",
+              "Normal work clothes",
+              "PPE based on the shock and arc flash risk assessment",
+              "Gloves only"
+            ],
+            "answer": 2,
+            "explanation": "Wear the level of PPE from the shock and arc flash risk assessment until de-energisation is confirmed."
+          },
+          {
+            "id": "l-swc-deen-q3",
+            "prompt": "What places electrical components in an electrically safe condition?",
+            "options": [
+              "Asking the supervisor",
+              "A test for absence of voltage, with grounds applied and rated for the fault current",
+              "Switching off the light",
+              "Waiting 5 minutes"
+            ],
+            "answer": 1,
+            "explanation": "Conduct a test for absence of voltage and confirm grounds are applied per plan and rated for the fault current."
+          },
+          {
+            "id": "l-swc-deen-q4",
+            "prompt": "There is no insulation on adjacent live parts. What do you do?",
+            "options": [
+              "Cover them with cardboard",
+              "Work carefully around them",
+              "Install temporary insulating materials such as rubber matting or screening",
+              "Nothing"
+            ],
+            "answer": 2,
+            "explanation": "If no insulating materials exist, install temporary ones such as rubber matting or screening."
+          },
+          {
+            "id": "l-swc-deen-q5",
+            "prompt": "Who controls the keys for the isolation locks?",
+            "options": [
+              "Anyone on site",
+              "Left in the lock",
+              "The customer",
+              "Me or my crew supervisor, kept in a designated secure location"
+            ],
+            "answer": 3,
+            "explanation": "Isolation points are locked and/or tagged, and keys are controlled by me or my crew supervisor."
+          }
+        ]
+      },
+      {
+        "id": "l-swc-live",
+        "title": "Start-Work Checks: Energised / Live Electrical Work",
+        "type": "READING",
+        "durationMins": 10,
+        "body": [
+          "These are the Start-Work Checks for Energised / Live Electrical Work: the Save Your Life Actions that must be in place before this work begins. Start Work Authority means \"I will not start work until I confirm\" every action below.",
+          "Every person exposed to the work confirms each action, and the Start-Work Verifier confirms them too. If any safeguard is not in place, stop and seek help. The numbers in the illustration match the actions.",
+          "1. The authorised work scope has been reviewed and agreed to. How to confirm: Review work scope per the approved work permit. Ask crew to repeat back the work instructions. Agree to stop work if work scope changes in any way.",
+          "2. Personnel are wearing PPE rated for the arc flash (per the arc flash hazard analysis) and for the electrical voltage before entering the limited approach boundary. How to confirm: Ask crew what arc flash or electrical voltage they should be prepared for. Confirm personnel are wearing PPE rated for the arc flash per the arc flash hazard analysis. Confirm personnel are wearing PPE rated for the electrical voltage prior to entering the restricted approach boundary.",
+          "3. Circuit/equipment to be worked on is the one identified in the plan. How to confirm: Confirm equipment to be worked on is correct using tag numbers or cable markings.",
+          "4. Safe work zones have been identified and visually barricaded. How to confirm: Erect barriers to limit access to the work area. Confirm standby person will monitor the area to keep unauthorised personnel out of the work area.",
+          "5. Electrical standby person has been assigned and emergency response plan has been agreed to. How to confirm: Identify the standby person at the site. Confirm emergency equipment such as safety hooks, insulated gloves, etc., are at the worksite.",
+          "6. Communication plan with the standby person has been agreed to, including stop work signals. How to confirm: Discuss communication plan with qualified electricians. Confirm communication plans have been agreed to. Ask crew to test communication plan.",
+          "7. Insulated tools and testing equipment have been inspected for damage and are rated for the task. How to confirm: Confirm insulating materials such as rubber matting or screening are in place. If no insulating materials exist, install temporary insulating materials such as rubber matting or screening. Confirm only insulated tools that have been rated/certified for the equipment’s maximum voltage will be used. Conduct voltage function test prior to using testing equipment.",
+          "In Gemsafety, record these checks in the Start Work Check section, with your verifier, before work starts. The original Start-Work Check form is linked below."
+        ],
+        "keyPoints": [
+          "The authorised work scope has been reviewed and agreed to.",
+          "Personnel are wearing PPE rated for the arc flash (per the arc flash hazard analysis) and for the electrical voltage before entering the limited approach boundary.",
+          "Circuit/equipment to be worked on is the one identified in the plan.",
+          "Safe work zones have been identified and visually barricaded.",
+          "Electrical standby person has been assigned and emergency response plan has been agreed to.",
+          "Communication plan with the standby person has been agreed to, including stop work signals.",
+          "Insulated tools and testing equipment have been inspected for damage and are rated for the task."
+        ],
+        "images": [
+          {
+            "src": "/training/swc/live-electrical.jpg",
+            "caption": "Start-Work Checks — Energised / Live Electrical Work. The numbers match the actions in this lesson."
+          }
+        ],
+        "resources": [
+          {
+            "label": "Start-Work Checks form — Energised / Live Electrical Work (Word)",
+            "url": "/docs/swc/start-work-checks-live-electrical.docx"
+          }
+        ],
+        "quiz": [
+          {
+            "id": "l-swc-live-q1",
+            "prompt": "The work scope changes during live work. What do you do?",
+            "options": [
+              "Stop work",
+              "Finish quickly",
+              "Carry on carefully",
+              "Tell the crew afterwards"
+            ],
+            "answer": 0,
+            "explanation": "Agree to stop work if the work scope changes in any way."
+          },
+          {
+            "id": "l-swc-live-q2",
+            "prompt": "PPE for live work must be rated for what?",
+            "options": [
+              "Comfort only",
+              "The weather",
+              "The arc flash from the hazard analysis and the voltage before entering the approach boundary",
+              "The length of the job"
+            ],
+            "answer": 2,
+            "explanation": "PPE is rated for the arc flash (per the analysis) and for the voltage before entering the approach boundary."
+          },
+          {
+            "id": "l-swc-live-q3",
+            "prompt": "Which tools may be used?",
+            "options": [
+              "Tools wrapped in tape",
+              "Insulated tools rated / certified for the equipment's maximum voltage",
+              "The crew's own tools",
+              "Any tool with a rubber grip"
+            ],
+            "answer": 1,
+            "explanation": "Only insulated tools rated for the equipment's maximum voltage are used."
+          },
+          {
+            "id": "l-swc-live-q4",
+            "prompt": "What must be done before using testing equipment?",
+            "options": [
+              "Charging it overnight",
+              "A visual check of the case only",
+              "A voltage function test",
+              "Nothing"
+            ],
+            "answer": 2,
+            "explanation": "Conduct a voltage function test before using testing equipment."
+          },
+          {
+            "id": "l-swc-live-q5",
+            "prompt": "What must be at the work site with the electrical standby person?",
+            "options": [
+              "A camera",
+              "Nothing",
+              "Spare paperwork only",
+              "Emergency equipment such as safety hooks and insulated gloves"
+            ],
+            "answer": 3,
+            "explanation": "The standby person is identified and emergency equipment (safety hooks, insulated gloves) is at the worksite."
+          },
+          {
+            "id": "l-swc-live-q6",
+            "prompt": "How do you check the crew understands the instructions?",
+            "options": [
+              "Ask them to repeat back the work instructions",
+              "Ask the customer",
+              "Send a text",
+              "Assume they read the permit"
+            ],
+            "answer": 0,
+            "explanation": "Ask the crew to repeat back the work instructions, and test the communication plan."
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "crs-cse240",
@@ -1815,7 +2708,119 @@
     "validityMonths": 24,
     "cameraRequired": true,
     "tier": "CAT2",
-    "lessons": []
+    "lessons": [
+      {
+        "id": "l-swc-cse",
+        "title": "Start-Work Checks: Confined Space Entry",
+        "type": "READING",
+        "durationMins": 10,
+        "body": [
+          "These are the Start-Work Checks for confined space entry: the Save Your Life Actions that must be in place before this work begins. Start Work Authority means \"I will not start work until I confirm\" every action below.",
+          "Every person exposed to the work confirms each action, and the Start-Work Verifier confirms them too. If any safeguard is not in place, stop and seek help. The numbers in the illustration match the actions.",
+          "1. Confined Space Entry has been evaluated for Isolation of Hazardous Energy (IHE) requirements. How to confirm: Physically inspect job site using isolation diagrams, P&IDs or Process Flow Diagrams to identify potential hazardous material and energy sources. Evaluate if confined space has the potential to contain actual or potential hazardous atmospheres. Evaluate if confined space requires lockout/tagout to eliminate actual or potential hazards. Confirm confined space is isolated from other equipment, piping, etc., using approved methods (e.g., isolation blinds).",
+          "2. The atmosphere is within allowed limits for entry. How to confirm: Ask Qualified Gas Tester to explain how they know the gas meter is working as designed. Watch initial gas testing and confirm results on meter are within acceptable limits. Confirm Qualified Gas Tester has tested for stratified atmospheres.",
+          "3. Gas testing frequency has been established. How to confirm: Ask gas tester to explain follow up frequency and confirm follow up frequency is documented on permit prior to starting work. Confirm no more than 30 minutes will pass after the initial gas testing before starting work.",
+          "4. Ventilation is in place and working. How to confirm: Confirm confined space is ventilated (natural and/or mechanical) to dilute the air from containing dust, fumes, mist, vapors, gases, heat etc. If using mechanical ventilation, confirm the flexible ducting is arranged so there are no dead spaces. Confirm ventilation will be continuous. Confirm mechanical ventilation equipment is bonded and/or grounded to prevent static electricity hazards. Confirm ventilation exhaust outlets are not near an ignition source and will not draw exhausted air back into the space. Confirm ventilation inlets will not be affected by wind/weather conditions and will not have flow restrictions.",
+          "5. Entry watch has been assigned and communication plan agreed to. How to confirm: Confirm an entry watch has been assigned and is at the job site. Ask the entry watch to describe their responsibilities, which include: Visually monitoring personnel in the confined space. Documenting entry and exits from the confined space. Monitoring the confined space for changing conditions. Discuss communication plan with entry watch prior to entry. Confirm communication strategy has been agreed to (e.g., hand signals, radio).",
+          "6. All entrants are wearing rescue equipment required in rescue plan. How to confirm: Confirm the rescue plan is at the job site and has been shared with the crew. Confirm the crew are wearing the rescue equipment as described in the rescue plan (e.g., harnesses, retrieval device).",
+          "In Gemsafety, record these checks in the Start Work Check section, with your verifier, before work starts. The original Start-Work Check form is linked below."
+        ],
+        "keyPoints": [
+          "Confined Space Entry has been evaluated for Isolation of Hazardous Energy (IHE) requirements.",
+          "The atmosphere is within allowed limits for entry.",
+          "Gas testing frequency has been established.",
+          "Ventilation is in place and working.",
+          "Entry watch has been assigned and communication plan agreed to.",
+          "All entrants are wearing rescue equipment required in rescue plan."
+        ],
+        "images": [
+          {
+            "src": "/training/swc/confined-space-entry.jpg",
+            "caption": "Start-Work Checks — Confined Space Entry. The numbers match the actions in this lesson."
+          }
+        ],
+        "resources": [
+          {
+            "label": "Start-Work Checks form — Confined Space Entry (Word)",
+            "url": "/docs/swc/start-work-checks-confined-space-entry.docx"
+          }
+        ],
+        "quiz": [
+          {
+            "id": "l-swc-cse-q1",
+            "prompt": "What is the longest time allowed between the initial gas test and entry work starting?",
+            "options": [
+              "4 hours",
+              "1 day",
+              "90 minutes",
+              "30 minutes"
+            ],
+            "answer": 3,
+            "explanation": "No more than 30 minutes may pass after the initial gas test before work starts."
+          },
+          {
+            "id": "l-swc-cse-q2",
+            "prompt": "Which is a duty of the entry watch?",
+            "options": [
+              "Watching entrants and logging every entry and exit",
+              "Leaving to fetch tools",
+              "Running the gas test alone",
+              "Working inside with the crew"
+            ],
+            "answer": 0,
+            "explanation": "The entry watch visually monitors entrants, documents entries and exits, and monitors for changing conditions."
+          },
+          {
+            "id": "l-swc-cse-q3",
+            "prompt": "How must ventilation be run?",
+            "options": [
+              "Only when it feels hot",
+              "Only at the start of the job",
+              "Continuously, with no dead spaces and equipment bonded or grounded",
+              "Exhaust next to an ignition source"
+            ],
+            "answer": 2,
+            "explanation": "Ventilation is continuous, ducting leaves no dead spaces, equipment is bonded/grounded and exhausts are away from ignition sources."
+          },
+          {
+            "id": "l-swc-cse-q4",
+            "prompt": "What must entrants wear?",
+            "options": [
+              "Nothing extra",
+              "The rescue equipment in the rescue plan, such as a harness and retrieval device",
+              "Whatever is in the van",
+              "Normal coveralls only"
+            ],
+            "answer": 1,
+            "explanation": "All entrants wear the rescue equipment required by the rescue plan."
+          },
+          {
+            "id": "l-swc-cse-q5",
+            "prompt": "How is the space isolated from other equipment and piping?",
+            "options": [
+              "By closing one valve",
+              "By a sign at the entry",
+              "By approved methods such as isolation blinds",
+              "It does not need isolating"
+            ],
+            "answer": 2,
+            "explanation": "The space is isolated using approved methods, e.g. isolation blinds."
+          },
+          {
+            "id": "l-swc-cse-q6",
+            "prompt": "What must the gas tester test for, besides the meter check?",
+            "options": [
+              "Lighting",
+              "Room temperature only",
+              "Noise levels",
+              "Stratified atmospheres"
+            ],
+            "answer": 3,
+            "explanation": "Confirm the Qualified Gas Tester has tested for stratified atmospheres."
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "crs-scf260",
@@ -1833,6 +2838,120 @@
     "validityMonths": 24,
     "cameraRequired": true,
     "tier": "CAT2",
-    "lessons": []
+    "lessons": [
+      {
+        "id": "l-swc-wah",
+        "title": "Start-Work Checks: Working at Heights",
+        "type": "READING",
+        "durationMins": 10,
+        "body": [
+          "These are the Start-Work Checks for working at heights: the Save Your Life Actions that must be in place before this work begins. Start Work Authority means \"I will not start work until I confirm\" every action below.",
+          "Every person exposed to the work confirms each action, and the Start-Work Verifier confirms them too. If any safeguard is not in place, stop and seek help. The numbers in the illustration match the actions.",
+          "1. Fall protection equipment (fall arrest and fall restraint) is certified, inspected and rated for the task. How to confirm: Check every strap, buckle, fitting and/or grommet for signs of wear. Destroy fall protection equipment if the inspection shows evidence of excessive wear/damage or a mechanical malfunction. Confirm fall protection equipment has been inspected and certified within the past 2 years. Note: Fall arrest contains a self-retracting lifeline and is a system designed to support and hold a person in the event of a fall. Fall restraint contains a fixed lifeline that prevents workers from falling.",
+          "2. Rescue plan has been reviewed with work crew and rescue equipment is available. How to confirm: Confirm the crew has discussed the rescue plan, including: How to contact responders. Location of rescue equipment and responders.",
+          "3. Fall protection equipment is adjusted to fit the worker. How to confirm: Confirm only full body harnesses are used (use of body belts is not allowed). Confirm crew are wearing PPE properly: Straps are not twisted. Body straps are adjusted for correct fit.",
+          "4. Work crew agreed to be 100% tied off to the identified, approved anchorage point(s). How to confirm: Confirm the anchor point selected has been approved by a Competent Person (for reference the anchor point must withstand a 22.2 kilonewtons [5,000 lb force]). Pull on lanyard to test if attachment is secure. Confirm the worker will not be placed in a fall path that contains hazards. Confirm the workers know they must be 100% tied off at all times (e.g., at least one hook must be anchored at all times).",
+          "5. Fall path is clear of obstructions or mitigations have been implemented to address hazards. How to confirm: Measure the potential fall distance and ensure fall arrest is shorter than the fall distance. If obstructions are in the fall path, mitigate the obstructions. If obstructions cannot be mitigated, select fall restraint protection equipment.",
+          "6. Potential dropped objects have been identified and mitigated. How to confirm: Perform a potential dropped object review and erect barricades as necessary to provide protection to workers in the area. Where possible, use debris nets, lanyards, etc., to prevent objects from falling to grade below.",
+          "7. Work crew has agreed that no team member will work at height alone. How to confirm: Confirm someone on the crew has been assigned to be a standby/spotter.",
+          "In Gemsafety, record these checks in the Start Work Check section, with your verifier, before work starts. The original Start-Work Check form is linked below."
+        ],
+        "keyPoints": [
+          "Fall protection equipment (fall arrest and fall restraint) is certified, inspected and rated for the task.",
+          "Rescue plan has been reviewed with work crew and rescue equipment is available.",
+          "Fall protection equipment is adjusted to fit the worker.",
+          "Work crew agreed to be 100% tied off to the identified, approved anchorage point(s).",
+          "Fall path is clear of obstructions or mitigations have been implemented to address hazards.",
+          "Potential dropped objects have been identified and mitigated.",
+          "Work crew has agreed that no team member will work at height alone."
+        ],
+        "images": [
+          {
+            "src": "/training/swc/working-at-heights.jpg",
+            "caption": "Start-Work Checks — Working at Heights. The numbers match the actions in this lesson."
+          }
+        ],
+        "resources": [
+          {
+            "label": "Start-Work Checks form — Working at Heights (Word)",
+            "url": "/docs/swc/start-work-checks-working-at-heights.docx"
+          }
+        ],
+        "quiz": [
+          {
+            "id": "l-swc-wah-q1",
+            "prompt": "Fall protection equipment must have been inspected and certified within what period?",
+            "options": [
+              "The past 5 years",
+              "Only when it was new",
+              "The past 10 years",
+              "The past 2 years"
+            ],
+            "answer": 3,
+            "explanation": "Confirm fall protection equipment has been inspected and certified within the past 2 years, and destroy any that shows excessive wear or damage."
+          },
+          {
+            "id": "l-swc-wah-q2",
+            "prompt": "Which body support may be used for fall protection?",
+            "options": [
+              "A full body harness only",
+              "Either a harness or a body belt",
+              "A body belt",
+              "A rope tied around the waist"
+            ],
+            "answer": 0,
+            "explanation": "Only full body harnesses are used; body belts are not allowed."
+          },
+          {
+            "id": "l-swc-wah-q3",
+            "prompt": "What load must an approved anchor point withstand?",
+            "options": [
+              "2.2 kilonewtons (500 lb force)",
+              "The weight of the worker only",
+              "22.2 kilonewtons (5,000 lb force)",
+              "10 kilonewtons (2,250 lb force)"
+            ],
+            "answer": 2,
+            "explanation": "The anchor point must be approved by a Competent Person and withstand 22.2 kN (5,000 lbf)."
+          },
+          {
+            "id": "l-swc-wah-q4",
+            "prompt": "What does \"100% tied off\" mean?",
+            "options": [
+              "Tied off only while working at the edge",
+              "At least one hook is anchored at all times",
+              "Tied off for most of the shift",
+              "Both hooks off while moving between anchors"
+            ],
+            "answer": 1,
+            "explanation": "Workers must be 100% tied off at all times: at least one hook anchored at all times."
+          },
+          {
+            "id": "l-swc-wah-q5",
+            "prompt": "Obstructions in the fall path cannot be removed. What do you use?",
+            "options": [
+              "No fall protection",
+              "A body belt",
+              "Fall restraint protection equipment",
+              "A longer lanyard"
+            ],
+            "answer": 2,
+            "explanation": "If obstructions cannot be mitigated, select fall restraint equipment, which prevents the fall in the first place."
+          },
+          {
+            "id": "l-swc-wah-q6",
+            "prompt": "Can a crew member work at height alone?",
+            "options": [
+              "Yes, if wearing a harness",
+              "Yes, for short jobs",
+              "Yes, if the supervisor agrees by phone",
+              "No — a standby / spotter must be assigned"
+            ],
+            "answer": 3,
+            "explanation": "The crew agrees no one works at height alone; someone is assigned as standby or spotter."
+          }
+        ]
+      }
+    ]
   }
 ]

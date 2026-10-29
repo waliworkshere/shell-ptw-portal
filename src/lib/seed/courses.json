@@ -423,6 +423,109 @@
             "explanation": "Close-out is a joint step: the Permit Holder confirms the site is safe and hands the permit back to the Issuer, with the Station Manager informed."
           }
         ]
+      },
+      {
+        "id": "l-swc-ihe",
+        "title": "Start-Work Checks: Isolation of Hazardous Energy",
+        "type": "READING",
+        "durationMins": 10,
+        "body": [
+          "These are the Start-Work Checks for Isolation of Hazardous Energy: the Save Your Life Actions that must be in place before this work begins. Start Work Authority means \"I will not start work until I confirm\" every action below.",
+          "Every person exposed to the work confirms each action, and the Start-Work Verifier confirms them too. If any safeguard is not in place, stop and seek help. The numbers in the illustration match the actions.",
+          "1. Isolation points are identified per plan. How to confirm: Use the Equipment Isolation Procedure, P&IDs, or Process Flow Diagrams to physically confirm all isolations are in place and tagged or marked. Confirm crew has physically inspected the equipment for other potential energy sources not previously identified or isolated.",
+          "2. Isolation equipment is rated for the energy source. How to confirm: Confirm blinds, spades and skillets are stamped or certified for the pressure rating of the equipment.",
+          "3. Isolation devices are set in the identified position per plan. How to confirm: Confirm valves are open or closed per plan. Confirm blinds, spades and skillets are installed per plan. Confirm switchgear or Motor Control Center (MCC) equipment switches are open and locked out.",
+          "4. Isolation points are locked and tagged, and keys are controlled by me or my crew supervisor. How to confirm: Confirm locks, tags or securing devices are on isolation points. Confirm keys are in a designated secure location.",
+          "5. Equipment is de-energised and tested for residual or stored energy. How to confirm: Ask crew/operations to attempt to start up equipment. Confirm systems (lines, gauges, etc.) have been tested for residual or stored energy by: Opening bleed and vent points to release stored energy. Pressure testing. Air gapping of lines. Confirm gas testing and atmospheric monitoring will occur when opening piping, equipment, etc.",
+          "6. Isolation devices are removed per plan. How to confirm: Physically inspect: Equipment to confirm scope of work was completed. Work area to confirm all mechanical, process and electrical isolations were removed. Bleed and vent points to confirm they are closed.",
+          "7. All personnel exposed to energy source have been told equipment is ready to be re-energised. How to confirm: Ask work crews in and near the work area if they are aware equipment is ready to be re-energised.",
+          "8. Equipment is ready to be put back in service. How to confirm: Ask work crews in and near the work area if they are aware equipment is ready to be put back in service.",
+          "In Gemsafety, record these checks in the Start Work Check section, with your verifier, before work starts. The original Start-Work Check form is linked below."
+        ],
+        "keyPoints": [
+          "Isolation points are identified per plan.",
+          "Isolation equipment is rated for the energy source.",
+          "Isolation devices are set in the identified position per plan.",
+          "Isolation points are locked and tagged, and keys are controlled by me or my crew supervisor.",
+          "Equipment is de-energised and tested for residual or stored energy.",
+          "Isolation devices are removed per plan.",
+          "All personnel exposed to energy source have been told equipment is ready to be re-energised.",
+          "Equipment is ready to be put back in service."
+        ],
+        "images": [
+          {
+            "src": "/training/swc/isolation-of-hazardous-energy.jpg",
+            "caption": "Start-Work Checks — Isolation of Hazardous Energy. The numbers match the actions in this lesson."
+          }
+        ],
+        "resources": [
+          {
+            "label": "Start-Work Checks form — Isolation of Hazardous Energy (Word)",
+            "url": "/docs/swc/start-work-checks-isolation-of-hazardous-energy.docx"
+          }
+        ],
+        "quiz": [
+          {
+            "id": "l-swc-ihe-q1",
+            "prompt": "What must be true of blinds, spades and skillets?",
+            "options": [
+              "Painted red",
+              "The same size as the pipe",
+              "Recently cleaned",
+              "Stamped or certified for the pressure rating of the equipment"
+            ],
+            "answer": 3,
+            "explanation": "Isolation equipment is rated for the energy source: blinds, spades and skillets are stamped or certified for the pressure rating."
+          },
+          {
+            "id": "l-swc-ihe-q2",
+            "prompt": "How is residual or stored energy tested?",
+            "options": [
+              "Try to start the equipment, open bleed and vent points, pressure test, air gap lines",
+              "Wait one hour",
+              "Ask whether it was switched off",
+              "Look at the equipment"
+            ],
+            "answer": 0,
+            "explanation": "Attempt a start-up and test lines and gauges by opening bleed/vent points, pressure testing and air gapping."
+          },
+          {
+            "id": "l-swc-ihe-q3",
+            "prompt": "Who controls the keys for isolation locks?",
+            "options": [
+              "Anyone who needs them",
+              "They stay in the locks",
+              "Me or my crew supervisor, kept in a designated secure location",
+              "The first person to arrive"
+            ],
+            "answer": 2,
+            "explanation": "Locks and tags are on all isolation points and keys are controlled by me or my crew supervisor."
+          },
+          {
+            "id": "l-swc-ihe-q4",
+            "prompt": "Before re-energising, who must be told?",
+            "options": [
+              "Only the supervisor",
+              "All personnel exposed to the energy source",
+              "The customer",
+              "Nobody"
+            ],
+            "answer": 1,
+            "explanation": "Ask the crews in and near the work area if they know the equipment is ready to be re-energised."
+          },
+          {
+            "id": "l-swc-ihe-q5",
+            "prompt": "After the work, what is checked before the equipment is re-energised?",
+            "options": [
+              "That the paperwork is signed",
+              "Nothing",
+              "Scope completed, all isolations removed per plan, bleed and vent points closed",
+              "Only that the tools are packed"
+            ],
+            "answer": 2,
+            "explanation": "Physically inspect the equipment, the work area and the bleed and vent points before re-energising."
+          }
+        ]
       }
     ],
     "price": 25,
@@ -642,6 +745,107 @@
             ],
             "answer": 3,
             "explanation": "Fitness to drive covers rest, freedom from impairment, and valid licence and training."
+          }
+        ]
+      },
+      {
+        "id": "l-swc-veh",
+        "title": "Start-Work Checks: Heavy Equipment and Vehicle Operations",
+        "type": "READING",
+        "durationMins": 10,
+        "body": [
+          "These are the Start-Work Checks for heavy equipment and vehicle operations: the Save Your Life Actions that must be in place before this work begins. Start Work Authority means \"I will not start work until I confirm\" every action below.",
+          "Every person exposed to the work confirms each action, and the Start-Work Verifier confirms them too. If any safeguard is not in place, stop and seek help. The numbers in the illustration match the actions.",
+          "1. Controls are in place to segregate pedestrians from mobile equipment and vehicle roadways. How to confirm: A plan to segregate mobile equipment and vehicle roadways from pedestrians is in place. Personnel involved with the activity understand the plan requirements.",
+          "2. Vehicle / Equipment is properly certified for duty, and daily inspections are completed and recorded. How to confirm: Equipment is certified to regulatory requirements and maintenance is up to date. Equipment has been inspected in accordance with a quarterly inspection programme. A daily inspection has been completed and recorded by equipment operator. Pre-mobilisation survey is conducted for newly hired equipment. All installed safety devices are working. Operators check for equipment maintenance / lock-out tags. Operators check and wear appropriate PPE and restraints including seat belts.",
+          "3. Loads are assessed for stability, securement and capacity for the vehicle / equipment being used. How to confirm: Loads have been assessed for stability, securing, and capacity compatibility with the equipment that will be used.",
+          "4. An authorised and competent person is assigned to aid in control of vehicle / equipment movement as required (i.e. flagman, banksman, spotter). How to confirm: An authorised and competent person has been assigned to control equipment movement (i.e. flagger). The flagger and operator have an agreed method of communicating during operation of equipment. Flagger(s) in control of the equipment movement are easily identified. Activity supervisors and flaggers are in place to keep people out of the line of fire during equipment movement.",
+          "5. Blind-spots are identified and mitigated, and controls are in place to minimise and manage all equipment and vehicle reversing. How to confirm: Alternatives to reversing have been assessed and eliminated prior to allowing reverse operation of equipment. Audible warnings are working on equipment for reverse operations. Flaggers are positioned out of the line of fire and in a position to monitor reversing operations. Physical barriers are in place in accordance with the activity plan.",
+          "6. Controls are in place to manage proximity of equipment and vehicles from excavations, overhead lines, and underground infrastructure. How to confirm: Equipment should be working at the safe distance established for any excavations. Equipment should be working at the safe operational distance established for any overhead powerlines. Equipment should be working at the safe distance established for any underground infrastructure. Minimum Approach Distances (MAD) in HSSE CF Electrical Safety Guide.",
+          "7. Vehicles / Equipment are positioned with conditions and controls in place to prevent unintentional movement. How to confirm: Equipment is positioned on flat ground where possible and vehicle wheels are chocked when there is potential for movement. Equipment is positioned in dedicated parking areas, and in accordance with OEM instructions. Booms, attachments and accessories are lowered or secured to prevent energy release.",
+          "In Gemsafety, record these checks in the Start Work Check section, with your verifier, before work starts. The original Start-Work Check form is linked below."
+        ],
+        "keyPoints": [
+          "Controls are in place to segregate pedestrians from mobile equipment and vehicle roadways.",
+          "Vehicle / Equipment is properly certified for duty, and daily inspections are completed and recorded.",
+          "Loads are assessed for stability, securement and capacity for the vehicle / equipment being used.",
+          "An authorised and competent person is assigned to aid in control of vehicle / equipment movement as required (i.e. flagman, banksman, spotter).",
+          "Blind-spots are identified and mitigated, and controls are in place to minimise and manage all equipment and vehicle reversing.",
+          "Controls are in place to manage proximity of equipment and vehicles from excavations, overhead lines, and underground infrastructure.",
+          "Vehicles / Equipment are positioned with conditions and controls in place to prevent unintentional movement."
+        ],
+        "images": [
+          {
+            "src": "/training/swc/heavy-equipment-vehicles.jpg",
+            "caption": "Start-Work Checks — Heavy Equipment and Vehicle Operations. The numbers match the actions in this lesson."
+          }
+        ],
+        "resources": [
+          {
+            "label": "Start-Work Checks form — Heavy Equipment and Vehicle Operations (Word)",
+            "url": "/docs/swc/start-work-checks-heavy-equipment-vehicles.docx"
+          }
+        ],
+        "quiz": [
+          {
+            "id": "l-swc-veh-q1",
+            "prompt": "What must happen before a vehicle is allowed to reverse?",
+            "options": [
+              "Ask the passenger to look",
+              "Sound the horn and go",
+              "Nothing",
+              "Alternatives to reversing are assessed and eliminated first"
+            ],
+            "answer": 3,
+            "explanation": "Alternatives to reversing are assessed and eliminated before reverse operation is allowed."
+          },
+          {
+            "id": "l-swc-veh-q2",
+            "prompt": "Who controls vehicle and equipment movement where needed?",
+            "options": [
+              "An authorised, competent flagman / banksman / spotter",
+              "The customer",
+              "Nobody",
+              "Any bystander"
+            ],
+            "answer": 0,
+            "explanation": "An authorised and competent person is assigned to control movement, with an agreed way of communicating with the operator."
+          },
+          {
+            "id": "l-swc-veh-q3",
+            "prompt": "Who completes and records the daily inspection?",
+            "options": [
+              "The fuel station cashier",
+              "The customer",
+              "The equipment operator",
+              "No one — quarterly is enough"
+            ],
+            "answer": 2,
+            "explanation": "A daily inspection is completed and recorded by the equipment operator, alongside the quarterly programme."
+          },
+          {
+            "id": "l-swc-veh-q4",
+            "prompt": "How is parked equipment prevented from moving?",
+            "options": [
+              "Keys left inside",
+              "Flat ground where possible, wheels chocked, booms and attachments lowered",
+              "Engine left running",
+              "Parked on a slope"
+            ],
+            "answer": 1,
+            "explanation": "Equipment is on flat ground, wheels chocked when needed, and booms and attachments lowered or secured."
+          },
+          {
+            "id": "l-swc-veh-q5",
+            "prompt": "How are pedestrians protected?",
+            "options": [
+              "They wear dark clothing",
+              "They walk behind vehicles",
+              "Segregated from mobile equipment and vehicle roadways by a plan",
+              "They are not considered"
+            ],
+            "answer": 2,
+            "explanation": "Controls segregate pedestrians from mobile equipment and vehicle roadways."
           }
         ]
       }
