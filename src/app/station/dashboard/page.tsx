@@ -82,14 +82,16 @@ export default function StationDashboard() {
                 {shown.map((app) => {
                   const pt = state.permitTypes.find((p) => p.id === app.permitTypeId);
                   return (
-                    <li key={app.id} className="flex flex-wrap items-center gap-x-3 gap-y-2 px-4 py-3.5 sm:px-5">
+                    <li key={app.id}><Link href={`/station/permits/${app.id}`} className="flex flex-wrap items-center gap-x-3 gap-y-2 px-4 py-3.5 hover:bg-petrol-50/50 sm:px-5">
                       <div className="w-full min-w-0 sm:w-auto sm:flex-1">
                         <p className="text-sm font-medium text-ink">{app.applicantName} <span className="app-number ml-1 text-xs text-slate-400">{app.applicationNumber}</span></p>
                         <p className="text-xs text-slate-400">{pt?.name} · {app.permitNumber ? `${app.permitNumber} until ${fmtDate(app.expiresAt)}` : `updated ${fmtDate(app.updatedAt)}`}</p>
                       </div>
+                      {app.status === 'APPROVED' && !app.siteAck && <span className="rounded-full bg-sand-50 px-2 py-0.5 text-[11px] font-semibold text-sand-700">Sign: work may start</span>}
+                      {app.status === 'CLOSED' && !app.siteCloseAck && <span className="rounded-full bg-sand-50 px-2 py-0.5 text-[11px] font-semibold text-sand-700">Sign: site left safe</span>}
                       <RiskBadge level={app.riskLevel} />
                       <StatusStamp status={app.status} />
-                    </li>
+                    </Link></li>
                   );
                 })}
               </ul>

@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import { RoleGuard } from '@/components/role-guard';
 import { CertStatus } from '@/components/cert-upload';
+import { StoredDocChip } from '@/components/form-scanner';
 import { useStore } from '@/lib/store';
 import { CertUpload } from '@/lib/types';
 import { fmtDate } from '@/lib/training';
@@ -19,8 +20,8 @@ function Row({ c }: { c: CertUpload }) {
     <li className="card">
       <button onClick={() => setOpen((v) => !v)} className="flex w-full flex-wrap items-center justify-between gap-2 text-left">
         <div>
-          <p className="font-medium text-ink">{c.userName} — {c.title || c.code}</p>
-          <p className="text-xs text-slate-500">{u?.company} · submitted {fmtDate(c.submittedAt)}</p>
+          <p className="font-medium text-ink">{c.equipment ? <span className="mr-1.5 rounded bg-sand-100 px-1.5 py-0.5 text-[10px] font-bold uppercase text-sand-700">Equipment</span> : null}{c.userName} — {c.title || c.code}</p>
+          <p className="text-xs text-slate-500">{c.equipment?.company ?? u?.company} · submitted {fmtDate(c.submittedAt)}{c.equipment ? ` · ${[c.equipment.description, c.equipment.serialNo && `S/N ${c.equipment.serialNo}`].filter(Boolean).join(' · ')}` : ''}</p>
         </div>
         <span className="flex items-center gap-2"><CertStatus c={c} /><ChevronDown size={16} className={`text-slate-400 ${open ? 'rotate-180' : ''}`} /></span>
       </button>
@@ -47,7 +48,7 @@ function Row({ c }: { c: CertUpload }) {
               <p className="text-xs text-slate-500">{c.status === 'VERIFIED' ? 'Verified' : 'Rejected'} by {c.decidedBy} · {fmtDate(c.decidedAt)}{c.note ? ` · ${c.note}` : ''}</p>
             )}
           </div>
-          {c.image ? <img src={c.image} alt="Certificate" className="w-full rounded-xl border border-petrol-100 object-contain" /> : <p className="text-xs text-slate-400">PDF uploaded — no picture preview. Check the text read from it.</p>}
+          {c.file && !c.image ? <div><StoredDocChip doc={c.file} /></div> : c.image ? <img src={c.image} alt="Certificate" className="w-full rounded-xl border border-petrol-100 object-contain" /> : <p className="text-xs text-slate-400">PDF uploaded — no picture preview. Check the text read from it.</p>}
         </div>
       )}
     </li>

@@ -83,7 +83,7 @@ export function UserDetail({ user }: { user: User }) {
   const [err, setErr] = useState('');
   const [busy, setBusy] = useState(false);
   const cards = state.ptwCards.filter((c) => c.userId === user.id);
-  const uploads = state.certUploads.filter((c) => c.userId === user.id);
+  const uploads = state.certUploads.filter((c) => c.userId === user.id && !c.equipment);
   const m = user.member;
   const pf = user.passportForm;
 

@@ -4,6 +4,7 @@ import { MustChangePassword } from './password-form';
 import { IncomingCall } from './incoming-call';
 import { addMonths, dueDate, monthChecklist, monthKey, monthLabel } from '@/lib/focal';
 import { COUNTRY_LEAD_TYPES, activeFocalCo, focalOpenActions } from '@/lib/hsse';
+import { equipmentState } from '@/lib/equipment';
 import { canReviewPermit, myStationIds } from '@/lib/access';
 import { fmtOman } from '@/lib/permit-rules';
 import { fmtDate } from '@/lib/training';
@@ -57,6 +58,8 @@ import {
   ListChecks,
   Gauge,
   Eye,
+  BookOpenCheck,
+  Wrench,
 } from 'lucide-react';
 
 type NavItem = { href: string; label: string; icon: React.ElementType };
@@ -93,26 +96,26 @@ const NAV: Record<Role, NavGroup[]> = {
         { href: '/admin/certificates', label: 'Certificate checks', icon: FileBadge },
       ],
     },
-    { title: 'Operations', items: [{ href: '/hsse', label: 'SOS & HSSE reports', icon: ShieldAlert }, { href: '/admin/rewards', label: 'Points & rewards', icon: Gift }, { href: '/admin/payments', label: 'Payments & subscriptions', icon: Wallet }, { href: '/admin/focal', label: 'HSSE Focal', icon: ClipboardList }, { href: '/journeys/monitor', label: 'Journey management', icon: Radar }, { href: '/admin/audit-logs', label: 'Audit logs', icon: ScrollText }] },
+    { title: 'Operations', items: [{ href: '/hsse', label: 'SOS & HSSE reports', icon: ShieldAlert }, { href: '/admin/rewards', label: 'Points & rewards', icon: Gift }, { href: '/admin/payments', label: 'Payments & subscriptions', icon: Wallet }, { href: '/admin/focal', label: 'HSSE Focal', icon: ClipboardList }, { href: '/site-log', label: 'Site safety logbook', icon: BookOpenCheck }, { href: '/checklists', label: 'Pre-job checklists', icon: ClipboardCheck }, { href: '/equipment', label: 'Equipment certificates', icon: Wrench }, { href: '/journeys/monitor', label: 'Journey management', icon: Radar }, { href: '/admin/audit-logs', label: 'Audit logs', icon: ScrollText }] },
     { items: [{ href: '/profile', label: 'My profile', icon: UserCircle }] },
   ],
   ARTELIA_MANAGER: [
-    { items: [{ href: '/approver/dashboard', label: 'Permit review (all risks)', icon: ClipboardCheck }, { href: '/journeys/monitor', label: 'Journey management', icon: Radar }, { href: '/journeys', label: 'My journeys (JMP)', icon: Route }, { href: '/admin/focal', label: 'HSSE Focal statistics', icon: ClipboardList }, { href: '/swc', label: 'Start Work Checks', icon: ListChecks }] },
+    { items: [{ href: '/approver/dashboard', label: 'Permit review (all risks)', icon: ClipboardCheck }, { href: '/journeys/monitor', label: 'Journey management', icon: Radar }, { href: '/journeys', label: 'My journeys (JMP)', icon: Route }, { href: '/admin/focal', label: 'HSSE Focal statistics', icon: ClipboardList }, { href: '/swc', label: 'Start Work Checks', icon: ListChecks }, { href: '/site-log', label: 'Site safety logbook', icon: BookOpenCheck }, { href: '/checklists', label: 'Pre-job checklists', icon: ClipboardCheck }, { href: '/equipment', label: 'Equipment certificates', icon: Wrench }] },
     HSSE,
     { items: [{ href: '/profile', label: 'My profile', icon: UserCircle }] },
   ],
   COMPANY_MANAGER: [
-    { items: [{ href: '/approver/dashboard', label: 'Permit review (low & medium)', icon: ClipboardCheck }, { href: '/journeys', label: 'My journeys (JMP)', icon: Route }, { href: '/swc', label: 'Start Work Checks', icon: ListChecks }] },
+    { items: [{ href: '/approver/dashboard', label: 'Permit review (low & medium)', icon: ClipboardCheck }, { href: '/journeys', label: 'My journeys (JMP)', icon: Route }, { href: '/swc', label: 'Start Work Checks', icon: ListChecks }, { href: '/site-log', label: 'Site safety logbook', icon: BookOpenCheck }, { href: '/checklists', label: 'Pre-job checklists', icon: ClipboardCheck }, { href: '/equipment', label: 'Equipment certificates', icon: Wrench }] },
     HSSE,
     { items: [{ href: '/profile', label: 'My profile', icon: UserCircle }] },
   ],
   APPROVER: [
-    { items: [{ href: '/approver/dashboard', label: 'Permit Issuer queue', icon: ClipboardCheck }, { href: '/journeys/monitor', label: 'Journey management', icon: Radar }, { href: '/journeys', label: 'My journeys (JMP)', icon: Route }, { href: '/swc', label: 'Start Work Checks', icon: ListChecks }, { href: '/ptw-card', label: 'My PTW card', icon: CreditCard }] },
+    { items: [{ href: '/approver/dashboard', label: 'Permit Issuer queue', icon: ClipboardCheck }, { href: '/journeys/monitor', label: 'Journey management', icon: Radar }, { href: '/journeys', label: 'My journeys (JMP)', icon: Route }, { href: '/swc', label: 'Start Work Checks', icon: ListChecks }, { href: '/site-log', label: 'Site safety logbook', icon: BookOpenCheck }, { href: '/checklists', label: 'Pre-job checklists', icon: ClipboardCheck }, { href: '/equipment', label: 'Equipment certificates', icon: Wrench }, { href: '/ptw-card', label: 'My PTW card', icon: CreditCard }] },
     HSSE,
     { items: [{ href: '/profile', label: 'My profile', icon: UserCircle }] },
   ],
-  STATION: [{ items: [{ href: '/station/dashboard', label: 'Station overview', icon: Building2 }] }, HSSE, { items: [{ href: '/profile', label: 'My profile', icon: UserCircle }] }],
-  ROM: [{ items: [{ href: '/station/dashboard', label: 'My stations', icon: Building2 }, { href: '/swc', label: 'Start Work Checks', icon: ListChecks }] }, HSSE, { items: [{ href: '/profile', label: 'My profile', icon: UserCircle }] }],
+  STATION: [{ items: [{ href: '/station/dashboard', label: 'Station overview', icon: Building2 }, { href: '/site-log', label: 'Site safety logbook', icon: BookOpenCheck }, { href: '/checklists', label: 'Pre-job checklists', icon: ClipboardCheck }] }, HSSE, { items: [{ href: '/profile', label: 'My profile', icon: UserCircle }] }],
+  ROM: [{ items: [{ href: '/station/dashboard', label: 'My stations', icon: Building2 }, { href: '/swc', label: 'Start Work Checks', icon: ListChecks }, { href: '/site-log', label: 'Site safety logbook', icon: BookOpenCheck }, { href: '/checklists', label: 'Pre-job checklists', icon: ClipboardCheck }, { href: '/equipment', label: 'Equipment certificates', icon: Wrench }] }, HSSE, { items: [{ href: '/profile', label: 'My profile', icon: UserCircle }] }],
   APPLICANT: [
     {
       items: [
@@ -120,6 +123,9 @@ const NAV: Record<Role, NavGroup[]> = {
         { href: '/applicant/applications/new', label: 'New permit request', icon: FilePlus2 },
         { href: '/journeys', label: 'My journeys (JMP)', icon: Route },
         { href: '/swc', label: 'Start Work Checks', icon: ListChecks },
+        { href: '/site-log', label: 'Site safety logbook', icon: BookOpenCheck },
+        { href: '/checklists', label: 'Pre-job checklists', icon: ClipboardCheck },
+        { href: '/equipment', label: 'Equipment certificates', icon: Wrench },
         { href: '/subscription', label: 'Subscription', icon: Wallet },
       ],
     },
@@ -147,6 +153,8 @@ const NAV: Record<Role, NavGroup[]> = {
         { href: '/training/certificates', label: 'Certificates', icon: Award },
         { href: '/training/register', label: 'Become a Permit Holder', icon: BadgeCheck },
         { href: '/swc', label: 'Start Work Checks', icon: ListChecks },
+        { href: '/site-log', label: 'Site safety logbook', icon: BookOpenCheck },
+        { href: '/checklists', label: 'Pre-job checklists', icon: ClipboardCheck },
         { href: '/subscription', label: 'Subscription', icon: Wallet },
       ],
     },
@@ -174,6 +182,21 @@ function useNotifications() {
       if (open.length) out.push({ id: `focal-act-${r.id}`, text: `${r.refNo}: ${open.length} action(s) for ${sosCo}`, href: `/hsse/${r.id}`, tone: 'red' });
       else if (r.reporterCompany === sosCo && r.status === 'OPEN' && !r.actions.length) out.push({ id: `focal-rep-${r.id}`, text: `${r.refNo} reported by ${sosCo} staff: ${r.title}`, href: `/hsse/${r.id}`, tone: 'amber' });
     });
+  {
+    const co = activeFocalCo(currentUser) ?? currentUser.company;
+    state.certUploads
+      .filter((c) => c.equipment && c.status !== 'REJECTED' && (c.userId === currentUser.id || (co && c.equipment.company === co)) && ['EXPIRED', 'DUE'].includes(equipmentState(c)))
+      .slice(0, 4)
+      .forEach((c) => out.push({ id: `eq-${c.id}`, text: `${c.equipment?.type}${c.equipment?.serialNo ? ` ${c.equipment.serialNo}` : ''}: certificate ${equipmentState(c) === 'EXPIRED' ? 'expired' : 'due'} ${c.expires}`, href: '/equipment', tone: equipmentState(c) === 'EXPIRED' ? 'red' : 'amber' }));
+  }
+  if (['STATION', 'ROM'].includes(currentUser.role))
+    state.applications
+      .filter((a) => myStationIds(currentUser).includes(a.stationId) && ((a.status === 'APPROVED' && !a.siteAck) || (a.status === 'CLOSED' && !a.siteCloseAck)))
+      .slice(0, 4)
+      .forEach((a) => out.push({ id: `site-${a.id}`, text: `${a.permitNumber ?? a.applicationNumber}: ${a.status === 'APPROVED' ? 'sign that work may start' : 'sign that the site was left safe'}`, href: `/station/permits/${a.id}`, tone: 'amber' }));
+  if (['APPROVER', 'ARTELIA_MANAGER', 'ADMIN'].includes(currentUser.role))
+    state.applications.filter((a) => a.status === 'CLOSED' && !a.issuerCloseOut).slice(0, 4)
+      .forEach((a) => out.push({ id: `ico-${a.id}`, text: `${a.permitNumber ?? a.applicationNumber}: closed by the holder — issuer close-out needed`, href: `/approver/applications/${a.id}`, tone: 'blue' }));
   if (currentUser.countryLead) {
     const weekAgo = Date.now() - 7 * 86_400_000;
     state.hsseReports

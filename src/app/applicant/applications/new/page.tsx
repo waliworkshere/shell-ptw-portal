@@ -4,6 +4,8 @@ import { canUsePtwJmp } from '@/lib/access';
 import { PtwRequirements } from '@/components/requirements';
 
 import { useEffect, useRef, useState } from 'react';
+import { PtwDetailsForm, emptyPtwForm, ptwFormComplete } from '@/components/ptw-details';
+import type { PtwFormDetails, StoredDoc } from '@/lib/types';
 import { useRouter } from 'next/navigation';
 import { RoleGuard } from '@/components/role-guard';
 import { useStore } from '@/lib/store';
@@ -12,7 +14,7 @@ import { ArrowLeft, ArrowRight, Camera, CheckCircle2, Lightbulb, Loader2, ScanTe
 import { matchFields, readDocument } from '@/lib/ocr';
 import { OcrUploadButton } from '@/components/ocr-upload';
 
-const STEPS = ['Station', 'Permit type', 'Risk level', 'Details', 'Documents', 'Review'];
+const STEPS = ['Station', 'Permit type', 'Risk level', 'Details', 'Shell permit & WCF', 'Documents', 'Review'];
 
 function OnSiteDocPicker({
   label,
@@ -57,12 +59,15 @@ function OnSiteDocPicker({
   function snap() {
     const video = videoRef.current;
     if (!video) return;
+    // Keep pages small (about 150 KB): 1600 px JPEG is still sharp enough to read block capitals.
+    const scale = Math.min(1, 1600 / Math.max(video.videoWidth, video.videoHeight));
     const canvas = document.createElement('canvas');
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    canvas.getContext('2d')?.drawImage(video, 0, 0);
-    const dataUrl = canvas.toDataURL('image/png');
-    onCapture(dataUrl, `${label.replace(/\s+/g, '_')}_${Date.now()}.png`);
+    canvas.width = Math.round(video.videoWidth * scale);
+    canvas.height = Math.round(video.videoHeight * scale);
+    canvas.getContext('2d')?.drawImage(video, 0, 0, canvas.width, canvas.height);
+    let dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+    for (const q of [0.6, 0.5, 0.4]) if (dataUrl.length * 0.75 > 150 * 1024) dataUrl = canvas.toDataURL('image/jpeg', q);
+    onCapture(dataUrl, `${label.replace(/\s+/g, '_')}_${Date.now()}.jpg`);
     stopCamera();
   }
 
@@ -131,6 +136,8 @@ export default function NewApplicationPage() {
   const [documents, setDocuments] = useState<UploadedDocument[]>([]);
   const [wcfDocument, setWcfDocument] = useState<UploadedDocument | undefined>();
   const [jhaDocument, setJhaDocument] = useState<UploadedDocument | undefined>();
+  const [ptwForm, setPtwForm] = useState<PtwFormDetails>(emptyPtwForm());
+  const [paperForms, setPaperForms] = useState<StoredDoc[]>([]);
 
   const permitType = state.permitTypes.find((p) => p.id === permitTypeId);
   const needsJha = riskLevel ? jhaRequired(riskLevel) : false;
@@ -140,11 +147,12 @@ export default function NewApplicationPage() {
     if (step === 1) return !!permitTypeId;
     if (step === 2) return !!riskLevel;
     if (step === 3) return (permitType?.fields ?? []).filter((f) => f.required && !fromProfile(f)).every((f) => fieldValues[f.key]?.trim());
-    if (step === 4) {
+    if (step === 4) return ptwFormComplete(ptwForm);
+    if (step === 5) {
       const requiredDocs = permitType?.documents.filter((d) => d.required) ?? [];
       const uploadedKeys = documents.map((d) => d.key);
       const docsOk = requiredDocs.every((d) => uploadedKeys.includes(d.key));
-      return docsOk && !!wcfDocument && (!needsJha || !!jhaDocument);
+      return docsOk && (!!wcfDocument || paperForms.some((p) => p.label === 'WCF')) && (!needsJha || !!jhaDocument);
     }
     return true;
   }
@@ -202,6 +210,8 @@ export default function NewApplicationPage() {
       wcfDocument,
       jhaDocument,
       videoRecorded: false,
+      ptwForm: { ...ptwForm, holderPhone: ptwForm.holderPhone ?? currentUser?.phone },
+      paperForms,
     });
     router.push(`/applicant/applications/${created.id}`);
   }
@@ -218,7 +228,7 @@ export default function NewApplicationPage() {
 
   return (
     <RoleGuard role="APPLICANT">
-      <div className="mx-auto max-w-2xl px-4 py-6 sm:px-8 sm:py-10">
+      <div className="mx-auto max-w-3xl px-4 py-6 sm:px-8 sm:py-10">
         <h1 className="font-display text-xl font-semibold text-ink">New permit application</h1>
 
         <div className="mt-6 flex items-center gap-1.5">
@@ -342,6 +352,10 @@ export default function NewApplicationPage() {
           )}
 
           {step === 4 && permitType && (
+            <PtwDetailsForm value={ptwForm} onChange={setPtwForm} papers={paperForms} onPapers={setPaperForms} />
+          )}
+
+          {step === 5 && permitType && (
             <div className="space-y-6">
               <div className="flex gap-2 rounded-lg border border-sand-300 bg-sand-50 p-3 text-xs text-sand-700">
                 <Lightbulb size={26} className="shrink-0 text-sand-500" />
@@ -411,7 +425,7 @@ export default function NewApplicationPage() {
             </div>
           )}
 
-          {step === 5 && permitType && riskLevel && (
+          {step === 6 && permitType && riskLevel && (
             <div className="space-y-4 text-sm">
               <p className="text-slate-500">Review your application before submitting.</p>
               <div className="rounded-lg bg-petrol-50/50 p-4">
@@ -421,6 +435,9 @@ export default function NewApplicationPage() {
                 {permitType.fields.map((f) => (
                   <p key={f.key}><span className="text-slate-400">{f.label}:</span> {(fromProfile(f) ? myCompany : fieldValues[f.key]) || '—'}</p>
                 ))}
+                <p><span className="text-slate-400">Work order:</span> {ptwForm.workOrderNo || '—'}</p>
+                <p><span className="text-slate-400">Valid:</span> {ptwForm.validFrom} to {ptwForm.validTo}{ptwForm.timeFrom ? `, ${ptwForm.timeFrom}–${ptwForm.timeTo ?? ''}` : ''}</p>
+                <p><span className="text-slate-400">Isolations:</span> {ptwForm.isolations?.filter((i) => i.equipment).length || 'None'} · <span className="text-slate-400">Paper forms:</span> {paperForms.length}</p>
                 <p><span className="text-slate-400">WCF:</span> {wcfDocument?.fileName || 'Not uploaded'}</p>
                 {needsJha && <p><span className="text-slate-400">JHA/RA:</span> {jhaDocument?.fileName || 'Not uploaded'}</p>}
                 <p><span className="text-slate-400">Other documents:</span> {documents.map((d) => d.fileName).join(', ') || 'None'}</p>

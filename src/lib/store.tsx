@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
-import { AppState, Application, ApplicationStatus, User, FuelStation, PermitType, UploadedDocument, RiskLevel, CallStatus, CallScreenshot, Course, Lesson, Enrollment, PermitHolderRegistration, JourneyPlan, Payment, PaymentMethod, HsseReport, HsseStatus, SosAlert, HSSE_TYPE_SHORT, Company, PtwCard, CertUpload, Redemption, PassportForm, FocalContract, FocalReport, Order, WorkCheck, Likelihood } from './types';
+import { AppState, Application, ApplicationStatus, User, FuelStation, PermitType, UploadedDocument, RiskLevel, CallStatus, CallScreenshot, Course, Lesson, Enrollment, PermitHolderRegistration, JourneyPlan, Payment, PaymentMethod, HsseReport, HsseStatus, SosAlert, HSSE_TYPE_SHORT, Company, PtwCard, CertUpload, Redemption, PassportForm, FocalContract, FocalReport, Order, WorkCheck, Likelihood, PtwFormDetails, StoredDoc } from './types';
 import type { RomRow } from './rom-import';
 import { nextCertificateNumber } from './training';
 import { ROLE_LABEL } from './types';
@@ -87,6 +87,8 @@ interface StoreContextValue {
     wcfDocument?: UploadedDocument;
     jhaDocument?: UploadedDocument;
     videoRecorded: boolean;
+    ptwForm?: PtwFormDetails;
+    paperForms?: StoredDoc[];
   }) => Application;
   decide: (
     applicationId: string,
@@ -110,6 +112,11 @@ interface StoreContextValue {
   /** Administrator: switch an account off / back on. */
   setDeactivated: (userId: string, reason: string | null) => void;
   saveWorkCheck: (c: Omit<WorkCheck, 'id' | 'userId' | 'userName' | 'company' | 'createdAt'>) => WorkCheck;
+  updateWorkCheck: (id: string, patch: Partial<WorkCheck>) => void;
+  /** Permit sign-offs: site representative at start / close-out, Permit Issuer close-out. */
+  signPermit: (applicationId: string, kind: 'siteAck' | 'siteCloseAck' | 'issuerCloseOut', note: string) => void;
+  /** Uploads an equipment certificate (gas detector calibration, lifting gear, power tools…) for checking. */
+  submitEquipmentCert: (c: Omit<CertUpload, 'id' | 'userId' | 'userName' | 'status' | 'submittedAt'>) => void;
   /** Looks up a permit or JMP number typed in by someone working under another person's permit / journey plan. */
   lookupWorkRef: (kind: 'PERMIT' | 'JMP', ref: string) => Promise<{ ok: true; id: string; number: string; stationId?: string; status: string } | { ok: false; error: string }>;
   /** Permit Holder closes an approved permit once the work is done. */
@@ -882,6 +889,8 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
           wcfDocument: input.wcfDocument,
           jhaDocument: input.jhaDocument,
           videoRecorded: input.videoRecorded,
+          ...(input.ptwForm ? { ptwForm: input.ptwForm } : {}),
+          ...(input.paperForms?.length ? { paperForms: input.paperForms } : {}),
           callStatus: 'NOT_STARTED',
           callScreenshots: [],
           submittedAt: nowIso,
@@ -1137,6 +1146,37 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     setState((s) => ({ ...s, workChecks: [saved, ...s.workChecks] }));
     addAuditLog(c.kind === 'SWC' ? 'START_WORK_CHECK' : 'LMRA', `${saved.userName}: ${c.kind === 'SWC' ? `Start Work Check (${c.activity})` : 'Last Minute Risk Assessment'} — ${c.outcome === 'STOPPED' ? 'work stopped' : 'safe to start'}`);
     return saved;
+  }, [addAuditLog]);
+
+  const updateWorkCheck = useCallback((id: string, patch: Partial<WorkCheck>) => {
+    setState((s) => ({ ...s, workChecks: s.workChecks.map((w) => (w.id === id ? { ...w, ...patch } : w)) }));
+  }, []);
+
+  const signPermit = useCallback((applicationId: string, kind: 'siteAck' | 'siteCloseAck' | 'issuerCloseOut', note: string) => {
+    setState((s) => {
+      const me = s.users.find((u) => u.id === s.currentUserId);
+      const at = new Date().toISOString();
+      const label = kind === 'siteAck' ? 'Site representative confirmed work may start' : kind === 'siteCloseAck' ? 'Site representative confirmed the site was left safe' : 'Permit Issuer closed out the permit';
+      return {
+        ...s,
+        applications: s.applications.map((a) =>
+          a.id === applicationId
+            ? { ...a, [kind]: { by: me?.fullName ?? 'Unknown', byId: me?.id, role: me?.role, at, note: note || undefined }, updatedAt: at, timeline: [...a.timeline, { id: `tl-${rid()}`, label: note ? `${label}: ${note}` : label, actor: me?.fullName ?? 'Unknown', at }] }
+            : a,
+        ),
+      };
+    });
+    addAuditLog('PERMIT_SIGNOFF', `${applicationId}: ${kind}`);
+  }, [addAuditLog]);
+
+  const submitEquipmentCert = useCallback((c: Omit<CertUpload, 'id' | 'userId' | 'userName' | 'status' | 'submittedAt'>) => {
+    setState((s) => {
+      const me = s.users.find((u) => u.id === s.currentUserId);
+      if (!me) return s;
+      const rec: CertUpload = { ...c, id: `eq-${rid()}`, userId: me.id, userName: me.fullName, status: 'PENDING', submittedAt: new Date().toISOString(), equipment: { ...c.equipment!, company: me.company } };
+      return { ...s, certUploads: [rec, ...s.certUploads] };
+    });
+    addAuditLog('EQUIPMENT_CERT', `${c.equipment?.type ?? 'Equipment'} certificate ${c.number} uploaded`);
   }, [addAuditLog]);
 
   const lookupWorkRef: StoreContextValue['lookupWorkRef'] = useCallback(async (kind, ref) => {
@@ -1841,6 +1881,9 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         setDeactivated,
         saveWorkCheck,
         lookupWorkRef,
+        updateWorkCheck,
+        signPermit,
+        submitEquipmentCert,
         addCallScreenshot,
         createTrainee,
         saveCourse,

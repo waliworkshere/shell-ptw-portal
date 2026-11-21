@@ -140,7 +140,17 @@ export interface Order {
 /** Start Work Check (SWC) or Last Minute Risk Assessment (LMRA) filled in at the work site. */
 export interface WorkCheck {
   id: string;
-  kind: 'SWC' | 'LMRA';
+  /** SWC / LMRA, a pre-job checklist (PPE, tools, first aid…), or a day of the site safety logbook. */
+  kind: 'SWC' | 'LMRA' | 'CHECKLIST' | 'SITE_LOG';
+  checklist?: string; // checklist key (CHECKLIST)
+  date?: string; // YYYY-MM-DD (CHECKLIST, SITE_LOG)
+  inspectedBy?: string;
+  notes?: Record<string, string>; // comment per checklist item
+  /** Toolbox talk: topics and the people who attended. */
+  tbt?: { topics: string[]; weather?: string; humidex?: string; attendees: { name: string; company?: string; time?: string }[] };
+  /** Daily site safety logbook entries. */
+  log?: SiteLogEntry[];
+  closedAt?: string;
   userId: string;
   userName: string;
   company?: string;
@@ -154,12 +164,35 @@ export interface WorkCheck {
   stationId?: string;
   location?: string;
   answers: Record<string, 'YES' | 'NO' | 'NA'>;
+  scannedFrom?: string;
+  /** Photo / PDF of the paper form, kept alongside the digital record. */
+  paperForm?: StoredDoc;
   hazards?: string;
   controls?: string;
   verifierName?: string;
   outcome: 'SAFE_TO_START' | 'STOPPED';
   photo?: string;
   createdAt: string;
+}
+
+export interface SiteLogEntry {
+  id: string;
+  name: string;
+  company?: string;
+  userId?: string; // when matched to a Gemsafety account
+  passportNo?: string;
+  passportValid?: boolean; // checked against Gemsafety at sign-in
+  reason?: string; // work performed / reason for visit
+  firstAider?: boolean;
+  fireWarden?: boolean;
+  timeIn: string; // HH:MM
+  timeOut?: string;
+  temp?: string;
+  cough?: boolean;
+  blueZone?: boolean;
+  tbt?: boolean;
+  swd?: boolean; // start work discussion
+  signedAt?: string; // the person acknowledged the site rules
 }
 
 export type FocalContract = 'EPCM' | 'FMC';
@@ -351,6 +384,73 @@ export interface Application {
   comments: Comment[];
   rejectionReason?: string;
   changesRequested?: string;
+  /** Details from the Shell Retail Permit to Work form (Appendix 5) and the Work Clearance Form (Appendix 4). */
+  ptwForm?: PtwFormDetails;
+  /** Photos / PDFs of the paper forms (permit, WCF, JHA, method statement…) uploaded with the request. */
+  paperForms?: StoredDoc[];
+  /** Station site representative confirms the work may start at the site (WCF "Acknowledgment of work – site representative"). */
+  siteAck?: Signoff;
+  /** Station site representative confirms the site was left safe at close-out. */
+  siteCloseAck?: Signoff;
+  /** Permit Issuer closes the permit out after the Permit Holder has closed it. */
+  issuerCloseOut?: Signoff;
+}
+
+/** A stored page or PDF (kept on the server in live mode and fetched when opened). */
+export interface StoredDoc {
+  fileId?: string;
+  dataUrl?: string;
+  name: string;
+  mime: string;
+  sizeKb: number;
+  label?: string;
+}
+
+export interface Signoff {
+  by: string;
+  byId?: string;
+  role?: string;
+  at: string;
+  note?: string;
+}
+
+export interface LotoIsolation {
+  equipment: string;
+  kind: 'Electrical' | 'Mechanical' | 'Fluid';
+  establishedBy: string;
+  establishedAt?: string;
+  withdrawnBy?: string;
+  withdrawnAt?: string;
+}
+
+export interface PtwFormDetails {
+  workOrderNo?: string;
+  workToBeDone?: string;
+  siteRepresentative?: string;
+  sitePhone?: string;
+  holderPhone?: string;
+  validFrom?: string; // YYYY-MM-DD
+  validTo?: string;
+  timeFrom?: string; // HH:MM
+  timeTo?: string;
+  activities?: string[]; // Shell permit activity ticks
+  otherActivity?: string;
+  isolations?: LotoIsolation[];
+  recommissioning?: string;
+  nearestMedical?: string;
+  meetingPoint?: string;
+  phoneFire?: string;
+  phonePolice?: string;
+  phoneAmbulance?: string;
+  additionalHazards?: string;
+  attachments?: string[]; // documents that go with the permit
+  startWorkChecks?: string[]; // SWC activities to use
+  jhaRef?: string;
+  tools?: string;
+  ppe?: string;
+  fireExtinguisherAt?: string;
+  equipmentCertIds?: string[]; // equipment certificates attached to the permit
+  scannedFrom?: string; // file name of the paper form it was read from
 }
 
 export interface AuditLogEntry {
@@ -618,6 +718,9 @@ export interface CertUpload {
   decidedAt?: string;
   decidedBy?: string;
   note?: string;
+  /** Set for a third-party equipment certificate (gas detector calibration, lifting gear, power tools…) rather than a person's. */
+  equipment?: { type: string; description?: string; serialNo?: string; company?: string };
+  file?: StoredDoc;
 }
 
 /** Answers to the Safety Passport "Add your details" form, kept on the person's account. */

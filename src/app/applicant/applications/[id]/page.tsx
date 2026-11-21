@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { RoleGuard } from '@/components/role-guard';
+import { PermitSignoffs, PtwDetailsView } from '@/components/permit-signoff';
 import { useStore } from '@/lib/store';
 import { StatusStamp } from '@/components/status-stamp';
 import { generatePermitPdf } from '@/lib/permit-pdf';
@@ -186,6 +187,11 @@ export default function ApplicationStatusPage() {
             <p className="mt-1 text-ink">Closed {app.closedAt ? new Date(app.closedAt).toLocaleString('en-GB') : ''}{app.closedBy ? ` by ${app.closedBy}` : ''}.</p>
           </div>
         )}
+
+        <div className="mt-6 space-y-6">
+          <PtwDetailsView app={app} />
+          {['APPROVED', 'CLOSED'].includes(app.status) && <PermitSignoffs app={app} as="HOLDER" />}
+        </div>
 
         <div className="card mt-6">
           <h2 className="font-display text-sm font-semibold text-ink">Timeline</h2>

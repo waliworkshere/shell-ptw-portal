@@ -46,7 +46,7 @@ export default function MyDetailsPage() {
   }, [u, loaded, state.certUploads]);
 
   if (!u) return <RoleGuard role={['APPLICANT', 'TRAINEE']}>{null}</RoleGuard>;
-  const uploads = state.certUploads.filter((c) => c.userId === u.id);
+  const uploads = state.certUploads.filter((c) => c.userId === u.id && !c.equipment);
   const of = (code: string) => uploads.filter((c) => c.code === code);
   const others = uploads.filter((c) => c.code !== 'FA' && c.code !== 'FR');
   const set = (k: keyof typeof f, v: string) => {

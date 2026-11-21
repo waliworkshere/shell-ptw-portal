@@ -9,6 +9,7 @@ import { PTW_CATEGORY_LABEL, ptwCardStatus } from '@/lib/ptw-cards';
 import { useEffect, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { RoleGuard } from '@/components/role-guard';
+import { PermitSignoffs, PtwDetailsView } from '@/components/permit-signoff';
 import { canReviewPermit, canReviewPermits } from '@/lib/access';
 import { permitExpiry, VALIDITY_TEXT } from '@/lib/permit-rules';
 import { CallHoursNote, ScheduleCall, useWorkingHours } from '@/components/call-schedule';
@@ -143,6 +144,8 @@ export default function ApplicationReviewPage() {
 
         <div className="mt-6 grid gap-6 lg:grid-cols-3">
           <div className="space-y-6 lg:col-span-2">
+            <PtwDetailsView app={app} />
+            {['APPROVED', 'CLOSED'].includes(app.status) && <PermitSignoffs app={app} as="ISSUER" />}
             <div className="card">
               <h2 className="font-display text-sm font-semibold text-ink">Permit Holder</h2>
               <dl className="mt-3 grid grid-cols-2 gap-3 text-sm">

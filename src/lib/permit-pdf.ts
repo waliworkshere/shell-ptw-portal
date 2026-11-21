@@ -129,6 +129,52 @@ export function generatePermitPdf(params: {
   rule();
   line(16);
 
+  // Shell permit (Appendix 5) and WCF (Appendix 4) details
+  const f = application.ptwForm;
+  const pageH = doc.internal.pageSize.getHeight();
+  const ensure = (h: number) => { if (y + h > pageH - 50) { doc.addPage(); y = 50; } };
+  const kv = (k: string, v?: string) => {
+    if (!v) return;
+    const lines = doc.splitTextToSize(v, pageW - margin * 2 - 150);
+    ensure(lines.length * 12 + 4);
+    doc.setTextColor(110);
+    doc.text(k, margin, y);
+    doc.setTextColor(20);
+    doc.text(lines, margin + 150, y);
+    line(lines.length * 12 + 2);
+  };
+  if (f) {
+    ensure(40);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(10);
+    doc.text('Permit details (Shell Retail PTW Appendix 5 / WCF Appendix 4)', margin, y);
+    line(16);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    kv('Job / work order no.', f.workOrderNo);
+    kv('Work to be done', f.workToBeDone);
+    kv('Validity', f.validFrom ? `${f.validFrom} to ${f.validTo ?? ''}${f.timeFrom ? `, ${f.timeFrom}–${f.timeTo ?? ''}` : ''}` : undefined);
+    kv('Site representative', [f.siteRepresentative, f.sitePhone].filter(Boolean).join(' · ') || undefined);
+    kv('Permit Holder phone', f.holderPhone);
+    kv('Activities', [...(f.activities ?? []), f.otherActivity].filter(Boolean).join(', ') || 'None of the listed high-risk activities');
+    (f.isolations ?? []).filter((i) => i.equipment).forEach((i, k) => kv(k ? '' : 'Isolations (LOTO)', `${i.equipment} · ${i.kind} · by ${i.establishedBy || '—'}${i.establishedAt ? ` · ${i.establishedAt.replace('T', ' ')}` : ''}`));
+    kv('Re-commissioning', f.recommissioning);
+    kv('Emergency numbers', `Fire ${f.phoneFire ?? '—'} · Police ${f.phonePolice ?? '—'} · Ambulance ${f.phoneAmbulance ?? '—'}`);
+    kv('Nearest medical facility', f.nearestMedical);
+    kv('Emergency meeting point', f.meetingPoint);
+    kv('Tools / equipment', f.tools);
+    kv('PPE', f.ppe);
+    kv('Fire extinguisher at', f.fireExtinguisherAt);
+    kv('Additional hazards', f.additionalHazards);
+    kv('Start Work Checks', (f.startWorkChecks ?? []).join(', ') || undefined);
+    kv('Attachments', (f.attachments ?? []).join(', ') || undefined);
+    kv('Paper forms on file', (application.paperForms ?? []).map((p) => p.label ?? p.name).join(', ') || undefined);
+    line(4);
+    rule();
+    line(16);
+  }
+
+  ensure(60);
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(10);
   doc.text('Video verification call', margin, y);
@@ -160,7 +206,14 @@ export function generatePermitPdf(params: {
   );
   line(14);
   doc.text(`Date issued: ${new Date(application.approvedAt ?? Date.now()).toLocaleString('en-GB')}`, margin, y);
-  line(24);
+  line(14);
+  const so = (label: string, x?: { by: string; at: string }) => { ensure(14); doc.text(`${label}: ${x ? `${x.by} · ${new Date(x.at).toLocaleString('en-GB')}` : '—'}`, margin, y); line(14); };
+  so('Site representative — work may start', application.siteAck);
+  so('Permit close-out by Permit Holder', application.closedAt ? { by: application.closedBy ?? application.applicantName, at: application.closedAt } : undefined);
+  so('Site representative — site left safe', application.siteCloseAck);
+  so('Permit close-out by Permit Issuer', application.issuerCloseOut);
+  line(10);
+  ensure(20);
 
   doc.setFontSize(7.5);
   doc.setTextColor(120);
