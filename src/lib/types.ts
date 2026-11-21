@@ -9,7 +9,7 @@ export const ROLE_LABEL: Record<Role, string> = {
   COMPANY_MANAGER: 'Company Manager & HSSE',
   APPROVER: 'Permit Issuer',
   STATION: 'Fuel Station',
-  ROM: 'ROM (Station Manager)',
+  ROM: 'ROM (Regional Operations Manager)',
   APPLICANT: 'Permit Holder',
   TRAINEE: 'Trainee',
 };
@@ -64,7 +64,7 @@ export interface User {
   email: string;
   role: Role;
   stationId?: string; // for STATION role
-  /** Stations a ROM (Retail Operations Manager / station manager) looks after. */
+  /** Stations a ROM (Regional Operations Manager / station manager) looks after. */
   stationIds?: string[];
   /** Country Lead: alerted whenever a Near Miss or Potential Incident is reported. Set by an Administrator. */
   countryLead?: boolean;

@@ -1,5 +1,5 @@
 /**
- * ROM list: which ROM (Retail Operations Manager / station manager) looks after
+ * ROM list: which ROM (Regional Operations Manager / station manager) looks after
  * which fuel station, and where each station is. One row per station.
  * The same layout is used for import, export and the blank template.
  */

@@ -1,6 +1,6 @@
 -- =====================================================================
 -- Gemsafety - changes of 21 November 2026
---  * ROM (Retail Operations Manager / station manager) role with the
+--  * ROM (Regional Operations Manager / station manager) role with the
 --    stations they look after (users.stationIds).
 --  * Country Lead (users.countryLead) is emailed about every Near Miss /
 --    Potential Incident and can read every SOS report.
