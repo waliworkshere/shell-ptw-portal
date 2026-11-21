@@ -7,7 +7,7 @@ import { useStore } from '@/lib/store';
 import { LMRA_QUESTIONS } from '@/lib/work-checks';
 import { Gauge } from 'lucide-react';
 
-const ROLES = ['APPLICANT', 'TRAINEE', 'APPROVER', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'STATION', 'ADMIN'] as const;
+const ROLES = ['APPLICANT', 'TRAINEE', 'APPROVER', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'STATION', 'ROM', 'ADMIN'] as const;
 
 export default function LmraPage() {
   const { state, currentUser, saveWorkCheck } = useStore();

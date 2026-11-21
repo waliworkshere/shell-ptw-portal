@@ -49,6 +49,7 @@ export default function NewJourneyPage() {
   const [stationId, setStationId] = useState('');
   const [destination, setDestination] = useState('');
   const [purpose, setPurpose] = useState('');
+  const [workOrderNo, setWorkOrderNo] = useState('');
   const [linkedApplicationId, setLinkedApplicationId] = useState('');
   const [departLocal, setDepartLocal] = useState(defaultDeparture());
   const [distanceKm, setDistanceKm] = useState(230);
@@ -113,7 +114,7 @@ export default function NewJourneyPage() {
   }
 
   function canProceed() {
-    if (step === 0) return necessary && origin.trim() && destination.trim() && purpose.trim() && departLocal && distanceKm > 0;
+    if (step === 0) return necessary && origin.trim() && destination.trim() && purpose.trim() && workOrderNo.trim() && departLocal && distanceKm > 0;
     if (step === 1) return driverPhone.trim().length > 6 && lic === 'VALID' && vehicleReg.trim() && vehicleType.trim();
     if (step === 2) return !overLimit;
     if (step === 3) return emergencyContact.trim();
@@ -136,6 +137,7 @@ export default function NewJourneyPage() {
       destinationStationId: stationId || undefined,
       linkedApplicationId: linkedApplicationId || undefined,
       purpose,
+      workOrderNo: workOrderNo.trim(),
       distanceKm,
       roadType,
       routeDescription,
@@ -231,6 +233,10 @@ export default function NewJourneyPage() {
                 <div className="sm:col-span-2">
                   <label className="label" htmlFor="purpose">Purpose of journey</label>
                   <input id="purpose" className="input" value={purpose} onChange={(e) => setPurpose(e.target.value)} placeholder="e.g. Pump calibration under permit PER-2026-000124" />
+                </div>
+                <div>
+                  <label className="label" htmlFor="wo">Work order number *</label>
+                  <input id="wo" className="input app-number" value={workOrderNo} onChange={(e) => setWorkOrderNo(e.target.value)} placeholder="e.g. WO-2026-004512" />
                 </div>
                 <div>
                   <label className="label" htmlFor="permit">Linked permit (optional)</label>
@@ -483,6 +489,7 @@ export default function NewJourneyPage() {
                   ['Stops', `${checkpoints.length - 2} rest and call-in stops`],
                   ['Hazards', hazards.map((h) => HAZARDS.find((x) => x.key === h)?.label).join('; ') || 'None'],
                   ['Purpose', purpose],
+                  ['Work order', workOrderNo],
                 ].map(([k, v]) => (
                   <div key={k}>
                     <dt className="text-xs text-slate-400">{k}</dt>

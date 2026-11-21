@@ -4,6 +4,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { RoleGuard } from '@/components/role-guard';
 import { Modal } from '@/components/modal';
+import { PositionSelect } from '@/components/position-select';
 import { CompanySelect } from '@/components/company-select';
 import { OcrUploadButton } from '@/components/ocr-upload';
 import { CertUploadForm, CertUploadRow } from '@/components/cert-upload';
@@ -142,7 +143,7 @@ export default function MyDetailsPage() {
             </div>
             <div>
               <label className="label" htmlFor="md-des">Designation *</label>
-              <input id="md-des" className="input" value={f.designation} onChange={(e) => set('designation', e.target.value)} required />
+              <PositionSelect id="md-des" value={f.designation} onChange={(v) => set('designation', v)} required />
             </div>
             <div>
               <label className="label" htmlFor="md-co">Company name *</label>

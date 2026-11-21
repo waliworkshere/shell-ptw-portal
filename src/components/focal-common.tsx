@@ -1,7 +1,7 @@
 'use client';
 
 import { FocalReport } from '@/lib/types';
-import { MONTHLY_KINDS, PTW_AUDIT, SITE_INSPECTION, checklistScore, dueDate, isOnTime, statRates } from '@/lib/focal';
+import { MONTHLY_KINDS, SECTIONS_OF, SITE_INSPECTION, checklistScore, cultureLevel, dueDate, isOnTime, statRates } from '@/lib/focal';
 
 export function ReportStatus({ r, period }: { r?: FocalReport; period?: string }) {
   const today = new Date().toISOString().slice(0, 10);
@@ -35,8 +35,9 @@ export function summary(r: FocalReport, stations: { id: string; name: string }[]
       return `${(d.drills ?? []).length} drill(s)`;
     default: {
       const st = stations.find((s) => s.id === d.stationId)?.name ?? d.location ?? '—';
-      const sc = checklistScore(r.kind === 'PTW_AUDIT' ? PTW_AUDIT : SITE_INSPECTION, d.answers ?? {});
-      return `${st}${d.permitNumber ? ` · ${d.permitNumber}` : ''} · ${sc.answered ? sc.pct + '%' : 'not scored'}`;
+      const sc = checklistScore(SECTIONS_OF[r.kind] ?? SITE_INSPECTION, d.answers ?? {});
+      if (r.kind === 'SAFETY_CULTURE') return `${st} · ${sc.avg !== null ? `${sc.avg.toFixed(1)}/5 · ${cultureLevel(sc.avg).label}` : 'not scored'}${d.respondents ? ` · ${d.respondents} people` : ''}`;
+      return `${st}${d.permitNumber ? ` · ${d.permitNumber}` : ''} · ${sc.answered ? sc.pct + '%' : 'not scored'}${r.kind === 'ASSET_SURVEY' && sc.no ? ` · ${sc.no} poor` : ''}`;
     }
   }
 }

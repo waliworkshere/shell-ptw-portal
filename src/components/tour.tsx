@@ -44,6 +44,12 @@ const STEPS: Record<Role, Step[]> = {
     { target: 'sos', title: 'SOS', body: 'See it, Own it, Stop it — report anything unsafe from any screen.' },
     { target: 'help', title: 'Help', body: 'Replay this tour any time.' },
   ],
+  ROM: [
+    { target: 'nav:/station/dashboard', title: 'My stations', body: 'Permit activity, journeys and SOS reports for every station you manage. Switch station at the top.' },
+    { target: 'nav:/hsse', title: 'HSSE reports', body: 'Near Misses and incidents reported at your stations.' },
+    { target: 'nav:/hsse/report', title: 'SOS report', body: 'See it, Own it, Stop it — log a Near Miss or unsafe condition the moment you see it.' },
+    { target: 'help', title: 'Help', body: 'Replay this tour any time.' },
+  ],
   ARTELIA_MANAGER: [
     { target: 'nav:/approver/dashboard', title: 'Permit review', body: 'Every permit request across all companies and stations, including High risk permits that only you, Permit Issuers and Administrators can approve.' },
     { target: 'nav:/hsse', title: 'SOS & HSSE', body: 'See it, Own it, Stop it reports and emergency alerts across the network.' },
@@ -85,6 +91,10 @@ export const TIPS: Record<Role, string[]> = {
     'Approval stays locked until the video verification call has ended.',
     'Request changes with a clear note — the Holder sees it word for word.',
     'Acknowledge emergency alerts immediately; the person sees your name.',
+  ],
+  ROM: [
+    'Check a contractor’s Safety Passport QR before work starts.',
+    'Make sure every job on your forecourt has a valid permit or Start Work Check.',
   ],
   STATION: [
     'Check a contractor’s Safety Passport QR before work starts.',

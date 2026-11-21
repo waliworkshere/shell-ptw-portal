@@ -8,7 +8,7 @@ import { approverCompany } from '@/lib/access';
 import { activityLabel } from '@/lib/work-checks';
 import { ListChecks, Plus } from 'lucide-react';
 
-const ROLES = ['APPLICANT', 'TRAINEE', 'APPROVER', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'STATION', 'ADMIN'] as const;
+const ROLES = ['APPLICANT', 'TRAINEE', 'APPROVER', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'STATION', 'ROM', 'ADMIN'] as const;
 
 export default function SwcListPage() {
   const { state, currentUser } = useStore();

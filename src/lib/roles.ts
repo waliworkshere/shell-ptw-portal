@@ -6,6 +6,7 @@ export const ROLE_HOME: Record<Role, string> = {
   COMPANY_MANAGER: '/approver/dashboard',
   APPROVER: '/approver/dashboard',
   STATION: '/station/dashboard',
+  ROM: '/station/dashboard',
   APPLICANT: '/applicant/dashboard',
   TRAINEE: '/training',
 };

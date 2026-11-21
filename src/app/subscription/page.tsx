@@ -15,7 +15,6 @@ export default function SubscriptionPage() {
   const active = subscriptionActive(currentUser);
   const sub = currentUser.subscription;
   const pending = pendingOrder(state, currentUser.id, 'SUBSCRIPTION');
-  const orders = state.orders.filter((o) => o.userId === currentUser.id);
 
   return (
     <RoleGuard role={['APPLICANT', 'TRAINEE']}>
@@ -62,21 +61,6 @@ export default function SubscriptionPage() {
           </div>
         </div>
 
-        {orders.length > 0 && (
-          <div className="card mt-6">
-            <h2 className="font-display text-sm font-semibold text-ink">My purchases</h2>
-            <ul className="mt-2 divide-y divide-petrol-50 text-sm">
-              {orders.map((o) => (
-                <li key={o.id} className="flex flex-wrap items-center justify-between gap-2 py-2.5">
-                  <span>{o.label} <span className="block text-xs text-slate-400">{new Date(o.requestedAt).toLocaleDateString('en-GB')} · ref {o.id.slice(-8).toUpperCase()}</span></span>
-                  <span className="flex items-center gap-2"><b className="app-number">{usd(o.amountUsd)}</b>
-                    <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${o.status === 'PAID' ? 'bg-leaf-50 text-leaf-700' : o.status === 'PENDING' ? 'bg-sand-50 text-sand-700' : 'bg-slate-100 text-slate-500'}`}>{o.status === 'PAID' ? 'Paid' : o.status === 'PENDING' ? 'Waiting for payment' : 'Cancelled'}</span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
       </div>
     </RoleGuard>
   );

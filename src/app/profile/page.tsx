@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { RoleGuard } from '@/components/role-guard';
 import { Modal } from '@/components/modal';
 import { FaceVerify } from '@/components/face-verify';
+import { PositionSelect } from '@/components/position-select';
 import { CompanySelect } from '@/components/company-select';
 import { CompetencyCard, MemberCerts } from '@/components/member-profile';
 import { ChangePasswordForm } from '@/components/password-form';
@@ -24,13 +25,12 @@ export default function ProfilePage() {
   const [saved, setSaved] = useState(false);
   const [f, setF] = useState({ phone: currentUser?.phone ?? '', company: currentUser?.company ?? '', jobTitle: currentUser?.jobTitle ?? '', email: currentUser?.email ?? '' });
   const u = currentUser;
-  if (!u) return <RoleGuard role={['APPLICANT', 'TRAINEE', 'ADMIN', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'APPROVER', 'STATION']}>{null}</RoleGuard>;
+  if (!u) return <RoleGuard role={['APPLICANT', 'TRAINEE', 'ADMIN', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'APPROVER', 'STATION', 'ROM']}>{null}</RoleGuard>;
   const daysLeft = u.civilIdExpiry ? Math.round((new Date(u.civilIdExpiry).getTime() - Date.now()) / 86400000) : null;
   const checks = state.faceChecks.filter((c) => c.userId === u.id).slice(0, 5);
-  const payments = state.payments.filter((p) => p.userId === u.id);
 
   return (
-    <RoleGuard role={['APPLICANT', 'TRAINEE', 'ADMIN', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'APPROVER', 'STATION']}>
+    <RoleGuard role={['APPLICANT', 'TRAINEE', 'ADMIN', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'APPROVER', 'STATION', 'ROM']}>
       <div className="mx-auto max-w-5xl px-4 py-6 sm:px-8 sm:py-8">
         <div className="relative overflow-hidden rounded-3xl bg-petrol-600 p-6 text-white">
           <div className="shell-stripe absolute inset-x-0 top-0 h-1" />
@@ -83,7 +83,7 @@ export default function ProfilePage() {
             </div>
             <div>
               <label className="label" htmlFor="job">Position</label>
-              <input id="job" className="input" value={f.jobTitle} onChange={(e) => setF({ ...f, jobTitle: e.target.value })} />
+              <PositionSelect id="job" value={f.jobTitle} onChange={(v) => setF({ ...f, jobTitle: v })} />
             </div>
             <div>
               <label className="label">Civil ID</label>
@@ -138,25 +138,6 @@ export default function ProfilePage() {
             <h2 className="font-display text-sm font-semibold text-ink">Password</h2>
             <p className="mt-0.5 text-xs text-slate-500">You sign in as <span className="app-number">{u.username || u.civilId}</span>.</p>
             <div className="mt-3"><ChangePasswordForm compact /></div>
-          </div>
-        )}
-
-        {SHOW_COURSE_PRICES && payments.length > 0 && (
-          <div className="card mt-6">
-            <h2 className="flex items-center gap-2 font-display text-sm font-semibold text-ink"><Receipt size={16} /> Payment history</h2>
-            <table className="rtable rtable-flush mt-3 w-full text-sm">
-              <tbody className="divide-y divide-petrol-50">
-                {payments.map((p) => (
-                  <tr key={p.id}>
-                    <td className="py-2.5 text-ink">{p.description}</td>
-                    <td data-label="Receipt" className="app-number py-2.5 text-xs text-slate-400">{p.receiptNo}</td>
-                    <td data-label="Paid with" className="py-2.5 text-xs text-slate-500">{p.method === 'CARD' ? `${p.cardBrand} •••• ${p.cardLast4}` : 'Apple Pay'}</td>
-                    <td data-label="Date" className="py-2.5 text-xs text-slate-500">{fmtDateTime(p.at)}</td>
-                    <td data-label="Total" className="app-number py-2.5 text-right font-medium">{p.total.toFixed(3)} OMR</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
           </div>
         )}
 

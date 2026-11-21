@@ -12,7 +12,7 @@ import { CheckCircle2, Clock, Gift, Megaphone, Star, XCircle } from 'lucide-reac
 export default function RewardsPage() {
   const { state, currentUser, requestRedemption, cancelRedemption } = useStore();
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
-  if (!currentUser) return <RoleGuard role={['APPLICANT', 'TRAINEE', 'APPROVER', 'STATION', 'ARTELIA_MANAGER', 'COMPANY_MANAGER']}>{null}</RoleGuard>;
+  if (!currentUser) return <RoleGuard role={['APPLICANT', 'TRAINEE', 'APPROVER', 'STATION', 'ROM', 'ARTELIA_MANAGER', 'COMPANY_MANAGER']}>{null}</RoleGuard>;
   const p = pointsFor(state, currentUser.id);
   const mine = state.redemptions.filter((r) => r.userId === currentUser.id);
 
@@ -23,7 +23,7 @@ export default function RewardsPage() {
   }
 
   return (
-    <RoleGuard role={['APPLICANT', 'TRAINEE', 'APPROVER', 'STATION', 'ARTELIA_MANAGER', 'COMPANY_MANAGER']}>
+    <RoleGuard role={['APPLICANT', 'TRAINEE', 'APPROVER', 'STATION', 'ROM', 'ARTELIA_MANAGER', 'COMPANY_MANAGER']}>
       <div className="mx-auto max-w-5xl px-4 py-6 sm:px-8 sm:py-10">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>

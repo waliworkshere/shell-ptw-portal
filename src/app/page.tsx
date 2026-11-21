@@ -37,11 +37,12 @@ const ROLE_ICON: Record<Role, React.ElementType> = {
   COMPANY_MANAGER: Building2,
   APPROVER: ClipboardCheck,
   STATION: Building2,
+  ROM: Building2,
   APPLICANT: UserRound,
   TRAINEE: GraduationCap,
 };
 
-const ROLE_ORDER: Role[] = ['APPLICANT', 'TRAINEE', 'COMPANY_MANAGER', 'APPROVER', 'ARTELIA_MANAGER', 'STATION', 'ADMIN'];
+const ROLE_ORDER: Role[] = ['APPLICANT', 'TRAINEE', 'COMPANY_MANAGER', 'APPROVER', 'ARTELIA_MANAGER', 'STATION', 'ROM', 'ADMIN'];
 
 export default function LoginPage() {
   const { state, ready, currentUser, signIn, signInWithCivilId, mode, liveSignIn, liveActivate, switchMode } = useStore();

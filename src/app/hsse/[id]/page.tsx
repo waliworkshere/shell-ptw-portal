@@ -11,23 +11,25 @@ import { RoleGuard } from '@/components/role-guard';
 import { RamMatrix } from '@/components/ram-matrix';
 import { osmEmbed } from '@/components/sos';
 import { useStore } from '@/lib/store';
-import { HSSE_TYPE_LABEL, HsseStatus } from '@/lib/types';
+import { HSSE_TYPE_LABEL, HsseStatus, Likelihood } from '@/lib/types';
 import { RAM_STYLE, actionCompany, activeFocalCo, focalSees, ramLevel } from '@/lib/hsse';
 import { CompanySelect } from '@/components/company-select';
 import { fmtDateTime } from '@/lib/training';
 import { ArrowLeft, CheckCircle2, Circle, ClipboardList, LocateFixed, MapPin, OctagonX, Plus, ShieldAlert, UserRound, Building2, BellRing } from 'lucide-react';
 
-const ALL = ['ADMIN', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'APPROVER', 'STATION', 'APPLICANT', 'TRAINEE'] as const;
+const ALL = ['ADMIN', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'APPROVER', 'STATION', 'ROM', 'APPLICANT', 'TRAINEE'] as const;
 
 export default function HsseDetailPage() {
   const { id } = useParams<{ id: string }>();
-  const { state, currentUser, setHsseStatus, addHsseAction, toggleHsseAction } = useStore();
+  const { state, currentUser, setHsseStatus, addHsseAction, toggleHsseAction, setHsseRam } = useStore();
+  const [ram, setRam] = useState<{ c: number; l: Likelihood } | null>(null);
+  const [ramNote, setRamNote] = useState('');
   const r = state.hsseReports.find((x) => x.id === id);
   const [note, setNote] = useState('');
   const [action, setAction] = useState('');
   const [owner, setOwner] = useState('');
   const [actionCo, setActionCo] = useState<string | null>(null);
-  const canManage = ['ADMIN', 'ARTELIA_MANAGER', 'APPROVER', 'STATION'].includes(currentUser?.role ?? '');
+  const canManage = ['ADMIN', 'ARTELIA_MANAGER', 'APPROVER', 'STATION', 'ROM'].includes(currentUser?.role ?? '');
   const focalCo = activeFocalCo(currentUser);
 
   if (!r)
@@ -41,6 +43,12 @@ export default function HsseDetailPage() {
   const focalsOf = (co: string) => state.users.filter((u) => u.hsseFocal?.active && u.hsseFocal.company === co).map((u) => u.fullName);
   const isLoopedFocal = focalSees(r, focalCo);
   const station = state.stations.find((s) => s.id === r.stationId);
+  // The reporter's company HSSE Focal sets the final RAM rating (an Administrator can step in if the company has no focal).
+  const canRate = (!!focalCo && focalCo === r.reporterCompany) || currentUser?.role === 'ADMIN';
+  const confirmed = !!r.ramConfirmed;
+  const pickC = ram?.c ?? r.consequence;
+  const pickL = ram?.l ?? r.likelihood;
+  const pickLvl = ramLevel(pickC, pickL);
 
   function move(s: HsseStatus) {
     setHsseStatus(r!.id, s, note.trim());
@@ -67,7 +75,7 @@ export default function HsseDetailPage() {
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <span className={`rounded-full border px-3 py-1 text-xs font-semibold ${RAM_STYLE[lvl].chip}`}>RAM {r.consequence}{r.likelihood} · {RAM_STYLE[lvl].label}</span>
+            <span className={`rounded-full border px-3 py-1 text-xs font-semibold ${RAM_STYLE[lvl].chip}`}>{confirmed ? 'RAM' : 'Suggested RAM'} {r.consequence}{r.likelihood} · {RAM_STYLE[lvl].label}</span>
             <span className={`stamp ${r.status === 'CLOSED' ? 'stamp-approved' : r.status === 'INVESTIGATING' ? 'stamp-submitted' : 'stamp-changes_required'}`}>{r.status === 'OPEN' ? 'Open' : r.status === 'INVESTIGATING' ? 'Investigating' : 'Closed'}</span>
           </div>
         </div>
@@ -100,8 +108,40 @@ export default function HsseDetailPage() {
             )}
 
             <div className="card">
-              <h2 className="font-display text-sm font-semibold text-ink">Risk assessment</h2>
-              <div className="mt-3"><RamMatrix consequence={r.consequence} likelihood={r.likelihood} readOnly /></div>
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <h2 className="font-display text-sm font-semibold text-ink">Risk assessment (RAM)</h2>
+                {confirmed ? (
+                  <span className="rounded-full bg-leaf-50 px-2.5 py-0.5 text-xs font-semibold text-leaf-700">Confirmed by {r.ramConfirmed!.by} · {fmtDateTime(r.ramConfirmed!.at)}</span>
+                ) : (
+                  <span className="rounded-full bg-sand-50 px-2.5 py-0.5 text-xs font-semibold text-sand-700">Waiting for the HSSE Focal{r.reporterCompany ? ` of ${r.reporterCompany}` : ''}</span>
+                )}
+              </div>
+              {r.ramSuggested && (
+                <p className="mt-2 text-xs text-slate-500">
+                  System suggestion: <b className="text-ink">{r.ramSuggested.consequence}{r.ramSuggested.likelihood}</b>
+                  {r.ramSuggested.reasons.length > 0 && <> — based on {r.ramSuggested.reasons.join(', ')}</>}.
+                </p>
+              )}
+              {r.ramConfirmed?.note && <p className="mt-1 text-xs text-slate-500">Focal&apos;s note: {r.ramConfirmed.note}</p>}
+              {canRate ? (
+                <>
+                  <p className="mt-3 text-xs text-slate-500">{confirmed ? 'You can change the rating if needed.' : 'Check the suggestion and tap the cell for the worst credible outcome and how likely it is, then confirm.'}</p>
+                  <div className="mt-3"><RamMatrix consequence={pickC} likelihood={pickL} onPick={(c, l) => setRam({ c, l })} /></div>
+                  <div className="mt-3 flex flex-wrap items-center gap-2">
+                    <span className={`rounded-full border px-3 py-1 text-xs font-semibold ${RAM_STYLE[pickLvl].chip}`}>{pickC}{pickL} · {RAM_STYLE[pickLvl].label}</span>
+                    <input className="input min-w-[200px] flex-1 py-1.5 text-sm" placeholder="Note (optional) — why this rating" value={ramNote} onChange={(e) => setRamNote(e.target.value)} />
+                    <button
+                      onClick={() => { setHsseRam(r.id, pickC, pickL, ramNote.trim()); setRam(null); setRamNote(''); }}
+                      disabled={confirmed && !ram && !ramNote.trim()}
+                      className="btn-primary"
+                    >
+                      {confirmed ? 'Update rating' : 'Confirm rating'}
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <div className="mt-3"><RamMatrix consequence={r.consequence} likelihood={r.likelihood} readOnly /></div>
+              )}
             </div>
 
             <div className="card">

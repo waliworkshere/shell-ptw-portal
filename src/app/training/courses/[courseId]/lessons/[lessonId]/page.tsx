@@ -11,6 +11,7 @@ import { PreviewBanner } from '@/components/preview-banner';
 import { ProgressBar } from '@/components/ui';
 import { QuizResult, useStore } from '@/lib/store';
 import { generateCertificatePdf } from '@/lib/certificate-pdf';
+import { coursePriceUsd } from '@/lib/access';
 import { courseProgress, isLessonUnlocked, lessonProgress } from '@/lib/training';
 import { Confetti, FlipCards, HazardHunt } from '@/components/interactive';
 import {
@@ -89,6 +90,13 @@ export default function LessonPlayerPage() {
   const lesson = course?.lessons[index];
   // Administrators preview lessons: every lesson open, quizzes scored but never saved.
   const preview = currentUser?.role === 'ADMIN';
+  // Paid courses never reveal answers after a failed attempt — the learner retakes the quiz (no extra charge).
+  const paid = !!course && coursePriceUsd(course) > 0;
+  const lpNow = enrollment?.lessons[lessonId];
+  const attemptsUsed = lpNow?.attempts ?? 0;
+  const maxAttempts = course?.maxAttempts;
+  // e.g. Permit to Work: 3 tries at most. After that the person is not eligible (an administrator can reset).
+  const outOfAttempts = !preview && !!maxAttempts && !lpNow?.passed && attemptsUsed >= maxAttempts;
 
   const [phase, setPhase] = useState<Phase>('content');
   const readRef = useRef<HTMLDivElement>(null);
@@ -131,6 +139,7 @@ export default function LessonPlayerPage() {
   const contentReady = preview || (lesson.type === 'READING' || videoWatched || lp.contentDone) && activityReady;
 
   function goQuiz() {
+    if (outOfAttempts) return;
     if (!preview) markLessonContentDone(course!.id, lesson!.id);
     setAnswers(new Array(lesson!.quiz.length).fill(-1));
     setResult(null);
@@ -305,9 +314,10 @@ export default function LessonPlayerPage() {
                   )}
                   <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-petrol-100 pt-6">
                     <p className="text-xs text-slate-400">
-                      {!activityReady ? 'Find every hazard in the scene to unlock the quiz.' : lesson.type === 'VIDEO' && !contentReady ? 'Watch the video to unlock the quiz.' : lesson.quiz.length === 0 ? 'The quiz for this lesson is being prepared. You can watch the video now; the next lesson opens once the quiz is published and passed.' : `${lesson.quiz.length} questions. You need ${course.passMark}% to pass. Retakes are unlimited.`}
+                      {!activityReady ? 'Find every hazard in the scene to unlock the quiz.' : lesson.type === 'VIDEO' && !contentReady ? 'Watch the video to unlock the quiz.' : lesson.quiz.length === 0 ? 'The quiz for this lesson is being prepared. You can watch the video now; the next lesson opens once the quiz is published and passed.' : `${lesson.quiz.length} questions. You need ${course.passMark}% to pass. ${maxAttempts ? `You have ${Math.max(0, maxAttempts - attemptsUsed)} of ${maxAttempts} attempts left.` : 'Retakes are unlimited.'}`}
                     </p>
-                    <button onClick={goQuiz} disabled={!contentReady || lesson.quiz.length === 0} className="btn-primary">
+                    {outOfAttempts && <NotEligible max={maxAttempts!} />}
+                    <button onClick={goQuiz} disabled={!contentReady || lesson.quiz.length === 0 || outOfAttempts} className="btn-primary">
                       {preview ? 'Try the quiz' : lp.passed ? 'Retake the quiz' : 'Mark complete and take the quiz'} <ArrowRight size={15} />
                     </button>
                   </div>
@@ -386,12 +396,14 @@ export default function LessonPlayerPage() {
                             ? `Passed. You needed ${course.passMark}%.`
                             : `Not passed yet. You need ${course.passMark}%. Review the lesson and try again.`}
                         </p>
+                        {!result.passed && outOfAttempts && <div className="mt-3"><NotEligible max={maxAttempts!} /></div>}
+                        {!result.passed && paid && <p className="mt-1 text-xs text-slate-500">The answers are not shown for paid courses. Retakes are included in your course fee, so you won&apos;t be charged again.</p>}
                       </div>
                       <div className="flex flex-wrap gap-2">
                         {!result.passed && (
                           <>
                             <button onClick={() => setPhase('content')} className="btn-secondary"><BookOpen size={15} /> Review lesson</button>
-                            <button onClick={goQuiz} className="btn-primary"><RotateCcw size={15} /> Retake quiz</button>
+                            {outOfAttempts ? null : <button onClick={goQuiz} className="btn-primary"><RotateCcw size={15} /> Retake quiz{maxAttempts ? ` (${maxAttempts - attemptsUsed} left)` : ''}</button>}
                           </>
                         )}
                         {(result.passed || preview) && next && (
@@ -421,6 +433,7 @@ export default function LessonPlayerPage() {
                     </div>
                   )}
 
+                  {(!paid || result.passed || preview) && <>
                   <h2 className="mt-8 font-display text-sm font-semibold text-ink">Your answers</h2>
                   <ul className="mt-3 space-y-3">
                     {lesson.quiz.map((q, qi) => {
@@ -449,6 +462,7 @@ export default function LessonPlayerPage() {
                       );
                     })}
                   </ul>
+                  </>}
                 </div>
               )}
             </>
@@ -456,5 +470,14 @@ export default function LessonPlayerPage() {
         </div>
       </div>
     </RoleGuard>
+  );
+}
+
+function NotEligible({ max }: { max: number }) {
+  return (
+    <div className="w-full rounded-xl border border-rust-200 bg-rust-50 px-4 py-3 text-sm text-rust-700">
+      <p className="font-semibold">You are not eligible.</p>
+      <p className="mt-0.5 text-xs">You have used all {max} attempts at this quiz without passing. Please contact your HSSE administrator.</p>
+    </div>
   );
 }

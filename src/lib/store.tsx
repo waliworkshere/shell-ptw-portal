@@ -1,7 +1,8 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
-import { AppState, Application, ApplicationStatus, User, FuelStation, PermitType, UploadedDocument, RiskLevel, CallStatus, CallScreenshot, Course, Lesson, Enrollment, PermitHolderRegistration, JourneyPlan, Payment, PaymentMethod, HsseReport, HsseStatus, SosAlert, HSSE_TYPE_SHORT, Company, PtwCard, CertUpload, Redemption, PassportForm, FocalContract, FocalReport, Order, WorkCheck } from './types';
+import { AppState, Application, ApplicationStatus, User, FuelStation, PermitType, UploadedDocument, RiskLevel, CallStatus, CallScreenshot, Course, Lesson, Enrollment, PermitHolderRegistration, JourneyPlan, Payment, PaymentMethod, HsseReport, HsseStatus, SosAlert, HSSE_TYPE_SHORT, Company, PtwCard, CertUpload, Redemption, PassportForm, FocalContract, FocalReport, Order, WorkCheck, Likelihood } from './types';
+import type { RomRow } from './rom-import';
 import { nextCertificateNumber } from './training';
 import { ROLE_LABEL } from './types';
 import { nextJmpNumber } from './journey';
@@ -72,6 +73,10 @@ interface StoreContextValue {
   addAuditLog: (action: string, description: string) => void;
   addUser: (user: Omit<User, 'id' | 'username' | 'password' | 'civilId' | 'civilIdExpiry'> & Partial<Pick<User, 'username' | 'password' | 'civilId' | 'civilIdExpiry'>>) => void;
   addStation: (station: Omit<FuelStation, 'id'>) => void;
+  /** Import the ROM list: creates / updates stations and ROM accounts, and assigns each ROM their stations. */
+  importRoms: (rows: RomRow[]) => { stationsAdded: number; stationsUpdated: number; romsAdded: number; romsUpdated: number; skipped: string[] };
+  /** The company HSSE Focal (or HSSE staff) confirms how serious a report is on the RAM. */
+  setHsseRam: (id: string, consequence: number, likelihood: Likelihood, note: string) => void;
   addPermitType: (pt: Omit<PermitType, 'id'>) => void;
   createApplication: (input: {
     permitTypeId: string;
@@ -105,6 +110,8 @@ interface StoreContextValue {
   /** Administrator: switch an account off / back on. */
   setDeactivated: (userId: string, reason: string | null) => void;
   saveWorkCheck: (c: Omit<WorkCheck, 'id' | 'userId' | 'userName' | 'company' | 'createdAt'>) => WorkCheck;
+  /** Looks up a permit or JMP number typed in by someone working under another person's permit / journey plan. */
+  lookupWorkRef: (kind: 'PERMIT' | 'JMP', ref: string) => Promise<{ ok: true; id: string; number: string; stationId?: string; status: string } | { ok: false; error: string }>;
   /** Permit Holder closes an approved permit once the work is done. */
   closePermit: (applicationId: string, note: string) => void;
   addCallScreenshot: (applicationId: string, dataUrl: string) => void;
@@ -140,6 +147,8 @@ export interface SyncStatus {
 }
 
 export interface QuizResult {
+  /** No attempts left on a course with an attempt limit. */
+  locked?: boolean;
   score: number;
   passed: boolean;
   correct: boolean[];
@@ -784,6 +793,69 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     addAuditLog('STATION_CREATED', `${station.name} (${station.code}) added`);
   }, [addAuditLog]);
 
+  const importRoms: StoreContextValue['importRoms'] = useCallback((rows) => {
+    const s0 = stateRef.current;
+    const stations = [...s0.stations];
+    const users = [...s0.users];
+    let stationsAdded = 0;
+    let stationsUpdated = 0;
+    let romsAdded = 0;
+    let romsUpdated = 0;
+    const skipped: string[] = [];
+    const romStations = new Map<string, Set<string>>(); // user id -> station ids from the file
+    rows.forEach((r) => {
+      // Station: matched on code, else on name.
+      let i = stations.findIndex((x) => x.code.toUpperCase() === r.stationCode) ;
+      if (i < 0) i = stations.findIndex((x) => x.name.toLowerCase() === r.stationName.toLowerCase());
+      const patch = { name: r.stationName, code: r.stationCode, region: r.region || undefined, location: r.location || stations[i]?.location || '', ...(r.lat !== undefined && r.lng !== undefined ? { lat: r.lat, lng: r.lng } : {}) };
+      let stationId: string;
+      if (i < 0) {
+        stationId = `stn-${rid()}`;
+        stations.push({ id: stationId, status: 'ACTIVE', ...patch });
+        stationsAdded++;
+      } else {
+        stationId = stations[i].id;
+        const next = { ...stations[i], ...patch };
+        if (JSON.stringify(next) !== JSON.stringify(stations[i])) { stations[i] = next; stationsUpdated++; }
+      }
+      if (!r.romName) return;
+      // ROM: matched on email, then Civil ID, then an existing ROM with the same name.
+      let u = users.findIndex((x) => !!r.romEmail && x.email?.toLowerCase() === r.romEmail);
+      if (u < 0 && r.romCivilId) u = users.findIndex((x) => x.civilId === r.romCivilId);
+      if (u < 0) u = users.findIndex((x) => x.role === 'ROM' && x.fullName.toLowerCase() === r.romName.toLowerCase());
+      if (u >= 0 && users[u].role === 'ADMIN') {
+        skipped.push(`${r.romName}: this email belongs to an Administrator, so it was not changed into a ROM.`);
+        return;
+      }
+      if (u < 0) {
+        const id = `u-${rid()}`;
+        users.push({
+          id, fullName: r.romName, email: r.romEmail, phone: r.romPhone || undefined, role: 'ROM', stationIds: [],
+          username: r.romEmail || r.romName.toLowerCase().replace(/\s+/g, '.'), password: '', civilId: r.romCivilId, civilIdExpiry: '',
+        });
+        u = users.length - 1;
+        romsAdded++;
+      } else if (!romStations.has(users[u].id)) {
+        romsUpdated++;
+      }
+      const cur = users[u];
+      users[u] = { ...cur, role: 'ROM', fullName: r.romName || cur.fullName, email: r.romEmail || cur.email, phone: r.romPhone || cur.phone, civilId: cur.civilId || r.romCivilId };
+      if (!romStations.has(cur.id)) romStations.set(cur.id, new Set());
+      romStations.get(cur.id)!.add(stationId);
+    });
+    // The file is the list of record: each ROM in it gets exactly the stations listed for them,
+    // and a station listed under a new ROM is taken off its previous ROM.
+    const taken = new Set(Array.from(romStations.values()).flatMap((x) => Array.from(x)));
+    const finalUsers = users.map((u) => {
+      if (romStations.has(u.id)) return { ...u, stationIds: Array.from(romStations.get(u.id)!) };
+      if (u.role === 'ROM' && u.stationIds?.some((x) => taken.has(x))) return { ...u, stationIds: u.stationIds.filter((x) => !taken.has(x)) };
+      return u;
+    });
+    setState((st) => ({ ...st, stations, users: finalUsers }));
+    addAuditLog('ROM_IMPORT', `ROM list imported: ${stationsAdded} stations added, ${stationsUpdated} updated, ${romsAdded} ROMs added, ${romsUpdated} updated`);
+    return { stationsAdded, stationsUpdated, romsAdded, romsUpdated, skipped };
+  }, [addAuditLog]);
+
   const addPermitType = useCallback((pt: Omit<PermitType, 'id'>) => {
     setState((s) => ({ ...s, permitTypes: [...s.permitTypes, { ...pt, id: `pt-${rid()}` }] }));
     addAuditLog('PERMIT_TYPE_CREATED', `${pt.name} added`);
@@ -1067,6 +1139,31 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     return saved;
   }, [addAuditLog]);
 
+  const lookupWorkRef: StoreContextValue['lookupWorkRef'] = useCallback(async (kind, ref) => {
+    const n = ref.trim().toUpperCase();
+    if (!n) return { ok: false, error: 'Enter the number.' };
+    if (mode === 'live') {
+      try {
+        const r = await rpc('gs_lookup_work_ref', { p_token: getToken(), p_kind: kind, p_ref: n });
+        if (r?.ok) return { ok: true, id: r.id, number: r.number, stationId: r.stationId ?? undefined, status: r.status };
+        return { ok: false, error: r?.error === 'NOT_ACTIVE' ? `That ${kind === 'JMP' ? 'journey plan' : 'permit'} is not approved / active (${String(r.status ?? '').toLowerCase().replace('_', ' ')}).` : `No ${kind === 'JMP' ? 'journey plan' : 'permit'} found with number ${n}.` };
+      } catch (e) {
+        return { ok: false, error: e instanceof Error ? e.message : 'Could not check the number.' };
+      }
+    }
+    const s0 = stateRef.current;
+    if (kind === 'PERMIT') {
+      const a = s0.applications.find((x) => (x.permitNumber ?? '').toUpperCase() === n || x.applicationNumber.toUpperCase() === n);
+      if (!a) return { ok: false, error: `No permit found with number ${n}.` };
+      if (a.status !== 'APPROVED') return { ok: false, error: `That permit is not approved (${a.status.toLowerCase()}).` };
+      return { ok: true, id: a.id, number: a.permitNumber ?? a.applicationNumber, stationId: a.stationId, status: a.status };
+    }
+    const j = s0.journeys.find((x) => x.jmpNumber.toUpperCase() === n);
+    if (!j) return { ok: false, error: `No journey plan found with number ${n}.` };
+    if (!['APPROVED', 'IN_PROGRESS'].includes(j.status)) return { ok: false, error: `That journey plan is not active (${j.status.toLowerCase()}).` };
+    return { ok: true, id: j.id, number: j.jmpNumber, stationId: j.destinationStationId, status: j.status };
+  }, [mode]);
+
   const closePermit = useCallback((applicationId: string, note: string) => {
     setState((s) => {
       const user = s.users.find((u) => u.id === s.currentUserId);
@@ -1241,6 +1338,8 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     const passed = score >= course.passMark;
     const nowIso = new Date().toISOString();
     const prev = enrollment.lessons[lessonId] ?? { contentDone: true, attempts: 0, bestScore: 0, passed: false };
+    // Courses with an attempt limit (e.g. Permit to Work: 3 tries) lock once the limit is used up.
+    if (course.maxAttempts && !prev.passed && prev.attempts >= course.maxAttempts) return { score: 0, passed: false, correct: [], courseCompleted: false, locked: true };
     const lessons = {
       ...enrollment.lessons,
       [lessonId]: {
@@ -1568,6 +1667,17 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     addAuditLog('HSSE_STATUS', `${id} → ${status.toLowerCase()}`);
   }, [updateHsse, addAuditLog]);
 
+  const setHsseRam = useCallback((id: string, consequence: number, likelihood: Likelihood, note: string) => {
+    updateHsse(id, (r, actor, nowIso) => ({
+      ...r,
+      consequence,
+      likelihood,
+      ramConfirmed: { by: actor, at: nowIso, note: note || undefined },
+      timeline: [...r.timeline, { id: `ht-${rid()}`, label: `Severity set on the RAM: ${consequence}${likelihood}${r.ramSuggested && (r.ramSuggested.consequence !== consequence || r.ramSuggested.likelihood !== likelihood) ? ` (system suggested ${r.ramSuggested.consequence}${r.ramSuggested.likelihood})` : ''}${note ? ` — ${note}` : ''}`, actor, at: nowIso }],
+    }));
+    addAuditLog('HSSE_RAM', `${id} → RAM ${consequence}${likelihood}`);
+  }, [updateHsse, addAuditLog]);
+
   const addHsseAction = useCallback((id: string, text: string, owner: string, company?: string) => {
     updateHsse(id, (r, actor, nowIso) => ({
       ...r,
@@ -1699,6 +1809,8 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         createHsseReport,
         setHsseStatus,
         addHsseAction,
+        setHsseRam,
+        importRoms,
         toggleHsseAction,
         addCompany,
         setCompanyStatus,
@@ -1728,6 +1840,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         endSubscription,
         setDeactivated,
         saveWorkCheck,
+        lookupWorkRef,
         addCallScreenshot,
         createTrainee,
         saveCourse,

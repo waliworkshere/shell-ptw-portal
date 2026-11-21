@@ -65,7 +65,7 @@ export default function MyJourneysPage() {
                 <li key={j.id}>
                   <Link href={`/journeys/${j.id}`} className="flex flex-wrap items-center justify-between gap-3 px-6 py-4 hover:bg-petrol-50/50">
                     <div className="min-w-0">
-                      <p className="app-number text-sm font-medium text-ink">{j.jmpNumber}</p>
+                      <p className="app-number text-sm font-medium text-ink">{j.jmpNumber}{j.workOrderNo && <span className="ml-2 text-xs font-normal text-slate-400">WO {j.workOrderNo}</span>}</p>
                       <p className="mt-0.5 flex items-center gap-1 text-xs text-slate-500">
                         <MapPin size={12} /> {j.origin} to {j.destination}, {j.distanceKm} km
                       </p>

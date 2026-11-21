@@ -166,6 +166,10 @@ export default function CourseEditorPage() {
             <input id="pass" type="number" min={1} max={100} className="input" value={draft.passMark} onChange={(e) => set('passMark', Number(e.target.value))} />
           </div>
           <div className="sm:col-span-1">
+            <label className="label" htmlFor="maxatt">Max quiz attempts</label>
+            <input id="maxatt" type="number" min={0} className="input" placeholder="Unlimited" value={draft.maxAttempts ?? ''} onChange={(e) => set('maxAttempts', e.target.value ? Math.max(1, Number(e.target.value)) : undefined)} />
+          </div>
+          <div className="sm:col-span-1">
             <label className="label" htmlFor="valid">Valid (months)</label>
             <input id="valid" type="number" min={1} className="input" value={draft.validityMonths} onChange={(e) => set('validityMonths', Number(e.target.value))} />
           </div>

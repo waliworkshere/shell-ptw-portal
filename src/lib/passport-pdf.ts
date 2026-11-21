@@ -1,6 +1,6 @@
 import { jsPDF } from 'jspdf';
 import { User } from './types';
-import { drawLogo } from './brand-assets';
+import { drawArteliaAcademy, drawGemsafetyPro } from './brand-assets';
 import { fmtDate } from './training';
 import { maskCivilId } from './roles';
 import type { passportData } from './passport';
@@ -20,15 +20,15 @@ export function generatePassportPdf(user: User, d: Data, qrDataUrl?: string) {
   doc.rect(M, y + 116, (W - M * 2) / 2, 4, 'F');
   doc.setFillColor(251, 206, 7);
   doc.rect(M + (W - M * 2) / 2, y + 116, (W - M * 2) / 2, 4, 'F');
-  drawLogo(doc, 'shell', M + 16, y + 16, 50);
-  drawLogo(doc, 'artelia-white', W - M - 16, y + 26, 24, 'right');
+  drawGemsafetyPro(doc, M + 16, y + 44, 26);
+  drawArteliaAcademy(doc, W - M - 16, y + 18, 24);
   doc.setTextColor(255, 255, 255);
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(22);
   doc.text('SAFETY PASSPORT', M + 16, y + 92);
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(10);
-  doc.text('Gemsafety · Shell Oman Retail · Contractor competence record', M + 16, y + 106);
+  doc.text('Gemsafety Pro · Contractor competence record', M + 16, y + 106);
   doc.setFont('courier', 'bold');
   doc.setFontSize(13);
   doc.text(d.number, W - M - 16, y + 92, { align: 'right' });

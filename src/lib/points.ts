@@ -31,7 +31,7 @@ export const REWARDS: Reward[] = [
   { id: 'rw-coffee', label: 'Shell Select coffee voucher', description: 'One coffee at any Shell Select store in Oman.', cost: 20 },
   { id: 'rw-champion', label: 'Safety Champion certificate', description: 'A signed Safety Champion certificate from the Retail HSSE team.', cost: 30 },
   { id: 'rw-fuel5', label: '5 OMR fuel voucher', description: 'Redeemable at Shell stations in Oman.', cost: 40 },
-  { id: 'rw-course', label: 'Paid course fee waived', description: 'Your next paid Gemsafety course at no cost.', cost: 50 },
+  { id: 'rw-gift10', label: '10 OMR gift voucher', description: 'A 10 OMR gift voucher, handed over by the HSSE team.', cost: 50 },
 ];
 
 /* Points last one calendar quarter (Jan–Mar, Apr–Jun, Jul–Sep, Oct–Dec, Oman time).

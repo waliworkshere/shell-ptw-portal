@@ -3,8 +3,8 @@
 import { MustChangePassword } from './password-form';
 import { IncomingCall } from './incoming-call';
 import { addMonths, dueDate, monthChecklist, monthKey, monthLabel } from '@/lib/focal';
-import { activeFocalCo, focalOpenActions } from '@/lib/hsse';
-import { canReviewPermit } from '@/lib/access';
+import { COUNTRY_LEAD_TYPES, activeFocalCo, focalOpenActions } from '@/lib/hsse';
+import { canReviewPermit, myStationIds } from '@/lib/access';
 import { fmtOman } from '@/lib/permit-rules';
 import { fmtDate } from '@/lib/training';
 
@@ -79,7 +79,7 @@ const NAV: Record<Role, NavGroup[]> = {
         { href: '/admin/dashboard', label: 'Overview', icon: LayoutDashboard },
         { href: '/admin/users', label: 'Users & imports', icon: Users },
         { href: '/admin/companies', label: 'Companies & ranking', icon: Trophy },
-        { href: '/admin/stations', label: 'Shell stations', icon: Fuel },
+        { href: '/admin/stations', label: 'Stations & ROMs', icon: Fuel },
         { href: '/admin/permit-types', label: 'Permit types', icon: FileStack },
       ],
     },
@@ -112,6 +112,7 @@ const NAV: Record<Role, NavGroup[]> = {
     { items: [{ href: '/profile', label: 'My profile', icon: UserCircle }] },
   ],
   STATION: [{ items: [{ href: '/station/dashboard', label: 'Station overview', icon: Building2 }] }, HSSE, { items: [{ href: '/profile', label: 'My profile', icon: UserCircle }] }],
+  ROM: [{ items: [{ href: '/station/dashboard', label: 'My stations', icon: Building2 }, { href: '/swc', label: 'Start Work Checks', icon: ListChecks }] }, HSSE, { items: [{ href: '/profile', label: 'My profile', icon: UserCircle }] }],
   APPLICANT: [
     {
       items: [
@@ -145,6 +146,7 @@ const NAV: Record<Role, NavGroup[]> = {
         { href: '/my-details', label: 'My details & certificates', icon: FileBadge },
         { href: '/training/certificates', label: 'Certificates', icon: Award },
         { href: '/training/register', label: 'Become a Permit Holder', icon: BadgeCheck },
+        { href: '/swc', label: 'Start Work Checks', icon: ListChecks },
         { href: '/subscription', label: 'Subscription', icon: Wallet },
       ],
     },
@@ -168,9 +170,17 @@ function useNotifications() {
   if (sosCo)
     state.hsseReports.filter((r) => r.status !== 'CLOSED').forEach((r) => {
       const open = focalOpenActions(r, sosCo);
+      if (r.reporterCompany === sosCo && !r.ramConfirmed) out.push({ id: `focal-ram-${r.id}`, text: `${r.refNo}: confirm how serious it was (RAM)`, href: `/hsse/${r.id}`, tone: 'amber' });
       if (open.length) out.push({ id: `focal-act-${r.id}`, text: `${r.refNo}: ${open.length} action(s) for ${sosCo}`, href: `/hsse/${r.id}`, tone: 'red' });
       else if (r.reporterCompany === sosCo && r.status === 'OPEN' && !r.actions.length) out.push({ id: `focal-rep-${r.id}`, text: `${r.refNo} reported by ${sosCo} staff: ${r.title}`, href: `/hsse/${r.id}`, tone: 'amber' });
     });
+  if (currentUser.countryLead) {
+    const weekAgo = Date.now() - 7 * 86_400_000;
+    state.hsseReports
+      .filter((r) => (r.types ?? [r.type]).some((t) => COUNTRY_LEAD_TYPES.includes(t)) && new Date(r.createdAt).getTime() > weekAgo && r.status !== 'CLOSED')
+      .slice(0, 5)
+      .forEach((r) => out.push({ id: `lead-${r.id}`, text: `Country Lead: ${(r.types ?? [r.type]).includes('POTENTIAL_INCIDENT') ? 'Potential Incident' : 'Near Miss'} ${r.refNo} — ${r.title}`, href: `/hsse/${r.id}`, tone: 'red' }));
+  }
   if (currentUser.hsseFocal?.active) {
     const prev = addMonths(monthKey(), -1);
     const owed = monthChecklist(state, currentUser, prev).filter((x) => x.report?.status !== 'SUBMITTED');
@@ -186,9 +196,9 @@ function useNotifications() {
     state.applications.filter((a) => a.applicantId === currentUser.id && a.callStatus === 'IN_PROGRESS').forEach((a) => out.push({ id: `call-${a.id}`, text: `${a.applicationNumber}: the Permit Issuer is calling you — join now`, href: `/applicant/applications/${a.id}`, tone: 'red' }));
   if (currentUser.role === 'APPLICANT')
     state.applications.filter((a) => a.applicantId === currentUser.id && a.status === 'CHANGES_REQUIRED').forEach((a) => out.push({ id: a.id, text: `${a.applicationNumber}: changes requested`, href: `/applicant/applications/${a.id}`, tone: 'amber' }));
-  if (['ADMIN', 'APPROVER', 'STATION'].includes(currentUser.role))
+  if (['ADMIN', 'APPROVER', 'STATION', 'ROM'].includes(currentUser.role))
     state.hsseReports
-      .filter((r) => r.status === 'OPEN' && (currentUser.role !== 'STATION' || r.stationId === currentUser.stationId))
+      .filter((r) => r.status === 'OPEN' && (!['STATION', 'ROM'].includes(currentUser.role) || myStationIds(currentUser).includes(r.stationId ?? '')))
       .slice(0, 3)
       .forEach((r) => out.push({ id: r.id, text: `${r.refNo} open: ${r.title}`, href: `/hsse/${r.id}`, tone: 'amber' }));
   return out;

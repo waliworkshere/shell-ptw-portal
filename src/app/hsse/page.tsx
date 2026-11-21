@@ -6,13 +6,14 @@ import { RoleGuard } from '@/components/role-guard';
 import { CHART, BarChart, Donut, Kpi, weeklyCounts } from '@/components/charts';
 import { osmEmbed } from '@/components/sos';
 import { useStore } from '@/lib/store';
+import { myStationIds } from '@/lib/access';
 import { HSSE_TYPE_LABEL, HSSE_TYPE_SHORT, HsseStatus, HsseType, ROLE_LABEL } from '@/lib/types';
 import { RAM_STYLE, ramLevel } from '@/lib/hsse';
 import { activeFocalCo, focalSees } from '@/lib/hsse';
 import { fmtDate, fmtDateTime } from '@/lib/training';
 import { AlertOctagon, CheckCircle2, Clock, FolderOpen, Megaphone, Phone, Plus, Search, Siren, ShieldCheck } from 'lucide-react';
 
-const ALL = ['ADMIN', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'APPROVER', 'STATION', 'APPLICANT', 'TRAINEE'] as const;
+const ALL = ['ADMIN', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'APPROVER', 'STATION', 'ROM', 'APPLICANT', 'TRAINEE'] as const;
 const STATUS_STAMP: Record<HsseStatus, string> = { OPEN: 'stamp-changes_required', INVESTIGATING: 'stamp-submitted', CLOSED: 'stamp-approved' };
 const STATUS_LABEL: Record<HsseStatus, string> = { OPEN: 'Open', INVESTIGATING: 'Investigating', CLOSED: 'Closed' };
 const TYPE_COLOR: Record<HsseType, string> = { NEAR_MISS: CHART.blue, POTENTIAL_INCIDENT: CHART.red, UNSAFE_ACT: CHART.amber, UNSAFE_CONDITION: CHART.violet };
@@ -31,17 +32,20 @@ export default function HssePage() {
   const [status, setStatus] = useState<HsseStatus | 'ALL'>('ALL');
   const [q, setQ] = useState('');
   const role = currentUser?.role;
-  const control = role === 'ADMIN' || role === 'APPROVER' || role === 'ARTELIA_MANAGER';
+  const control = role === 'ADMIN' || role === 'APPROVER' || role === 'ARTELIA_MANAGER' || !!currentUser?.countryLead;
 
   const scoped = useMemo(() => {
     if (!currentUser) return [];
     if (control) return state.hsseReports;
-    if (role === 'STATION') return state.hsseReports.filter((r) => r.stationId === currentUser.stationId);
+    if (role === 'STATION' || role === 'ROM') {
+      const mine = myStationIds(currentUser);
+      return state.hsseReports.filter((r) => mine.includes(r.stationId ?? '') || r.reporterId === currentUser.id);
+    }
     const co = activeFocalCo(currentUser);
     return state.hsseReports.filter((r) => r.reporterId === currentUser.id || focalSees(r, co));
   }, [state.hsseReports, currentUser, control, role]);
 
-  const sos = state.sosAlerts.filter((a) => control || role === 'STATION' || a.userId === currentUser?.id);
+  const sos = state.sosAlerts.filter((a) => control || role === 'STATION' || role === 'ROM' || a.userId === currentUser?.id);
   const activeSos = sos.filter((a) => a.status !== 'RESOLVED');
   const list = scoped
     .filter((r) => (type === 'ALL' || (r.types ?? [r.type]).includes(type)) && (status === 'ALL' || r.status === status))
@@ -54,7 +58,7 @@ export default function HssePage() {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-widest text-sand-600">HSSE</p>
-            <h1 className="mt-1 font-display text-2xl font-semibold text-ink">{control ? 'SOS reports & control room' : role === 'STATION' ? 'Station SOS reports' : 'My SOS reports'}</h1>
+            <h1 className="mt-1 font-display text-2xl font-semibold text-ink">{control ? 'SOS reports & control room' : role === 'STATION' || role === 'ROM' ? 'Station SOS reports' : 'My SOS reports'}</h1>
             <p className="mt-1 text-sm text-slate-500">See it · Own it · Stop it — Near Miss, Potential Incident, Unsafe Act and Unsafe Condition reports, and emergency alerts.</p>
           </div>
           <Link href="/hsse/report" className="btn-primary"><Plus size={16} /> New SOS report</Link>

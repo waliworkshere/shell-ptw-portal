@@ -17,7 +17,13 @@ export const KIND_LABEL: Record<FocalReportKind, string> = {
   ERP_TEST: 'Monthly ERP test report',
   SITE_INSPECTION: 'Site inspection',
   PTW_AUDIT: 'PTW audit',
+  ASSET_SURVEY: 'Asset condition survey',
+  SAFETY_CULTURE: 'Safety culture survey',
 };
+
+/** Reports recorded one at a time, each with its own date and site (the rest are monthly). */
+export const DATED_KINDS: FocalReportKind[] = ['SITE_INSPECTION', 'PTW_AUDIT', 'ASSET_SURVEY', 'SAFETY_CULTURE'];
+export const isDatedKind = (k: FocalReportKind) => DATED_KINDS.includes(k);
 
 /** Monthly reports every focal must file for each contract they cover. */
 export const MONTHLY_KINDS: FocalReportKind[] = ['MONTHLY_STATS', 'ENVIRONMENT', 'TRAINING', 'ERP_TEST'];
@@ -202,20 +208,85 @@ export const PTW_AUDIT: ChecklistSection[] = [
   { title: 'Close-out', items: ['Site left safe and clean', 'Permit closed out / handed back correctly', 'Simultaneous operations (SIMOPS) identified and controlled'] },
 ];
 
-export type Answer = 'Y' | 'N' | 'NA';
+/* ---------------- Asset condition survey (station assets) ---------------- */
+
+export const ASSET_SURVEY: ChecklistSection[] = [
+  { title: 'Forecourt & canopy', items: ['Forecourt surface (cracks, potholes, trip hazards)', 'Canopy structure, cladding and soffit', 'Canopy and forecourt lighting', 'Kerbs, islands and impact protection (bollards)', 'Forecourt drainage channels and gratings'] },
+  { title: 'Dispensers & fuel system', items: ['Dispenser housings, displays and panels', 'Nozzles, hoses and breakaway couplings', 'Dispenser emergency stops', 'Shear valves and dispenser sumps', 'Leak detection / tank gauging (ATG) system'] },
+  { title: 'Tanks, fill & vent', items: ['Tank fill points, caps and spill containment', 'Offload point and earthing (bonding) point', 'Vent pipes, vent caps and flame arrestors', 'Tank and manhole chambers (dry, clean, covers intact)', 'Interceptor / oil-water separator'] },
+  { title: 'Electrical & controls', items: ['Main distribution board and panels (closed, labelled)', 'Hazardous-area (Ex) equipment and cable glands', 'Main emergency stop / power isolation', 'Earthing and lightning protection', 'Generator / UPS (if fitted)'] },
+  { title: 'Fire & emergency equipment', items: ['Fire extinguishers (correct type, in date, mounted)', 'Fire blanket and sand / spill kits', 'Fire alarm and detection (shop / plant room)', 'Emergency signage, assembly point and contact list', 'First aid kit and eye-wash station'] },
+  { title: 'Buildings & site', items: ['Shop / sales building (structure, roof, doors)', 'Plant rooms, stores and gas cylinder cages', 'Car wash / service bay equipment', 'Perimeter, boundary walls and gates', 'Safety signage and road markings', 'Welfare facilities (toilets, drinking water, rest area)'] },
+];
+
+/* ---------------- Safety culture survey ---------------- */
+
+export const SAFETY_CULTURE: ChecklistSection[] = [
+  { title: 'Leadership & commitment', items: ['Supervisors and managers visibly put safety before speed or cost', 'Leaders regularly visit the site and talk about safety', 'Safety is discussed at the start of every job (toolbox talk)'] },
+  { title: 'Reporting & learning', items: ['People report near misses and unsafe conditions without fear of blame', 'Reported issues are acted on and people hear back', 'Lessons from incidents are shared with the whole team'] },
+  { title: 'Stop work & intervention', items: ['Workers know they can stop unsafe work at any time', 'People step in when they see a colleague working unsafely', 'Stopping a job for safety is supported, not criticised'] },
+  { title: 'Rules & permits', items: ['Life-Saving Rules are understood and followed', 'Permits and JHAs are followed as written, not just signed', 'Short-cuts and workarounds are not tolerated'] },
+  { title: 'Competence & resources', items: ['People have the training and PPE they need for the job', 'Tools and equipment are in good condition and available', 'Workload and working hours allow work to be done safely'] },
+  { title: 'Care for people', items: ['Workers feel their health and welfare matter to the company', 'Heat stress, fatigue and welfare are actively managed', 'New and young workers are coached and supervised'] },
+];
+
+/** Hearts & Minds safety culture ladder, from the average agreement score (1–5). */
+export const CULTURE_LADDER = [
+  { min: 0, label: 'Pathological', note: 'Who cares as long as we are not caught.' },
+  { min: 1.8, label: 'Reactive', note: 'Safety is important — we do a lot every time we have an accident.' },
+  { min: 2.6, label: 'Calculative', note: 'We have systems in place to manage all hazards.' },
+  { min: 3.4, label: 'Proactive', note: 'We work on the problems we still find.' },
+  { min: 4.2, label: 'Generative', note: 'Safety is how we do business round here.' },
+];
+export const cultureLevel = (avg: number) => [...CULTURE_LADDER].reverse().find((l) => avg >= l.min) ?? CULTURE_LADDER[0];
+
+/** Answers: Y / N / NA (checklists), G / F / P (condition: good, fair, poor) or 1–5 (agreement). */
+export type Answer = 'Y' | 'N' | 'NA' | 'G' | 'F' | 'P' | '1' | '2' | '3' | '4' | '5';
+export type ChecklistScale = 'YN' | 'CONDITION' | 'AGREE';
+
+export const SCALE_OF: Partial<Record<FocalReportKind, ChecklistScale>> = { ASSET_SURVEY: 'CONDITION', SAFETY_CULTURE: 'AGREE' };
+export const SECTIONS_OF: Partial<Record<FocalReportKind, ChecklistSection[]>> = {
+  SITE_INSPECTION, PTW_AUDIT, ASSET_SURVEY, SAFETY_CULTURE,
+};
+
+/** Value 0–1 of one answer (null = not answered / N/A). */
+function answerValue(a: Answer | undefined): number | null {
+  switch (a) {
+    case 'Y': case 'G': return 1;
+    case 'F': return 0.5;
+    case 'N': case 'P': return 0;
+    case '1': case '2': case '3': case '4': case '5': return (Number(a) - 1) / 4;
+    default: return null;
+  }
+}
+
+/** An answer that needs a comment (non-compliant, poor condition, or disagree). */
+export const isAdverse = (a?: Answer) => a === 'N' || a === 'P' || a === '1' || a === '2';
 
 export function checklistScore(sections: ChecklistSection[], answers: Record<string, Answer>) {
   let yes = 0;
   let no = 0;
+  let sum = 0;
+  let answered = 0;
+  let agreeSum = 0;
+  let agreeN = 0;
   sections.forEach((s, si) =>
     s.items.forEach((_, ii) => {
       const a = answers[`${si}.${ii}`];
-      if (a === 'Y') yes++;
-      if (a === 'N') no++;
+      const v = answerValue(a);
+      if (v === null) return;
+      answered++;
+      sum += v;
+      if (isAdverse(a)) no++;
+      else if (v === 1 || a === '3' || a === '4' || a === 'F') yes++;
+      if (a && '12345'.includes(a)) {
+        agreeSum += Number(a);
+        agreeN++;
+      }
     }),
   );
   const total = sections.reduce((a, s) => a + s.items.length, 0);
-  return { yes, no, answered: yes + no, total, pct: yes + no ? Math.round((yes / (yes + no)) * 100) : 0 };
+  return { yes, no, answered, total, pct: answered ? Math.round((sum / answered) * 100) : 0, avg: agreeN ? agreeSum / agreeN : null };
 }
 
 /* ---------------- periods & deadlines ---------------- */

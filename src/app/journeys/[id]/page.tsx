@@ -27,11 +27,11 @@ export default function JourneyDetailPage() {
     return () => clearInterval(t);
   }, []);
 
-  const backHref = j?.driverId === currentUser?.id || ['APPLICANT', 'COMPANY_MANAGER'].includes(currentUser?.role ?? '') ? '/journeys' : currentUser?.role === 'STATION' ? '/station/dashboard' : '/journeys/monitor';
+  const backHref = j?.driverId === currentUser?.id || ['APPLICANT', 'COMPANY_MANAGER'].includes(currentUser?.role ?? '') ? '/journeys' : ['STATION', 'ROM'].includes(currentUser?.role ?? '') ? '/station/dashboard' : '/journeys/monitor';
 
   if (!j) {
     return (
-      <RoleGuard role={['APPLICANT', 'APPROVER', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'ADMIN', 'STATION']}>
+      <RoleGuard role={['APPLICANT', 'APPROVER', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'ADMIN', 'STATION', 'ROM']}>
         <div className="mx-auto max-w-3xl px-4 py-6 sm:px-8 sm:py-10 text-sm text-slate-500">Journey not found.</div>
       </RoleGuard>
     );
@@ -47,7 +47,7 @@ export default function JourneyDetailPage() {
   const driveMins = Math.round((new Date(j.arriveBy).getTime() - new Date(j.departAt).getTime()) / 60000);
 
   return (
-    <RoleGuard role={['APPLICANT', 'APPROVER', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'ADMIN', 'STATION']}>
+    <RoleGuard role={['APPLICANT', 'APPROVER', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'ADMIN', 'STATION', 'ROM']}>
       <div className="mx-auto max-w-6xl px-4 py-6 sm:px-8 sm:py-10">
         <Link href={backHref} className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-ink">
           <ArrowLeft size={15} /> Back
@@ -149,6 +149,7 @@ export default function JourneyDetailPage() {
               <dl className="mt-3 grid gap-3 text-sm sm:grid-cols-2">
                 {[
                   ['Purpose', j.purpose],
+                  ['Work order', j.workOrderNo || '—'],
                   ['Road', ROAD_LABEL[j.roadType]],
                   ['Route', j.routeDescription || '—'],
                   ['Linked permit', linked?.applicationNumber ?? 'None'],

@@ -13,7 +13,7 @@ import { initials, maskCivilId } from '@/lib/roles';
 import { fmtDate } from '@/lib/training';
 import { CheckCircle2, FileSpreadsheet, History, Loader2, Plus, ScanFace, Search, Upload, X } from 'lucide-react';
 
-const ROLE_OPTIONS: Role[] = ['ADMIN', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'APPROVER', 'STATION', 'APPLICANT', 'TRAINEE'];
+const ROLE_OPTIONS: Role[] = ['ADMIN', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'APPROVER', 'STATION', 'ROM', 'APPLICANT', 'TRAINEE'];
 
 export default function AdminUsersPage() {
   const { state, addUser, importWorkers, mode, importMembers } = useStore();
@@ -67,7 +67,7 @@ export default function AdminUsersPage() {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!f.fullName.trim() || !f.email.trim()) return;
-    addUser({ fullName: f.fullName, email: f.email, role, stationId: role === 'STATION' ? stationId : undefined, civilId: f.civilId || undefined, civilIdExpiry: f.civilIdExpiry || undefined, company: f.company || undefined });
+    addUser({ fullName: f.fullName, email: f.email, role, stationId: role === 'STATION' ? stationId : undefined, stationIds: role === 'ROM' ? [stationId] : undefined, civilId: f.civilId || undefined, civilIdExpiry: f.civilIdExpiry || undefined, company: f.company || undefined });
     setF({ fullName: '', email: '', civilId: '', civilIdExpiry: '', company: '' });
     setRole('APPLICANT');
     setShowForm(false);
@@ -109,9 +109,9 @@ export default function AdminUsersPage() {
                 {ROLE_OPTIONS.map((r) => <option key={r} value={r}>{ROLE_LABEL[r]}</option>)}
               </select>
             </div>
-            {role === 'STATION' && (
+            {(role === 'STATION' || role === 'ROM') && (
               <div>
-                <label className="label">Station</label>
+                <label className="label">{role === 'ROM' ? 'First station (add more on the person)' : 'Station'}</label>
                 <select className="input" value={stationId} onChange={(e) => setStationId(e.target.value)}>
                   {state.stations.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
                 </select>

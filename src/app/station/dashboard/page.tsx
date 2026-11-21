@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { RoleGuard } from '@/components/role-guard';
 import { useStore } from '@/lib/store';
+import { myStationIds } from '@/lib/access';
 import { StatusStamp } from '@/components/status-stamp';
 import { JourneyStamp, RiskBadge } from '@/components/ui';
 import { Kpi } from '@/components/charts';
@@ -17,24 +18,41 @@ export default function StationDashboard() {
   const { state, currentUser } = useStore();
   const [q, setQ] = useState('');
   const [status, setStatus] = useState<ApplicationStatus | 'ALL'>('ALL');
-  const station = state.stations.find((s) => s.id === currentUser?.stationId);
-  const apps = state.applications.filter((a) => a.stationId === currentUser?.stationId);
+  const mine = myStationIds(currentUser);
+  const [pick, setPick] = useState<string>('ALL');
+  // A ROM looks after several stations: show them all, or one at a time.
+  const scope = pick === 'ALL' ? mine : [pick];
+  const inScope = (id?: string) => !!id && scope.includes(id);
+  const station = scope.length === 1 ? state.stations.find((s) => s.id === scope[0]) : undefined;
+  const apps = state.applications.filter((a) => inScope(a.stationId));
   const count = (s: string[]) => apps.filter((a) => s.includes(a.status)).length;
   const shown = apps
     .filter((a) => status === 'ALL' || a.status === status)
     .filter((a) => !q || `${a.applicationNumber} ${a.applicantName}`.toLowerCase().includes(q.toLowerCase()));
   const inbound = state.journeys
-    .filter((j) => j.destinationStationId === currentUser?.stationId && ['SUBMITTED', 'APPROVED', 'IN_PROGRESS'].includes(j.status))
+    .filter((j) => inScope(j.destinationStationId) && ['SUBMITTED', 'APPROVED', 'IN_PROGRESS'].includes(j.status))
     .sort((a, b) => new Date(a.arriveBy).getTime() - new Date(b.arriveBy).getTime());
-  const hsse = state.hsseReports.filter((r) => r.stationId === currentUser?.stationId && r.status !== 'CLOSED');
+  const hsse = state.hsseReports.filter((r) => inScope(r.stationId) && r.status !== 'CLOSED');
   const onSite = apps.filter((a) => a.status === 'APPROVED' && a.expiresAt && new Date(a.expiresAt).getTime() > Date.now());
 
   return (
-    <RoleGuard role="STATION">
+    <RoleGuard role={['STATION', 'ROM']}>
       <div className="mx-auto max-w-7xl space-y-6 px-4 py-6 sm:px-8 sm:py-8">
-        <DashboardHero name={currentUser?.fullName ?? ''} subtitle={`${station?.name ?? ''} · ${station?.code ?? ''} · ${station?.location ?? ''}`}>
+        <DashboardHero name={currentUser?.fullName ?? ''} subtitle={station ? `${station.name} · ${station.code} · ${station.location ?? ''}` : `${mine.length} station${mine.length === 1 ? '' : 's'} you manage`}>
           <Link href="/hsse/report" className="btn-shell"><Megaphone size={15} /> SOS report</Link>
         </DashboardHero>
+
+        {mine.length > 1 && (
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs font-semibold uppercase tracking-wide text-slate-400">Station</span>
+            <button onClick={() => setPick('ALL')} className={`rounded-full border px-3 py-1.5 text-xs font-medium ${pick === 'ALL' ? 'border-petrol-500 bg-petrol-500 text-white' : 'border-petrol-100 text-slate-600 hover:bg-petrol-50'}`}>All ({mine.length})</button>
+            {mine.map((id) => {
+              const st = state.stations.find((x) => x.id === id);
+              return st ? <button key={id} onClick={() => setPick(id)} className={`rounded-full border px-3 py-1.5 text-xs font-medium ${pick === id ? 'border-petrol-500 bg-petrol-500 text-white' : 'border-petrol-100 text-slate-600 hover:bg-petrol-50'}`}>{st.name}</button> : null;
+            })}
+          </div>
+        )}
+        {currentUser?.role === 'ROM' && mine.length === 0 && <p className="rounded-lg bg-sand-50 px-4 py-3 text-sm text-sand-700">No stations are assigned to you yet. Ask the Gemsafety administrator to add you to the ROM list.</p>}
 
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-5">
           <Kpi icon={ClipboardList} label="Total requests" value={apps.length} tone="navy" />
@@ -47,7 +65,7 @@ export default function StationDashboard() {
         <div className="grid gap-6 lg:grid-cols-3">
           <div className="card p-0 lg:col-span-2">
             <div className="flex flex-wrap items-center gap-2 border-b border-petrol-100 px-5 py-4">
-              <h2 className="mr-auto font-display text-sm font-semibold text-ink">Permit requests at this station</h2>
+              <h2 className="mr-auto font-display text-sm font-semibold text-ink">Permit requests at {scope.length === 1 ? 'this station' : 'your stations'}</h2>
               <div className="relative w-full sm:w-auto">
                 <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input className="input w-full py-1.5 pl-8 sm:w-44" placeholder="Search" value={q} onChange={(e) => setQ(e.target.value)} />

@@ -149,6 +149,30 @@ export function UserDetail({ user }: { user: User }) {
             {(Object.keys(ROLE_LABEL) as Role[]).map((r) => <option key={r} value={r}>{ROLE_LABEL[r]}</option>)}
           </select>
         </div>
+        <div className="sm:col-span-2 flex flex-wrap items-center gap-3 rounded-xl border border-petrol-100 px-3 py-2.5">
+          <label className="flex items-center gap-2 text-sm text-ink">
+            <input type="checkbox" className="accent-petrol-500" checked={!!user.countryLead} onChange={(e) => { updateUser(user.id, { countryLead: e.target.checked || undefined }); addAuditLog('COUNTRY_LEAD', `${user.fullName} ${e.target.checked ? 'set as' : 'removed as'} Country Lead`); }} />
+            <b>Country Lead</b>
+          </label>
+          <span className="text-xs text-slate-500">Gets an email and an alert in Gemsafety whenever a Near Miss or Potential Incident is reported, and sees every SOS report.</span>
+        </div>
+        {user.role === 'ROM' && (
+          <div className="sm:col-span-2">
+            <p className="label">Stations this ROM manages</p>
+            <div className="flex max-h-48 flex-wrap gap-1.5 overflow-y-auto rounded-xl border border-petrol-100 p-2">
+              {state.stations.map((st) => {
+                const on = !!user.stationIds?.includes(st.id);
+                return (
+                  <button key={st.id} type="button" onClick={() => updateUser(user.id, { stationIds: on ? (user.stationIds ?? []).filter((x) => x !== st.id) : [...(user.stationIds ?? []), st.id] })}
+                    className={`rounded-full border px-2.5 py-1 text-xs ${on ? 'border-petrol-500 bg-petrol-500 text-white' : 'border-petrol-100 text-slate-600 hover:bg-petrol-50'}`}>
+                    {st.name}
+                  </button>
+                );
+              })}
+            </div>
+            <p className="mt-1 text-[11px] text-slate-400">Or manage all ROMs at once with the ROM list import on Fuel stations &amp; ROMs.</p>
+          </div>
+        )}
         <div>
           <label className="label" htmlFor="ud-comp">Competency group</label>
           <select id="ud-comp" className="input" value={user.competencyRole ?? ''} onChange={(e) => updateUser(user.id, { competencyRole: (e.target.value || undefined) as CompetencyRole | undefined })}>

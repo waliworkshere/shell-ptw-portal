@@ -6,7 +6,7 @@ import { Camera, CheckCircle2, ImagePlus, Plus, Save, Send, Trash2, Wand2, X } f
 import { useStore } from '@/lib/store';
 import { FocalContract, FocalReport, FocalReportKind } from '@/lib/types';
 import {
-  Answer, ChecklistSection, ENV_NOTES, ERP_SCENARIOS, ErpDrill, KIND_LABEL, PTW_AUDIT, SITE_INSPECTION, STAT_COMMENTS, STAT_FIELDS, TRAINING_TYPES,
+  Answer, ChecklistScale, ChecklistSection, ENV_NOTES, ERP_SCENARIOS, ErpDrill, KIND_LABEL, SCALE_OF, SECTIONS_OF, SITE_INSPECTION, CULTURE_LADDER, cultureLevel, isAdverse, isDatedKind, STAT_COMMENTS, STAT_FIELDS, TRAINING_TYPES,
   TrainingSession, WASTE_CLASSES, WASTE_ROUTES, checklistScore, dueDate, envKey, monthKey, monthLabel, statRates, addMonths,
 } from '@/lib/focal';
 import { compressImage } from '@/lib/ocr';
@@ -170,7 +170,28 @@ function ErpForm({ data, setData, ro }: { data: Record<string, any>; setData: (d
 
 /* ---------------- checklists (site inspection / PTW audit) ---------------- */
 
-function ChecklistForm({ sections, data, setData, ro, ptw }: { sections: ChecklistSection[]; data: Record<string, any>; setData: (d: Record<string, any>) => void; ro: boolean; ptw?: boolean }) {
+const SCALE_OPTIONS: Record<ChecklistScale, { v: Answer; label: string; on: string }[]> = {
+  YN: [
+    { v: 'Y', label: 'Yes', on: 'bg-leaf-500 text-white ring-leaf-500' },
+    { v: 'N', label: 'No', on: 'bg-rust-500 text-white ring-rust-500' },
+    { v: 'NA', label: 'N/A', on: 'bg-slate-500 text-white ring-slate-500' },
+  ],
+  CONDITION: [
+    { v: 'G', label: 'Good', on: 'bg-leaf-500 text-white ring-leaf-500' },
+    { v: 'F', label: 'Fair', on: 'bg-sand-500 text-ink ring-sand-500' },
+    { v: 'P', label: 'Poor', on: 'bg-rust-500 text-white ring-rust-500' },
+    { v: 'NA', label: 'N/A', on: 'bg-slate-500 text-white ring-slate-500' },
+  ],
+  AGREE: [
+    { v: '1', label: '1', on: 'bg-rust-500 text-white ring-rust-500' },
+    { v: '2', label: '2', on: 'bg-rust-400 text-white ring-rust-400' },
+    { v: '3', label: '3', on: 'bg-sand-500 text-ink ring-sand-500' },
+    { v: '4', label: '4', on: 'bg-leaf-400 text-white ring-leaf-400' },
+    { v: '5', label: '5', on: 'bg-leaf-600 text-white ring-leaf-600' },
+  ],
+};
+
+function ChecklistForm({ sections, data, setData, ro, ptw, scale = 'YN' }: { sections: ChecklistSection[]; data: Record<string, any>; setData: (d: Record<string, any>) => void; ro: boolean; ptw?: boolean; scale?: ChecklistScale }) {
   const { state } = useStore();
   const answers: Record<string, Answer> = data.answers ?? {};
   const comments: Record<string, string> = data.comments ?? {};
@@ -203,6 +224,11 @@ function ChecklistForm({ sections, data, setData, ro, ptw }: { sections: Checkli
         {data.stationId === '__other' && (
           <label className="text-sm text-slate-600">Location<input disabled={ro} className="input mt-1" value={data.location ?? ''} onChange={(e) => setData({ ...data, location: e.target.value })} /></label>
         )}
+        {scale === 'AGREE' && (
+          <label className="text-sm text-slate-600">People surveyed
+            <input type="number" min={1} disabled={ro} className="input mt-1" value={data.respondents ?? ''} onChange={(e) => setData({ ...data, respondents: e.target.value })} placeholder="How many people answered" />
+          </label>
+        )}
         {ptw && (
           <>
             <label className="text-sm text-slate-600">Permit number
@@ -215,6 +241,8 @@ function ChecklistForm({ sections, data, setData, ro, ptw }: { sections: Checkli
         )}
       </div>
 
+      {scale === 'AGREE' && <p className="rounded-lg bg-petrol-50 px-3 py-2 text-xs text-petrol-700">Rate how far the workforce agrees with each statement: 1 = strongly disagree, 3 = neutral, 5 = strongly agree. Use the average of the people you asked.</p>}
+      {scale === 'CONDITION' && <p className="rounded-lg bg-petrol-50 px-3 py-2 text-xs text-petrol-700">Good = no defects · Fair = minor wear, plan maintenance · Poor = defective or unsafe, needs action.</p>}
       {sections.map((s, si) => (
         <div key={s.title} className="overflow-hidden rounded-xl border border-petrol-100">
           <p className="bg-petrol-50 px-4 py-2 text-sm font-semibold text-ink">{s.title}</p>
@@ -227,16 +255,16 @@ function ChecklistForm({ sections, data, setData, ro, ptw }: { sections: Checkli
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <span className="min-w-0 flex-1 text-ink">{item}</span>
                     <span className="flex gap-1">
-                      {(['Y', 'N', 'NA'] as Answer[]).map((opt) => (
-                        <button key={opt} type="button" disabled={ro} onClick={() => setAns(k, opt)}
-                          className={`rounded-lg px-2.5 py-1 text-xs font-semibold ring-1 ${a === opt ? (opt === 'Y' ? 'bg-leaf-500 text-white ring-leaf-500' : opt === 'N' ? 'bg-rust-500 text-white ring-rust-500' : 'bg-slate-500 text-white ring-slate-500') : 'bg-white text-slate-500 ring-petrol-100'}`}>
-                          {opt === 'Y' ? 'Yes' : opt === 'N' ? 'No' : 'N/A'}
+                      {SCALE_OPTIONS[scale].map((opt) => (
+                        <button key={opt.v} type="button" disabled={ro} onClick={() => setAns(k, opt.v)}
+                          className={`rounded-lg px-2.5 py-1 text-xs font-semibold ring-1 ${a === opt.v ? opt.on : 'bg-white text-slate-500 ring-petrol-100'}`}>
+                          {opt.label}
                         </button>
                       ))}
                     </span>
                   </div>
-                  {a === 'N' && (
-                    <input disabled={ro} className="input mt-2 py-1.5 text-xs" placeholder="What was wrong?" value={comments[k] ?? ''} onChange={(e) => setData({ ...data, comments: { ...comments, [k]: e.target.value } })} />
+                  {isAdverse(a) && (
+                    <input disabled={ro} className="input mt-2 py-1.5 text-xs" placeholder={scale === 'AGREE' ? 'Why? What did people say?' : scale === 'CONDITION' ? 'What is the defect?' : 'What was wrong?'} value={comments[k] ?? ''} onChange={(e) => setData({ ...data, comments: { ...comments, [k]: e.target.value } })} />
                   )}
                 </li>
               );
@@ -246,11 +274,20 @@ function ChecklistForm({ sections, data, setData, ro, ptw }: { sections: Checkli
       ))}
 
       <div className={`flex flex-wrap items-center gap-4 rounded-xl p-3 text-sm ${score.pct >= 90 ? 'bg-leaf-50 text-leaf-700' : score.pct >= 75 ? 'bg-sand-50 text-sand-700' : 'bg-rust-50 text-rust-600'}`}>
-        <b className="text-lg">{score.answered ? `${score.pct}%` : '—'}</b>
-        <span>{score.yes} compliant · {score.no} non-compliant · {score.total - score.answered} not answered / N/A</span>
+        <b className="text-lg">{score.answered ? (scale === 'AGREE' && score.avg !== null ? `${score.avg.toFixed(1)} / 5` : `${score.pct}%`) : '—'}</b>
+        {scale === 'AGREE' ? (
+          <span>{score.avg !== null ? <>Culture level: <b>{cultureLevel(score.avg).label}</b> — {cultureLevel(score.avg).note}</> : 'Not rated yet'} · {score.total - score.answered} not rated</span>
+        ) : scale === 'CONDITION' ? (
+          <span>{score.no} poor · {score.answered - score.no} good / fair · {score.total - score.answered} not checked / N/A</span>
+        ) : (
+          <span>{score.yes} compliant · {score.no} non-compliant · {score.total - score.answered} not answered / N/A</span>
+        )}
       </div>
 
-      <label className="block text-sm text-slate-600">Findings and good practice
+      {scale === 'AGREE' && (
+        <p className="text-[11px] text-slate-400">Hearts &amp; Minds ladder: {CULTURE_LADDER.map((l) => l.label).join(' → ')}</p>
+      )}
+      <label className="block text-sm text-slate-600">{scale === 'CONDITION' ? 'Overall condition and findings' : scale === 'AGREE' ? 'What people told you (strengths and concerns)' : 'Findings and good practice'}
         <textarea disabled={ro} rows={3} className="input mt-1" value={data.findings ?? ''} onChange={(e) => setData({ ...data, findings: e.target.value })} />
       </label>
 
@@ -296,7 +333,7 @@ export function FocalReportEditor({
   kind, report, contracts, company, onClose, readOnly = false,
 }: { kind: FocalReportKind; report?: FocalReport; contracts: FocalContract[]; company: string; onClose: () => void; readOnly?: boolean }) {
   const { saveFocalReport, state } = useStore();
-  const monthly = !['SITE_INSPECTION', 'PTW_AUDIT'].includes(kind);
+  const monthly = !isDatedKind(kind);
   const [contract, setContract] = useState<FocalContract>(report?.contract ?? contracts[0] ?? 'EPCM');
   const [period, setPeriod] = useState(report?.period ?? (monthly ? addMonths(monthKey(), new Date().getDate() <= 10 ? -1 : 0) : monthKey()));
   const [date, setDate] = useState(report?.date ?? today());
@@ -315,7 +352,7 @@ export function FocalReportEditor({
     if (duplicate) return setMsg(`There is already a ${KIND_LABEL[kind].toLowerCase()} for ${monthLabel(period)} (${contract}). Open that one instead.`);
     if (!monthly && !data.stationId) return setMsg('Choose the station or site.');
     if (status === 'SUBMITTED' && !monthly) {
-      const sc = checklistScore(kind === 'PTW_AUDIT' ? PTW_AUDIT : SITE_INSPECTION, data.answers ?? {});
+      const sc = checklistScore(SECTIONS_OF[kind] ?? SITE_INSPECTION, data.answers ?? {});
       if (sc.answered < Math.ceil(sc.total / 2)) return setMsg('Answer at least half of the checklist before submitting.');
     }
     const stationName = state.stations.find((s) => s.id === data.stationId)?.name ?? data.location;
@@ -365,7 +402,9 @@ export function FocalReportEditor({
       {kind === 'TRAINING' && <TrainingForm data={data} setData={setData} ro={ro} />}
       {kind === 'ERP_TEST' && <ErpForm data={data} setData={setData} ro={ro} />}
       {kind === 'SITE_INSPECTION' && <ChecklistForm sections={SITE_INSPECTION} data={data} setData={setData} ro={ro} />}
-      {kind === 'PTW_AUDIT' && <ChecklistForm sections={PTW_AUDIT} data={data} setData={setData} ro={ro} ptw />}
+      {kind === 'PTW_AUDIT' && <ChecklistForm sections={SECTIONS_OF.PTW_AUDIT!} data={data} setData={setData} ro={ro} ptw />}
+      {kind === 'ASSET_SURVEY' && <ChecklistForm sections={SECTIONS_OF.ASSET_SURVEY!} data={data} setData={setData} ro={ro} scale={SCALE_OF.ASSET_SURVEY} />}
+      {kind === 'SAFETY_CULTURE' && <ChecklistForm sections={SECTIONS_OF.SAFETY_CULTURE!} data={data} setData={setData} ro={ro} scale={SCALE_OF.SAFETY_CULTURE} />}
 
       <label className="block text-sm text-slate-600">Notes (optional)
         <textarea disabled={ro} rows={2} className="input mt-1" value={notes} onChange={(e) => setNotes(e.target.value)} />

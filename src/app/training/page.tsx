@@ -24,7 +24,6 @@ export default function LearnerHome() {
   const registration = state.registrations.find((r) => r.userId === uid);
   const catalogue = state.courses.filter((c) => c.status === 'PUBLISHED' && c.tier);
   const nextStep = q.steps.find((s) => s.status !== 'COMPLETED');
-  const payments = state.payments.filter((p) => p.userId === uid);
 
   return (
     <RoleGuard role={['TRAINEE', 'APPLICANT']}>
@@ -192,24 +191,6 @@ export default function LearnerHome() {
           );
         })}
 
-        {SHOW_COURSE_PRICES && payments.length > 0 && (
-          <section className="card mt-10">
-            <h2 className="flex items-center gap-2 font-display text-sm font-semibold text-ink"><Receipt size={16} /> Payments</h2>
-            <ul className="mt-3 divide-y divide-petrol-50 text-sm">
-              {payments.map((p) => (
-                <li key={p.id} className="flex flex-wrap items-center justify-between gap-2 py-2.5">
-                  <span>
-                    <span className="text-ink">{p.description}</span>
-                    <span className="ml-2 app-number text-xs text-slate-400">{p.receiptNo}</span>
-                  </span>
-                  <span className="text-xs text-slate-500">
-                    {p.method === 'CARD' ? `${p.cardBrand} •••• ${p.cardLast4}` : 'Apple Pay'} · {fmtDate(p.at)} · <b className="app-number text-ink">{p.total.toFixed(3)} OMR</b>
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
       </div>
     </RoleGuard>
   );

@@ -75,7 +75,7 @@ export function WorkCheckList({ items }: { items: WorkCheck[] }) {
             <span className="text-ink">{c.kind === 'SWC' ? c.activity && `Start Work Check · ${c.activity}` : 'Last Minute Risk Assessment'}</span>
             <span className="block text-xs text-slate-500">
               {c.userName}{c.company ? ` · ${c.company}` : ''} · {new Date(c.createdAt).toLocaleString('en-GB')}
-              {c.permitNumber ? ` · ${c.permitNumber}` : ''}
+              {c.permitNumber ? ` · Permit ${c.permitNumber}` : ''}{c.jmpNumber ? ` · JMP ${c.jmpNumber}` : ''}
               {c.stationId ? ` · ${state.stations.find((s) => s.id === c.stationId)?.name ?? ''}` : c.location ? ` · ${c.location}` : ''}
               {c.verifierName ? ` · verified by ${c.verifierName}` : ''}
             </span>

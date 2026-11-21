@@ -6,12 +6,11 @@ import { suggestedPoints } from '@/lib/points';
 import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 import { RoleGuard } from '@/components/role-guard';
-import { RamMatrix } from '@/components/ram-matrix';
 import { Confetti } from '@/components/interactive';
 import { osmEmbed } from '@/components/sos';
 import { useStore } from '@/lib/store';
 import { GeoPoint, HSSE_TYPE_LABEL, HsseReport, HsseType, Likelihood } from '@/lib/types';
-import { LIFE_SAVING_RULES, RAM_STYLE, SITE_LOCATIONS, TYPE_HELP, ramLevel } from '@/lib/hsse';
+import { EVENT_TYPES, LIFE_SAVING_RULES, OBSERVATION_TYPES, RAM_STYLE, SITE_LOCATIONS, TYPE_HELP, ramLevel, suggestRam } from '@/lib/hsse';
 import {
   AlertOctagon,
   Camera,
@@ -32,7 +31,7 @@ import {
   X,
 } from 'lucide-react';
 
-const ALL = ['ADMIN', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'APPROVER', 'STATION', 'APPLICANT', 'TRAINEE'] as const;
+const ALL = ['ADMIN', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'APPROVER', 'STATION', 'ROM', 'APPLICANT', 'TRAINEE'] as const;
 const TYPE_ICON: Record<HsseType, React.ElementType> = { NEAR_MISS: Megaphone, POTENTIAL_INCIDENT: AlertOctagon, UNSAFE_ACT: Hand, UNSAFE_CONDITION: Wrench };
 const OFF_SITE = '__off_site__';
 
@@ -71,6 +70,28 @@ function StepHead({ letter, word, sub, tone }: { letter: string; word: string; s
   );
 }
 
+function TypeCard({ t, sel, radio, onClick }: { t: HsseType; sel: boolean; radio?: boolean; onClick: () => void }) {
+  const Icon = TYPE_ICON[t];
+  return (
+    <button
+      type="button"
+      role={radio ? 'radio' : 'checkbox'}
+      aria-checked={sel}
+      onClick={onClick}
+      className={`relative flex items-start gap-3 rounded-xl border-2 p-4 text-left transition ${sel ? 'border-petrol-500 bg-petrol-50' : 'border-petrol-100 hover:border-petrol-300'}`}
+    >
+      <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${sel ? 'bg-petrol-500 text-sand-400' : 'bg-petrol-50 text-petrol-500'}`}><Icon size={19} /></span>
+      <span className="flex-1">
+        <span className="block font-semibold text-ink">{HSSE_TYPE_LABEL[t]}</span>
+        <span className="block text-xs text-slate-500">{TYPE_HELP[t]}</span>
+      </span>
+      <span className={`flex h-5 w-5 shrink-0 items-center justify-center border-2 ${radio ? 'rounded-full' : 'rounded-md'} ${sel ? 'border-petrol-500 bg-petrol-500 text-white' : 'border-petrol-200'}`}>
+        {sel && <CheckCircle2 size={14} />}
+      </span>
+    </button>
+  );
+}
+
 export default function SosReportPage() {
   const { state, currentUser, createHsseReport } = useStore();
   const [types, setTypes] = useState<HsseType[]>(['NEAR_MISS']);
@@ -81,8 +102,6 @@ export default function SosReportPage() {
   const [otherPlace, setOtherPlace] = useState('');
   const [occurredAt, setOccurredAt] = useState(nowLocal());
   const [lsr, setLsr] = useState('');
-  const [consequence, setConsequence] = useState(2);
-  const [likelihood, setLikelihood] = useState<Likelihood>('B');
   const [stopped, setStopped] = useState<'YES' | 'NO' | 'NA'>('YES');
   const [immediateAction, setImmediateAction] = useState('');
   const [photos, setPhotos] = useState<string[]>([]);
@@ -91,7 +110,8 @@ export default function SosReportPage() {
   const [gpsState, setGpsState] = useState<'idle' | 'locating' | 'ok' | 'denied'>('idle');
   const [done, setDone] = useState<HsseReport | null>(null);
   const [boom, setBoom] = useState(0);
-  const level = ramLevel(consequence, likelihood);
+  const suggestion = suggestRam({ types, title, description, lifeSavingRule: lsr || undefined, stoppedWork: stopped === 'NA' ? null : stopped === 'YES' });
+  const level = ramLevel(suggestion.consequence, suggestion.likelihood);
 
   const locate = useCallback(() => {
     if (!('geolocation' in navigator)) return setGpsState('denied');
@@ -111,8 +131,14 @@ export default function SosReportPage() {
     locate();
   }, [locate]);
 
+  // Near Miss OR Potential Incident (one or the other); Unsafe Act and Unsafe Condition can be added on top.
   function toggleType(t: HsseType) {
-    setTypes((cur) => (cur.includes(t) ? (cur.length > 1 ? cur.filter((x) => x !== t) : cur) : [...cur, t]));
+    setTypes((cur) => {
+      if (cur.includes(t)) return cur.length > 1 ? cur.filter((x) => x !== t) : cur;
+      const next = EVENT_TYPES.includes(t) ? cur.filter((x) => !EVENT_TYPES.includes(x)) : cur;
+      // keep Near Miss / Potential Incident first: it drives the reference number
+      return [...next, t].sort((a, b) => Number(OBSERVATION_TYPES.includes(a)) - Number(OBSERVATION_TYPES.includes(b)));
+    });
   }
 
   function submit(e: React.FormEvent) {
@@ -129,8 +155,9 @@ export default function SosReportPage() {
       location: place,
       occurredAt: new Date(occurredAt).toISOString(),
       anonymous,
-      consequence,
-      likelihood,
+      consequence: suggestion.consequence,
+      likelihood: suggestion.likelihood,
+      ramSuggested: suggestion,
       lifeSavingRule: lsr || undefined,
       immediateAction: [stopped === 'YES' ? 'Work stopped / area made safe.' : stopped === 'NO' ? 'Work not stopped.' : '', immediateAction.trim()].filter(Boolean).join(' '),
       photos,
@@ -149,14 +176,14 @@ export default function SosReportPage() {
             <ShieldCheck size={52} className="mx-auto text-leaf-600" />
             <h1 className="mt-3 font-display text-2xl font-semibold text-ink">Thank you for owning it</h1>
             <p className="mt-2 text-sm text-slate-500">
-              Your SOS report <span className="app-number font-semibold text-ink">{done.refNo}</span> has been sent to the station manager and the HSSE team.
+              Your SOS report <span className="app-number font-semibold text-ink">{done.refNo}</span> has been sent to the station manager, your company&apos;s HSSE Focal and the HSSE team. Your HSSE Focal will confirm how serious it was.
               {done.anonymous && ' It was submitted anonymously.'}
             </p>
             <div className="mt-4 flex flex-wrap justify-center gap-2">
               {done.types.map((t) => (
                 <span key={t} className="rounded-full bg-petrol-50 px-3 py-1 text-xs font-semibold text-petrol-600">{HSSE_TYPE_LABEL[t]}</span>
               ))}
-              <span className={`rounded-full border px-3 py-1 text-xs font-semibold ${RAM_STYLE[level].chip}`}>RAM {done.consequence}{done.likelihood} · {RAM_STYLE[level].label}</span>
+              <span className={`rounded-full border px-3 py-1 text-xs font-semibold ${RAM_STYLE[level].chip}`}>Suggested RAM {done.consequence}{done.likelihood} · {RAM_STYLE[level].label}</span>
             </div>
             {!done.anonymous && (
               <p className="mt-4 text-sm text-sand-700">
@@ -214,33 +241,15 @@ export default function SosReportPage() {
           <section className="card space-y-5">
             <StepHead letter="S" word="See it" sub="What did you see? Tick everything that applies." tone="red" />
             <div>
-              <p className="label">1. What are you reporting? (select one or more)</p>
+              <p className="label">1. What happened? Choose one</p>
               <div className="grid gap-3 sm:grid-cols-2">
-                {(Object.keys(HSSE_TYPE_LABEL) as HsseType[]).map((t) => {
-                  const Icon = TYPE_ICON[t];
-                  const sel = types.includes(t);
-                  return (
-                    <button
-                      type="button"
-                      key={t}
-                      role="checkbox"
-                      aria-checked={sel}
-                      onClick={() => toggleType(t)}
-                      className={`relative flex items-start gap-3 rounded-xl border-2 p-4 text-left transition ${sel ? 'border-petrol-500 bg-petrol-50' : 'border-petrol-100 hover:border-petrol-300'}`}
-                    >
-                      <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${sel ? 'bg-petrol-500 text-sand-400' : 'bg-petrol-50 text-petrol-500'}`}><Icon size={19} /></span>
-                      <span className="flex-1">
-                        <span className="block font-semibold text-ink">{HSSE_TYPE_LABEL[t]}</span>
-                        <span className="block text-xs text-slate-500">{TYPE_HELP[t]}</span>
-                      </span>
-                      <span className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border-2 ${sel ? 'border-petrol-500 bg-petrol-500 text-white' : 'border-petrol-200'}`}>
-                        {sel && <CheckCircle2 size={14} />}
-                      </span>
-                    </button>
-                  );
-                })}
+                {EVENT_TYPES.map((t) => <TypeCard key={t} t={t} sel={types.includes(t)} radio onClick={() => toggleType(t)} />)}
               </div>
-              <p className="mt-2 text-xs text-slate-400">{types.length} selected</p>
+              <p className="label mt-4">2. What did you see? Tick any that apply</p>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {OBSERVATION_TYPES.map((t) => <TypeCard key={t} t={t} sel={types.includes(t)} onClick={() => toggleType(t)} />)}
+              </div>
+              <p className="mt-2 text-xs text-slate-400">A report is a Near Miss <b>or</b> a Potential Incident. Unsafe Act <b>and</b> Unsafe Condition can both be added.</p>
             </div>
             <div>
               <label className="label" htmlFor="t">Short title</label>
@@ -272,7 +281,7 @@ export default function SosReportPage() {
 
           {/* OWN IT */}
           <section className="card space-y-5">
-            <StepHead letter="O" word="Own it" sub="Where and when it happened, and how serious it could have been." tone="yellow" />
+            <StepHead letter="O" word="Own it" sub="Where and when it happened." tone="yellow" />
 
             <div className="rounded-2xl border border-petrol-100 p-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
@@ -340,13 +349,12 @@ export default function SosReportPage() {
               </div>
             </div>
 
-            <div>
+            <div className="rounded-2xl border border-petrol-100 p-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <p className="label mb-0">How serious could it have been? (RAM)</p>
-                <span className={`rounded-full border px-3 py-1 text-xs font-semibold ${RAM_STYLE[level].chip}`}>{consequence}{likelihood} · {RAM_STYLE[level].label} risk</span>
+                <p className="text-sm font-semibold text-ink">How serious could it have been?</p>
+                <span className={`rounded-full border px-3 py-1 text-xs font-semibold ${RAM_STYLE[level].chip}`}>System suggestion: {suggestion.consequence}{suggestion.likelihood} · {RAM_STYLE[level].label} risk</span>
               </div>
-              <p className="mt-1 text-xs text-slate-500">Tap the cell for the worst credible outcome and how likely it is.</p>
-              <div className="mt-3"><RamMatrix consequence={consequence} likelihood={likelihood} onPick={(c, l) => { setConsequence(c); setLikelihood(l); }} /></div>
+              <p className="mt-1 text-xs text-slate-500">You don&apos;t need to rate it. Gemsafety suggests a rating from what you wrote{suggestion.reasons.length ? ` (${suggestion.reasons.join(', ')})` : ''}, and your company&apos;s HSSE Focal confirms the final rating on the RAM.</p>
             </div>
           </section>
 

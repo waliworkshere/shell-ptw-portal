@@ -14,9 +14,9 @@ import { evidenceFor } from './competency';
  * ===================================================================== */
 
 export const FULL_ACCESS: Role[] = ['ADMIN'];
-export const STAFF_ROLES: Role[] = ['ADMIN', 'ARTELIA_MANAGER', 'APPROVER', 'STATION'];
+export const STAFF_ROLES: Role[] = ['ADMIN', 'ARTELIA_MANAGER', 'APPROVER', 'STATION', 'ROM'];
 /** Roles that don't need a subscription to use Permit to Work and Journey Management. */
-export const SUBSCRIPTION_EXEMPT: Role[] = ['ADMIN', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'APPROVER', 'STATION'];
+export const SUBSCRIPTION_EXEMPT: Role[] = ['ADMIN', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'APPROVER', 'STATION', 'ROM'];
 
 export const ROLE_TIER: Record<Role, string> = {
   ADMIN: 'Tier 1 · Full authorisation',
@@ -24,6 +24,7 @@ export const ROLE_TIER: Record<Role, string> = {
   COMPANY_MANAGER: 'Tier 3 · Own company, Low & Medium risk',
   APPROVER: 'Permit Issuer',
   STATION: 'Fuel Station',
+  ROM: 'Station manager · own stations',
   APPLICANT: 'Tier 4 · Permit Holder',
   TRAINEE: 'Tier 4 · Site worker',
 };
@@ -112,4 +113,12 @@ export function licenceStatus(u?: User | null): 'MISSING' | 'EXPIRED' | 'VALID' 
 
 export function defensiveDriving(state: Pick<AppState, 'enrollments' | 'courses'> & Partial<Pick<AppState, 'certUploads'>>, u: User) {
   return evidenceFor(state, u, 'DDC');
+}
+
+/** Stations this person is responsible for (a Fuel Station login has one, a ROM several). */
+export function myStationIds(u?: User | null): string[] {
+  if (!u) return [];
+  if (u.role === 'ROM') return u.stationIds ?? [];
+  if (u.role === 'STATION' && u.stationId) return [u.stationId];
+  return [];
 }

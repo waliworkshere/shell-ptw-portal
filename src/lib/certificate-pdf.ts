@@ -1,7 +1,7 @@
 import { jsPDF } from 'jspdf';
 import { Course, Enrollment, User } from './types';
 import { certificateExpiry, fmtDate } from './training';
-import { drawLogo } from './brand-assets';
+import { drawArteliaAcademy, drawGemsafetyPro } from './brand-assets';
 
 /** Landscape A4 certificate of completion — instant browser download. */
 export function generateCertificatePdf(params: { course: Course; enrollment: Enrollment; learner?: User }) {
@@ -26,9 +26,9 @@ export function generateCertificatePdf(params: { course: Course; enrollment: Enr
   doc.setTextColor(255, 255, 255);
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(12);
-  doc.text('GEMSAFETY  |  SHELL OMAN RETAIL  |  TRAINING & COMPETENCE', W / 2, 76, { align: 'center' });
-  drawLogo(doc, 'shell', 52, 44, 52);
-  drawLogo(doc, 'artelia-white', W - 52, 56, 26, 'right');
+  doc.text('CERTIFICATE OF COMPLETION  |  TRAINING & COMPETENCE', W / 2, 76, { align: 'center' });
+  drawGemsafetyPro(doc, 56, 79, 22);
+  drawArteliaAcademy(doc, W - 56, 48, 24);
   doc.setFillColor(221, 29, 33);
   doc.rect(38, 102, (W - 76) / 2, 3, 'F');
   doc.setFillColor(251, 206, 7);

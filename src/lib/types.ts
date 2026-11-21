@@ -1,4 +1,4 @@
-export type Role = 'ADMIN' | 'ARTELIA_MANAGER' | 'COMPANY_MANAGER' | 'APPROVER' | 'STATION' | 'APPLICANT' | 'TRAINEE';
+export type Role = 'ADMIN' | 'ARTELIA_MANAGER' | 'COMPANY_MANAGER' | 'APPROVER' | 'STATION' | 'ROM' | 'APPLICANT' | 'TRAINEE';
 
 // Display labels only — internal role codes (and routes) are unchanged so the
 // rest of the app doesn't need to be rewired, but everywhere a role is shown
@@ -9,6 +9,7 @@ export const ROLE_LABEL: Record<Role, string> = {
   COMPANY_MANAGER: 'Company Manager & HSSE',
   APPROVER: 'Permit Issuer',
   STATION: 'Fuel Station',
+  ROM: 'ROM (Station Manager)',
   APPLICANT: 'Permit Holder',
   TRAINEE: 'Trainee',
 };
@@ -63,6 +64,10 @@ export interface User {
   email: string;
   role: Role;
   stationId?: string; // for STATION role
+  /** Stations a ROM (Retail Operations Manager / station manager) looks after. */
+  stationIds?: string[];
+  /** Country Lead: alerted whenever a Near Miss or Potential Incident is reported. Set by an Administrator. */
+  countryLead?: boolean;
   // ---- Sign-in (prototype only: stored in the browser, never sent anywhere) ----
   username: string;
   password: string;
@@ -141,6 +146,10 @@ export interface WorkCheck {
   company?: string;
   applicationId?: string; // linked permit (SWC)
   permitNumber?: string;
+  /** A Start Work Check is always done under a work permit or a Journey Management Plan. */
+  linkKind?: 'PERMIT' | 'JMP';
+  journeyId?: string;
+  jmpNumber?: string;
   activity?: string; // SWC activity picked from the dropdown
   stationId?: string;
   location?: string;
@@ -165,7 +174,7 @@ export interface HsseFocal {
   endedAt?: string;
 }
 
-export type FocalReportKind = 'MONTHLY_STATS' | 'ENVIRONMENT' | 'TRAINING' | 'ERP_TEST' | 'SITE_INSPECTION' | 'PTW_AUDIT';
+export type FocalReportKind = 'MONTHLY_STATS' | 'ENVIRONMENT' | 'TRAINING' | 'ERP_TEST' | 'SITE_INSPECTION' | 'PTW_AUDIT' | 'ASSET_SURVEY' | 'SAFETY_CULTURE';
 
 /** One submission by an HSSE Focal. `data` depends on `kind` (see lib/focal.ts). */
 export interface FocalReport {
@@ -235,6 +244,10 @@ export interface FuelStation {
   code: string;
   location: string;
   status: 'ACTIVE' | 'INACTIVE';
+  /** Governorate / region, e.g. Muscat, Al Batinah North. */
+  region?: string;
+  lat?: number;
+  lng?: number;
 }
 
 export type FieldType = 'TEXT' | 'TEXTAREA' | 'DATE';
@@ -446,6 +459,8 @@ export interface Course {
   pathOrder: number; // position on the qualification timeline
   dueDays: number; // must be completed within N days of starting the path
   passMark: number; // % needed on each lesson quiz
+  /** Most quiz attempts allowed per lesson (e.g. 3 for the Permit to Work course). Empty = unlimited. */
+  maxAttempts?: number;
   validityMonths: number; // certificate validity
   enrollOpens?: string; // optional enrolment window (ISO date)
   enrollCloses?: string;
@@ -550,6 +565,10 @@ export interface HsseReport {
   anonymous: boolean;
   consequence: number; // 0-5 (RAM severity)
   likelihood: Likelihood;
+  /** What the system suggested from the report (the reporter does not rate it). */
+  ramSuggested?: { consequence: number; likelihood: Likelihood; reasons: string[] };
+  /** Set once the company HSSE Focal (or HSSE staff) has confirmed the severity — until then it is the suggestion. */
+  ramConfirmed?: { by: string; at: string; note?: string };
   lifeSavingRule?: string;
   immediateAction: string;
   photos: string[];
@@ -721,6 +740,8 @@ export interface JourneyPlan {
   destinationStationId?: string;
   linkedApplicationId?: string;
   purpose: string;
+  /** Work order the journey is made for. */
+  workOrderNo?: string;
   distanceKm: number;
   roadType: RoadType;
   routeDescription: string;

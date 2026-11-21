@@ -90,6 +90,7 @@ export function generateJmpPdf(j: JourneyPlan) {
     ['Distance', `${j.distanceKm} km`],
     ['Road type', ROAD_LABEL[j.roadType]],
     ['Purpose', j.purpose],
+    ['Work order no.', j.workOrderNo || '—'],
     ['Route', j.routeDescription],
   ]);
 

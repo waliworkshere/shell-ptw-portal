@@ -530,7 +530,8 @@
     ],
     "price": 25,
     "cameraRequired": true,
-    "tier": "CAT2"
+    "tier": "CAT2",
+    "maxAttempts": 3
   },
   {
     "id": "crs-drv150",

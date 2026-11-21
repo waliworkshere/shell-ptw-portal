@@ -6,11 +6,11 @@ import { FocalReportEditor } from '@/components/focal-forms';
 import { ReportStatus, summary } from '@/components/focal-common';
 import { useStore } from '@/lib/store';
 import { FocalReport, FocalReportKind } from '@/lib/types';
-import { KIND_LABEL, addMonths, dueDate, monthChecklist, monthKey, monthLabel, standings } from '@/lib/focal';
+import { KIND_LABEL, isDatedKind, addMonths, dueDate, monthChecklist, monthKey, monthLabel, standings } from '@/lib/focal';
 import { fmtDate } from '@/lib/training';
 import Link from 'next/link';
 import { focalOpenActions, focalSees } from '@/lib/hsse';
-import { BarChart3, ClipboardCheck, ClipboardList, FileWarning, GraduationCap, Leaf, Plus, Siren, Building2 } from 'lucide-react';
+import { BarChart3, ClipboardCheck, ClipboardList, FileWarning, GraduationCap, Leaf, Plus, Siren, Building2, Wrench, HeartHandshake } from 'lucide-react';
 
 type Tab = 'overview' | FocalReportKind;
 
@@ -22,6 +22,8 @@ const TABS: { key: Tab; label: string; icon: React.ElementType }[] = [
   { key: 'ERP_TEST', label: 'ERP tests', icon: Siren },
   { key: 'SITE_INSPECTION', label: 'Site inspections', icon: Building2 },
   { key: 'PTW_AUDIT', label: 'PTW audits', icon: ClipboardCheck },
+  { key: 'ASSET_SURVEY', label: 'Asset condition', icon: Wrench },
+  { key: 'SAFETY_CULTURE', label: 'Safety culture', icon: HeartHandshake },
 ];
 
 export default function FocalPage() {
@@ -30,8 +32,8 @@ export default function FocalPage() {
   const [editing, setEditing] = useState<{ kind: FocalReportKind; report?: FocalReport } | null>(null);
   const f = currentUser?.hsseFocal;
 
-  if (!currentUser) return <RoleGuard role={['APPLICANT', 'TRAINEE', 'APPROVER', 'STATION', 'ADMIN', 'ARTELIA_MANAGER', 'COMPANY_MANAGER']}>{null}</RoleGuard>;
-  const roles = ['APPLICANT', 'TRAINEE', 'APPROVER', 'STATION', 'ADMIN', 'ARTELIA_MANAGER', 'COMPANY_MANAGER'] as const;
+  if (!currentUser) return <RoleGuard role={['APPLICANT', 'TRAINEE', 'APPROVER', 'STATION', 'ROM', 'ADMIN', 'ARTELIA_MANAGER', 'COMPANY_MANAGER']}>{null}</RoleGuard>;
+  const roles = ['APPLICANT', 'TRAINEE', 'APPROVER', 'STATION', 'ROM', 'ADMIN', 'ARTELIA_MANAGER', 'COMPANY_MANAGER'] as const;
 
   if (!f?.active) {
     return (
@@ -104,9 +106,11 @@ export default function FocalPage() {
                     <h2 className="font-display text-base font-semibold text-ink">Inspections &amp; audits this month</h2>
                     <p className="mt-1 text-sm text-slate-500">Target: 4 site inspections or PTW audits a month.</p>
                     <p className="mt-3 font-display text-4xl font-semibold text-ink">{mine.filter((r) => r.period === now && r.status === 'SUBMITTED' && (r.kind === 'SITE_INSPECTION' || r.kind === 'PTW_AUDIT')).length}<span className="text-lg text-slate-400"> / 4</span></p>
-                    <div className="mt-4 flex gap-2">
+                    <div className="mt-4 flex flex-wrap gap-2">
                       <button onClick={() => open('SITE_INSPECTION')} className="btn-primary text-sm"><Plus size={14} /> Site inspection</button>
                       <button onClick={() => open('PTW_AUDIT')} className="btn-secondary text-sm"><Plus size={14} /> PTW audit</button>
+                      <button onClick={() => open('ASSET_SURVEY')} className="btn-secondary text-sm"><Plus size={14} /> Asset survey</button>
+                      <button onClick={() => open('SAFETY_CULTURE')} className="btn-secondary text-sm"><Plus size={14} /> Safety culture</button>
                     </div>
                   </div>
                   {mySt && (
@@ -132,13 +136,13 @@ export default function FocalPage() {
             {tab !== 'overview' && (
               <div className="mt-6">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <p className="text-sm text-slate-500">{tab === 'SITE_INSPECTION' || tab === 'PTW_AUDIT' ? 'Each inspection is recorded separately.' : `One report per contract per month, due by the 5th of the following month.`}</p>
+                  <p className="text-sm text-slate-500">{isDatedKind(tab) ? 'Each one is recorded separately, with its own date and site.' : `One report per contract per month, due by the 5th of the following month.`}</p>
                   <button onClick={() => open(tab)} className="btn-primary"><Plus size={15} /> New {KIND_LABEL[tab].toLowerCase()}</button>
                 </div>
                 <div className="card mt-4 p-0">
                   <table className="rtable w-full text-sm">
                     <thead className="border-b border-petrol-100 text-left text-xs uppercase tracking-wide text-slate-400">
-                      <tr><th className="px-4 py-3">{tab === 'SITE_INSPECTION' || tab === 'PTW_AUDIT' ? 'Date' : 'Month'}</th><th className="px-4 py-3">Contract</th><th className="px-4 py-3">Details</th><th className="px-4 py-3">Status</th><th className="px-4 py-3" /></tr>
+                      <tr><th className="px-4 py-3">{isDatedKind(tab) ? 'Date' : 'Month'}</th><th className="px-4 py-3">Contract</th><th className="px-4 py-3">Details</th><th className="px-4 py-3">Status</th><th className="px-4 py-3" /></tr>
                     </thead>
                     <tbody className="divide-y divide-petrol-50">
                       {mine.filter((r) => r.kind === tab).sort((a, b) => (b.date ?? b.period).localeCompare(a.date ?? a.period)).map((r) => (

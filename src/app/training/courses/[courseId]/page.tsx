@@ -38,7 +38,6 @@ export default function CourseOverviewPage() {
   const p = courseProgress(course, enrollment);
   const resume = nextLesson(course, enrollment);
 
-  const payment = enrollment?.paymentId ? state.payments.find((p) => p.id === enrollment.paymentId) : undefined;
   const me = state.users.find((u) => u.id === state.currentUserId);
   const priceUsd = coursePriceUsd(course);
   const needsPayment = !preview && needsPaymentFor(course) && !!me && !courseUnlocked(state, me, course);
@@ -141,13 +140,8 @@ export default function CourseOverviewPage() {
             <button onClick={() => cancelOrder(order.id)} className="text-xs font-medium text-rust-600 hover:underline">Cancel request</button>
           </div>
         )}
-        {((SHOW_COURSE_PRICES && payment) || enrollment?.imported) && (
+        {enrollment?.imported && (
           <div className="mt-4 flex flex-wrap gap-2 text-xs">
-            {SHOW_COURSE_PRICES && payment && (
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-slate-600 ring-1 ring-petrol-100">
-                <Receipt size={13} /> Paid {payment.total.toFixed(3)} OMR · {payment.method === 'CARD' ? `${payment.cardBrand} •••• ${payment.cardLast4}` : 'Apple Pay'} · <span className="app-number">{payment.receiptNo}</span>
-              </span>
-            )}
             {enrollment?.imported && (
               <span className="inline-flex items-center gap-1.5 rounded-full bg-leaf-50 px-3 py-1.5 text-leaf-700"><History size={13} /> Certificate imported from previous records</span>
             )}
