@@ -170,6 +170,19 @@ export interface WorkCheck {
   hazards?: string;
   controls?: string;
   verifierName?: string;
+  /** Start-Work Check, as on the Shell form: each action initialled by the worker(s) and by the Start-Work Verifier. */
+  workerInitials?: string;
+  verifierInitials?: string;
+  verified?: Record<string, boolean>;
+  /** Yes / No questions inside actions (requires IHE? confined space? written lift plan?). */
+  choices?: Record<string, 'YES' | 'NO'>;
+  /** Excavation hold point: will personnel enter the excavation? */
+  entersExcavation?: boolean;
+  /** Gas readings recorded for "The atmosphere is within allowed limits" (keyed by action). */
+  gas?: Record<string, { o2?: string; lel?: string; h2s?: string; other?: string }>;
+  verifiedAt?: string;
+  /** LMRA header (picture form): site and activity. */
+  site?: string;
   outcome: 'SAFE_TO_START' | 'STOPPED';
   photo?: string;
   createdAt: string;
@@ -227,7 +240,7 @@ export interface FocalReport {
   submittedAt?: string;
 }
 
-export type CompetencyRole = 'SUPERVISOR_MANAGER' | 'MEP_CEI' | 'DRIVER_OPERATOR' | 'SKILLED_TRADES' | 'HELPER';
+export type CompetencyRole = 'SUPERVISOR_MANAGER' | 'FUEL_SYSTEMS' | 'MEP_CEI' | 'DRIVER_OPERATOR' | 'SKILLED_TRADES' | 'HELPER';
 
 /** One certificate from the imported member register. */
 export interface MemberCert {

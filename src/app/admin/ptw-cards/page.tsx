@@ -219,7 +219,7 @@ export default function PtwCardsAdminPage() {
                 </div>
                 <div>
                   <label className="label" htmlFor="pos">Position</label>
-                  <input id="pos" className="input" value={draft.position} onChange={(e) => setDraft({ ...draft, position: e.target.value })} placeholder="e.g. Site Supervisor" />
+                  <input id="pos" className="input" value={draft.position} onChange={(e) => setDraft({ ...draft, position: e.target.value })} placeholder="e.g. Fuel System Technician" />
                 </div>
                 <div>
                   <label className="label" htmlFor="co">Company</label>

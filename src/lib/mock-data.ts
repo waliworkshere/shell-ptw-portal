@@ -295,7 +295,7 @@ export const seedState: AppState = {
   workChecks: [],
   ptwCards: [
     {
-      id: 'ptw-1', userId: 'u-applicant-1', kind: 'PH', cardNo: 'AO-PTW-26-014/PH', position: 'Site Supervisor', company: 'Gulf Mechanical LLC',
+      id: 'ptw-1', userId: 'u-applicant-1', kind: 'PH', cardNo: 'AO-PTW-26-014/PH', position: 'Site Manager', company: 'Gulf Mechanical LLC',
       categories: ['HOT_WORK', 'CONFINED_SPACE', 'EXCAVATION'], validUntil: dateOnly(300), certifiedBy: 'VINOTH.K', siteInducted: true,
       issuedAt: daysAgo(65), status: 'ACTIVE',
     },

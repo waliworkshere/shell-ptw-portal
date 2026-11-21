@@ -6,7 +6,7 @@ import { Kpi } from '@/components/charts';
 import { ProgressBar } from '@/components/ui';
 import { useStore } from '@/lib/store';
 import { CompetencyRole } from '@/lib/types';
-import { COMPETENCY_GROUPS, COMPETENCY_ITEMS, COMPETENCY_ROLE_LABEL, competencySummary, holdsCert } from '@/lib/competency';
+import { COMPETENCY_GROUPS, COMPETENCY_ITEMS, COMPETENCY_ROLE_LABEL, competencySummary, effectiveRole, holdsCert } from '@/lib/competency';
 import { CheckCircle2, CircleDashed, Flame, HeartPulse, Layers, Search, ShieldCheck, Users, XCircle } from 'lucide-react';
 
 type Tab = 'matrix' | 'people' | 'emergency';
@@ -26,12 +26,12 @@ export default function CompetencyMatrixPage() {
   );
   const rows = useMemo(() => people.map((u) => ({ u, s: competencySummary(state, u) })), [people, state]);
 
-  const byGroup = (r: CompetencyRole) => rows.filter((x) => x.u.competencyRole === r);
+  const byGroup = (r: CompetencyRole) => rows.filter((x) => effectiveRole(x.u) === r);
   const assigned = rows.filter((x) => x.s);
   const compliant = assigned.filter((x) => x.s!.compliant).length;
 
   const filtered = rows
-    .filter((x) => (group === 'ALL' ? true : group === 'NONE' ? !x.u.competencyRole : x.u.competencyRole === group))
+    .filter((x) => (group === 'ALL' ? true : group === 'NONE' ? !effectiveRole(x.u) : effectiveRole(x.u) === group))
     .filter((x) => !onlyGaps || (x.s && !x.s.compliant))
     .filter((x) => !q.trim() || `${x.u.fullName} ${x.u.company} ${x.u.civilId} ${x.u.jobTitle}`.toLowerCase().includes(q.toLowerCase()))
     .sort((a, b) => a.u.fullName.localeCompare(b.u.fullName));
@@ -172,7 +172,7 @@ export default function CompetencyMatrixPage() {
                         <p className="text-xs text-slate-500">{u.jobTitle || '—'} · {u.company || '—'}</p>
                       </td>
                       <td data-label="Group" className="px-4 py-3">
-                        <select className="input py-1.5 text-xs" value={u.competencyRole ?? ''} onChange={(e) => assign(u.id, e.target.value)}>
+                        <select className="input py-1.5 text-xs" value={effectiveRole(u) ?? ''} onChange={(e) => assign(u.id, e.target.value)}>
                           <option value="">Not assigned</option>
                           {COMPETENCY_GROUPS.map((g) => <option key={g.role} value={g.role}>{g.title}</option>)}
                         </select>

@@ -1,4 +1,5 @@
 import { AppState, CompetencyRole, User } from './types';
+import { FUEL_SYSTEM_POSITIONS } from './positions';
 
 /**
  * Competency matrix for frontline workers, supervisors and managers
@@ -59,9 +60,18 @@ export const COMPETENCY_GROUPS: CompetencyGroup[] = [
     optional: ['IOSH', 'SCI', 'RCA', 'RB', 'DDC'],
   },
   {
+    role: 'FUEL_SYSTEMS',
+    title: 'Fuel Systems',
+    examples: 'New UPP Technician, Vapor Recovery Technician, Critical Equipment Inspector, Fuel System Technician, Fuel System Expert / Manager',
+    level: 'Technical (supervisor / manager)',
+    entry: 'Basic English · 5 years’ experience · Grade 10/12+ technical certificate',
+    required: ['SP', 'SI', 'PTW', 'CEI', 'CS', 'AGT'],
+    optional: ['HW', 'ESR', 'WAH', 'EXC', 'SSC'],
+  },
+  {
     role: 'MEP_CEI',
-    title: 'MEP / Fuel System / CEI Technician',
-    examples: 'Electricians, mechanical and fuel-system technicians, CEI inspectors',
+    title: 'MEP / CEI Technician',
+    examples: 'Electricians, mechanical technicians, CEI inspectors',
     level: 'Technical (supervisor / manager)',
     entry: 'Basic English · 5 years’ experience · Grade 10/12+ technical certificate',
     required: ['SP', 'SI', 'SSC', 'CEI'],
@@ -146,8 +156,18 @@ export function evidenceFor(state: Pick<AppState, 'enrollments' | 'courses'> & P
   return expired ?? { held: false };
 }
 
+/**
+ * The group a person is measured against. A position from the Fuel systems category puts them in
+ * Fuel Systems (also over the old automatic MEP / CEI placement); otherwise the group an admin assigned.
+ */
+export function effectiveRole(user: Pick<User, 'competencyRole' | 'jobTitle'>): CompetencyRole | undefined {
+  const fuel = !!user.jobTitle && FUEL_SYSTEM_POSITIONS.includes(user.jobTitle);
+  if (fuel && (!user.competencyRole || user.competencyRole === 'MEP_CEI')) return 'FUEL_SYSTEMS';
+  return user.competencyRole;
+}
+
 export function competencySummary(state: Pick<AppState, 'enrollments' | 'courses'> & Partial<Pick<AppState, 'certUploads'>>, user: User) {
-  const g = groupFor(user.competencyRole);
+  const g = groupFor(effectiveRole(user));
   if (!g) return null;
   const required = g.required.map((code) => ({ code, item: COMPETENCY_ITEMS[code], ev: evidenceFor(state, user, code) }));
   const optional = g.optional.map((code) => ({ code, item: COMPETENCY_ITEMS[code], ev: evidenceFor(state, user, code) }));

@@ -1,5 +1,6 @@
 'use client';
 
+import { activityLabel } from './work-checks';
 import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
 import { AppState, Application, ApplicationStatus, User, FuelStation, PermitType, UploadedDocument, RiskLevel, CallStatus, CallScreenshot, Course, Lesson, Enrollment, PermitHolderRegistration, JourneyPlan, Payment, PaymentMethod, HsseReport, HsseStatus, SosAlert, HSSE_TYPE_SHORT, Company, PtwCard, CertUpload, Redemption, PassportForm, FocalContract, FocalReport, Order, WorkCheck, Likelihood, PtwFormDetails, StoredDoc } from './types';
 import type { RomRow } from './rom-import';
@@ -1144,7 +1145,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     const me = s0.users.find((u) => u.id === s0.currentUserId);
     const saved: WorkCheck = { ...c, id: `wc-${rid()}`, userId: me?.id ?? '', userName: me?.fullName ?? '', company: me?.company, createdAt: new Date().toISOString() };
     setState((s) => ({ ...s, workChecks: [saved, ...s.workChecks] }));
-    addAuditLog(c.kind === 'SWC' ? 'START_WORK_CHECK' : 'LMRA', `${saved.userName}: ${c.kind === 'SWC' ? `Start Work Check (${c.activity})` : 'Last Minute Risk Assessment'} — ${c.outcome === 'STOPPED' ? 'work stopped' : 'safe to start'}`);
+    addAuditLog(c.kind === 'SWC' ? 'START_WORK_CHECK' : 'LMRA', `${saved.userName}: ${c.kind === 'SWC' ? `Start Work Check (${activityLabel(c.activity)})` : 'Last Minute Risk Assessment'} — ${c.outcome === 'STOPPED' ? 'work stopped' : 'safe to start'}`);
     return saved;
   }, [addAuditLog]);
 

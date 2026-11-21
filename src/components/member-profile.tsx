@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useStore } from '@/lib/store';
 import { CompetencyRole, Role, ROLE_LABEL, User } from '@/lib/types';
-import { COMPETENCY_GROUPS, competencySummary } from '@/lib/competency';
+import { COMPETENCY_GROUPS, competencySummary, effectiveRole } from '@/lib/competency';
 import { PTW_KIND_LABEL, ptwCardStatus } from '@/lib/ptw-cards';
 import { fmtDate } from '@/lib/training';
 import { maskCivilId } from '@/lib/roles';
@@ -175,7 +175,7 @@ export function UserDetail({ user }: { user: User }) {
         )}
         <div>
           <label className="label" htmlFor="ud-comp">Competency group</label>
-          <select id="ud-comp" className="input" value={user.competencyRole ?? ''} onChange={(e) => updateUser(user.id, { competencyRole: (e.target.value || undefined) as CompetencyRole | undefined })}>
+          <select id="ud-comp" className="input" value={effectiveRole(user) ?? ''} onChange={(e) => updateUser(user.id, { competencyRole: (e.target.value || undefined) as CompetencyRole | undefined })}>
             <option value="">Not assigned</option>
             {COMPETENCY_GROUPS.map((g) => <option key={g.role} value={g.role}>{g.title}</option>)}
           </select>

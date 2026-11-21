@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useStore } from '@/lib/store';
 import { StoredDocChip } from '@/components/form-scanner';
-import { SWC_ACTIVITIES } from '@/lib/work-checks';
+import { activityLabel } from '@/lib/work-checks';
 import { fmtDateTime } from '@/lib/training';
 import { Application, Signoff } from '@/lib/types';
 import { CheckCircle2, Circle, PenLine } from 'lucide-react';
@@ -31,7 +31,7 @@ export function PtwDetailsView({ app }: { app: Application }) {
         ['Emergency meeting point', f.meetingPoint],
         ['Additional hazards', f.additionalHazards],
         ['Re-commissioning', f.recommissioning],
-        ['Start Work Checks to use', (f.startWorkChecks ?? []).map((k) => SWC_ACTIVITIES.find((a) => a.key === k)?.label ?? k).join(', ') || undefined],
+        ['Start Work Checks to use', (f.startWorkChecks ?? []).map((k) => activityLabel(k)).join(', ') || undefined],
         ['Attachments', (f.attachments ?? []).join(', ') || undefined],
       ]
     : [];
