@@ -187,12 +187,12 @@ export default function LearnerHome() {
                     </Link>
                   );
                 })}
-        <ComingSoonCourses courses={catalogue.filter((c) => isComingSoon(c)).sort(menuSort)} />
               </div>
             </section>
           );
         })}
 
+        <ComingSoonCourses courses={catalogue.filter((c) => isComingSoon(c)).sort(menuSort)} />
       </div>
     </RoleGuard>
   );

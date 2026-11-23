@@ -587,6 +587,8 @@ export interface Course {
   price?: number; // OMR, excl. VAT. Undefined / 0 = free.
   tier?: CourseTier; // courses-menu group
   cameraRequired?: boolean; // learner must be on camera during the course
+  /** Lessons not ready for learners yet: shown under Coming soon, not on the qualification path. */
+  comingSoon?: boolean;
   lessons: Lesson[];
 }
 

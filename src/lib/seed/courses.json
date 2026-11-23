@@ -219,7 +219,8 @@
       }
     ],
     "cameraRequired": true,
-    "tier": "FREE"
+    "tier": "FREE",
+    "comingSoon": true
   },
   {
     "id": "crs-ptw201",
@@ -532,7 +533,8 @@
     "price": 25,
     "cameraRequired": true,
     "tier": "CAT2",
-    "maxAttempts": 3
+    "maxAttempts": 3,
+    "comingSoon": true
   },
   {
     "id": "crs-drv150",
@@ -853,7 +855,8 @@
       }
     ],
     "cameraRequired": true,
-    "tier": "CAT2"
+    "tier": "CAT2",
+    "comingSoon": true
   },
   {
     "id": "crs-fir110",
@@ -980,6 +983,7 @@
       }
     ],
     "cameraRequired": true,
-    "tier": "CAT1"
+    "tier": "CAT1",
+    "comingSoon": true
   }
 ]

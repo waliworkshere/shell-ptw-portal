@@ -62,7 +62,6 @@ export default function TrainingPreviewPage() {
                     </Link>
                   );
                 })}
-        <ComingSoonCourses courses={catalogue.filter((c) => isComingSoon(c)).sort(menuSort)} />
               </div>
             </section>
           );
@@ -83,6 +82,7 @@ export default function TrainingPreviewPage() {
             </ul>
           </section>
         )}
+        <ComingSoonCourses courses={catalogue.filter((c) => isComingSoon(c)).sort(menuSort)} />
       </div>
     </RoleGuard>
   );

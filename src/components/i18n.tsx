@@ -50,6 +50,86 @@ async function loadDict(lang: Lang): Promise<Dict | null> {
   return null;
 }
 
+/* ------------------------------------------------------------------ */
+/* Google Translate for everything the dictionaries don't cover        */
+/* (course lessons, quizzes, new screens). Results are cached on the  */
+/* device so each piece of text is only translated once.              */
+/* ------------------------------------------------------------------ */
+const GT_URL = 'https://translate.googleapis.com/translate_a/single';
+function gtCache(lang: Lang): Record<string, string> {
+  try {
+    return JSON.parse(localStorage.getItem(`gt-cache-${lang}`) ?? '{}');
+  } catch {
+    return {};
+  }
+}
+function saveCache(lang: Lang, c: Record<string, string>) {
+  try {
+    localStorage.setItem(`gt-cache-${lang}`, JSON.stringify(c));
+  } catch {
+    /* storage full — keep in memory only */
+  }
+}
+async function googleBatch(lines: string[], lang: Lang): Promise<string[] | null> {
+  const body = new URLSearchParams({ q: lines.join('\n') });
+  const r = await fetch(`${GT_URL}?client=gtx&sl=en&tl=${lang}&dt=t`, { method: 'POST', body });
+  if (!r.ok) return null;
+  const j = await r.json();
+  const text = (j?.[0] ?? []).map((seg: unknown[]) => (seg?.[0] as string) ?? '').join('');
+  const out = text.split('\n');
+  return out.length === lines.length ? out : null;
+}
+/** Wraps a dictionary translator: anything it doesn't know is translated by Google in the background. */
+function withGoogle(lang: Lang, base: (s: string) => string | null, refresh: () => void) {
+  const cache = gtCache(lang);
+  const outputs = new Set(Object.values(cache));
+  const queue = new Set<string>();
+  let timer: ReturnType<typeof setTimeout> | null = null;
+  let busy = false;
+  const flush = async () => {
+    timer = null;
+    if (busy || !queue.size) return;
+    busy = true;
+    const todo = [...queue].filter((t) => !(t in cache));
+    queue.clear();
+    let changed = false;
+    for (let i = 0; i < todo.length; ) {
+      const batch: string[] = [];
+      let n = 0;
+      while (i < todo.length && (n + todo[i].length < 1800 || !batch.length)) { batch.push(todo[i]); n += todo[i].length + 1; i++; }
+      try {
+        const out = await googleBatch(batch, lang);
+        if (out) batch.forEach((t, k) => { const v = out[k]?.trim(); if (v) { cache[t] = v; outputs.add(v); changed = true; } });
+      } catch {
+        /* offline or blocked — leave the English text */
+      }
+    }
+    busy = false;
+    if (changed) { saveCache(lang, cache); refresh(); }
+    if (queue.size) timer = setTimeout(flush, 300);
+  };
+  return (input: string): string | null => {
+    const hit = base(input);
+    if (hit) return hit;
+    const t = input.replace(/\s+/g, ' ').trim();
+    if (!t || outputs.has(t)) return null;
+    if (cache[t]) return cache[t];
+    if (translatable(t)) {
+      queue.add(t);
+      if (!timer) timer = setTimeout(flush, 250);
+    }
+    return null;
+  };
+}
+
+/** Text worth sending to Google: real words, not codes, numbers or names written in capitals. */
+function translatable(t: string) {
+  if (!/[A-Za-z]{3}/.test(t)) return false;
+  if (/^[A-Z0-9\s\-–·.,/&()#:+]+$/.test(t)) return false; // codes and ALL-CAPS site names
+  if (/^[\w.+-]+@[\w.-]+$/.test(t) || /^https?:/.test(t)) return false;
+  return true;
+}
+
 /** Translator for a JSON dictionary: exact text, then "{0}" number patterns, then dates. */
 function makeTranslator(d: Dict) {
   const pats = (d.patterns ?? []).map(([en, tr]) => {
@@ -115,9 +195,17 @@ export function LangRuntime() {
     let obs: MutationObserver | null = null;
     let cancelled = false;
     (async () => {
-      const tr = lang === 'ar' ? translateAr : makeTranslator((await loadDict(lang))!);
+      let tr: (s: string) => string | null;
+      if (lang === 'ar') {
+        // Hand-written Arabic first, then the machine-translated additions (Google Translate).
+        const extra = makeTranslator((await import('@/lib/i18n/ar.json')).default as unknown as Dict);
+        tr = (s: string) => translateAr(s) ?? extra(s);
+      } else tr = makeTranslator((await loadDict(lang))!);
       if (cancelled) return;
-      const translateNode = makeWalker(tr);
+      // eslint-disable-next-line prefer-const
+      let translateNode: (n: Node) => void;
+      const live = withGoogle(lang, tr, () => translateNode(document.body));
+      translateNode = makeWalker(live);
       translateNode(document.body);
       obs = new MutationObserver((muts) => {
         for (const m of muts) {

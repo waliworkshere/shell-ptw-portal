@@ -22,7 +22,7 @@ export const menuSort = (a: Course, b: Course) => {
 };
 
 /** A listed course whose lessons have not been loaded yet. */
-export const isComingSoon = (c: Course) => c.lessons.length === 0;
+export const isComingSoon = (c: Course) => !!c.comingSoon || c.lessons.length === 0;
 
 /** Does enrolling in this course need a payment first? */
 export const needsPaymentFor = (c: Course) => SHOW_COURSE_PRICES && !!c.tier && c.tier !== 'FREE';
@@ -72,7 +72,7 @@ export function isCertificateValid(course: Course, enrollment?: Enrollment) {
 
 export function pathCourses(state: Pick<AppState, 'courses'>) {
   return state.courses
-    .filter((c) => c.mandatory && c.status === 'PUBLISHED')
+    .filter((c) => c.mandatory && c.status === 'PUBLISHED' && !isComingSoon(c))
     .sort((a, b) => a.pathOrder - b.pathOrder);
 }
 
@@ -101,7 +101,7 @@ export function qualification(state: Pick<AppState, 'courses' | 'enrollments'>, 
     return { course, enrollment, due, status, progress: courseProgress(course, enrollment) };
   });
   const completed = steps.filter((s) => s.status === 'COMPLETED').length;
-  return { steps, completed, total: steps.length, eligible: steps.length > 0 && completed === steps.length, start };
+  return { steps, completed, total: steps.length, eligible: completed === steps.length, start };
 }
 
 export function nextCertificateNumber(enrollments: Enrollment[]) {
