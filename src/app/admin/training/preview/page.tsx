@@ -7,6 +7,7 @@ import { PreviewBanner } from '@/components/preview-banner';
 import { useStore } from '@/lib/store';
 import { courseMinutes, isComingSoon, menuSort, SHOW_COURSE_PRICES, TIER_LABEL, TIER_ORDER, TIER_SHORT } from '@/lib/training';
 import { BookOpen, Camera, Clock, FileQuestion } from 'lucide-react';
+import { ComingSoonCourses } from '@/components/coming-soon-courses';
 
 /** The course menu exactly as trainees see it, for administrators to click through. */
 export default function TrainingPreviewPage() {
@@ -22,7 +23,7 @@ export default function TrainingPreviewPage() {
         <p className="mt-1 text-sm text-slate-500">The course menu as trainees see it. Open any course to go through its lessons, videos and quizzes.</p>
 
         {TIER_ORDER.map((tier) => {
-          const list = catalogue.filter((c) => c.tier === tier).sort(menuSort);
+          const list = catalogue.filter((c) => c.tier === tier && !isComingSoon(c)).sort(menuSort);
           if (!list.length) return null;
           return (
             <section key={tier} className="mt-8">
@@ -61,6 +62,7 @@ export default function TrainingPreviewPage() {
                     </Link>
                   );
                 })}
+        <ComingSoonCourses courses={catalogue.filter((c) => isComingSoon(c)).sort(menuSort)} />
               </div>
             </section>
           );

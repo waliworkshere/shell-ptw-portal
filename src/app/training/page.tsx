@@ -8,6 +8,7 @@ import { greeting } from '@/lib/roles';
 import { useStore } from '@/lib/store';
 import { courseMinutes, courseProgress, fmtDate, qualification, PathStepState, isCertificateValid, isComingSoon, SHOW_COURSE_PRICES, TIER_LABEL, TIER_ORDER, TIER_SHORT, menuSort } from '@/lib/training';
 import { BadgeCheck, BookOpen, CheckCircle2, Circle, Clock, AlertTriangle, PlayCircle, Map, Contact, Receipt, Camera, Smartphone, History } from 'lucide-react';
+import { ComingSoonCourses } from '@/components/coming-soon-courses';
 
 const STEP_STYLE: Record<PathStepState, { label: string; dot: string; text: string }> = {
   COMPLETED: { label: 'Completed', dot: 'bg-petrol-500 text-white', text: 'text-petrol-600' },
@@ -130,7 +131,7 @@ export default function LearnerHome() {
         {/* Courses menu — Free, Paid Category 1, Paid Category 2 */}
         <h2 className="mt-10 font-display text-lg font-semibold text-ink">Courses</h2>
         {TIER_ORDER.map((tier) => {
-          const list = catalogue.filter((c) => c.tier === tier).sort(menuSort);
+          const list = catalogue.filter((c) => c.tier === tier && !isComingSoon(c)).sort(menuSort);
           if (!list.length) return null;
           return (
             <section key={tier} className="mt-5">
@@ -186,6 +187,7 @@ export default function LearnerHome() {
                     </Link>
                   );
                 })}
+        <ComingSoonCourses courses={catalogue.filter((c) => isComingSoon(c)).sort(menuSort)} />
               </div>
             </section>
           );
