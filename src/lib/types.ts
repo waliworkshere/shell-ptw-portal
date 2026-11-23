@@ -557,7 +557,7 @@ export interface Lesson {
   durationMins: number;
   body: string[]; // paragraphs
   keyPoints: string[];
-  activity?: 'HAZARD_HUNT'; // optional interactive exercise before the quiz
+  activity?: 'HAZARD_HUNT' | 'FORECOURT_MAP'; // optional interactive exercise before the quiz
   images?: { src: string; caption?: string }[]; // shown under the reading text
   videoUrl?: string; // embeddable video (e.g. Google Drive /preview link)
   resources?: { label: string; url: string }[]; // reference documents

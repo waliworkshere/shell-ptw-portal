@@ -222,3 +222,89 @@ export function HazardHunt({ onComplete, done: initiallyDone = false }: { onComp
     </div>
   );
 }
+
+/* ------------------------------------------------------------------ */
+/* Know your forecourt — top-down emergency map                        */
+/* ------------------------------------------------------------------ */
+const MAP_POINTS = [
+  { id: 'estop', x: 238, y: 118, label: 'E', color: '#DD1D21', title: 'Emergency stop (E-stop)', why: 'One press cuts power to every dispenser. In a spill or fire, press it first — before you fight anything.' },
+  { id: 'ext', x: 455, y: 206, label: 'F', color: '#DD1D21', title: 'Fire extinguishers at the pump islands', why: 'Dry powder or foam for fuel fires. Never water — water spreads burning fuel. Check the gauge is in the green.' },
+  { id: 'spill', x: 120, y: 300, label: 'S', color: '#E2A400', title: 'Spill kit', why: 'Absorbent pads, granules and drain covers. Protect the drains first, then soak up the spill from the edges inwards.' },
+  { id: 'drain', x: 560, y: 300, label: 'D', color: '#1D3D60', title: 'Drains to the interceptor', why: 'Forecourt drains run to the oil interceptor. Never wash fuel into a drain — cover the drain during a spill.' },
+  { id: 'fill', x: 760, y: 330, label: 'T', color: '#1D3D60', title: 'Tanker fill points (offloading area)', why: 'Only the tanker driver and station staff work here. Keep vehicles and people out, and no phones during the delivery.' },
+  { id: 'vent', x: 812, y: 96, label: 'V', color: '#1D3D60', title: 'Vent pipes', why: 'Tank vents release vapour when tanks fill. No hot work, smoking or ignition sources near the vents.' },
+  { id: 'gas', x: 92, y: 212, label: 'G', color: '#E2A400', title: 'Gas cylinder cage', why: 'LPG cylinders stay locked in the ventilated cage, away from drains and ignition sources.' },
+  { id: 'assembly', x: 60, y: 345, label: 'A', color: '#3A8A2E', title: 'Assembly point', why: 'When the alarm sounds, walk here and report to the Station Manager. Nobody goes back until the all-clear.' },
+];
+
+export function ForecourtMap({ onComplete, done: initiallyDone = false }: { onComplete: () => void; done?: boolean }) {
+  const [seen, setSeen] = useState<string[]>(initiallyDone ? MAP_POINTS.map((p) => p.id) : []);
+  const [active, setActive] = useState<(typeof MAP_POINTS)[number] | null>(null);
+  const complete = seen.length === MAP_POINTS.length;
+  useEffect(() => {
+    if (complete && !initiallyDone) onComplete();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [complete]);
+  const open = (p: (typeof MAP_POINTS)[number]) => { setActive(p); setSeen((s) => (s.includes(p.id) ? s : [...s, p.id])); };
+  return (
+    <div className="overflow-hidden rounded-2xl border border-petrol-100 bg-white">
+      <div className="flex items-center justify-between gap-3 border-b border-petrol-100 px-4 py-3">
+        <p className="flex items-center gap-2 text-sm font-semibold text-ink"><Search size={16} className="text-sand-600" /> Know your forecourt — tap every marker</p>
+        <span className="app-number text-xs text-slate-500">{seen.length}/{MAP_POINTS.length}</span>
+      </div>
+      <svg viewBox="0 0 880 460" className="block w-full select-none" role="img" aria-label="Top-down map of a fuel station forecourt with emergency equipment markers">
+        <rect width="880" height="460" fill="#D5DAE0" />
+        {/* road */}
+        <rect y="380" width="880" height="80" fill="#9AA5B1" />
+        <path d="M0 420 H880" stroke="#fff" strokeWidth="3" strokeDasharray="26 20" />
+        {/* entry / exit arrows */}
+        <path d="M150 395 l0 -30 m-10 10 l10 -10 l10 10" stroke="#fff" strokeWidth="4" fill="none" />
+        <path d="M700 365 l0 30 m-10 -10 l10 10 l10 -10" stroke="#fff" strokeWidth="4" fill="none" />
+        {/* shop */}
+        <rect x="40" y="40" width="230" height="110" rx="6" fill="#fff" stroke="#AFC3D8" strokeWidth="2" />
+        <text x="155" y="80" textAnchor="middle" fontSize="16" fontWeight="700" fill="#1D3D60">SHOP</text>
+        <text x="155" y="100" textAnchor="middle" fontSize="11" fill="#5b6b7b">Station Manager</text>
+        {/* canopy with islands */}
+        <rect x="300" y="150" width="340" height="140" rx="6" fill="#1D3D60" opacity=".12" stroke="#1D3D60" strokeDasharray="6 5" />
+        {[0, 1].map((r) => [0, 1].map((c) => (
+          <g key={`${r}${c}`}>
+            <rect x={340 + c * 170} y={180 + r * 70} width="90" height="22" rx="5" fill="#fff" stroke="#1D3D60" strokeWidth="2" />
+            <rect x={370 + c * 170} y={183 + r * 70} width="30" height="16" rx="2" fill="#1D3D60" />
+          </g>
+        )))}
+        {/* tank farm */}
+        <rect x="690" y="270" width="150" height="90" rx="6" fill="#E9EDF1" stroke="#1D3D60" strokeDasharray="5 4" />
+        <text x="765" y="290" textAnchor="middle" fontSize="11" fill="#1D3D60">Underground tanks</text>
+        <text x="470" y="168" textAnchor="middle" fontSize="11" fill="#1D3D60">Pump islands (under the canopy)</text>
+        <text x="92" y="252" textAnchor="middle" fontSize="10" fill="#1D3D60">LPG cage</text>
+        {[0, 1, 2].map((k) => <circle key={k} cx={720 + k * 45} cy={330} r="9" fill="#fff" stroke="#1D3D60" strokeWidth="2" />)}
+        {/* vent stack */}
+        <rect x="800" y="40" width="24" height="80" fill="#fff" stroke="#1D3D60" strokeWidth="2" />
+        {/* gas cage */}
+        <rect x="66" y="188" width="52" height="48" rx="3" fill="#fff" stroke="#1D3D60" strokeWidth="2" strokeDasharray="3 3" />
+        {/* drains */}
+        <rect x="540" y="292" width="40" height="10" fill="#1D3D60" opacity=".6" />
+        <rect x="300" y="300" width="40" height="10" fill="#1D3D60" opacity=".6" />
+        {/* markers */}
+        {MAP_POINTS.map((p) => {
+          const on = seen.includes(p.id);
+          return (
+            <g key={p.id} onClick={() => open(p)} className="cursor-pointer" role="button" aria-label={p.title}>
+              {!on && <circle cx={p.x} cy={p.y} r="22" fill={p.color} opacity=".25"><animate attributeName="r" values="18;26;18" dur="1.8s" repeatCount="indefinite" /></circle>}
+              <circle cx={p.x} cy={p.y} r="16" fill={on ? '#3A8A2E' : p.color} stroke="#fff" strokeWidth="3" />
+              <text x={p.x} y={p.y + 5} textAnchor="middle" fontSize="14" fontWeight="700" fill="#fff">{on ? '✓' : p.label}</text>
+            </g>
+          );
+        })}
+      </svg>
+      <div className="min-h-[84px] border-t border-petrol-100 px-4 py-3 text-sm">
+        {active ? (
+          <><p className="font-semibold text-ink">{active.title}</p><p className="mt-1 text-slate-600">{active.why}</p></>
+        ) : (
+          <p className="text-slate-500">Tap a marker on the map to see what it is and what to do with it. Find all {MAP_POINTS.length} to continue.</p>
+        )}
+        {complete && <p className="mt-2 font-medium text-leaf-700">All {MAP_POINTS.length} found — you know where everything is on the forecourt.</p>}
+      </div>
+    </div>
+  );
+}

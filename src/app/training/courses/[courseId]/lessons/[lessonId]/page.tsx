@@ -13,7 +13,7 @@ import { QuizResult, useStore } from '@/lib/store';
 import { generateCertificatePdf } from '@/lib/certificate-pdf';
 import { coursePriceUsd } from '@/lib/access';
 import { courseProgress, isLessonUnlocked, lessonProgress } from '@/lib/training';
-import { Confetti, FlipCards, HazardHunt } from '@/components/interactive';
+import { Confetti, FlipCards, HazardHunt, ForecourtMap } from '@/components/interactive';
 import {
   ArrowLeft,
   ArrowRight,
@@ -310,6 +310,11 @@ export default function LessonPlayerPage() {
                   {lesson.activity === 'HAZARD_HUNT' && (
                     <div className="mt-8">
                       <HazardHunt done={lp.contentDone} onComplete={() => setHuntDone(true)} />
+                    </div>
+                  )}
+                  {lesson.activity === 'FORECOURT_MAP' && (
+                    <div className="mt-8">
+                      <ForecourtMap done={lp.contentDone} onComplete={() => setHuntDone(true)} />
                     </div>
                   )}
                   <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-petrol-100 pt-6">
