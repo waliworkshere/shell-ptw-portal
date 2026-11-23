@@ -269,7 +269,7 @@ export default function LessonPlayerPage() {
                       ) : (
                         <SimulatedVideo title={lesson.title} minutes={lesson.durationMins} watched={lp.contentDone} onWatched={() => setVideoWatched(true)} />
                       )}
-                      <p className="mt-6 text-xs font-semibold uppercase tracking-wide text-slate-400">Transcript</p>
+                      <p className="mt-6 text-xs font-semibold uppercase tracking-wide text-slate-400">Lesson notes</p>
                     </div>
                   )}
                   <div className="mb-3 flex justify-end"><ReadAloud target={readRef} label="Listen to this lesson" /></div>
