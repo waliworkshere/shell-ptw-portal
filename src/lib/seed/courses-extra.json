@@ -18,7 +18,7 @@
       {
         "id": "l-vsr-1",
         "title": "Basics: arriving and moving on site",
-        "type": "READING",
+        "type": "VIDEO",
         "durationMins": 6,
         "body": [
           "Every vendor visit to a Shell Mobility site in Oman starts the same way. Arrive during working hours, report to the Site Supervisor or Station Manager first, and get your site safety induction before you do anything else. From then on, the site or station manager's instructions apply to you.",
@@ -74,12 +74,13 @@
             "answer": 3,
             "explanation": "Smoking is not allowed on retail stations; only in designated areas on construction sites."
           }
-        ]
+        ],
+        "videoUrl": "https://drive.google.com/file/d/1fmH7XGxvGttd5gRjIa3GcGq3g6yHn-kf/preview"
       },
       {
         "id": "l-vsr-2",
         "title": "Work at height and access",
-        "type": "READING",
+        "type": "VIDEO",
         "durationMins": 6,
         "body": [
           "Falls from vehicles and platforms are one of the most common ways vendors get hurt. Do not climb onto any platform or vehicle bed higher than 4 ft (120 cm) without safe access, and never jump down from one.",
@@ -129,12 +130,13 @@
             "answer": 1,
             "explanation": "Use a ladder that is footed by another person."
           }
-        ]
+        ],
+        "videoUrl": "https://drive.google.com/file/d/1LimomiPj5G8C8VpnAZTCk8S5Hk2_bw3-/preview"
       },
       {
         "id": "l-vsr-3",
         "title": "Documents you must carry",
-        "type": "READING",
+        "type": "VIDEO",
         "durationMins": 5,
         "body": [
           "Before work or a delivery can start, the site needs to see the right paperwork. For deliveries: the delivery challan and the Safety Data Sheets for any chemicals. On arrival, make the daily site log entry, show your Safety Passport / site induction record, and be ready for a breathalyser test.",
@@ -190,12 +192,13 @@
             "answer": 1,
             "explanation": "Breathalyser tests are done at site."
           }
-        ]
+        ],
+        "videoUrl": "https://drive.google.com/file/d/1LxWHrVz0LIhQNgEgwmntTLGwXBZFiYBL/preview"
       },
       {
         "id": "l-vsr-4",
         "title": "Lifting, offloading and PPE",
-        "type": "READING",
+        "type": "VIDEO",
         "durationMins": 6,
         "body": [
           "Your vehicle must be fit for use, and anyone operating a crane must hold valid training and a licence for it. Critical lifts need a permit; minor lifts need at least a JHA or Work Clearance Form. Stay out of the line of fire of any load, and use safe manual handling techniques when lifting by hand.",
@@ -250,7 +253,8 @@
             "answer": 1,
             "explanation": "Position yourself away from the line of fire."
           }
-        ]
+        ],
+        "videoUrl": "https://drive.google.com/file/d/17yGmYHLNs1KfNole9W6xwYf8cGm89jXY/preview"
       }
     ],
     "tier": "FREE"
@@ -797,7 +801,7 @@
       {
         "id": "l-swc-exc",
         "title": "Start-Work Checks: Excavation",
-        "type": "READING",
+        "type": "VIDEO",
         "durationMins": 10,
         "body": [
           "These are the Start-Work Checks for excavation: the Save Your Life Actions that must be in place before this work begins. Start Work Authority means \"I will not start work until I confirm\" every action below.",
@@ -903,7 +907,8 @@
             "answer": 3,
             "explanation": "Utilities are notified and lines are visibly marked; depth and width are known or non-mechanical means are used."
           }
-        ]
+        ],
+        "videoUrl": "https://drive.google.com/file/d/1aJJiDMh8LcYcTg4Y0OS7q9YJGFo3i0ga/preview"
       }
     ]
   },
@@ -927,7 +932,7 @@
       {
         "id": "l-swc-hot",
         "title": "Start-Work Checks: Hot Work",
-        "type": "READING",
+        "type": "VIDEO",
         "durationMins": 10,
         "body": [
           "These are the Start-Work Checks for hot work: the Save Your Life Actions that must be in place before this work begins. Start Work Authority means \"I will not start work until I confirm\" every action below.",
@@ -1037,7 +1042,8 @@
             "answer": 3,
             "explanation": "Fire blankets cover combustibles and barriers stop sparks reaching a potential source."
           }
-        ]
+        ],
+        "videoUrl": "https://drive.google.com/file/d/1WYFKWyyfBUcfimnvrVxE3G51HhKPQfhs/preview"
       }
     ]
   },
@@ -1097,7 +1103,7 @@
       {
         "id": "l-swc-dem",
         "title": "Start-Work Checks: Decommissioning & Demolition",
-        "type": "READING",
+        "type": "VIDEO",
         "durationMins": 10,
         "body": [
           "These are the Start-Work Checks for decommissioning & demolition: the Save Your Life Actions that must be in place before this work begins. Start Work Authority means \"I will not start work until I confirm\" every action below.",
@@ -1191,7 +1197,8 @@
             "answer": 2,
             "explanation": "Safe areas out of the line of fire are identified, with barriers in place where practical."
           }
-        ]
+        ],
+        "videoUrl": "https://drive.google.com/file/d/1GvwXGkGl-zbeX_zpDZXVGgP_c05CgTMz/preview"
       }
     ]
   },
@@ -2712,7 +2719,7 @@
       {
         "id": "l-swc-cse",
         "title": "Start-Work Checks: Confined Space Entry",
-        "type": "READING",
+        "type": "VIDEO",
         "durationMins": 10,
         "body": [
           "These are the Start-Work Checks for confined space entry: the Save Your Life Actions that must be in place before this work begins. Start Work Authority means \"I will not start work until I confirm\" every action below.",
@@ -2818,7 +2825,8 @@
             "answer": 3,
             "explanation": "Confirm the Qualified Gas Tester has tested for stratified atmospheres."
           }
-        ]
+        ],
+        "videoUrl": "https://drive.google.com/file/d/1PD1EdOX7KI_E308p6YKtgUIPhDZTrtFf/preview"
       }
     ]
   },
@@ -2842,7 +2850,7 @@
       {
         "id": "l-swc-wah",
         "title": "Start-Work Checks: Working at Heights",
-        "type": "READING",
+        "type": "VIDEO",
         "durationMins": 10,
         "body": [
           "These are the Start-Work Checks for working at heights: the Save Your Life Actions that must be in place before this work begins. Start Work Authority means \"I will not start work until I confirm\" every action below.",
@@ -2950,7 +2958,8 @@
             "answer": 3,
             "explanation": "The crew agrees no one works at height alone; someone is assigned as standby or spotter."
           }
-        ]
+        ],
+        "videoUrl": "https://drive.google.com/file/d/1vBJGmzKHNZUyYSCqQqFEIqauTnL5aN6A/preview"
       }
     ]
   }

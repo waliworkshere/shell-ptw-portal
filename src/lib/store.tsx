@@ -13,7 +13,7 @@ import { seedState, IMPORT_SAMPLE } from './mock-data';
 import { preloadBrand } from './brand-assets';
 import { AppMode, NEWEST_FIRST, SYNCED, SyncedKey, WireRecord, authError, getMode, getToken, rid, rpc, setMode, setToken } from './live';
 
-const STORAGE_KEY = 'shell-ptw-prototype-state-v6';
+const STORAGE_KEY = 'shell-ptw-prototype-state-v7';
 
 interface StoreContextValue {
   state: AppState;

@@ -1,0 +1,2877 @@
+[
+{
+"id": "st-10057978",
+"code": "10057978",
+"name": "TWIN LIWA SS",
+"location": "Batina North, Oman",
+"region": "Batina North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040528",
+"code": "10040528",
+"name": "REDAH DEEL SS",
+"location": "Batina North, Oman",
+"region": "Batina North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040536",
+"code": "10040536",
+"name": "LIWA SS",
+"location": "Batina North, Oman",
+"region": "Batina North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10061161",
+"code": "10061161",
+"name": "WEST HAMBAR SS",
+"location": "Batina North, Oman",
+"region": "Batina North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10061159",
+"code": "10061159",
+"name": "FALAJ AL OHY SS",
+"location": "Batina North, Oman",
+"region": "Batina North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040540",
+"code": "10040540",
+"name": "NEW SOHAR SS",
+"location": "Batina North, Oman",
+"region": "Batina North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12137231",
+"code": "12137231",
+"name": "MAJEES SS",
+"location": "Batina North, Oman",
+"region": "Batina North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10061167",
+"code": "10061167",
+"name": "TWIN KHADHRAWAIN SS",
+"location": "Batina North, Oman",
+"region": "Batina North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12098999",
+"code": "12098999",
+"name": "MODERN FALAJ SS",
+"location": "Batina North, Oman",
+"region": "Batina North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10056875",
+"code": "10056875",
+"name": "HAMBAR SS",
+"location": "Batina North, Oman",
+"region": "Batina North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12099047",
+"code": "12099047",
+"name": "OWAINAT SS",
+"location": "Batina North, Oman",
+"region": "Batina North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10055326",
+"code": "10055326",
+"name": "TARIF HAJI SS",
+"location": "Batina North, Oman",
+"region": "Batina North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12209042",
+"code": "12209042",
+"name": "SHINAS TOWN SS",
+"location": "Batina North, Oman",
+"region": "Batina North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040545",
+"code": "10040545",
+"name": "SOHAR TOWN SS",
+"location": "Batina North, Oman",
+"region": "Batina North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12529677",
+"code": "12529677",
+"name": "GHAWABI SS",
+"location": "Batina North, Oman",
+"region": "Batina North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040544",
+"code": "10040544",
+"name": "SHINAS SS",
+"location": "Batina North, Oman",
+"region": "Batina North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12303806",
+"code": "12303806",
+"name": "SALLAN SOHAR SS",
+"location": "Batina North, Oman",
+"region": "Batina North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040535",
+"code": "10040535",
+"name": "KHADHRAWAIN SS",
+"location": "Batina North, Oman",
+"region": "Batina North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040533",
+"code": "10040533",
+"name": "FALAJ QABAIL SS",
+"location": "Batina North, Oman",
+"region": "Batina North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10059174",
+"code": "10059174",
+"name": "WAQAIBA SS",
+"location": "Batina North, Oman",
+"region": "Batina North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12686189",
+"code": "12686189",
+"name": "AL GHUSHBA SS",
+"location": "Batina North, Oman",
+"region": "Batina North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12686312",
+"code": "12686312",
+"name": "AL AQAR SS",
+"location": "Batina North, Oman",
+"region": "Batina North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10055320",
+"code": "10055320",
+"name": "WAJAJAH SS",
+"location": "Batina North, Oman",
+"region": "Batina North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12722459",
+"code": "12722459",
+"name": "LIWA EXPRESSWAY SS",
+"location": "Batina North, Oman",
+"region": "Batina North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12723501",
+"code": "12723501",
+"name": "SAHAM EXPRESSWAY SS",
+"location": "Batina North, Oman",
+"region": "Batina North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040542",
+"code": "10040542",
+"name": "SAHAM SS",
+"location": "Batina North, Oman",
+"region": "Batina North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-13057173",
+"code": "13057173",
+"name": "SAHAM AL QASBIAH SS",
+"location": "Batina North, Oman",
+"region": "Batina North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040529",
+"code": "10040529",
+"name": "ASSARAIN SOHAR SS",
+"location": "Batina South, Oman",
+"region": "Batina South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12624832",
+"code": "12624832",
+"name": "FALAJ ALOHY INDUSTRY SS",
+"location": "Batina South, Oman",
+"region": "Batina South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12431931",
+"code": "12431931",
+"name": "AJIB SS",
+"location": "Batina South, Oman",
+"region": "Batina South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040534",
+"code": "10040534",
+"name": "KHABURA SS",
+"location": "Batina South, Oman",
+"region": "Batina South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12099317",
+"code": "12099317",
+"name": "AL NAAMAN BARKA SS",
+"location": "Batina South, Oman",
+"region": "Batina South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10056876",
+"code": "10056876",
+"name": "SALAHA SS",
+"location": "Batina South, Oman",
+"region": "Batina South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040548",
+"code": "10040548",
+"name": "TWIN KHADHRA SS",
+"location": "Batina South, Oman",
+"region": "Batina South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040546",
+"code": "10040546",
+"name": "SUWAIQ SS",
+"location": "Batina South, Oman",
+"region": "Batina South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040549",
+"code": "10040549",
+"name": "TWIN THARMAD SS",
+"location": "Batina South, Oman",
+"region": "Batina South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040531",
+"code": "10040531",
+"name": "BARKA TOWN SS",
+"location": "Batina South, Oman",
+"region": "Batina South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040547",
+"code": "10040547",
+"name": "THARMAD SS",
+"location": "Batina South, Oman",
+"region": "Batina South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040532",
+"code": "10040532",
+"name": "BIDAYA SS",
+"location": "Batina South, Oman",
+"region": "Batina South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10055318",
+"code": "10055318",
+"name": "HAJARI SS",
+"location": "Batina South, Oman",
+"region": "Batina South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12431908",
+"code": "12431908",
+"name": "MAGHSAR SS",
+"location": "Batina South, Oman",
+"region": "Batina South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040530",
+"code": "10040530",
+"name": "BARKA HIGHWAY SS",
+"location": "Batina South, Oman",
+"region": "Batina South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040527",
+"code": "10040527",
+"name": "KHADHRA SS",
+"location": "Batina South, Oman",
+"region": "Batina South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040538",
+"code": "10040538",
+"name": "MUSANA SS",
+"location": "Batina South, Oman",
+"region": "Batina South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040537",
+"code": "10040537",
+"name": "MULLADA SS",
+"location": "Batina South, Oman",
+"region": "Batina South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040539",
+"code": "10040539",
+"name": "NEW RUSTAQ SS",
+"location": "Batina South, Oman",
+"region": "Batina South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040543",
+"code": "10040543",
+"name": "SAWADI SS",
+"location": "Batina South, Oman",
+"region": "Batina South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040541",
+"code": "10040541",
+"name": "RUSTAQ HEIGHTS SS",
+"location": "Batina South, Oman",
+"region": "Batina South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040550",
+"code": "10040550",
+"name": "WADI MAAWEL SS",
+"location": "Batina South, Oman",
+"region": "Batina South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12303814",
+"code": "12303814",
+"name": "BARKA RUMAYS SS",
+"location": "Batina South, Oman",
+"region": "Batina South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10057101",
+"code": "10057101",
+"name": "NEW MULLADA SS",
+"location": "Batina South, Oman",
+"region": "Batina South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12509317",
+"code": "12509317",
+"name": "MODERN MULLADDA SS",
+"location": "Batina South, Oman",
+"region": "Batina South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12723502",
+"code": "12723502",
+"name": "TWIN HOOR SS",
+"location": "Batina South, Oman",
+"region": "Batina South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12723472",
+"code": "12723472",
+"name": "HOOR SS",
+"location": "Batina South, Oman",
+"region": "Batina South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-13063755",
+"code": "13063755",
+"name": "SARHAT SS",
+"location": "Batina South, Oman",
+"region": "Batina South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040617",
+"code": "10040617",
+"name": "TWIN GIFNAIN SS",
+"location": "Dakhiliya, Oman",
+"region": "Dakhiliya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10055327",
+"code": "10055327",
+"name": "TWIN BIDBID SS",
+"location": "Dakhiliya, Oman",
+"region": "Dakhiliya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040591",
+"code": "10040591",
+"name": "GIFNAIN SS",
+"location": "Dakhiliya, Oman",
+"region": "Dakhiliya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040559",
+"code": "10040559",
+"name": "LUZOUGH SS",
+"location": "Dakhiliya, Oman",
+"region": "Dakhiliya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040555",
+"code": "10040555",
+"name": "BIDBID SS",
+"location": "Dakhiliya, Oman",
+"region": "Dakhiliya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040558",
+"code": "10040558",
+"name": "IZKI SS",
+"location": "Dakhiliya, Oman",
+"region": "Dakhiliya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040563",
+"code": "10040563",
+"name": "NIZWA SS",
+"location": "Dakhiliya, Oman",
+"region": "Dakhiliya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040561",
+"code": "10040561",
+"name": "NEW NIZWA SS",
+"location": "Dakhiliya, Oman",
+"region": "Dakhiliya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12299461",
+"code": "12299461",
+"name": "RADAT AL BUSAID SS",
+"location": "Dakhiliya, Oman",
+"region": "Dakhiliya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12299462",
+"code": "12299462",
+"name": "JARDA SS",
+"location": "Dakhiliya, Oman",
+"region": "Dakhiliya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12232449",
+"code": "12232449",
+"name": "ALHOBE SAMAIL SS",
+"location": "Dakhiliya, Oman",
+"region": "Dakhiliya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12402471",
+"code": "12402471",
+"name": "FALAJ DARIS SS",
+"location": "Dakhiliya, Oman",
+"region": "Dakhiliya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040628",
+"code": "10040628",
+"name": "NAZARI SS",
+"location": "Dakhiliya, Oman",
+"region": "Dakhiliya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10059176",
+"code": "10059176",
+"name": "NIZWA INDUSTRY SS",
+"location": "Dakhiliya, Oman",
+"region": "Dakhiliya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040564",
+"code": "10040564",
+"name": "SAMAIL SS",
+"location": "Dakhiliya, Oman",
+"region": "Dakhiliya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040562",
+"code": "10040562",
+"name": "NEW IZKI SS",
+"location": "Dakhiliya, Oman",
+"region": "Dakhiliya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10057100",
+"code": "10057100",
+"name": "JABRIAH SS",
+"location": "Dakhiliya, Oman",
+"region": "Dakhiliya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12466792",
+"code": "12466792",
+"name": "SHIBAK IZKI SS",
+"location": "Dakhiliya, Oman",
+"region": "Dakhiliya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040627",
+"code": "10040627",
+"name": "NABAA SS",
+"location": "Dakhiliya, Oman",
+"region": "Dakhiliya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12593976",
+"code": "12593976",
+"name": "SHUWAIYEE SS",
+"location": "Dakhiliya, Oman",
+"region": "Dakhiliya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040557",
+"code": "10040557",
+"name": "FANJA SS",
+"location": "Dakhiliya, Oman",
+"region": "Dakhiliya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040552",
+"code": "10040552",
+"name": "AL AIN SAMAIL SS",
+"location": "Dakhiliya, Oman",
+"region": "Dakhiliya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040636",
+"code": "10040636",
+"name": "MUDHAIBI SS",
+"location": "Dakhiliya, Oman",
+"region": "Dakhiliya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040639",
+"code": "10040639",
+"name": "SINAW SS",
+"location": "Dakhiliya, Oman",
+"region": "Dakhiliya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040637",
+"code": "10040637",
+"name": "NEW SINAW SS",
+"location": "Dakhiliya, Oman",
+"region": "Dakhiliya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10055319",
+"code": "10055319",
+"name": "SHARIQ SS",
+"location": "Dakhiliya, Oman",
+"region": "Dakhiliya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040589",
+"code": "10040589",
+"name": "BUKHA SS",
+"location": "Dhahira, Oman",
+"region": "Dhahira",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10058114",
+"code": "10058114",
+"name": "DIBA SS",
+"location": "Dhahira, Oman",
+"region": "Dhahira",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040590",
+"code": "10040590",
+"name": "KHASAB SS",
+"location": "Dhahira, Oman",
+"region": "Dhahira",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040567",
+"code": "10040567",
+"name": "BURAIMI SS",
+"location": "Dhahira, Oman",
+"region": "Dhahira",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040565",
+"code": "10040565",
+"name": "BURAIMI SOUQ SS",
+"location": "Dhahira, Oman",
+"region": "Dhahira",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040573",
+"code": "10040573",
+"name": "MAHADHA SS",
+"location": "Dhahira, Oman",
+"region": "Dhahira",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10061163",
+"code": "10061163",
+"name": "TAWI OQDAT SS",
+"location": "Dhahira, Oman",
+"region": "Dhahira",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040566",
+"code": "10040566",
+"name": "RAWDHA SS",
+"location": "Dhahira, Oman",
+"region": "Dhahira",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040553",
+"code": "10040553",
+"name": "HAMRA SS",
+"location": "Dhahira, Oman",
+"region": "Dhahira",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040554",
+"code": "10040554",
+"name": "BEHLA SS",
+"location": "Dhahira, Oman",
+"region": "Dhahira",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10055324",
+"code": "10055324",
+"name": "MALINAT IBRI SS",
+"location": "Dhahira, Oman",
+"region": "Dhahira",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040551",
+"code": "10040551",
+"name": "ADAM SS",
+"location": "Dhahira, Oman",
+"region": "Dhahira",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040574",
+"code": "10040574",
+"name": "YANQUL SS",
+"location": "Dhahira, Oman",
+"region": "Dhahira",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10055322",
+"code": "10055322",
+"name": "HUMAINIA SS",
+"location": "Dhahira, Oman",
+"region": "Dhahira",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040568",
+"code": "10040568",
+"name": "DHANK SS",
+"location": "Dhahira, Oman",
+"region": "Dhahira",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040560",
+"code": "10040560",
+"name": "MANAH SS",
+"location": "Dhahira, Oman",
+"region": "Dhahira",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040570",
+"code": "10040570",
+"name": "MISKIN SS",
+"location": "Dhahira, Oman",
+"region": "Dhahira",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040556",
+"code": "10040556",
+"name": "BISYA SS",
+"location": "Dhahira, Oman",
+"region": "Dhahira",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040569",
+"code": "10040569",
+"name": "IBRI TOWN SS",
+"location": "Dhahira, Oman",
+"region": "Dhahira",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12252736",
+"code": "12252736",
+"name": "IBRI BAT SS",
+"location": "Dhahira, Oman",
+"region": "Dhahira",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10061160",
+"code": "10061160",
+"name": "BATAIN IBRI SS",
+"location": "Dhahira, Oman",
+"region": "Dhahira",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10059175",
+"code": "10059175",
+"name": "DIBESHI SS",
+"location": "Dhahira, Oman",
+"region": "Dhahira",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10056351",
+"code": "10056351",
+"name": "IZZ SS",
+"location": "Dhahira, Oman",
+"region": "Dhahira",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12510699",
+"code": "12510699",
+"name": "MAELEEF SS",
+"location": "Dhahira, Oman",
+"region": "Dhahira",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040572",
+"code": "10040572",
+"name": "TANAM SS",
+"location": "Dhahira, Oman",
+"region": "Dhahira",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12662228",
+"code": "12662228",
+"name": "SAIH AL RAWL SS",
+"location": "Dhahira, Oman",
+"region": "Dhahira",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12098899",
+"code": "12098899",
+"name": "DAHARIZ SS",
+"location": "Dhofar, Oman",
+"region": "Dhofar",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040523",
+"code": "10040523",
+"name": "GHAFTAIN SS",
+"location": "Dhofar, Oman",
+"region": "Dhofar",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040578",
+"code": "10040578",
+"name": "GREENLINE SALALAH SS",
+"location": "Dhofar, Oman",
+"region": "Dhofar",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040526",
+"code": "10040526",
+"name": "HAIMA SS",
+"location": "Dhofar, Oman",
+"region": "Dhofar",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12303802",
+"code": "12303802",
+"name": "MARMUL SS",
+"location": "Dhofar, Oman",
+"region": "Dhofar",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040579",
+"code": "10040579",
+"name": "MIRBAT SS",
+"location": "Dhofar, Oman",
+"region": "Dhofar",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10055328",
+"code": "10055328",
+"name": "MODERN DAHAREEZ SS",
+"location": "Dhofar, Oman",
+"region": "Dhofar",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12209040",
+"code": "12209040",
+"name": "MODERN HAIMA SS",
+"location": "Dhofar, Oman",
+"region": "Dhofar",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12303711",
+"code": "12303711",
+"name": "MUKHAIZNA SS",
+"location": "Dhofar, Oman",
+"region": "Dhofar",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12686173",
+"code": "12686173",
+"name": "NIMR SS",
+"location": "Dhofar, Oman",
+"region": "Dhofar",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040581",
+"code": "10040581",
+"name": "QITBIT SS",
+"location": "Dhofar, Oman",
+"region": "Dhofar",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040582",
+"code": "10040582",
+"name": "RAYSUT INDUSTRY SS",
+"location": "Dhofar, Oman",
+"region": "Dhofar",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040583",
+"code": "10040583",
+"name": "RAYSUT SS",
+"location": "Dhofar, Oman",
+"region": "Dhofar",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040584",
+"code": "10040584",
+"name": "ROBAT SS",
+"location": "Dhofar, Oman",
+"region": "Dhofar",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12431909",
+"code": "12431909",
+"name": "SAADA SS",
+"location": "Dhofar, Oman",
+"region": "Dhofar",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12662343",
+"code": "12662343",
+"name": "SAADAH SOUTH SS",
+"location": "Dhofar, Oman",
+"region": "Dhofar",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12594095",
+"code": "12594095",
+"name": "SALALAH INDUSTRY SS",
+"location": "Dhofar, Oman",
+"region": "Dhofar",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040580",
+"code": "10040580",
+"name": "SALALAH MARKET SS",
+"location": "Dhofar, Oman",
+"region": "Dhofar",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040585",
+"code": "10040585",
+"name": "SALALAH TOWN SS",
+"location": "Dhofar, Oman",
+"region": "Dhofar",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040586",
+"code": "10040586",
+"name": "SHELIM SS",
+"location": "Dhofar, Oman",
+"region": "Dhofar",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040587",
+"code": "10040587",
+"name": "TAQA SS",
+"location": "Dhofar, Oman",
+"region": "Dhofar",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040588",
+"code": "10040588",
+"name": "THUMRAIT SS",
+"location": "Dhofar, Oman",
+"region": "Dhofar",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040576",
+"code": "10040576",
+"name": "WADILINE SALALAH SS",
+"location": "Dhofar, Oman",
+"region": "Dhofar",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12540496",
+"code": "12540496",
+"name": "ZAMAIM SS",
+"location": "Dhofar, Oman",
+"region": "Dhofar",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10055323",
+"code": "10055323",
+"name": "MABELA INDUSTRY SS",
+"location": "Muscat North, Oman",
+"region": "Muscat North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040604",
+"code": "10040604",
+"name": "MABELA SS",
+"location": "Muscat North, Oman",
+"region": "Muscat North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040609",
+"code": "10040609",
+"name": "MABELA SOUTH SS",
+"location": "Muscat North, Oman",
+"region": "Muscat North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12230074",
+"code": "12230074",
+"name": "SHARADI SS",
+"location": "Muscat North, Oman",
+"region": "Muscat North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12624801",
+"code": "12624801",
+"name": "MODERN MABELA SS",
+"location": "Muscat North, Oman",
+"region": "Muscat North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040599",
+"code": "10040599",
+"name": "AZAIBA SS",
+"location": "Muscat North, Oman",
+"region": "Muscat North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040612",
+"code": "10040612",
+"name": "MAWALEH CITYCENTRE SS",
+"location": "Muscat North, Oman",
+"region": "Muscat North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040592",
+"code": "10040592",
+"name": "AIRPORT SS",
+"location": "Muscat North, Oman",
+"region": "Muscat North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040608",
+"code": "10040608",
+"name": "MAWALEH SS",
+"location": "Muscat North, Oman",
+"region": "Muscat North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040597",
+"code": "10040597",
+"name": "HAIL SS",
+"location": "Muscat North, Oman",
+"region": "Muscat North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12099106",
+"code": "12099106",
+"name": "HAIL SOUTH SS",
+"location": "Muscat North, Oman",
+"region": "Muscat North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10058113",
+"code": "10058113",
+"name": "NORTH AZAIBA SS",
+"location": "Muscat North, Oman",
+"region": "Muscat North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10055329",
+"code": "10055329",
+"name": "TWIN HAIL SS",
+"location": "Muscat North, Oman",
+"region": "Muscat North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12437032",
+"code": "12437032",
+"name": "NEW MABELA SS",
+"location": "Muscat North, Oman",
+"region": "Muscat North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040616",
+"code": "10040616",
+"name": "SEEB TOWN SS",
+"location": "Muscat North, Oman",
+"region": "Muscat North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10045591",
+"code": "10045591",
+"name": "WADI AL ARASH SS",
+"location": "Muscat North, Oman",
+"region": "Muscat North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040620",
+"code": "10040620",
+"name": "WADI LAWAMI SS",
+"location": "Muscat North, Oman",
+"region": "Muscat North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040600",
+"code": "10040600",
+"name": "BURJ SAHWA SS",
+"location": "Muscat North, Oman",
+"region": "Muscat North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12640054",
+"code": "12640054",
+"name": "AL BANDER SS",
+"location": "Muscat North, Oman",
+"region": "Muscat North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10055330",
+"code": "10055330",
+"name": "WADI BAHAIS SS",
+"location": "Muscat North, Oman",
+"region": "Muscat North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12363519",
+"code": "12363519",
+"name": "MODERN KHOUD SS",
+"location": "Muscat North, Oman",
+"region": "Muscat North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040615",
+"code": "10040615",
+"name": "SEEB AUTO SS",
+"location": "Muscat North, Oman",
+"region": "Muscat North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12686508",
+"code": "12686508",
+"name": "RUSAYL INDUSTRY SS",
+"location": "Muscat North, Oman",
+"region": "Muscat North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12748946",
+"code": "12748946",
+"name": "NEW MAWALEH SS",
+"location": "Muscat North, Oman",
+"region": "Muscat North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-13057172",
+"code": "13057172",
+"name": "NEW MABELA INDUSTRY SS",
+"location": "Muscat North, Oman",
+"region": "Muscat North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040593",
+"code": "10040593",
+"name": "GHALA SS",
+"location": "Muscat South, Oman",
+"region": "Muscat South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040602",
+"code": "10040602",
+"name": "GHUBRAH SS",
+"location": "Muscat South, Oman",
+"region": "Muscat South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12748944",
+"code": "12748944",
+"name": "BOUSHER EXPRESSWAY SS",
+"location": "Muscat South, Oman",
+"region": "Muscat South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040614",
+"code": "10040614",
+"name": "SAROOJ SS",
+"location": "Muscat South, Oman",
+"region": "Muscat South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040621",
+"code": "10040621",
+"name": "WADI HATAT SS",
+"location": "Muscat South, Oman",
+"region": "Muscat South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040594",
+"code": "10040594",
+"name": "BUSTAN SS",
+"location": "Muscat South, Oman",
+"region": "Muscat South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040622",
+"code": "10040622",
+"name": "AMRAT SS",
+"location": "Muscat South, Oman",
+"region": "Muscat South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040619",
+"code": "10040619",
+"name": "WADI ADAI SS",
+"location": "Muscat South, Oman",
+"region": "Muscat South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040598",
+"code": "10040598",
+"name": "KHUWAIR SS",
+"location": "Muscat South, Oman",
+"region": "Muscat South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12594112",
+"code": "12594112",
+"name": "MADINAT AL NAHDHA SS",
+"location": "Muscat South, Oman",
+"region": "Muscat South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040595",
+"code": "10040595",
+"name": "FALAJ SS",
+"location": "Muscat South, Oman",
+"region": "Muscat South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040613",
+"code": "10040613",
+"name": "RUWI SS",
+"location": "Muscat South, Oman",
+"region": "Muscat South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040611",
+"code": "10040611",
+"name": "QURUM SS",
+"location": "Muscat South, Oman",
+"region": "Muscat South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12599807",
+"code": "12599807",
+"name": "MODERN AMERAT SS",
+"location": "Muscat South, Oman",
+"region": "Muscat South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10055321",
+"code": "10055321",
+"name": "DARSAIT SS",
+"location": "Muscat South, Oman",
+"region": "Muscat South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10055521",
+"code": "10055521",
+"name": "AMRAT INDUSTRY SS",
+"location": "Muscat South, Oman",
+"region": "Muscat South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040603",
+"code": "10040603",
+"name": "JIBROO SS",
+"location": "Muscat South, Oman",
+"region": "Muscat South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040610",
+"code": "10040610",
+"name": "QURIYAT SS",
+"location": "Muscat South, Oman",
+"region": "Muscat South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040601",
+"code": "10040601",
+"name": "SUKRY AL KHUWAIR SS",
+"location": "Muscat South, Oman",
+"region": "Muscat South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040618",
+"code": "10040618",
+"name": "TWIN JIBROO SS",
+"location": "Muscat South, Oman",
+"region": "Muscat South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040596",
+"code": "10040596",
+"name": "AL HAJAR SS",
+"location": "Muscat South, Oman",
+"region": "Muscat South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12437031",
+"code": "12437031",
+"name": "MISFA SS",
+"location": "Muscat South, Oman",
+"region": "Muscat South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12303505",
+"code": "12303505",
+"name": "MODERN MISFA SS",
+"location": "Muscat South, Oman",
+"region": "Muscat South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12577367",
+"code": "12577367",
+"name": "Tarif SS",
+"location": "Muscat South, Oman",
+"region": "Muscat South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12523676",
+"code": "12523676",
+"name": "HAIL AL GHAF SS",
+"location": "Muscat South, Oman",
+"region": "Muscat South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-13077399",
+"code": "13077399",
+"name": "GHALA INDUSTRY SS",
+"location": "Muscat South, Oman",
+"region": "Muscat South",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040630",
+"code": "10040630",
+"name": "JALAN BU ALI SS",
+"location": "Sharqiya, Oman",
+"region": "Sharqiya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040629",
+"code": "10040629",
+"name": "AL URF SS",
+"location": "Sharqiya, Oman",
+"region": "Sharqiya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040624",
+"code": "10040624",
+"name": "ASHKHARA SS",
+"location": "Sharqiya, Oman",
+"region": "Sharqiya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040625",
+"code": "10040625",
+"name": "AL HASA SS",
+"location": "Sharqiya, Oman",
+"region": "Sharqiya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040631",
+"code": "10040631",
+"name": "BIDIYA SS",
+"location": "Sharqiya, Oman",
+"region": "Sharqiya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040642",
+"code": "10040642",
+"name": "SUR SS",
+"location": "Sharqiya, Oman",
+"region": "Sharqiya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040633",
+"code": "10040633",
+"name": "IBRA SS",
+"location": "Sharqiya, Oman",
+"region": "Sharqiya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040634",
+"code": "10040634",
+"name": "JAALAN BU HASSAN SS",
+"location": "Sharqiya, Oman",
+"region": "Sharqiya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12599567",
+"code": "12599567",
+"name": "JALAN BANI BU ALI INDUSTRY SS",
+"location": "Sharqiya, Oman",
+"region": "Sharqiya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10055325",
+"code": "10055325",
+"name": "SUR LNG SS",
+"location": "Sharqiya, Oman",
+"region": "Sharqiya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040524",
+"code": "10040524",
+"name": "HIQ SS",
+"location": "Sharqiya, Oman",
+"region": "Sharqiya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040525",
+"code": "10040525",
+"name": "DUQUM SS",
+"location": "Sharqiya, Oman",
+"region": "Sharqiya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12611295",
+"code": "12611295",
+"name": "WADI NAM SS",
+"location": "Sharqiya, Oman",
+"region": "Sharqiya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12577603",
+"code": "12577603",
+"name": "SAMAD ALSHAN SS",
+"location": "Sharqiya, Oman",
+"region": "Sharqiya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12137234",
+"code": "12137234",
+"name": "NEW KAMIL SS",
+"location": "Sharqiya, Oman",
+"region": "Sharqiya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040632",
+"code": "10040632",
+"name": "DREEZ SS",
+"location": "Sharqiya, Oman",
+"region": "Sharqiya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040626",
+"code": "10040626",
+"name": "KAMIL SS",
+"location": "Sharqiya, Oman",
+"region": "Sharqiya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10061158",
+"code": "10061158",
+"name": "SHUWAIQIYAH SINAW SS",
+"location": "Sharqiya, Oman",
+"region": "Sharqiya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12252739",
+"code": "12252739",
+"name": "WADI AWAIKER SS",
+"location": "Sharqiya, Oman",
+"region": "Sharqiya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12509203",
+"code": "12509203",
+"name": "SUR INDUSTRY SS",
+"location": "Sharqiya, Oman",
+"region": "Sharqiya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040635",
+"code": "10040635",
+"name": "MASIRAH SS",
+"location": "Sharqiya, Oman",
+"region": "Sharqiya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040640",
+"code": "10040640",
+"name": "SOUQ IMAM SS",
+"location": "Sharqiya, Oman",
+"region": "Sharqiya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040641",
+"code": "10040641",
+"name": "SUFAY SS",
+"location": "Sharqiya, Oman",
+"region": "Sharqiya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-10040638",
+"code": "10040638",
+"name": "QRUN SS",
+"location": "Sharqiya, Oman",
+"region": "Sharqiya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-12599558",
+"code": "12599558",
+"name": "MODERN DUQUM SS",
+"location": "Sharqiya, Oman",
+"region": "Sharqiya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-13057194",
+"code": "13057194",
+"name": "WADI BANI KHALID SS",
+"location": "Sharqiya, Oman",
+"region": "Sharqiya",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-13058529",
+"code": "13058529",
+"name": "MADAYEN IBRI SS",
+"location": "Dhahira, Oman",
+"region": "Dhahira",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-13166265",
+"code": "13166265",
+"name": "SUSTAINABLE OASIS SS",
+"location": "Muscat North, Oman",
+"region": "Muscat North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-13058531",
+"code": "13058531",
+"name": "TWIN SAHAM SS",
+"location": "Batina North, Oman",
+"region": "Batina North",
+"status": "ACTIVE",
+"siteType": "B2C"
+},
+{
+"id": "st-dodo-masrooq-ibri",
+"code": "DODO-MASROOQ-IBRI",
+"name": "MASROOQ IBRI DODO",
+"location": "Oman — region and code to confirm",
+"status": "ACTIVE",
+"siteType": "DODO"
+},
+{
+"id": "st-dodo-shashar",
+"code": "DODO-SHASHAR",
+"name": "SHASHAR DODO",
+"location": "Oman — region and code to confirm",
+"status": "ACTIVE",
+"siteType": "DODO"
+},
+{
+"id": "st-dodo-halban",
+"code": "DODO-HALBAN",
+"name": "HALBAN DODO",
+"location": "Oman — region and code to confirm",
+"status": "ACTIVE",
+"siteType": "DODO"
+},
+{
+"id": "st-13312739",
+"code": "13312739",
+"name": "SHELL AHMED BIN MAJID CAMP - SOHAR",
+"location": "Batina North, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "MWS",
+"region": "Batina North",
+"vendorCompanyId": "co-ded48a842b7c"
+},
+{
+"id": "st-13309721",
+"code": "13309721",
+"name": "SHELL AHMED BIN SAID CAMP - IBRA",
+"location": "Sharqiya, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF",
+"region": "Sharqiya"
+},
+{
+"id": "st-13313346",
+"code": "13313346",
+"name": "SHELL AL BURAIMI CAMP",
+"location": "Dhahira, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "APEX",
+"region": "Dhahira",
+"vendorCompanyId": "co-8b3a6a9e58b7"
+},
+{
+"id": "st-13309559",
+"code": "13309559",
+"name": "SHELL AL MURTAFAA CAMP (GATE 11)",
+"location": "Muscat North, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF",
+"region": "Muscat North"
+},
+{
+"id": "st-13312763",
+"code": "13312763",
+"name": "SHELL AL RAWDHA CAMP",
+"location": "Dhahira, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "APEX",
+"region": "Dhahira",
+"vendorCompanyId": "co-8b3a6a9e58b7"
+},
+{
+"id": "st-13311807",
+"code": "13311807",
+"name": "SHELL AYDAM CAMP",
+"location": "Dhofar, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL BALAD",
+"region": "Dhofar",
+"vendorCompanyId": "co-5a191c75dd4e"
+},
+{
+"id": "st-13310007",
+"code": "13310007",
+"name": "SHELL BAIT AL FALAJ CAMP",
+"location": "Muscat South, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF",
+"region": "Muscat South"
+},
+{
+"id": "st-13307837",
+"code": "13307837",
+"name": "SHELL HAIMA CAMP",
+"location": "Dhofar, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL BALAD",
+"region": "Dhofar",
+"vendorCompanyId": "co-5a191c75dd4e"
+},
+{
+"id": "st-13314212",
+"code": "13314212",
+"name": "SHELL MABELAH CAMP (AMBROL EX-DEPOT)",
+"location": "Muscat North, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF",
+"region": "Muscat North"
+},
+{
+"id": "st-13308462",
+"code": "13308462",
+"name": "SHELL MALIK BIN FAHAM CAMP - IBRI",
+"location": "Dhahira, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "APEX",
+"region": "Dhahira",
+"vendorCompanyId": "co-8b3a6a9e58b7"
+},
+{
+"id": "st-13311436",
+"code": "13311436",
+"name": "SHELL MAZYOONA CAMP",
+"location": "Dhofar, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL BALAD",
+"region": "Dhofar",
+"vendorCompanyId": "co-5a191c75dd4e"
+},
+{
+"id": "st-13310258",
+"code": "13310258",
+"name": "SHELL MODES KHASAB",
+"location": "Dhahira, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "APEX",
+"region": "Dhahira",
+"vendorCompanyId": "co-8b3a6a9e58b7"
+},
+{
+"id": "st-13313351",
+"code": "13313351",
+"name": "SHELL MODES SALALAH",
+"location": "Dhofar, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL BALAD",
+"region": "Dhofar",
+"vendorCompanyId": "co-5a191c75dd4e"
+},
+{
+"id": "st-13313347",
+"code": "13313347",
+"name": "SHELL MODES THUMRAIT",
+"location": "Dhofar, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL BALAD",
+"region": "Dhofar",
+"vendorCompanyId": "co-5a191c75dd4e"
+},
+{
+"id": "st-13313892",
+"code": "13313892",
+"name": "SHELL MUSANDAM SECTOR COMMAND - BUKHA CAMP",
+"location": "Dhahira, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "APEX",
+"region": "Dhahira",
+"vendorCompanyId": "co-8b3a6a9e58b7"
+},
+{
+"id": "st-13313918",
+"code": "13313918",
+"name": "SHELL MUSANDAM SECTOR COMMAND - DIBBA CAMP",
+"location": "Dhahira, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "APEX",
+"region": "Dhahira",
+"vendorCompanyId": "co-8b3a6a9e58b7"
+},
+{
+"id": "st-13310717",
+"code": "13310717",
+"name": "SHELL MUSANDAM SECTOR COMMAND - KHASAB CAMP",
+"location": "Dhahira, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "APEX",
+"region": "Dhahira",
+"vendorCompanyId": "co-8b3a6a9e58b7"
+},
+{
+"id": "st-13309552",
+"code": "13309552",
+"name": "SHELL NAJOOR CAMP - SALALAH",
+"location": "Dhofar, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL BALAD",
+"region": "Dhofar",
+"vendorCompanyId": "co-5a191c75dd4e"
+},
+{
+"id": "st-13313965",
+"code": "13313965",
+"name": "SHELL NEW MAZYOONA CAMP (ENG. 3)",
+"location": "Dhofar, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL BALAD",
+"region": "Dhofar",
+"vendorCompanyId": "co-5a191c75dd4e"
+},
+{
+"id": "st-13310838",
+"code": "13310838",
+"name": "SHELL OFFICER TRAINING SCHOOL - KASHMIR CAMP",
+"location": "Batina North, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "MWS",
+"region": "Batina North",
+"vendorCompanyId": "co-ded48a842b7c"
+},
+{
+"id": "st-13311284",
+"code": "13311284",
+"name": "SHELL OMAN COAST MUWILEH CAMP - SOHAR",
+"location": "Batina North, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "MWS",
+"region": "Batina North",
+"vendorCompanyId": "co-ded48a842b7c"
+},
+{
+"id": "st-13314177",
+"code": "13314177",
+"name": "SHELL SALALAH CAMP (AMBROL EX-DEPOT)",
+"location": "Dhofar, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL BALAD",
+"region": "Dhofar",
+"vendorCompanyId": "co-5a191c75dd4e"
+},
+{
+"id": "st-13310718",
+"code": "13310718",
+"name": "SHELL WESTERN BORDER SECURITY FORCE (AL QABIL CAMP)",
+"location": "Dhahira, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "APEX",
+"region": "Dhahira",
+"vendorCompanyId": "co-8b3a6a9e58b7"
+},
+{
+"id": "st-12048510",
+"code": "12048510",
+"name": "SHELL ABU RAMADHAN, WADI KABIR,",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF"
+},
+{
+"id": "st-12498929",
+"code": "12498929",
+"name": "SHELL AL AWAM TRAN GHALA OM",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF"
+},
+{
+"id": "st-12050493",
+"code": "12050493",
+"name": "SHELL AL BURAIMI DEVELOPMENT",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "APEX",
+"vendorCompanyId": "co-8b3a6a9e58b7"
+},
+{
+"id": "st-11796764",
+"code": "11796764",
+"name": "SHELL AL FAYAH TRANSPORT LLC",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF"
+},
+{
+"id": "st-12754950",
+"code": "12754950",
+"name": "SHELL Al Naba Services",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF"
+},
+{
+"id": "st-12049685",
+"code": "12049685",
+"name": "SHELL AL NAJID TRANSPORT GHALA",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF"
+},
+{
+"id": "st-13066753",
+"code": "13066753",
+"name": "SHELL AL NUKHBA BARKA",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "MWS",
+"vendorCompanyId": "co-ded48a842b7c"
+},
+{
+"id": "st-12050063",
+"code": "12050063",
+"name": "SHELL AL RAJHI CRUSHER JIFNAIN",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "APEX",
+"vendorCompanyId": "co-8b3a6a9e58b7"
+},
+{
+"id": "st-12618321",
+"code": "12618321",
+"name": "SHELL AL-AZZAN TRADING BURAIMI",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "APEX",
+"vendorCompanyId": "co-8b3a6a9e58b7"
+},
+{
+"id": "st-12049682",
+"code": "12049682",
+"name": "SHELL AL-NAHDHA AL-OMANIAH",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "MWS",
+"vendorCompanyId": "co-ded48a842b7c"
+},
+{
+"id": "st-12070699",
+"code": "12070699",
+"name": "SHELL AL-RAJHI READYMIX GHALA",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF"
+},
+{
+"id": "st-12050134",
+"code": "12050134",
+"name": "SHELL AMIANTIT OMAN COM",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF"
+},
+{
+"id": "st-12153060",
+"code": "12153060",
+"name": "SHELL ARABIAN GULF MOUNTAIN TRADING",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "APEX",
+"vendorCompanyId": "co-8b3a6a9e58b7"
+},
+{
+"id": "st-12049557",
+"code": "12049557",
+"name": "SHELL ASAFFA FOODS SAOG",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL BALAD",
+"vendorCompanyId": "co-5a191c75dd4e"
+},
+{
+"id": "st-12048579",
+"code": "12048579",
+"name": "SHELL ASSARAIN CONCRETE PRODUCT",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF"
+},
+{
+"id": "st-12258713",
+"code": "12258713",
+"name": "SHELL BAR AL JISAH ROYAL RESORT",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF"
+},
+{
+"id": "st-12482413",
+"code": "12482413",
+"name": "SHELL Barka Oman Green Ready Mix",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "MWS",
+"vendorCompanyId": "co-ded48a842b7c"
+},
+{
+"id": "st-12051064",
+"code": "12051064",
+"name": "SHELL CARILLION ALAWI LLC",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF"
+},
+{
+"id": "st-12048751",
+"code": "12048751",
+"name": "SHELL CCC OMAN GHALA",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF"
+},
+{
+"id": "st-12048508",
+"code": "12048508",
+"name": "SHELL CMI PROJECT, SOHAR - OM",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "MWS",
+"vendorCompanyId": "co-ded48a842b7c"
+},
+{
+"id": "st-12048563",
+"code": "12048563",
+"name": "Shell COSMOS CONTRACTING GHALA",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF"
+},
+{
+"id": "st-12426752",
+"code": "12426752",
+"name": "SHELL CRUSHER, DUQUM, OMAN",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF"
+},
+{
+"id": "st-13028142",
+"code": "13028142",
+"name": "SHELL DHOFAR FISHERIES",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL BALAD",
+"vendorCompanyId": "co-5a191c75dd4e"
+},
+{
+"id": "st-12048652",
+"code": "12048652",
+"name": "SHELL DIWAN RCA AL FELAJ",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "MWS",
+"vendorCompanyId": "co-ded48a842b7c"
+},
+{
+"id": "st-12050271",
+"code": "12050271",
+"name": "SHELL EMMAR MAHADHA CO",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "APEX",
+"vendorCompanyId": "co-8b3a6a9e58b7"
+},
+{
+"id": "st-12750350",
+"code": "12750350",
+"name": "SHELL GLOBAL GYPSUM BOARD RAYSUT",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL BALAD",
+"vendorCompanyId": "co-5a191c75dd4e"
+},
+{
+"id": "st-12118172",
+"code": "12118172",
+"name": "SHELL INDUSTRIAL MINERALS",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "MWS",
+"vendorCompanyId": "co-ded48a842b7c"
+},
+{
+"id": "st-13067792",
+"code": "13067792",
+"name": "SHELL MAWARID MINING",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "MWS",
+"vendorCompanyId": "co-ded48a842b7c"
+},
+{
+"id": "st-12050675",
+"code": "12050675",
+"name": "SHELL MISFAT KHWATAR TRA & CON",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "APEX",
+"vendorCompanyId": "co-8b3a6a9e58b7"
+},
+{
+"id": "st-12048670",
+"code": "12048670",
+"name": "SHELL MOD COASTAL FORCE SUR",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF"
+},
+{
+"id": "st-12048729",
+"code": "12048729",
+"name": "SHELL MOD HQ RAO ARZAT CAMP",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL BALAD",
+"vendorCompanyId": "co-5a191c75dd4e"
+},
+{
+"id": "st-12048631",
+"code": "12048631",
+"name": "SHELL MOD HQ RAO FRONTIER BID BID",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "APEX",
+"vendorCompanyId": "co-8b3a6a9e58b7"
+},
+{
+"id": "st-12083638",
+"code": "12083638",
+"name": "SHELL MOD HQ RAO MARSOODUD",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL BALAD",
+"vendorCompanyId": "co-5a191c75dd4e"
+},
+{
+"id": "st-12049571",
+"code": "12049571",
+"name": "SHELL MOD MAM - MUSCAT",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF"
+},
+{
+"id": "st-12048673",
+"code": "12048673",
+"name": "SHELL MOD MINISTRY OF DEFENCE IZKI",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "APEX",
+"vendorCompanyId": "co-8b3a6a9e58b7"
+},
+{
+"id": "st-12048674",
+"code": "12048674",
+"name": "SHELL MOD RUSTAQ PARACHUTE CAMP",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "MWS",
+"vendorCompanyId": "co-ded48a842b7c"
+},
+{
+"id": "st-12105230",
+"code": "12105230",
+"name": "SHELL MOD SAF TRAINING REG GHALA",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF"
+},
+{
+"id": "st-12690335",
+"code": "12690335",
+"name": "SHELL MOD SOA ARZAT SALALAH",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL BALAD",
+"vendorCompanyId": "co-5a191c75dd4e"
+},
+{
+"id": "st-12049612",
+"code": "12049612",
+"name": "SHELL Nat Livestock Dev Raysut",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL BALAD",
+"vendorCompanyId": "co-5a191c75dd4e"
+},
+{
+"id": "st-12178806",
+"code": "12178806",
+"name": "SHELL NATIONAL CEMENT PROD CO",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF"
+},
+{
+"id": "st-13106363",
+"code": "13106363",
+"name": "SHELL NATIONAL FRIENDLY ENVIRONMENT LLC",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "APEX",
+"vendorCompanyId": "co-8b3a6a9e58b7"
+},
+{
+"id": "st-12486881",
+"code": "12486881",
+"name": "SHELL NORTHERN MINERAL SUWAIQ",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "MWS",
+"vendorCompanyId": "co-ded48a842b7c"
+},
+{
+"id": "st-12049825",
+"code": "12049825",
+"name": "SHELL OASIS TRADING & EQUIPMENT GHALA",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF"
+},
+{
+"id": "st-12050133",
+"code": "12050133",
+"name": "SHELL OASIS TRADING EQUIPMENT CO",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "APEX",
+"vendorCompanyId": "co-8b3a6a9e58b7"
+},
+{
+"id": "st-12048617",
+"code": "12048617",
+"name": "SHELL OM CONCRETE PROD RUSSAYL",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF"
+},
+{
+"id": "st-12050065",
+"code": "12050065",
+"name": "SHELL RAJHI BARKA CEMENT FACT",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "MWS",
+"vendorCompanyId": "co-ded48a842b7c"
+},
+{
+"id": "st-12661377",
+"code": "12661377",
+"name": "SHELL RAYSUT COMMERCIAL",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL BALAD",
+"vendorCompanyId": "co-5a191c75dd4e"
+},
+{
+"id": "st-12048656",
+"code": "12048656",
+"name": "SHELL RCA B AL BARAKA DG TRAN",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF"
+},
+{
+"id": "st-12048725",
+"code": "12048725",
+"name": "SHELL RCA DIWAN OF JAALUNI, OMAN",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL BALAD",
+"vendorCompanyId": "co-5a191c75dd4e"
+},
+{
+"id": "st-12048657",
+"code": "12048657",
+"name": "SHELL RCA Husn A’shmookh Nizwa",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "APEX",
+"vendorCompanyId": "co-8b3a6a9e58b7"
+},
+{
+"id": "st-12569755",
+"code": "12569755",
+"name": "SHELL RCA Husn A’shmookh SEEB OM",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "APEX",
+"vendorCompanyId": "co-8b3a6a9e58b7"
+},
+{
+"id": "st-12048655",
+"code": "12048655",
+"name": "SHELL RCA INSIDE BAHJAT ANDHAR PALACE",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "MWS",
+"vendorCompanyId": "co-ded48a842b7c"
+},
+{
+"id": "st-12049399",
+"code": "12049399",
+"name": "SHELL RCA ROYAL YACHT MARSA AL MAKALLA",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF"
+},
+{
+"id": "st-13088940",
+"code": "13088940",
+"name": "SHELL RCA SALALAH",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL BALAD",
+"vendorCompanyId": "co-5a191c75dd4e"
+},
+{
+"id": "st-12048654",
+"code": "12048654",
+"name": "SHELL RCA SEEB DIWAN",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF"
+},
+{
+"id": "st-12049553",
+"code": "12049553",
+"name": "SHELL RIYADH DHANK CRUSHER",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "APEX",
+"vendorCompanyId": "co-8b3a6a9e58b7"
+},
+{
+"id": "st-12048684",
+"code": "12048684",
+"name": "SHELL ROP DG OF TRAFICS",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF"
+},
+{
+"id": "st-12591401",
+"code": "12591401",
+"name": "SHELL SAHAL AL HASANT TRA OMAN",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "APEX",
+"vendorCompanyId": "co-8b3a6a9e58b7"
+},
+{
+"id": "st-12049680",
+"code": "12049680",
+"name": "SHELL SAMIR CHALHOUB PARTNERS",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF"
+},
+{
+"id": "st-12050074",
+"code": "12050074",
+"name": "SHELL SAUD BAHWAN AUT GHALA IND",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF"
+},
+{
+"id": "st-12079199",
+"code": "12079199",
+"name": "SHELL SAUD BAHWAN NASEEM GARDEN VDC",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "MWS",
+"vendorCompanyId": "co-ded48a842b7c"
+},
+{
+"id": "st-12048516",
+"code": "12048516",
+"name": "SHELL SOHAR, ADHWA Al WATHBA",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "MWS",
+"vendorCompanyId": "co-ded48a842b7c"
+},
+{
+"id": "st-12871353",
+"code": "12871353",
+"name": "SHELL SOHOR AL TEYEB TRADING IBRI",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "APEX",
+"vendorCompanyId": "co-8b3a6a9e58b7"
+},
+{
+"id": "st-13048065",
+"code": "13048065",
+"name": "SHELL STRABAG DUQUM",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF"
+},
+{
+"id": "st-12050053",
+"code": "12050053",
+"name": "SHELL STRABAG LIWA SOHAR",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "MWS",
+"vendorCompanyId": "co-ded48a842b7c"
+},
+{
+"id": "st-12074008",
+"code": "12074008",
+"name": "SHELL STRABAG, GHALA Oman",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL HADAF"
+},
+{
+"id": "st-12070807",
+"code": "12070807",
+"name": "SHELL SUHOOL WADI BANI OMAR",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "MWS",
+"vendorCompanyId": "co-ded48a842b7c"
+},
+{
+"id": "st-12050770",
+"code": "12050770",
+"name": "SHELL TARIQ UBAR TRAD SHASHAR",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "AL BALAD",
+"vendorCompanyId": "co-5a191c75dd4e"
+},
+{
+"id": "st-12048963",
+"code": "12048963",
+"name": "SHELL TAWOOS AGRICUL SYS BARKA",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "MWS",
+"vendorCompanyId": "co-ded48a842b7c"
+},
+{
+"id": "st-12050520",
+"code": "12050520",
+"name": "SHELL TRAD & INV NIZWA OM",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "APEX",
+"vendorCompanyId": "co-8b3a6a9e58b7"
+},
+{
+"id": "st-12050270",
+"code": "12050270",
+"name": "SHELL TRADING AND INVESTMENT",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "APEX",
+"vendorCompanyId": "co-8b3a6a9e58b7"
+},
+{
+"id": "st-12048584",
+"code": "12048584",
+"name": "SHELL ZAWAWI INFRASTRUCTURE FANJA",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "APEX",
+"vendorCompanyId": "co-8b3a6a9e58b7"
+},
+{
+"id": "st-12048582",
+"code": "12048582",
+"name": "SHELL ZAWAWI INFRASTRUCTURE SOHAR",
+"location": "B2B customer site, Oman",
+"status": "ACTIVE",
+"siteType": "B2B",
+"vendor": "MWS",
+"vendorCompanyId": "co-ded48a842b7c"
+}
+]

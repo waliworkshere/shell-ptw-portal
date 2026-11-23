@@ -17,7 +17,7 @@
       {
         "id": "l-hse101-1",
         "title": "How fuel behaves",
-        "type": "VIDEO",
+        "type": "READING",
         "durationMins": 8,
         "body": [
           "Gasoline (petrol) gives off flammable vapour at very low temperatures. Its flash point is around -43 °C, which means that at any temperature you will ever see in Oman, an open container of petrol is producing vapour that can ignite.",
@@ -214,7 +214,8 @@
             "answer": 2,
             "explanation": "Going to the assembly point and reporting in lets the Station Manager account for everyone on site."
           }
-        ]
+        ],
+        "activity": "FORECOURT_MAP"
       }
     ],
     "cameraRequired": true,
@@ -238,7 +239,7 @@
       {
         "id": "l-ptw201-1",
         "title": "Why we use permits and who signs them",
-        "type": "VIDEO",
+        "type": "READING",
         "durationMins": 7,
         "body": [
           "A Permit to Work (PTW) is a formal written system used to control work that is non-routine or potentially hazardous. It makes sure the hazards have been thought through, the controls are in place, and everyone involved knows what is happening before work starts.",
@@ -551,7 +552,7 @@
       {
         "id": "l-drv150-1",
         "title": "Defensive driving basics",
-        "type": "VIDEO",
+        "type": "READING",
         "durationMins": 9,
         "body": [
           "Defensive driving means driving to prevent collisions despite the actions of others and the conditions around you.",
@@ -926,7 +927,7 @@
       {
         "id": "l-fir110-2",
         "title": "Using an extinguisher safely",
-        "type": "VIDEO",
+        "type": "READING",
         "durationMins": 6,
         "body": [
           "Use the PASS technique: Pull the pin, Aim at the base of the fire, Squeeze the handle, Sweep from side to side.",

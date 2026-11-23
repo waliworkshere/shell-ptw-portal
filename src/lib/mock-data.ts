@@ -1,6 +1,7 @@
-import { FocalReport, AppState, Course, Enrollment, HsseReport, JourneyPlan, LessonProgress, Payment } from './types';
+import { FocalReport, FuelStation, AppState, Course, Enrollment, HsseReport, JourneyPlan, LessonProgress, Payment } from './types';
 import coursesJson from './seed/courses.json';
 import coursesExtraJson from './seed/courses-extra.json';
+import shellSites from './seed/shell-sites.json';
 import { buildSchedule, computeRisk, VEHICLE_CHECKS, FITNESS_CHECKS } from './journey';
 
 const DEMO_COMPANY = { 'u-artelia-mgr': 'Artelia Muscat Engineering Consultancy LLC', 'u-company-mgr': 'Al Noor Electrical Contracting', 'u-admin': 'Shell Oman (Retail HSSE)', 'u-approver-1': 'Shell Oman (Retail Operations)', 'u-approver-2': 'Artelia (PTW contractor)', 'u-station-alpha': 'Shell Al Khuwair', 'u-station-beta': 'Shell Sohar Falaj Al Qabail', 'u-applicant-1': 'Gulf Mechanical LLC', 'u-applicant-2': 'Al Noor Electrical Contracting', 'u-imported-1': 'Oman Fuel Services LLC', 'u-trainee-1': 'Gulf Mechanical LLC', 'u-trainee-2': 'Al Noor Electrical Contracting', 'u-trainee-3': 'Al Amri Electrical Services LLC' };
@@ -33,6 +34,8 @@ export const seedState: AppState = {
     { id: 'stn-beta', name: 'Shell Sohar Falaj Al Qabail', code: 'SHL-SHR-031', location: 'Falaj Al Qabail, Sohar', status: 'ACTIVE' },
     { id: 'stn-gamma', name: 'Shell Salalah Al Dahariz', code: 'SHL-SLL-052', location: 'Al Dahariz, Salalah', status: 'ACTIVE' },
     { id: 'stn-delta', name: 'Shell Nizwa Firq', code: 'SHL-NZW-022', location: 'Firq, Nizwa', status: 'ACTIVE' },
+    // The Shell site lists (B2C service stations, DODO sites and B2B customer sites), as on the live system.
+    ...(shellSites as FuelStation[]),
   ],
 
   permitTypes: [
