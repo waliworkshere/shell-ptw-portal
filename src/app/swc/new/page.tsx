@@ -9,6 +9,7 @@ import { SwcSheet, SwcState, emptySwc } from '@/components/swc-form';
 import { useStore } from '@/lib/store';
 import { SWC_ACTIVITIES, activityLabel, initialsOf, swcRequiredKeys } from '@/lib/work-checks';
 import { ArrowLeft } from 'lucide-react';
+import { StationSelect } from '@/components/station-select';
 
 const ROLES = ['APPLICANT', 'TRAINEE', 'APPROVER', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'STATION', 'ROM', 'ADMIN'] as const;
 
@@ -121,10 +122,7 @@ function NewSwc() {
           </div>
           <label className="text-sm">
             <span className="label">Station</span>
-            <select className="input" value={stationId} onChange={(e) => setStationId(e.target.value)}>
-              <option value="">Other location</option>
-              {state.stations.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
-            </select>
+            <StationSelect value={stationId} onChange={setStationId} before={<option value="">Other location</option>} />
           </label>
           <label className="text-sm">
             <span className="label">Exact work location</span>

@@ -7,6 +7,7 @@ import { OutcomeBanner, PhotoField, WorkCheckList } from '@/components/work-chec
 import { useStore } from '@/lib/store';
 import { Answer, LMRA_QUESTIONS, LMRA_ROWS, complete, outcomeOf } from '@/lib/work-checks';
 import { Gauge } from 'lucide-react';
+import { StationSelect } from '@/components/station-select';
 
 const ROLES = ['APPLICANT', 'TRAINEE', 'APPROVER', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'STATION', 'ROM', 'ADMIN'] as const;
 const KEYS = LMRA_QUESTIONS.map((q) => q.key);
@@ -59,10 +60,7 @@ export default function LmraPage() {
             <div className="text-sm"><span className="label">Date</span><p className="input bg-slate-50">{new Date().toLocaleDateString('en-GB')}</p></div>
             <div className="text-sm"><span className="label">Name</span><p className="input bg-slate-50">{currentUser?.fullName}</p></div>
             <label className="text-sm"><span className="label">Site *</span>
-              <select className="input" value={stationId} onChange={(e) => setStationId(e.target.value)}>
-                <option value="">Other site (type below)</option>
-                {stations.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
-              </select>
+              <StationSelect value={stationId} onChange={setStationId} before={<option value="">Other site (type below)</option>} />
               {!stationId && <input className="input mt-2" placeholder="Site name" value={site} onChange={(e) => setSite(e.target.value)} />}
             </label>
             <label className="text-sm"><span className="label">Activity *</span><input className="input" value={task} onChange={(e) => setTask(e.target.value)} placeholder="e.g. Replace nozzle on dispenser 2" /></label>

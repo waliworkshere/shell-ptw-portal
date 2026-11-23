@@ -13,6 +13,7 @@ import { overdueState } from '@/lib/journey';
 import { fmtDate, fmtDateTime } from '@/lib/training';
 import { ApplicationStatus, STATUS_LABEL } from '@/lib/types';
 import { CheckCircle2, ClipboardList, Clock, Megaphone, QrCode, Search, ShieldAlert, Truck, XCircle } from 'lucide-react';
+import { StationSelect } from '@/components/station-select';
 
 export default function StationDashboard() {
   const { state, currentUser } = useStore();
@@ -38,18 +39,16 @@ export default function StationDashboard() {
   return (
     <RoleGuard role={['STATION', 'ROM']}>
       <div className="mx-auto max-w-7xl space-y-6 px-4 py-6 sm:px-8 sm:py-8">
-        <DashboardHero name={currentUser?.fullName ?? ''} subtitle={station ? `${station.name} · ${station.code} · ${station.location ?? ''}` : `${mine.length} station${mine.length === 1 ? '' : 's'} you manage`}>
+        <DashboardHero name={currentUser?.fullName ?? ''} subtitle={station ? `${station.name} · ${station.code} · ${station.location ?? ''}` : `${mine.length} site${mine.length === 1 ? '' : 's'} you manage`}>
           <Link href="/hsse/report" className="btn-shell"><Megaphone size={15} /> SOS report</Link>
         </DashboardHero>
 
         {mine.length > 1 && (
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-semibold uppercase tracking-wide text-slate-400">Station</span>
-            <button onClick={() => setPick('ALL')} className={`rounded-full border px-3 py-1.5 text-xs font-medium ${pick === 'ALL' ? 'border-petrol-500 bg-petrol-500 text-white' : 'border-petrol-100 text-slate-600 hover:bg-petrol-50'}`}>All ({mine.length})</button>
-            {mine.map((id) => {
-              const st = state.stations.find((x) => x.id === id);
-              return st ? <button key={id} onClick={() => setPick(id)} className={`rounded-full border px-3 py-1.5 text-xs font-medium ${pick === id ? 'border-petrol-500 bg-petrol-500 text-white' : 'border-petrol-100 text-slate-600 hover:bg-petrol-50'}`}>{st.name}</button> : null;
-            })}
+            <span className="text-xs font-semibold uppercase tracking-wide text-slate-400">Site</span>
+            <div className="w-full max-w-md">
+              <StationSelect value={pick} onChange={setPick} stations={state.stations.filter((x) => mine.includes(x.id))} before={<option value="ALL">All my sites ({mine.length})</option>} />
+            </div>
           </div>
         )}
         {currentUser?.role === 'ROM' && mine.length === 0 && <p className="rounded-lg bg-sand-50 px-4 py-3 text-sm text-sand-700">No stations are assigned to you yet. Ask the Gemsafety administrator to add you to the ROM list.</p>}

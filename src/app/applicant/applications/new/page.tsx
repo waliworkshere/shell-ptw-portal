@@ -13,6 +13,7 @@ import { RISK_DESCRIPTION, RISK_LABEL, RiskLevel, UploadedDocument, jhaRequired 
 import { ArrowLeft, ArrowRight, Camera, CheckCircle2, Lightbulb, Loader2, ScanText, Upload, Video } from 'lucide-react';
 import { matchFields, readDocument } from '@/lib/ocr';
 import { OcrUploadButton } from '@/components/ocr-upload';
+import { StationListPicker } from '@/components/station-list-picker';
 
 const STEPS = ['Station', 'Permit type', 'Risk level', 'Details', 'Shell permit & WCF', 'Documents', 'Review'];
 
@@ -250,21 +251,8 @@ export default function NewApplicationPage() {
         <div className="card mt-4">
           {step === 0 && (
             <div className="space-y-2">
-              <p className="mb-3 text-sm text-slate-500">Which fuel station is this permit for?</p>
-              {state.stations.map((s) => (
-                <label
-                  key={s.id}
-                  className={`flex cursor-pointer items-center justify-between rounded-lg border px-4 py-3 text-sm transition ${
-                    stationId === s.id ? 'border-petrol-500 bg-petrol-50' : 'border-petrol-100 hover:bg-petrol-50/50'
-                  }`}
-                >
-                  <div>
-                    <p className="font-medium text-ink">{s.name}</p>
-                    <p className="text-xs text-slate-400">{s.location}</p>
-                  </div>
-                  <input type="radio" name="station" checked={stationId === s.id} onChange={() => setStationId(s.id)} />
-                </label>
-              ))}
+              <p className="mb-3 text-sm text-slate-500">Which Shell site is this permit for? Search by name or Ship-To code.</p>
+              <StationListPicker value={stationId} onChange={setStationId} />
             </div>
           )}
 

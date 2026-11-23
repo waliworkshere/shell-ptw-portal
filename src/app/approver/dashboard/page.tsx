@@ -11,6 +11,7 @@ import { DashboardHero, StatusDonut } from '@/components/dashboard';
 import { fmtDate } from '@/lib/training';
 import { approverCompany, canReviewPermits, reviewablePermits, reviewsAllPermits } from '@/lib/access';
 import { CheckCircle2, Clock, Inbox, RefreshCw, Search, Siren, Video, XCircle } from 'lucide-react';
+import { StationSelect } from '@/components/station-select';
 
 export default function ApproverDashboard() {
   const { state, currentUser } = useStore();
@@ -31,7 +32,7 @@ export default function ApproverDashboard() {
   return (
     <RoleGuard role={['APPROVER', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'ADMIN']} can={canReviewPermits}>
       <div className="mx-auto max-w-7xl space-y-6 px-4 py-6 sm:px-8 sm:py-8">
-        <DashboardHero name={currentUser?.fullName ?? ''} subtitle={all ? `${queue.length} permit request${queue.length === 1 ? '' : 's'} waiting for you across ${state.stations.length} Shell stations${currentUser?.role === 'ARTELIA_MANAGER' ? ', including High risk' : ''}.` : `${queue.length} Low / Medium risk permit request${queue.length === 1 ? '' : 's'} from ${co} waiting for you. High risk permits go to the Permit Issuer or Artelia Manager.`} />
+        <DashboardHero name={currentUser?.fullName ?? ''} subtitle={all ? `${queue.length} permit request${queue.length === 1 ? '' : 's'} waiting for you across ${state.stations.filter((s) => s.status !== 'INACTIVE').length} Shell sites${currentUser?.role === 'ARTELIA_MANAGER' ? ', including High risk' : ''}.` : `${queue.length} Low / Medium risk permit request${queue.length === 1 ? '' : 's'} from ${co} waiting for you. High risk permits go to the Permit Issuer or Artelia Manager.`} />
 
         {sos.length > 0 && (
           <Link href="/hsse#sos" className="flex items-center gap-3 rounded-2xl bg-rust-500 px-5 py-4 text-white shadow-lg">
@@ -56,10 +57,7 @@ export default function ApproverDashboard() {
                 <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input className="input w-full py-1.5 pl-8 sm:w-48" placeholder="Search" value={q} onChange={(e) => setQ(e.target.value)} />
               </div>
-              <select className="input w-full py-1.5 sm:w-auto" value={station} onChange={(e) => setStation(e.target.value)} aria-label="Station">
-                <option value="ALL">All stations</option>
-                {state.stations.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
-              </select>
+              <div className="w-full sm:w-72"><StationSelect className="input py-1.5" value={station} onChange={setStation} before={<option value="ALL">All stations</option>} /></div>
             </div>
             {queue.length === 0 ? (
               <p className="py-12 text-center text-sm text-slate-400">Queue is empty. Nice work.</p>

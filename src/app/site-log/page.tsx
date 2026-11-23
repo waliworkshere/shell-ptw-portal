@@ -10,6 +10,7 @@ import { rpc } from '@/lib/live';
 import { extractLogRows } from '@/lib/form-scan';
 import { SiteLogEntry, WorkCheck } from '@/lib/types';
 import { BookOpenCheck, CheckCircle2, Loader2, LogOut, Plus, QrCode, ShieldAlert, X } from 'lucide-react';
+import { StationSelect } from '@/components/station-select';
 
 const ROLES = ['APPLICANT', 'TRAINEE', 'APPROVER', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'STATION', 'ROM', 'ADMIN'] as const;
 const today = () => new Date().toISOString().slice(0, 10);
@@ -54,10 +55,7 @@ export default function SiteLogPage() {
         {!open && (
           <div className="card mt-5 grid gap-3 sm:grid-cols-4">
             <label className="text-sm"><span className="label">Station</span>
-              <select className="input" value={stationId} onChange={(e) => setStationId(e.target.value)}>
-                <option value="">Other site</option>
-                {state.stations.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
-              </select>
+              <StationSelect value={stationId} onChange={setStationId} before={<option value="">Other site</option>} />
             </label>
             {!stationId && <label className="text-sm"><span className="label">Site</span><input className="input" value={site} onChange={(e) => setSite(e.target.value)} /></label>}
             <label className="text-sm"><span className="label">Permit (optional)</span>

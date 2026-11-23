@@ -12,6 +12,7 @@ import { Role, ROLE_LABEL, User } from '@/lib/types';
 import { initials, maskCivilId } from '@/lib/roles';
 import { fmtDate } from '@/lib/training';
 import { CheckCircle2, FileSpreadsheet, History, Loader2, Plus, ScanFace, Search, Upload, X } from 'lucide-react';
+import { StationSelect } from '@/components/station-select';
 
 const ROLE_OPTIONS: Role[] = ['ADMIN', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'APPROVER', 'STATION', 'ROM', 'APPLICANT', 'TRAINEE'];
 
@@ -56,7 +57,7 @@ export default function AdminUsersPage() {
   const [showForm, setShowForm] = useState(false);
   const [f, setF] = useState({ fullName: '', email: '', civilId: '', civilIdExpiry: '', company: '' });
   const [role, setRole] = useState<Role>('APPLICANT');
-  const [stationId, setStationId] = useState(state.stations[0]?.id ?? '');
+  const [stationId, setStationId] = useState(state.stations.find((s) => s.status !== 'INACTIVE')?.id ?? '');
   const [q, setQ] = useState('');
   const [roleFilter, setRoleFilter] = useState<Role | 'ALL'>('ALL');
   const [importOpen, setImportOpen] = useState(false);
@@ -112,9 +113,7 @@ export default function AdminUsersPage() {
             {(role === 'STATION' || role === 'ROM') && (
               <div>
                 <label className="label">{role === 'ROM' ? 'First station (add more on the person)' : 'Station'}</label>
-                <select className="input" value={stationId} onChange={(e) => setStationId(e.target.value)}>
-                  {state.stations.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
-                </select>
+                <StationSelect value={stationId} onChange={setStationId} />
               </div>
             )}
             <div className="flex items-end sm:col-span-3"><button type="submit" className="btn-primary">Add user</button><span className="ml-3 text-xs text-slate-400">{live ? 'Then open the person and use “Set a temporary password” so they can sign in.' : 'Default password Shell@2026 — the user is asked to change it on first sign-in.'}</span></div>

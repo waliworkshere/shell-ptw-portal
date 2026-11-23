@@ -11,6 +11,7 @@ import { CHECKLISTS, CHECKLIST_LABEL, TBT_KEY, checklistDef } from '@/lib/checkl
 import { CHECKLIST_HEADER_FIELDS, extractFields, extractTbt } from '@/lib/form-scan';
 import { StoredDoc, WorkCheck } from '@/lib/types';
 import { ClipboardCheck, Plus, Trash2, Users } from 'lucide-react';
+import { StationSelect } from '@/components/station-select';
 
 const ROLES = ['APPLICANT', 'TRAINEE', 'APPROVER', 'ARTELIA_MANAGER', 'COMPANY_MANAGER', 'STATION', 'ROM', 'ADMIN'] as const;
 const today = () => new Date().toISOString().slice(0, 10);
@@ -138,10 +139,7 @@ function ChecklistForm({ type }: { type: string }) {
             </select>
           </label>
           <label className="text-sm"><span className="label">Station</span>
-            <select className="input" value={stationId} onChange={(e) => setStationId(e.target.value)}>
-              <option value="">Other site</option>
-              {state.stations.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
-            </select>
+            <StationSelect value={stationId} onChange={setStationId} before={<option value="">Other site</option>} />
           </label>
           {!stationId && <label className="text-sm"><span className="label">Site</span><input className="input" value={site} onChange={(e) => setSite(e.target.value)} /></label>}
           <label className="text-sm"><span className="label">Date</span><input type="date" className="input" value={date} max={today()} onChange={(e) => setDate(e.target.value)} /></label>

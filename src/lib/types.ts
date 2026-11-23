@@ -294,6 +294,13 @@ export interface FuelStation {
   region?: string;
   lat?: number;
   lng?: number;
+  /** B2C = Shell retail service station; DODO = dealer-owned, dealer-operated; B2B = customer site supplied by Shell (camps, plants). */
+  siteType?: 'B2C' | 'DODO' | 'B2B';
+  /** B2B sites: the maintenance vendor named in the Shell B2B site list. */
+  vendor?: string;
+  vendorCompanyId?: string;
+  /** Which Shell list the site came from. */
+  source?: string;
 }
 
 export type FieldType = 'TEXT' | 'TEXTAREA' | 'DATE';

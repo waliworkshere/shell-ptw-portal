@@ -90,9 +90,15 @@ export default function AdminDashboard() {
           </div>
 
           <div className="card">
-            <h2 className="font-display text-sm font-semibold text-ink">Shell stations</h2>
-            <ul className="mt-4 divide-y divide-petrol-50">
-              {state.stations.map((s) => {
+            <div className="flex items-baseline justify-between gap-2">
+              <h2 className="font-display text-sm font-semibold text-ink">Shell sites</h2>
+              <Link href="/admin/stations" className="text-xs font-medium text-petrol-600 hover:underline">All {state.stations.filter((s) => s.status !== 'INACTIVE').length} sites →</Link>
+            </div>
+            <p className="mt-1 text-xs text-slate-400">Most active sites (permits and open SOS reports)</p>
+            <ul className="mt-3 divide-y divide-petrol-50">
+              {[...state.stations].filter((s) => s.status !== 'INACTIVE')
+                .map((s) => ({ s, n: state.applications.filter((a) => a.stationId === s.id).length * 2 + state.hsseReports.filter((r) => r.stationId === s.id && r.status !== 'CLOSED').length }))
+                .sort((a, b) => b.n - a.n || a.s.name.localeCompare(b.s.name)).slice(0, 8).map(({ s }) => {
                 const apps = state.applications.filter((a) => a.stationId === s.id);
                 const open = state.hsseReports.filter((r) => r.stationId === s.id && r.status !== 'CLOSED').length;
                 return (

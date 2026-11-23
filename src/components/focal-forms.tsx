@@ -11,6 +11,7 @@ import {
 } from '@/lib/focal';
 import { compressImage } from '@/lib/ocr';
 import { fmtDate } from '@/lib/training';
+import { StationSelect } from '@/components/station-select';
 
 const num = (v: unknown) => (v === '' || v === undefined || v === null ? '' : String(v));
 const today = () => new Date().toISOString().slice(0, 10);
@@ -148,7 +149,7 @@ function ErpForm({ data, setData, ro }: { data: Record<string, any>; setData: (d
   const add = () => setData({ ...data, drills: [...drills, { date: today(), site: '', scenario: ERP_SCENARIOS[0], participants: 0, responseMins: 0, outcome: 'Satisfactory', observations: '', actions: '' }] });
   return (
     <div className="space-y-3">
-      <datalist id="erp-sites">{state.stations.map((s) => <option key={s.id} value={s.name} />)}</datalist>
+      <datalist id="erp-sites">{state.stations.filter((s) => s.status !== 'INACTIVE').map((s) => <option key={s.id} value={s.name} />)}</datalist>
       {drills.map((d, i) => (
         <div key={i} className="grid gap-2 rounded-xl border border-petrol-100 p-3 sm:grid-cols-6">
           <label className="text-xs text-slate-500">Date<input type="date" disabled={ro} className="input mt-1 py-1.5" value={d.date} onChange={(e) => upd(i, { date: e.target.value })} /></label>
@@ -215,11 +216,7 @@ function ChecklistForm({ sections, data, setData, ro, ptw, scale = 'YN' }: { sec
     <div className="space-y-4">
       <div className="grid gap-3 sm:grid-cols-2">
         <label className="text-sm text-slate-600">Station / site
-          <select disabled={ro} className="input mt-1" value={data.stationId ?? ''} onChange={(e) => setData({ ...data, stationId: e.target.value })}>
-            <option value="">Select…</option>
-            {state.stations.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
-            <option value="__other">Other location</option>
-          </select>
+          <div className="mt-1"><StationSelect disabled={ro} value={data.stationId ?? ''} onChange={(v) => setData({ ...data, stationId: v })} before={<option value="">Select…</option>} after={<option value="__other">Other location</option>} /></div>
         </label>
         {data.stationId === '__other' && (
           <label className="text-sm text-slate-600">Location<input disabled={ro} className="input mt-1" value={data.location ?? ''} onChange={(e) => setData({ ...data, location: e.target.value })} /></label>

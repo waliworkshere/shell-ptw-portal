@@ -4,7 +4,8 @@ import { useMemo, useRef, useState } from 'react';
 import { RoleGuard } from '@/components/role-guard';
 import { useStore } from '@/lib/store';
 import { ParsedRoms, downloadRomList, parseRomFile } from '@/lib/rom-import';
-import { CheckCircle2, Download, FileSpreadsheet, MapPin, Plus, Search, Upload, UserRound, X } from 'lucide-react';
+import { CheckCircle2, Download, FileSpreadsheet, MapPin, Plus, Search, Truck, Upload, UserRound, X } from 'lucide-react';
+import { REGIONS, SITE_TYPE_LABEL, isActive, matchesStation } from '@/lib/stations';
 
 export default function AdminStationsPage() {
   const { state, addStation, importRoms } = useStore();
@@ -14,6 +15,10 @@ export default function AdminStationsPage() {
   const [location, setLocation] = useState('');
   const [region, setRegion] = useState('');
   const [q, setQ] = useState('');
+  const [type, setType] = useState('ALL');
+  const [reg, setReg] = useState('ALL');
+  const [romF, setRomF] = useState('ALL');
+  const [limit, setLimit] = useState(60);
   const [parsed, setParsed] = useState<ParsedRoms | null>(null);
   const [fileName, setFileName] = useState('');
   const [err, setErr] = useState('');
@@ -25,10 +30,13 @@ export default function AdminStationsPage() {
   const list = useMemo(
     () =>
       state.stations
-        .filter((s) => !q || `${s.name} ${s.code} ${s.location} ${s.region ?? ''} ${romOf(s.id)?.fullName ?? ''}`.toLowerCase().includes(q.toLowerCase()))
-        .sort((a, b) => (a.region ?? '').localeCompare(b.region ?? '') || a.name.localeCompare(b.name)),
+        .filter((s) => (type === 'INACTIVE' ? !isActive(s) : isActive(s) && (type === 'ALL' || (s.siteType ?? 'B2C') === type)))
+        .filter((s) => reg === 'ALL' || (reg === 'NONE' ? !s.region : s.region === reg))
+        .filter((s) => romF === 'ALL' || (romF === 'NONE' ? !romOf(s.id) : romOf(s.id)?.id === romF))
+        .filter((s) => !q || matchesStation(s, q) || (romOf(s.id)?.fullName ?? '').toLowerCase().includes(q.toLowerCase()))
+        .sort((a, b) => (a.siteType ?? '').localeCompare(b.siteType ?? '') || (a.region ?? '').localeCompare(b.region ?? '') || a.name.localeCompare(b.name)),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [state.stations, state.users, q],
+    [state.stations, state.users, q, type, reg, romF],
   );
 
   function handleSubmit(e: React.FormEvent) {
@@ -69,7 +77,7 @@ export default function AdminStationsPage() {
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div className="min-w-0 flex-1">
             <h1 className="font-display text-xl font-semibold text-ink">Fuel stations &amp; ROMs</h1>
-            <p className="mt-1 text-sm text-slate-500">Every Shell station, where it is, and the ROM (station manager) who looks after it. The ROM list is the master record: import it to add or move stations and ROMs.</p>
+            <p className="mt-1 text-sm text-slate-500">Every Shell site — B2C service stations, dealer-owned (DODO) sites and B2B customer sites — where it is, and the ROM who looks after it. The ROM list is the master record: import it to add or move stations and ROMs.</p>
           </div>
           <button onClick={() => setShowForm((v) => !v)} className="btn-secondary whitespace-nowrap">
             {showForm ? <X size={16} /> : <Plus size={16} />}
@@ -86,7 +94,7 @@ export default function AdminStationsPage() {
           <div className="mt-4 flex flex-wrap gap-2">
             <input ref={fileRef} type="file" accept=".xlsx,.csv" className="hidden" onChange={(e) => { onFile(e.target.files?.[0]); e.target.value = ''; }} />
             <button onClick={() => fileRef.current?.click()} className="btn-primary"><Upload size={15} /> Import ROM list</button>
-            <button onClick={() => downloadRomList(state.stations, state.users)} className="btn-secondary"><Download size={15} /> Export ROM list ({state.stations.length} stations)</button>
+            <button onClick={() => downloadRomList(state.stations, state.users)} className="btn-secondary"><Download size={15} /> Export ROM list ({state.stations.filter(isActive).length} sites)</button>
             <button onClick={() => downloadRomList(state.stations, state.users, true)} className="btn-secondary"><Download size={15} /> Blank template</button>
           </div>
           {err && <p className="mt-3 rounded-lg bg-rust-50 px-3 py-2 text-sm text-rust-600">{err}</p>}
@@ -161,11 +169,34 @@ export default function AdminStationsPage() {
             <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <input className="input pl-9" placeholder="Search station, region or ROM" value={q} onChange={(e) => setQ(e.target.value)} />
           </div>
-          <p className="text-sm text-slate-500">{state.stations.length} stations · {roms.length} ROMs · {state.stations.filter((s) => !romOf(s.id)).length} without a ROM</p>
+          <select className="input w-auto py-1.5 text-sm" value={type} onChange={(e) => { setType(e.target.value); setLimit(60); }} aria-label="Site type">
+            <option value="ALL">All site types</option>
+            {Object.entries(SITE_TYPE_LABEL).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+            <option value="INACTIVE">Inactive (old demo stations)</option>
+          </select>
+          <select className="input w-auto py-1.5 text-sm" value={reg} onChange={(e) => { setReg(e.target.value); setLimit(60); }} aria-label="Region">
+            <option value="ALL">All regions</option>
+            {REGIONS.map((r) => <option key={r} value={r}>{r}</option>)}
+            <option value="NONE">Region not given</option>
+          </select>
+          <select className="input w-auto py-1.5 text-sm" value={romF} onChange={(e) => { setRomF(e.target.value); setLimit(60); }} aria-label="ROM">
+            <option value="ALL">All ROMs</option>
+            {roms.map((u) => <option key={u.id} value={u.id}>{u.fullName}</option>)}
+            <option value="NONE">No ROM</option>
+          </select>
+        </div>
+        <div className="mt-3 flex flex-wrap gap-2 text-xs">
+          {(['B2C', 'DODO', 'B2B'] as const).map((t) => {
+            const n = state.stations.filter((s) => isActive(s) && (s.siteType ?? 'B2C') === t).length;
+            return <span key={t} className="rounded-full bg-petrol-50 px-2.5 py-1 font-medium text-petrol-700">{SITE_TYPE_LABEL[t]}: {n}</span>;
+          })}
+          {roms.map((u) => <span key={u.id} className="rounded-full bg-slate-100 px-2.5 py-1 text-slate-600">{u.fullName}: {u.stationIds?.length ?? 0} sites</span>)}
+          <span className="rounded-full bg-sand-100 px-2.5 py-1 text-sand-700">{state.stations.filter((s) => isActive(s) && !romOf(s.id)).length} without a ROM</span>
+          <span className="self-center text-slate-500">Showing {Math.min(limit, list.length)} of {list.length}</span>
         </div>
 
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {list.map((s) => {
+          {list.slice(0, limit).map((s) => {
             const rom = romOf(s.id);
             return (
               <div key={s.id} className="card">
@@ -174,7 +205,7 @@ export default function AdminStationsPage() {
                     <p className="font-display text-sm font-semibold text-ink">{s.name}</p>
                     <p className="app-number mt-0.5 text-xs text-slate-400">{s.code}{s.region ? ` · ${s.region}` : ''}</p>
                   </div>
-                  <span className="rounded bg-petrol-50 px-2 py-0.5 text-xs font-medium text-petrol-600">{s.status}</span>
+                  <span className={`shrink-0 rounded px-2 py-0.5 text-xs font-medium ${!isActive(s) ? 'bg-slate-100 text-slate-500' : s.siteType === 'B2B' ? 'bg-sand-100 text-sand-700' : s.siteType === 'DODO' ? 'bg-leaf-50 text-leaf-700' : 'bg-petrol-50 text-petrol-600'}`}>{!isActive(s) ? 'Inactive' : s.siteType ?? 'B2C'}</span>
                 </div>
                 <p className="mt-3 flex items-start gap-1.5 text-sm text-slate-500">
                   <MapPin size={14} className="mt-0.5 shrink-0" />
@@ -184,6 +215,7 @@ export default function AdminStationsPage() {
                     s.location || 'No location set'
                   )}
                 </p>
+                {s.vendor && <p className="mt-2 flex items-center gap-1.5 text-sm text-slate-600"><Truck size={14} className="shrink-0" /> Vendor: {state.companies.find((c) => c.id === s.vendorCompanyId)?.name ?? s.vendor}</p>}
                 <p className={`mt-2 flex items-center gap-1.5 text-sm ${rom ? 'text-ink' : 'text-sand-700'}`}>
                   <UserRound size={14} className="shrink-0" /> {rom ? <>ROM: {rom.fullName}{rom.phone && <span className="text-xs text-slate-400">· {rom.phone}</span>}</> : 'No ROM assigned'}
                 </p>
@@ -194,6 +226,9 @@ export default function AdminStationsPage() {
             );
           })}
         </div>
+        {list.length > limit && (
+          <div className="mt-5 text-center"><button onClick={() => setLimit((n) => n + 90)} className="btn-secondary">Show more ({list.length - limit} left)</button></div>
+        )}
       </div>
     </RoleGuard>
   );

@@ -11,6 +11,7 @@ import { osmEmbed } from '@/components/sos';
 import { useStore } from '@/lib/store';
 import { GeoPoint, HSSE_TYPE_LABEL, HsseReport, HsseType, Likelihood } from '@/lib/types';
 import { EVENT_TYPES, LIFE_SAVING_RULES, OBSERVATION_TYPES, RAM_STYLE, SITE_LOCATIONS, TYPE_HELP, ramLevel, suggestRam } from '@/lib/hsse';
+import { StationSelect } from '@/components/station-select';
 import {
   AlertOctagon,
   Camera,
@@ -97,7 +98,7 @@ export default function SosReportPage() {
   const [types, setTypes] = useState<HsseType[]>(['NEAR_MISS']);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [stationId, setStationId] = useState(currentUser?.stationId ?? state.stations[0]?.id ?? '');
+  const [stationId, setStationId] = useState(currentUser?.stationId ?? currentUser?.stationIds?.[0] ?? OFF_SITE);
   const [location, setLocation] = useState('Forecourt');
   const [otherPlace, setOtherPlace] = useState('');
   const [occurredAt, setOccurredAt] = useState(nowLocal());
@@ -310,10 +311,7 @@ export default function SosReportPage() {
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <label className="label" htmlFor="st">Select location / Shell station</label>
-                <select id="st" className="input" value={stationId} onChange={(e) => setStationId(e.target.value)}>
-                  {state.stations.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
-                  <option value={OFF_SITE}>Not at a station (road, depot, other)</option>
-                </select>
+                <StationSelect id="st" value={stationId} onChange={setStationId} after={<option value={OFF_SITE}>Not at a station (road, depot, other)</option>} />
               </div>
               <div>
                 <label className="label" htmlFor="when">When</label>

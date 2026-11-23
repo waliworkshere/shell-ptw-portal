@@ -21,6 +21,7 @@ import { fmtDateTime } from '@/lib/training';
 import { HOURS_PER_DRIVER, canUsePtwJmp, defensiveDriving, licenceStatus } from '@/lib/access';
 import { JmpRequirements } from '@/components/requirements';
 import { AlertTriangle, ArrowLeft, ArrowRight, CheckCircle2, Coffee, Flag, MapPin, Moon, Phone, ShieldAlert } from 'lucide-react';
+import { StationSelect } from '@/components/station-select';
 
 const STEPS = ['Journey', 'Driver & vehicle', 'Hazards & risk', 'Stops & call-ins', 'Pre-trip checks', 'Review'];
 
@@ -219,12 +220,7 @@ export default function NewJourneyPage() {
                 </div>
                 <div>
                   <label className="label" htmlFor="station">Destination station</label>
-                  <select id="station" className="input" value={stationId} onChange={(e) => pickStation(e.target.value)}>
-                    <option value="">Other / not a station</option>
-                    {state.stations.map((s) => (
-                      <option key={s.id} value={s.id}>{s.name} ({s.location})</option>
-                    ))}
-                  </select>
+                  <StationSelect id="station" value={stationId} onChange={pickStation} before={<option value="">Other / not a station</option>} />
                 </div>
                 <div className="sm:col-span-2">
                   <label className="label" htmlFor="dest">To</label>

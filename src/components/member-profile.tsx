@@ -12,6 +12,7 @@ import { fmtDate } from '@/lib/training';
 import { maskCivilId } from '@/lib/roles';
 import { CheckCircle2, CircleDashed, Copy, CreditCard, KeyRound, XCircle } from 'lucide-react';
 import { CertUploadRow } from './cert-upload';
+import { StationSelect } from '@/components/station-select';
 
 export const CERT_LABEL: Record<string, string> = {
   FA: 'Basic First Aid', FR: 'Fire Respondent / Warden', WAH: 'Work at Height', EXC: 'Excavation Safety', CSE: 'Confined Space Entry',
@@ -159,16 +160,19 @@ export function UserDetail({ user }: { user: User }) {
         {user.role === 'ROM' && (
           <div className="sm:col-span-2">
             <p className="label">Stations this ROM manages</p>
+            <div className="mb-2 max-w-md">
+              <StationSelect value="" onChange={(id) => id && !user.stationIds?.includes(id) && updateUser(user.id, { stationIds: [...(user.stationIds ?? []), id] })}
+                stations={state.stations.filter((st) => !user.stationIds?.includes(st.id))} before={<option value="">Add a site…</option>} />
+            </div>
+            <p className="mb-1 text-xs text-slate-500">{user.stationIds?.length ?? 0} sites — tap one to remove it</p>
             <div className="flex max-h-48 flex-wrap gap-1.5 overflow-y-auto rounded-xl border border-petrol-100 p-2">
-              {state.stations.map((st) => {
-                const on = !!user.stationIds?.includes(st.id);
-                return (
-                  <button key={st.id} type="button" onClick={() => updateUser(user.id, { stationIds: on ? (user.stationIds ?? []).filter((x) => x !== st.id) : [...(user.stationIds ?? []), st.id] })}
-                    className={`rounded-full border px-2.5 py-1 text-xs ${on ? 'border-petrol-500 bg-petrol-500 text-white' : 'border-petrol-100 text-slate-600 hover:bg-petrol-50'}`}>
-                    {st.name}
-                  </button>
-                );
-              })}
+              {state.stations.filter((st) => user.stationIds?.includes(st.id)).sort((a, b) => a.name.localeCompare(b.name)).map((st) => (
+                <button key={st.id} type="button" title="Remove" onClick={() => updateUser(user.id, { stationIds: (user.stationIds ?? []).filter((x) => x !== st.id) })}
+                  className="rounded-full border border-petrol-500 bg-petrol-500 px-2.5 py-1 text-xs text-white hover:bg-rust-500">
+                  {st.name} ×
+                </button>
+              ))}
+              {!user.stationIds?.length && <span className="text-xs text-slate-400">No sites yet</span>}
             </div>
             <p className="mt-1 text-[11px] text-slate-400">Or manage all ROMs at once with the ROM list import on Fuel stations &amp; ROMs.</p>
           </div>

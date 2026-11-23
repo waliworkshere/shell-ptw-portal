@@ -815,7 +815,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       // Station: matched on code, else on name.
       let i = stations.findIndex((x) => x.code.toUpperCase() === r.stationCode) ;
       if (i < 0) i = stations.findIndex((x) => x.name.toLowerCase() === r.stationName.toLowerCase());
-      const patch = { name: r.stationName, code: r.stationCode, region: r.region || undefined, location: r.location || stations[i]?.location || '', ...(r.lat !== undefined && r.lng !== undefined ? { lat: r.lat, lng: r.lng } : {}) };
+      const patch = { name: r.stationName, code: r.stationCode, region: r.region || undefined, location: r.location || stations[i]?.location || '', ...(r.lat !== undefined && r.lng !== undefined ? { lat: r.lat, lng: r.lng } : {}), ...(r.siteType ? { siteType: r.siteType } : {}), ...(r.vendor ? { vendor: r.vendor } : {}) };
       let stationId: string;
       if (i < 0) {
         stationId = `stn-${rid()}`;
