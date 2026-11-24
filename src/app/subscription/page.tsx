@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { RoleGuard } from '@/components/role-guard';
 import { useStore } from '@/lib/store';
 import { SUBSCRIPTION_PRICE_USD, pendingOrder, subscriptionActive, usd } from '@/lib/access';
+import { PayPalCheckout } from '@/components/paypal-checkout';
 import { CheckCircle2, Clock, Gauge, GraduationCap, ShieldAlert, Wallet, XCircle } from 'lucide-react';
 
 const FREE = ['SOS reporting (See it · Own it · Stop it) and emergency alerts', 'Last Minute Risk Assessment', 'Browse all trainings and buy the ones you need', 'Free courses, your Safety Passport and certificates'];
@@ -46,17 +47,18 @@ export default function SubscriptionPage() {
             <p className="text-xs font-semibold uppercase tracking-wide text-petrol-600">Annual subscription</p>
             <p className="mt-1 font-display text-3xl font-semibold text-ink">{usd(SUBSCRIPTION_PRICE_USD)} <span className="text-sm font-normal text-slate-400">/ year</span></p>
             <ul className="mt-4 space-y-2 text-sm text-slate-600">{PAID.map((x) => <li key={x} className="flex gap-2"><CheckCircle2 size={16} className="mt-0.5 shrink-0 text-petrol-600" /> {x}</li>)}</ul>
-            <div className="mt-5">
+            <div className="mt-5 space-y-3">
+              <PayPalCheckout kind="SUBSCRIPTION" />
               {pending ? (
                 <div className="rounded-xl bg-sand-50 p-3 text-sm text-sand-800">
-                  <p className="flex items-center gap-1.5 font-semibold"><Clock size={15} /> Request sent — waiting for payment</p>
-                  <p className="mt-1 text-xs">Pay {usd(pending.amountUsd)} by bank transfer or at the GEM office, quoting <b className="app-number">{pending.id.slice(-8).toUpperCase()}</b>. The HSSE team switches your subscription on as soon as payment is received.</p>
+                  <p className="flex items-center gap-1.5 font-semibold"><Clock size={15} /> Bank transfer requested</p>
+                  <p className="mt-1 text-xs">Pay {usd(pending.amountUsd)} by bank transfer or at the GEM office, quoting <b className="app-number">{pending.id.slice(-8).toUpperCase()}</b>. The HSSE team switches your subscription on as soon as payment is received. Or pay above with PayPal to switch it on now.</p>
                   <button onClick={() => cancelOrder(pending.id)} className="mt-2 text-xs font-medium text-rust-600 hover:underline">Cancel request</button>
                 </div>
               ) : (
-                <button onClick={() => requestOrder('SUBSCRIPTION')} className="btn-primary w-full">{active ? 'Renew for another year' : 'Subscribe'}</button>
+                <button onClick={() => requestOrder('SUBSCRIPTION')} className="btn-secondary w-full text-xs">Pay by bank transfer instead</button>
               )}
-              <p className="mt-2 text-[11px] text-slate-400">Online card / PayPal payment is coming soon. Until then payments are confirmed by the HSSE team.</p>
+              <p className="text-[11px] text-slate-400">{active ? 'Paying now adds another year after your current end date.' : 'Your subscription starts as soon as PayPal confirms the payment.'}</p>
             </div>
           </div>
         </div>

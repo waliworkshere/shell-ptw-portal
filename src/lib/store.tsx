@@ -106,6 +106,8 @@ interface StoreContextValue {
   cancelOrder: (orderId: string) => void;
   /** Administrator: payment received — unlocks the course or starts / extends the subscription. */
   confirmOrder: (orderId: string, reference: string) => void;
+  /** PayPal confirmed the payment on the server: show it straight away on this device. */
+  applyPaidOrder: (order: Order, subscription?: User['subscription'] | null) => void;
   rejectOrder: (orderId: string, note: string) => void;
   /** Administrator: start or extend someone's annual subscription without an order. */
   activateSubscription: (userId: string, reference: string) => void;
@@ -1117,6 +1119,14 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     addAuditLog('ORDER_PAID', `${o.userName}: ${o.label} — payment confirmed${reference ? ` (${reference})` : ''}`);
   }, [addAuditLog]);
 
+  const applyPaidOrder = useCallback((order: Order, subscription?: User['subscription'] | null) => {
+    setState((s) => ({
+      ...s,
+      orders: s.orders.some((o) => o.id === order.id) ? s.orders.map((o) => (o.id === order.id ? order : o)) : [order, ...s.orders],
+      users: subscription ? s.users.map((u) => (u.id === order.userId ? { ...u, subscription } : u)) : s.users,
+    }));
+  }, []);
+
   const rejectOrder = useCallback((orderId: string, note: string) => {
     setState((s) => ({ ...s, orders: s.orders.map((o) => (o.id === orderId && o.status === 'PENDING' ? { ...o, status: 'CANCELLED', note } : o)) }));
   }, []);
@@ -1876,6 +1886,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         requestOrder,
         cancelOrder,
         confirmOrder,
+        applyPaidOrder,
         rejectOrder,
         activateSubscription,
         endSubscription,

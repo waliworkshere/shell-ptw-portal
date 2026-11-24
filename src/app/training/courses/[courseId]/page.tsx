@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { RoleGuard } from '@/components/role-guard';
+import { PayPalCheckout } from '@/components/paypal-checkout';
 import { PriceTag, ProgressBar, SourceBadge } from '@/components/ui';
 import { courseUnlocked, coursePriceUsd, pendingOrder } from '@/lib/access';
 import { CourseGate } from '@/components/course-gate';
@@ -54,7 +55,7 @@ export default function CourseOverviewPage() {
       return;
     }
     if (needsPayment) {
-      if (!order) setPayOpen(true);
+      setPayOpen(true);
       return;
     }
     if (course!.cameraRequired && !proctor.active) return setGateOpen(true);
@@ -80,10 +81,13 @@ export default function CourseOverviewPage() {
                 <span className="app-number font-display text-2xl font-semibold text-ink">{priceUsd} USD</span>
               </div>
             </div>
-            <p className="text-xs leading-relaxed text-slate-500">After you confirm, pay by bank transfer or at the GEM office, quoting the reference shown. The HSSE team unlocks the course as soon as payment is received. Online card / PayPal payment is coming soon.</p>
-            <div className="flex justify-end gap-2">
-              <button onClick={() => setPayOpen(false)} className="btn-secondary">Cancel</button>
-              <button onClick={() => { requestOrder('COURSE', course.id); setPayOpen(false); }} className="btn-primary"><CreditCard size={15} /> Confirm purchase — {priceUsd} USD</button>
+            <PayPalCheckout kind="COURSE" courseId={course.id} onPaid={() => setTimeout(() => setPayOpen(false), 1500)} />
+            <div className="border-t border-slate-100 pt-3">
+              <p className="text-xs leading-relaxed text-slate-500">Prefer bank transfer or paying at the GEM office? Request it here and quote the reference shown. The HSSE team unlocks the course as soon as payment is received.</p>
+              <div className="mt-3 flex justify-end gap-2">
+                <button onClick={() => setPayOpen(false)} className="btn-secondary">Close</button>
+                {!order && <button onClick={() => { requestOrder('COURSE', course.id); setPayOpen(false); }} className="btn-secondary"><CreditCard size={15} /> Pay by bank transfer</button>}
+              </div>
             </div>
           </div>
         </Modal>
@@ -120,7 +124,7 @@ export default function CourseOverviewPage() {
               </button>
             ) : (
               <button onClick={start} className="inline-flex items-center gap-2 rounded-lg bg-sand-500 px-4 py-2 text-sm font-semibold text-ink transition hover:bg-sand-400">
-                {needsPayment ? <CreditCard size={16} /> : <PlayCircle size={16} />} {preview ? 'Start preview' : needsPayment ? (order ? 'Purchase requested' : 'Buy course') : enrollment && p.done > 0 ? 'Continue course' : enrollment ? 'Start course' : 'Enrol and start'}
+                {needsPayment ? <CreditCard size={16} /> : <PlayCircle size={16} />} {preview ? 'Start preview' : needsPayment ? (order ? 'Pay now' : 'Buy course') : enrollment && p.done > 0 ? 'Continue course' : enrollment ? 'Start course' : 'Enrol and start'}
               </button>
             )}
             {enrollment && (
@@ -136,7 +140,7 @@ export default function CourseOverviewPage() {
 
         {needsPayment && order && (
           <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl bg-sand-50 px-4 py-3 text-sm text-sand-800">
-            <span><b>Purchase requested — {order.amountUsd} USD.</b> The HSSE team will confirm your payment and unlock the course. Pay by bank transfer or at the GEM office, quoting <span className="app-number">{order.id.slice(-8).toUpperCase()}</span>.</span>
+            <span><b>Payment pending — {order.amountUsd} USD.</b> Pay by bank transfer or at the GEM office, quoting <span className="app-number">{order.id.slice(-8).toUpperCase()}</span>, or tap “Pay now” to pay with PayPal and unlock it straight away.</span>
             <button onClick={() => cancelOrder(order.id)} className="text-xs font-medium text-rust-600 hover:underline">Cancel request</button>
           </div>
         )}
