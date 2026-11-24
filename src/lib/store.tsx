@@ -108,6 +108,8 @@ interface StoreContextValue {
   confirmOrder: (orderId: string, reference: string) => void;
   /** PayPal confirmed the payment on the server: show it straight away on this device. */
   applyPaidOrder: (order: Order, subscription?: User['subscription'] | null) => void;
+  /** Several paid orders at once (a Company Manager paying for staff), with new subscriptions by user id. */
+  applyPaidOrders: (orders: Order[], subscriptions?: Record<string, NonNullable<User['subscription']>>) => void;
   rejectOrder: (orderId: string, note: string) => void;
   /** Administrator: start or extend someone's annual subscription without an order. */
   activateSubscription: (userId: string, reference: string) => void;
@@ -1119,13 +1121,22 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     addAuditLog('ORDER_PAID', `${o.userName}: ${o.label} — payment confirmed${reference ? ` (${reference})` : ''}`);
   }, [addAuditLog]);
 
-  const applyPaidOrder = useCallback((order: Order, subscription?: User['subscription'] | null) => {
-    setState((s) => ({
-      ...s,
-      orders: s.orders.some((o) => o.id === order.id) ? s.orders.map((o) => (o.id === order.id ? order : o)) : [order, ...s.orders],
-      users: subscription ? s.users.map((u) => (u.id === order.userId ? { ...u, subscription } : u)) : s.users,
-    }));
+  const applyPaidOrders = useCallback((orders: Order[], subscriptions: Record<string, NonNullable<User['subscription']>> = {}) => {
+    setState((s) => {
+      const byId = new Map(orders.map((o) => [o.id, o]));
+      const kept = s.orders.map((o) => byId.get(o.id) ?? o);
+      const added = orders.filter((o) => !s.orders.some((x) => x.id === o.id));
+      return {
+        ...s,
+        orders: [...added, ...kept],
+        users: Object.keys(subscriptions).length ? s.users.map((u) => (subscriptions[u.id] ? { ...u, subscription: subscriptions[u.id] } : u)) : s.users,
+      };
+    });
   }, []);
+
+  const applyPaidOrder = useCallback((order: Order, subscription?: User['subscription'] | null) => {
+    applyPaidOrders([order], subscription ? { [order.userId]: subscription } : {});
+  }, [applyPaidOrders]);
 
   const rejectOrder = useCallback((orderId: string, note: string) => {
     setState((s) => ({ ...s, orders: s.orders.map((o) => (o.id === orderId && o.status === 'PENDING' ? { ...o, status: 'CANCELLED', note } : o)) }));
@@ -1887,6 +1898,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         cancelOrder,
         confirmOrder,
         applyPaidOrder,
+        applyPaidOrders,
         rejectOrder,
         activateSubscription,
         endSubscription,

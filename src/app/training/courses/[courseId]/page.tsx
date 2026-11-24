@@ -82,12 +82,9 @@ export default function CourseOverviewPage() {
               </div>
             </div>
             <PayPalCheckout kind="COURSE" courseId={course.id} onPaid={() => setTimeout(() => setPayOpen(false), 1500)} />
-            <div className="border-t border-slate-100 pt-3">
-              <p className="text-xs leading-relaxed text-slate-500">Prefer bank transfer or paying at the GEM office? Request it here and quote the reference shown. The HSSE team unlocks the course as soon as payment is received.</p>
-              <div className="mt-3 flex justify-end gap-2">
-                <button onClick={() => setPayOpen(false)} className="btn-secondary">Close</button>
-                {!order && <button onClick={() => { requestOrder('COURSE', course.id); setPayOpen(false); }} className="btn-secondary"><CreditCard size={15} /> Pay by bank transfer</button>}
-              </div>
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-[11px] text-slate-400">Your Company Manager can also buy this course for you.</p>
+              <button onClick={() => setPayOpen(false)} className="btn-secondary">Close</button>
             </div>
           </div>
         </Modal>
@@ -140,7 +137,7 @@ export default function CourseOverviewPage() {
 
         {needsPayment && order && (
           <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl bg-sand-50 px-4 py-3 text-sm text-sand-800">
-            <span><b>Payment pending — {order.amountUsd} USD.</b> Pay by bank transfer or at the GEM office, quoting <span className="app-number">{order.id.slice(-8).toUpperCase()}</span>, or tap “Pay now” to pay with PayPal and unlock it straight away.</span>
+            <span><b>Payment pending — {order.amountUsd} USD.</b> Tap “Pay now” to pay with PayPal or a card and unlock the course straight away.</span>
             <button onClick={() => cancelOrder(order.id)} className="text-xs font-medium text-rust-600 hover:underline">Cancel request</button>
           </div>
         )}

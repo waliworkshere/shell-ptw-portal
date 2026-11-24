@@ -49,16 +49,12 @@ export default function SubscriptionPage() {
             <ul className="mt-4 space-y-2 text-sm text-slate-600">{PAID.map((x) => <li key={x} className="flex gap-2"><CheckCircle2 size={16} className="mt-0.5 shrink-0 text-petrol-600" /> {x}</li>)}</ul>
             <div className="mt-5 space-y-3">
               <PayPalCheckout kind="SUBSCRIPTION" />
-              {pending ? (
-                <div className="rounded-xl bg-sand-50 p-3 text-sm text-sand-800">
-                  <p className="flex items-center gap-1.5 font-semibold"><Clock size={15} /> Bank transfer requested</p>
-                  <p className="mt-1 text-xs">Pay {usd(pending.amountUsd)} by bank transfer or at the GEM office, quoting <b className="app-number">{pending.id.slice(-8).toUpperCase()}</b>. The HSSE team switches your subscription on as soon as payment is received. Or pay above with PayPal to switch it on now.</p>
-                  <button onClick={() => cancelOrder(pending.id)} className="mt-2 text-xs font-medium text-rust-600 hover:underline">Cancel request</button>
-                </div>
-              ) : (
-                <button onClick={() => requestOrder('SUBSCRIPTION')} className="btn-secondary w-full text-xs">Pay by bank transfer instead</button>
+              {pending && (
+                <p className="flex items-start gap-2 rounded-xl bg-sand-50 p-3 text-xs text-sand-800">
+                  <Clock size={14} className="mt-0.5 shrink-0" /> <span>You have an earlier payment request ({usd(pending.amountUsd)}). Pay above to switch your subscription on now. <button onClick={() => cancelOrder(pending.id)} className="font-medium text-rust-600 hover:underline">Cancel request</button></span>
+                </p>
               )}
-              <p className="text-[11px] text-slate-400">{active ? 'Paying now adds another year after your current end date.' : 'Your subscription starts as soon as PayPal confirms the payment.'}</p>
+              <p className="text-[11px] text-slate-400">{active ? 'Paying now adds another year after your current end date.' : 'Your subscription starts as soon as PayPal confirms the payment.'} Your Company Manager can also pay for you from their account.</p>
             </div>
           </div>
         </div>

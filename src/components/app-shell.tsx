@@ -105,7 +105,7 @@ const NAV: Record<Role, NavGroup[]> = {
     { items: [{ href: '/profile', label: 'My profile', icon: UserCircle }] },
   ],
   COMPANY_MANAGER: [
-    { items: [{ href: '/approver/dashboard', label: 'Permit review (low & medium)', icon: ClipboardCheck }, { href: '/journeys', label: 'My journeys (JMP)', icon: Route }, { href: '/swc', label: 'Start Work Checks', icon: ListChecks }, { href: '/site-log', label: 'Site safety logbook', icon: BookOpenCheck }, { href: '/checklists', label: 'Pre-job checklists', icon: ClipboardCheck }, { href: '/equipment', label: 'Equipment certificates', icon: Wrench }] },
+    { items: [{ href: '/approver/dashboard', label: 'Permit review (low & medium)', icon: ClipboardCheck }, { href: '/company/pay', label: 'Pay for staff', icon: Wallet }, { href: '/journeys', label: 'My journeys (JMP)', icon: Route }, { href: '/swc', label: 'Start Work Checks', icon: ListChecks }, { href: '/site-log', label: 'Site safety logbook', icon: BookOpenCheck }, { href: '/checklists', label: 'Pre-job checklists', icon: ClipboardCheck }, { href: '/equipment', label: 'Equipment certificates', icon: Wrench }] },
     HSSE,
     { items: [{ href: '/profile', label: 'My profile', icon: UserCircle }] },
   ],

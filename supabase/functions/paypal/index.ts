@@ -30,20 +30,23 @@ Deno.serve(async (req) => {
       body: JSON.stringify(args),
     }).then((r) => (r.ok ? r.json() : null)).catch(() => null);
 
-  let body: { token?: string; action?: string; orderId?: string; kind?: string; courseId?: string; paypalOrderId?: string };
+  let body: { token?: string; action?: string; orderId?: string; kind?: string; courseId?: string; paypalOrderId?: string; items?: unknown };
   try {
     body = await req.json();
   } catch {
     return json({ ok: false, error: "BAD_REQUEST" }, 400);
   }
-  const { token, action, orderId, kind, courseId, paypalOrderId } = body;
+  const { token, action, orderId, kind, courseId, paypalOrderId, items } = body;
+  const group = kind === "GROUP"; // a Company Manager paying for their staff
   if (!token || !orderId || !kind) return json({ ok: false, error: "BAD_REQUEST" }, 400);
 
   const secret = Deno.env.get("PAYPAL_CLIENT_SECRET") ?? (await rpc("gs_paypal_secret"));
   if (!secret) return json({ ok: false, error: "NOT_CONFIGURED" }, 500);
 
   // Check the session and get the server-side price.
-  const prep = await rpc("gs_paypal_prepare", { p_token: token, p_order_id: orderId, p_kind: kind, p_course_id: courseId ?? null });
+  const prep = group
+    ? await rpc("gs_paypal_prepare_group", { p_token: token, p_cart_id: orderId, p_items: Array.isArray(items) ? items : [] })
+    : await rpc("gs_paypal_prepare", { p_token: token, p_order_id: orderId, p_kind: kind, p_course_id: courseId ?? null });
   if (!prep?.ok) return json({ ok: false, error: prep?.error ?? "AUTH" }, 403);
   const amount = Number(prep.amountUsd).toFixed(2);
 
@@ -98,6 +101,11 @@ Deno.serve(async (req) => {
     }
     if ((unit.custom_id ?? unit.reference_id) !== orderId) return json({ ok: false, error: "MISMATCH" }, 409);
     if (cap.amount?.currency_code !== "USD" || cap.amount?.value !== amount) return json({ ok: false, error: "AMOUNT" }, 409);
+    if (group) {
+      const done = await rpc("gs_paypal_paid_group", { p_cart_id: orderId, p_capture_id: cap.id, p_amount: Number(amount) });
+      if (!done?.ok) return json({ ok: false, error: done?.error ?? "RECORD" }, 500);
+      return json({ ok: true, captureId: cap.id, orders: done.orders ?? [], subscriptions: done.subscriptions ?? {} });
+    }
     const done = await rpc("gs_paypal_paid", { p_order_id: orderId, p_capture_id: cap.id, p_amount: Number(amount) });
     if (!done?.ok) return json({ ok: false, error: done?.error ?? "RECORD" }, 500);
     return json({ ok: true, captureId: cap.id, order: done.order, subscription: done.subscription ?? null });
