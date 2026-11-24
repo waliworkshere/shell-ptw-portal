@@ -110,9 +110,7 @@ export function PayPalCheckout({ kind, courseId, onPaid }: { kind: Order['kind']
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode, kind, courseId]);
 
-  if (mode !== 'live') {
-    return <p className="rounded-xl bg-slate-50 p-3 text-xs text-slate-500">Pay online with PayPal or a debit / credit card on the live site. In the demo, use “Pay by bank transfer”.</p>;
-  }
+  if (mode !== 'live') return <DemoCheckout kind={kind} courseId={courseId} onPaid={onPaid} />;
   if (status === 'done') {
     return <p className="flex items-center gap-2 rounded-xl bg-leaf-50 p-3 text-sm font-medium text-leaf-700"><CheckCircle2 size={18} /> Payment received — thank you. It is unlocked now.</p>;
   }
@@ -123,6 +121,71 @@ export function PayPalCheckout({ kind, courseId, onPaid }: { kind: Order['kind']
       {status === 'paying' && <p className="flex items-center gap-2 py-2 text-xs text-slate-500"><Loader2 size={14} className="animate-spin" /> Confirming your payment…</p>}
       {msg && <p className="mt-2 rounded-lg bg-rust-50 p-2 text-xs text-rust-700">{msg}</p>}
       <p className="mt-2 flex items-center gap-1.5 text-[11px] text-slate-400"><ShieldCheck size={13} /> Secure payment by PayPal — PayPal account or debit / credit card. Charged in USD.</p>
+    </div>
+  );
+}
+
+/** Demo site: same checkout, simulated. Nothing is charged; the order is marked paid on this device only. */
+function DemoCheckout({ kind, courseId, onPaid }: { kind: Order['kind']; courseId?: string; onPaid?: () => void }) {
+  const { state, currentUser, requestOrder, applyPaidOrder } = useStore();
+  const [step, setStep] = useState<'choose' | 'review' | 'paying' | 'done'>('choose');
+  const [via, setVia] = useState<'PayPal' | 'Card'>('PayPal');
+  const course = courseId ? state.courses.find((c) => c.id === courseId) : undefined;
+  const amount = kind === 'SUBSCRIPTION' ? 40 : course?.tier === 'CAT1' ? 25 : course?.tier === 'CAT2' ? 40 : 0;
+
+  const pay = () => {
+    const o = requestOrder(kind, courseId);
+    if (!o || !currentUser) return;
+    setStep('paying');
+    setTimeout(() => {
+      const ref = `DEMO-${Math.random().toString(36).slice(2, 10).toUpperCase()}`;
+      const nowIso = new Date().toISOString();
+      let subscription: User['subscription'] | null = null;
+      if (kind === 'SUBSCRIPTION') {
+        const today = nowIso.slice(0, 10);
+        const cur = currentUser.subscription;
+        const live = !!cur && cur.expiresAt >= today;
+        const from = live ? new Date(new Date(cur!.expiresAt).getTime() + 86400000) : new Date(today);
+        const to = new Date(from);
+        to.setUTCFullYear(to.getUTCFullYear() + 1);
+        to.setUTCDate(to.getUTCDate() - 1);
+        subscription = {
+          plan: 'ANNUAL', startsAt: live ? cur!.startsAt : today, expiresAt: to.toISOString().slice(0, 10),
+          activatedBy: 'PayPal', activatedAt: nowIso, orderId: o.id, reference: `PayPal ${ref}`,
+        };
+      }
+      applyPaidOrder({ ...o, amountUsd: amount || o.amountUsd, status: 'PAID', paidAt: nowIso, confirmedBy: 'PayPal', reference: `PayPal ${ref}` }, subscription);
+      setStep('done');
+      onPaid?.();
+    }, 1400);
+  };
+
+  if (step === 'done') {
+    return <p className="flex items-center gap-2 rounded-xl bg-leaf-50 p-3 text-sm font-medium text-leaf-700"><CheckCircle2 size={18} /> Payment received — thank you. It is unlocked now.</p>;
+  }
+  return (
+    <div>
+      {step === 'choose' ? (
+        <div className="space-y-2">
+          <button onClick={() => { setVia('PayPal'); setStep('review'); }} className="flex h-[42px] w-full items-center justify-center rounded-md bg-[#FFC439] text-[15px] font-bold italic text-[#003087] transition hover:brightness-95">Pay with PayPal</button>
+          <button onClick={() => { setVia('Card'); setStep('review'); }} className="flex h-[42px] w-full items-center justify-center gap-2 rounded-md bg-[#2C2E2F] text-sm font-semibold text-white transition hover:brightness-110">Debit or Credit Card</button>
+        </div>
+      ) : (
+        <div className="rounded-xl border border-slate-200 p-3 text-sm">
+          <p className="text-xs text-slate-500">{via === 'PayPal' ? 'PayPal checkout' : 'Card payment by PayPal'}</p>
+          <div className="mt-1 flex items-baseline justify-between">
+            <span className="text-slate-600">{kind === 'SUBSCRIPTION' ? 'Annual subscription' : course?.code ?? 'Course'}</span>
+            <span className="app-number font-semibold text-ink">{amount.toFixed(2)} USD</span>
+          </div>
+          <div className="mt-3 flex gap-2">
+            <button disabled={step === 'paying'} onClick={() => setStep('choose')} className="btn-secondary flex-1 text-xs">Back</button>
+            <button disabled={step === 'paying'} onClick={pay} className="btn-primary flex-1 text-xs">
+              {step === 'paying' ? <><Loader2 size={14} className="animate-spin" /> Confirming…</> : `Pay ${amount.toFixed(2)} USD`}
+            </button>
+          </div>
+        </div>
+      )}
+      <p className="mt-2 flex items-center gap-1.5 text-[11px] text-slate-400"><ShieldCheck size={13} /> Demo checkout — no money is charged. On the live site this is real PayPal / card payment in USD.</p>
     </div>
   );
 }
